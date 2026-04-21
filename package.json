@@ -2,17 +2,29 @@
   "name": "droneicarus",
   "version": "0.1.0",
   "private": true,
-  "description": "Map-first marketplace prototype for drone footage",
+  "description": "Map-first marketplace for drone footage — find clips by location",
   "homepage": "https://github.com/auto1225/droneicarus",
   "repository": {
     "type": "git",
     "url": "https://github.com/auto1225/droneicarus.git"
   },
   "license": "MIT",
+  "type": "module",
   "scripts": {
-    "start": "npx serve . -p 8000",
-    "dev": "npx serve . -p 8000",
-    "serve": "python3 -m http.server 8000"
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "prototype": "npx serve . -p 8000"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.104.0",
+    "leaflet": "^1.9.4",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.3.4",
+    "vite": "^5.4.11"
   },
   "keywords": [
     "drone",
@@ -20,7 +32,7 @@
     "footage",
     "marketplace",
     "map",
-    "prototype",
-    "react"
+    "react",
+    "vite"
   ]
 }
