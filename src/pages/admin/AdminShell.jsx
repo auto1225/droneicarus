@@ -780,15 +780,24 @@ function SettingsEditor({ k, title, fields }) {
 
 // ───────── Generic array-of-objects editor ─────────
 function ArrayEditor({ k, title, fields }) {
+  // All hooks must run unconditionally on every render (React Rules of Hooks).
+  // We keep val's null state just to decide whether to render <Loading/>, but
+  // every hook is computed against val || [] so the hook order is stable.
   const [val, setVal] = useState(null);
   const [edit, setEdit] = useState(null);
   const [q, setQ] = useState('');
   const [page, setPage] = useState(1);
-  const pageSize = 20;
   useEffect(() => { (async () => {
     const v = await getSetting(k, []);
     setVal(Array.isArray(v) ? v : []);
   })(); }, [k]);
+  const fieldKeys = useMemo(() => fields.map(f => f[0]), [fields]);
+  const withIndex = useMemo(() => (val || []).map((r, i) => ({ ...r, __originalIndex: i })), [val]);
+  const filtered = useMemo(() => clientFilter(withIndex, q, fieldKeys), [withIndex, q, fieldKeys]);
+  const paged = useMemo(() => paginate(filtered, page), [filtered, page]);
+  useEffect(() => { if (page > paged.pages) setPage(paged.pages); }, [paged.pages, page]);
+  useEffect(() => { setPage(1); }, [q]);
+
   if (val === null) return <Loading/>;
 
   const save = async (next) => { setVal(next); try { await setSetting(k, next); toast('Saved'); } catch(e){ toast('Save failed', e.message, 'error'); } };
@@ -802,10 +811,6 @@ function ArrayEditor({ k, title, fields }) {
   };
   const del = async (i) => { if (!confirm('Delete?')) return; await save(val.filter((_,j)=>j!==i)); };
 
-  const fieldKeys = fields.map(f => f[0]);
-  const filtered = clientFilter(val.map((r, i) => ({ ...r, __originalIndex: i })), q, fieldKeys);
-  const paged = paginate(filtered, page);
-  useEffect(() => { if (page > paged.pages) setPage(paged.pages); }, [paged.pages]);
   return (
     <div>
       <Header title={title} sub={`${paged.total} / ${val.length} items · site_settings.${k}`} right={
