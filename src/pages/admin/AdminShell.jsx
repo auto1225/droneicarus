@@ -4,7 +4,7 @@ import { ContentEditor } from './ContentEditor';
 import { useAuth } from '../../auth/AuthContext';
 import { toast } from '../../toast';
 import {
-  getAllSettings, setSetting, fetchAuditLog,
+  getSetting, getAllSettings, setSetting, fetchAuditLog,
   adminDashboardStats, adminMonthlyRevenue, adminUserGrowth, adminTopCreators,
   adminListUsers, adminUpdateUser, adminBulkUpdateUsers, adminDeleteUser,
   adminListVideos, adminSetVideoStatus, adminBulkSetVideoStatus, adminDeleteVideo,
@@ -13,6 +13,77 @@ import {
   adminListLocations, adminUpsertLocation, adminDeleteLocation,
   rowsToCsv, downloadCsv,
 } from '../../db/admin';
+
+
+// ───────── Shared list helpers: pagination + client-side filter ─────────
+const DEFAULT_PAGE_SIZE = 20;
+
+function clientFilter(rows, q, keys) {
+  const qq = (q || '').trim().toLowerCase();
+  if (!qq) return rows;
+  return (rows || []).filter(r => {
+    for (const k of keys) {
+      const v = typeof k === 'function' ? k(r) : (k.split('.').reduce((o, x) => o?.[x], r));
+      if (v == null) continue;
+      if (String(v).toLowerCase().includes(qq)) return true;
+    }
+    return false;
+  });
+}
+
+function paginate(rows, page, size = DEFAULT_PAGE_SIZE) {
+  const total = rows.length;
+  const pages = Math.max(1, Math.ceil(total / size));
+  const p = Math.min(Math.max(1, page), pages);
+  const slice = rows.slice((p - 1) * size, p * size);
+  return { slice, total, pages, page: p };
+}
+
+function Pagination({ page, pages, total, onPage, size = DEFAULT_PAGE_SIZE }) {
+  if (pages <= 1) return (
+    <div className="mono" style={{ fontSize: 11, color: 'var(--parchment-dim)', padding: '10px 0' }}>
+      {total} item{total === 1 ? '' : 's'}
+    </div>
+  );
+  const windowSize = 5;
+  const start = Math.max(1, Math.min(page - Math.floor(windowSize / 2), pages - windowSize + 1));
+  const nums = [];
+  for (let i = 0; i < Math.min(windowSize, pages); i++) nums.push(start + i);
+  const from = (page - 1) * size + 1;
+  const to = Math.min(page * size, total);
+  const btn = {
+    padding: '5px 10px', fontSize: 12, borderRadius: 3,
+    border: '1px solid var(--line)', background: 'var(--forest-900)',
+    color: 'var(--parchment)', cursor: 'pointer',
+  };
+  const active = { ...btn, background: 'var(--amber)', color: '#1a2820', fontWeight: 700, borderColor: 'var(--amber)' };
+  const dim = { ...btn, opacity: 0.4, cursor: 'not-allowed' };
+  return (
+    <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '14px 0', flexWrap: 'wrap' }}>
+      <button style={page === 1 ? dim : btn} disabled={page === 1} onClick={() => onPage(1)} title="First">«</button>
+      <button style={page === 1 ? dim : btn} disabled={page === 1} onClick={() => onPage(page - 1)} title="Previous">‹</button>
+      {nums.map(n => (
+        <button key={n} style={n === page ? active : btn} onClick={() => onPage(n)}>{n}</button>
+      ))}
+      <button style={page === pages ? dim : btn} disabled={page === pages} onClick={() => onPage(page + 1)} title="Next">›</button>
+      <button style={page === pages ? dim : btn} disabled={page === pages} onClick={() => onPage(pages)} title="Last">»</button>
+      <span style={{ flex: 1 }}/>
+      <span className="mono" style={{ fontSize: 11, color: 'var(--parchment-dim)' }}>
+        {from}–{to} / {total}
+      </span>
+    </div>
+  );
+}
+
+function usePaged(rows, q, filterKeys, initial = 1) {
+  const [page, setPage] = useState(initial);
+  const filtered = useMemo(() => clientFilter(rows || [], q, filterKeys), [rows, q, filterKeys]);
+  const out = useMemo(() => paginate(filtered, page), [filtered, page]);
+  // if current page out of range, pull back
+  useEffect(() => { if (page > out.pages) setPage(out.pages); }, [out.pages]);
+  useEffect(() => { setPage(1); }, [q]);
+  return { ...out, setPage };
+}
 
 // ───────── sidebar config ─────────
 const SIDEBAR = [
@@ -268,13 +339,16 @@ function Reports() {
 
 function AuditLog() {
   const [rows, setRows] = useState([]);
-  useEffect(() => { fetchAuditLog({ limit: 200 }).then(setRows); }, []);
+  const [q, setQ] = useState('');
+  useEffect(() => { fetchAuditLog({ limit: 500 }).then(setRows); }, []);
+  const auditPage = usePaged(rows, q, ['action', 'target_type', 'target_id', 'admin.display_name', 'admin.handle', r => r.diff ? JSON.stringify(r.diff) : '']);
   return (
     <div>
-      <Header title="Audit log" sub="어드민 작업 이력" />
+      <Header title="Audit log" sub={`어드민 작업 이력 · ${auditPage.total}건`}
+        right={<input placeholder="Search action / target / admin" value={q} onChange={e=>setQ(e.target.value)} style={inputStyle}/>} />
       <div style={{ border: '1px solid var(--line)', borderRadius: 4 }}>
-        {rows.length === 0 && <Empty>기록이 없습니다.</Empty>}
-        {rows.map(r => (
+        {auditPage.total === 0 && <Empty>기록이 없습니다.</Empty>}
+        {auditPage.slice.map(r => (
           <div key={r.id} style={{ padding: '10px 16px', borderBottom: '1px solid var(--line)', fontSize: 12, display: 'grid', gridTemplateColumns: '180px 140px 180px 1fr 180px', gap: 10 }}>
             <span className="mono" style={{ color: 'var(--parchment-dim)' }}>{new Date(r.created_at).toLocaleString()}</span>
             <span style={{ color: 'var(--amber)' }}>{r.action}</span>
@@ -284,6 +358,7 @@ function AuditLog() {
           </div>
         ))}
       </div>
+      <Pagination page={auditPage.page} pages={auditPage.pages} total={auditPage.total} onPage={auditPage.setPage}/>
     </div>
   );
 }
@@ -334,6 +409,7 @@ function Users({ onNav }) {
     try { await adminBulkUpdateUsers([...selected], { pilot_verified: on }); setSelected(new Set()); await load(); toast('Bulk verify', '', 'success'); }
     catch (e) { toast('Failed', e.message, 'error'); }
   };
+  const userPage = usePaged(rows, q, ['handle', 'display_name', 'email']);
   const exportCsv = () => {
     const target = selected.size > 0 ? rows.filter(r => selected.has(r.id)) : rows;
     const csv = rowsToCsv(target, [
@@ -384,7 +460,7 @@ function Users({ onNav }) {
           <Th>Handle / Name</Th><Th>Email</Th><Th>Role</Th><Th>Verified</Th><Th>Joined</Th><Th>Actions</Th>
         </tr></thead>
         <tbody>
-        {rows.map(r => (
+        {userPage.slice.map(r => (
           <tr key={r.id} style={trStyle}>
             <td style={tdStyle}><input type="checkbox" checked={selected.has(r.id)} onChange={e=>toggleSel(r.id, e.target.checked)}/></td>
             <td style={tdStyle}>
@@ -411,7 +487,8 @@ function Users({ onNav }) {
         ))}
         </tbody>
       </table>
-      {rows.length === 0 && <Empty>검색 결과 없음</Empty>}
+      {userPage.total === 0 && <Empty>검색 결과 없음</Empty>}
+      <Pagination page={userPage.page} pages={userPage.pages} total={userPage.total} onPage={userPage.setPage}/>
     </div>
   );
 }
@@ -435,6 +512,7 @@ function Videos({ onNav }) {
     try { await adminBulkSetVideoStatus([...selected], s); setSelected(new Set()); await load(); toast('Bulk status', s, 'success'); }
     catch (e) { toast('Failed', e.message, 'error'); }
   };
+  const videoPage = usePaged(rows, q, ['title', 'category', 'owner.handle', 'owner.display_name']);
   const thumbUrl = (path) => {
     if (!path) return null;
     const base = import.meta.env.VITE_SUPABASE_URL;
@@ -467,7 +545,7 @@ function Videos({ onNav }) {
           <Th>Preview</Th><Th>Title</Th><Th>Owner</Th><Th>Category</Th><Th>Status</Th><Th>Price</Th><Th>Views</Th><Th>Actions</Th>
         </tr></thead>
         <tbody>
-        {rows.map(r => (
+        {videoPage.slice.map(r => (
           <tr key={r.id} style={trStyle}>
             <td style={tdStyle}><input type="checkbox" checked={selected.has(r.id)} onChange={e=>toggleSel(r.id, e.target.checked)}/></td>
             <td style={tdStyle}>
@@ -496,7 +574,8 @@ function Videos({ onNav }) {
         ))}
         </tbody>
       </table>
-      {rows.length === 0 && <Empty>없음</Empty>}
+      {videoPage.total === 0 && <Empty>없음</Empty>}
+      <Pagination page={videoPage.page} pages={videoPage.pages} total={videoPage.total} onPage={videoPage.setPage}/>
     </div>
   );
 }
@@ -536,6 +615,7 @@ function Orders() {
   };
   const totalRev = rows.filter(r => r.status === 'complete' || r.status === 'processing')
                        .reduce((s, r) => s + Number(r.total || 0), 0);
+  const orderPage = usePaged(rows, q, ['id', 'buyer.handle', 'buyer.email', 'video.title', 'license']);
   return (
     <div>
       <Header title="Orders" sub={`${rows.length}건 · 매출합 $${totalRev.toFixed(2)}`} right={
@@ -553,7 +633,7 @@ function Orders() {
       <table style={tableStyle}>
         <thead><tr><Th>Order</Th><Th>Buyer</Th><Th>Clip</Th><Th>License</Th><Th>Total</Th><Th>Status</Th><Th>When</Th><Th></Th></tr></thead>
         <tbody>
-        {rows.map(r => (
+        {orderPage.slice.map(r => (
           <tr key={r.id} style={trStyle}>
             <td style={tdStyle} className="mono">{r.id}</td>
             <td style={tdStyle}>{r.buyer?.handle}</td>
@@ -567,7 +647,8 @@ function Orders() {
         ))}
         </tbody>
       </table>
-      {rows.length === 0 && <Empty>없음</Empty>}
+      {orderPage.total === 0 && <Empty>없음</Empty>}
+      <Pagination page={orderPage.page} pages={orderPage.pages} total={orderPage.total} onPage={orderPage.setPage}/>
     </div>
   );
 }
@@ -576,21 +657,26 @@ function Orders() {
 function Payouts() {
   const [rows, setRows] = useState([]);
   const [status, setStatus] = useState('');
+  const [q, setQ] = useState('');
   const load = async () => setRows((await adminListPayouts({ status: status || undefined })).rows);
   useEffect(() => { load(); }, [status]);
   const pay = async (id) => { try { await adminMarkPayoutPaid(id); await load(); toast('Marked paid'); } catch(e){ toast('Failed', e.message, 'error'); } };
+  const payPage = usePaged(rows, q, ['id', 'pilot.handle', 'pilot.email', 'period']);
   return (
     <div>
-      <Header title="Payouts" sub="파일럿 정산 큐" right={
-        <select value={status} onChange={e=>setStatus(e.target.value)} style={selectStyle}>
-          <option value="">All</option>
-          {['scheduled','paid','failed'].map(s=><option key={s}>{s}</option>)}
-        </select>
+      <Header title="Payouts" sub={`파일럿 정산 큐 · ${payPage.total}건`} right={
+        <div style={{ display: 'flex', gap: 8 }}>
+          <input placeholder="Search pilot / email" value={q} onChange={e=>setQ(e.target.value)} style={inputStyle}/>
+          <select value={status} onChange={e=>setStatus(e.target.value)} style={selectStyle}>
+            <option value="">All</option>
+            {['scheduled','paid','failed'].map(s=><option key={s}>{s}</option>)}
+          </select>
+        </div>
       }/>
       <table style={tableStyle}>
         <thead><tr><Th>ID</Th><Th>Pilot</Th><Th>Period</Th><Th>Gross</Th><Th>Net</Th><Th>Status</Th><Th>ETA</Th><Th></Th></tr></thead>
         <tbody>
-        {rows.map(r => (
+        {payPage.slice.map(r => (
           <tr key={r.id} style={trStyle}>
             <td style={tdStyle} className="mono">{r.id}</td>
             <td style={tdStyle}>{r.pilot?.handle}<br/><span style={{ fontSize: 10, color: 'var(--parchment-dim)' }}>{r.pilot?.email}</span></td>
@@ -604,7 +690,8 @@ function Payouts() {
         ))}
         </tbody>
       </table>
-      {rows.length === 0 && <Empty>없음</Empty>}
+      {payPage.total === 0 && <Empty>없음</Empty>}
+      <Pagination page={payPage.page} pages={payPage.pages} total={payPage.total} onPage={payPage.setPage}/>
     </div>
   );
 }
@@ -613,6 +700,7 @@ function Payouts() {
 function LocationsEditor() {
   const [rows, setRows] = useState([]);
   const [edit, setEdit] = useState(null);
+  const [q, setQ] = useState('');
   const load = async () => setRows(await adminListLocations());
   useEffect(() => { load(); }, []);
   const save = async () => {
@@ -620,15 +708,21 @@ function LocationsEditor() {
     catch(e){ toast('Save failed', e.message, 'error'); }
   };
   const remove = async (id) => { if (!confirm('Delete?')) return; try { await adminDeleteLocation(id); await load(); toast('Deleted'); } catch(e){ toast('Failed', e.message, 'error'); } };
+  const locPage = usePaged(rows, q, ['id', 'name', 'country', 'category']);
   return (
     <div>
-      <Header title="Locations" sub={`${rows.length}개`} right={<button onClick={()=>setEdit({id:'', name:'', country:'', category:'landscape', lat:0, lon:0, featured:false})} className="btn">+ New</button>}/>
+      <Header title="Locations" sub={`${locPage.total}개`} right={
+        <div style={{ display: 'flex', gap: 8 }}>
+          <input placeholder="Search id / name / country" value={q} onChange={e=>setQ(e.target.value)} style={inputStyle}/>
+          <button onClick={()=>setEdit({id:'', name:'', country:'', category:'landscape', lat:0, lon:0, featured:false})} className="btn">+ New</button>
+        </div>
+      }/>
       {edit && <RowEditor row={edit} onChange={setEdit} onSave={save} onCancel={()=>setEdit(null)}
         fields={[['id','Slug'],['name','Name'],['country','Country'],['category','Category'],['lat','Lat'],['lon','Lon'],['featured','Featured?']]} />}
       <table style={tableStyle}>
         <thead><tr><Th>ID</Th><Th>Name</Th><Th>Country</Th><Th>Category</Th><Th>★</Th><Th></Th></tr></thead>
         <tbody>
-        {rows.map(r => (
+        {locPage.slice.map(r => (
           <tr key={r.id} style={trStyle}>
             <td style={tdStyle} className="mono">{r.id}</td>
             <td style={tdStyle}>{r.name}</td>
@@ -643,6 +737,8 @@ function LocationsEditor() {
         ))}
         </tbody>
       </table>
+      {locPage.total === 0 && <Empty>없음</Empty>}
+      <Pagination page={locPage.page} pages={locPage.pages} total={locPage.total} onPage={locPage.setPage}/>
     </div>
   );
 }
@@ -651,8 +747,8 @@ function LocationsEditor() {
 function SettingsEditor({ k, title, fields }) {
   const [val, setVal] = useState(null);
   useEffect(() => { (async () => {
-    const { data } = await supabase.from('site_settings').select('value').eq('key', k).maybeSingle();
-    setVal(data?.value || {});
+    const v = await getSetting(k, {});
+    setVal(v && typeof v === 'object' && !Array.isArray(v) ? v : {});
   })(); }, [k]);
   if (val === null) return <Loading/>;
   const save = async () => { try { await setSetting(k, val); toast('Saved', `site_settings.${k}`); } catch(e){ toast('Save failed', e.message, 'error'); } };
@@ -686,9 +782,12 @@ function SettingsEditor({ k, title, fields }) {
 function ArrayEditor({ k, title, fields }) {
   const [val, setVal] = useState(null);
   const [edit, setEdit] = useState(null);
+  const [q, setQ] = useState('');
+  const [page, setPage] = useState(1);
+  const pageSize = 20;
   useEffect(() => { (async () => {
-    const { data } = await supabase.from('site_settings').select('value').eq('key', k).maybeSingle();
-    setVal(Array.isArray(data?.value) ? data.value : []);
+    const v = await getSetting(k, []);
+    setVal(Array.isArray(v) ? v : []);
   })(); }, [k]);
   if (val === null) return <Loading/>;
 
@@ -703,25 +802,35 @@ function ArrayEditor({ k, title, fields }) {
   };
   const del = async (i) => { if (!confirm('Delete?')) return; await save(val.filter((_,j)=>j!==i)); };
 
+  const fieldKeys = fields.map(f => f[0]);
+  const filtered = clientFilter(val.map((r, i) => ({ ...r, __originalIndex: i })), q, fieldKeys);
+  const paged = paginate(filtered, page);
+  useEffect(() => { if (page > paged.pages) setPage(paged.pages); }, [paged.pages]);
   return (
     <div>
-      <Header title={title} sub={`${val.length} items · site_settings.${k}`} right={<button onClick={add} className="btn">+ New</button>}/>
+      <Header title={title} sub={`${paged.total} / ${val.length} items · site_settings.${k}`} right={
+        <div style={{ display: 'flex', gap: 8 }}>
+          <input placeholder="Search…" value={q} onChange={e=>{ setQ(e.target.value); setPage(1); }} style={inputStyle}/>
+          <button onClick={add} className="btn">+ New</button>
+        </div>
+      }/>
       {edit && <RowEditor row={edit} onChange={setEdit} onSave={commit} onCancel={()=>setEdit(null)} fields={fields}/>}
       <table style={tableStyle}>
         <thead><tr>{fields.slice(0,3).map(([,l])=><Th key={l}>{l}</Th>)}<Th></Th></tr></thead>
         <tbody>
-        {val.map((r, i) => (
-          <tr key={i} style={trStyle}>
+        {paged.slice.map((r) => (
+          <tr key={r.__originalIndex} style={trStyle}>
             {fields.slice(0,3).map(([fk]) => <td key={fk} style={tdStyle}>{String(r[fk] ?? '').slice(0, 80)}</td>)}
             <td style={tdStyle}>
-              <button onClick={()=>setEdit({...r, __index: i})} className="btn secondary" style={{ fontSize: 11, marginRight: 4 }}>Edit</button>
-              <button onClick={()=>del(i)} style={{ fontSize: 11, color: 'var(--sunset)' }}>Delete</button>
+              <button onClick={()=>setEdit({...r, __index: r.__originalIndex})} className="btn secondary" style={{ fontSize: 11, marginRight: 4 }}>Edit</button>
+              <button onClick={()=>del(r.__originalIndex)} style={{ fontSize: 11, color: 'var(--sunset)' }}>Delete</button>
             </td>
           </tr>
         ))}
         </tbody>
       </table>
-      {val.length === 0 && <Empty>없음 — "+ New"로 추가</Empty>}
+      {paged.total === 0 && <Empty>{q ? '검색 결과 없음' : '없음 — "+ New"로 추가'}</Empty>}
+      <Pagination page={paged.page} pages={paged.pages} total={paged.total} onPage={setPage}/>
     </div>
   );
 }
@@ -737,8 +846,8 @@ function LegalEditor() {
 function FeaturedEditor() {
   const [val, setVal] = useState(null);
   useEffect(() => { (async () => {
-    const { data } = await supabase.from('site_settings').select('value').eq('key', 'featured_picks').maybeSingle();
-    setVal(data?.value || { locations: [], videos: [] });
+    const v = await getSetting('featured_picks', { locations: [], videos: [] });
+    setVal(v && typeof v === 'object' ? v : { locations: [], videos: [] });
   })(); }, []);
   if (val === null) return <Loading/>;
   const save = async () => { try { await setSetting('featured_picks', val); toast('Saved'); } catch(e){ toast('Save failed', e.message, 'error'); } };
