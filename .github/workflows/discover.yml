@@ -1,0 +1,31 @@
+name: Discover YouTube drone clips
+on:
+  schedule:
+    - cron: '0 17 * * *'   # 17:00 UTC = 02:00 KST daily
+  workflow_dispatch:
+    inputs:
+      max_per_query:
+        description: 'Candidates per query'
+        default: '20'
+  repository_dispatch:
+    types: [discover]
+
+jobs:
+  discover:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Run discovery
+        env:
+          YT_API_KEY: ${{ secrets.YT_API_KEY }}
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          MAX_PER_QUERY: ${{ github.event.inputs.max_per_query || '20' }}
+          TRIGGERED_BY: ${{ github.event_name }}
+        run: node scripts/discover-youtube.mjs
