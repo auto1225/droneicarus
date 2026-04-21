@@ -70,6 +70,17 @@ export function AuthProvider({ children }) {
     await supabase.auth.signOut();
   };
 
+  const signInOAuth = async (provider) => {
+    const { data, error } = await supabase.auth.signInWithOAuth({
+      provider,
+      options: {
+        redirectTo: window.location.origin + window.location.pathname + '#home',
+      },
+    });
+    if (error) throw error;
+    return data;
+  };
+
   const refreshProfile = async () => loadProfile(session?.user?.id);
 
   return (
@@ -78,7 +89,7 @@ export function AuthProvider({ children }) {
       user: session?.user ?? null,
       profile,
       loading,
-      signIn, signUp, signOut, refreshProfile,
+      signIn, signUp, signOut, signInOAuth, refreshProfile,
     }}>
       {children}
     </AuthCtx.Provider>

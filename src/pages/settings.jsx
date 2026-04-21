@@ -27,6 +27,25 @@ export function SettingsPage({ onNav }) {
     bio: profile?.bio || '',
   });
   const [saving, setSaving] = sUseState(false);
+  const avatarInputRef = React.useRef(null);
+  const onAvatarPick = async (file) => {
+    if (!(file instanceof File) || !profile?.id) return;
+    try {
+      const { uploadAvatar } = await import('../db/storage');
+      const url = await uploadAvatar({ file, userId: profile.id });
+      await supabase.from('profiles').update({ avatar_url: url }).eq('id', profile.id);
+      await refreshProfile();
+      toast?.('Avatar updated', 'Looking sharp', 'success');
+    } catch (e) { toast?.('Upload failed', e.message, 'error'); }
+  };
+  const onAvatarRemove = async () => {
+    if (!profile?.id) return;
+    try {
+      await supabase.from('profiles').update({ avatar_url: null }).eq('id', profile.id);
+      await refreshProfile();
+      toast?.('Avatar removed', '', 'success');
+    } catch (e) { toast?.('Remove failed', e.message, 'error'); }
+  };
   const onSave = async () => {
     if (!profile?.id) return;
     setSaving(true);
@@ -121,12 +140,13 @@ function SProfile({ u }) {
   return (
     <>
       <Card title="Public profile" subtitle="Shown on your creator page and next to your clips."
-        footer={<><button className="btn secondary" style={{ fontSize: 12, padding: '6px 14px' }} data-placeholder="true">Cancel</button><button className="btn" style={{ fontSize: 12, padding: '6px 14px' }} data-placeholder="true">Save changes</button></>}>
+        footer={<><button className="btn secondary" style={{ fontSize: 12, padding: '6px 14px' }} onClick={() => setDraft({display_name: u.name||'', handle: u.handle||'', location: u.location||'', bio: profile?.bio||''})}>Cancel</button><button className="btn" style={{ fontSize: 12, padding: '6px 14px' }} onClick={onSave} disabled={saving}>{saving ? 'Saving…' : 'Save changes'}</button></>}>
         <Row label="Avatar" hint="PNG or JPG, max 5MB">
           <div style={{ display: 'flex', gap: 14, alignItems: 'center' }}>
             <div style={{ width: 64, height: 64, borderRadius: '50%', background: 'var(--sunset)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 22, fontWeight: 700, color: '#faf6ec' }}>{u.initials}</div>
-            <button className="btn secondary" style={{ fontSize: 12 }} data-placeholder="true">Upload new</button>
-            <button style={{ fontSize: 12, color: 'var(--parchment-dim)' }} data-placeholder="true">Remove</button>
+            <button className="btn secondary" style={{ fontSize: 12 }} onClick={() => avatarInputRef.current?.click()}>Upload new</button>
+            <input ref={avatarInputRef} type="file" accept="image/*" style={{display:'none'}} onChange={e => { const f=e.target.files?.[0]; if (f) onAvatarPick(f); e.target.value=''; }} />
+            <button style={{ fontSize: 12, color: 'var(--parchment-dim)' }} onClick={onAvatarRemove}>Remove</button>
           </div>
         </Row>
         <Row label="Display name"><input defaultValue={u.name} style={iS}/></Row>
@@ -152,7 +172,11 @@ function SAccount({ u }) {
       <Card title="Email & password">
         <Row label="Email"><input defaultValue={u.email} style={iS}/></Row>
         <Row label="Password" hint="Last changed 3 months ago">
-          <button className="btn secondary" style={{ fontSize: 12 }} data-placeholder="true">Change password</button>
+          <button className="btn secondary" style={{ fontSize: 12 }} onClick={async () => {
+            if (!u.email) { toast?.('Email missing', '', 'error'); return; }
+            try { const { error } = await supabase.auth.resetPasswordForEmail(u.email, { redirectTo: window.location.origin + '#signin' }); if (error) throw error; toast?.('Email sent', 'Check inbox for reset link'); }
+            catch (e) { toast?.('Could not send', e.message, 'error'); }
+          }}>Change password</button>
         </Row>
       </Card>
       <Card title="Two-factor authentication" subtitle="Add a second layer of security for your flight log.">
