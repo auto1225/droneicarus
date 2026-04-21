@@ -1,7 +1,8 @@
 // pages/home.jsx — Map hero + location detail bottom sheet + video grids
 import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react';
 import { useContent } from '../content/ContentContext';
-import { CATEGORIES, CAT_ICONS, LOCATIONS, VIDEOS, TRENDING, thumbGradient, STATS} from '../data';
+import { CATEGORIES, CAT_ICONS, LOCATIONS as _MOCK_LOCATIONS, VIDEOS as _MOCK_VIDEOS, TRENDING, thumbGradient, STATS } from '../data';
+import { fetchVideos } from '../db/videos';
 import { Ic, CategoryChips, VideoCard } from '../components';
 import { useSiteSetting } from '../db/useSettings';
 const hUseState = useState;
@@ -14,7 +15,9 @@ function hEsc(s) {
   return String(s).replace(/[&<>"']/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]));
 }
 
-function MapHero({ selectedLoc, onSelectLoc, categoryFilter, mapFilters }) {
+function MapHero({ selectedLoc, onSelectLoc, categoryFilter, mapFilters, locations, videos }) {
+  const LOCATIONS = locations && locations.length > 0 ? locations : _MOCK_LOCATIONS;
+  const VIDEOS = videos && videos.length > 0 ? videos : _MOCK_VIDEOS;
   const mapRef = hUseRef(null);
   const mapInstance = hUseRef(null);
   const markersRef = hUseRef([]);
@@ -359,6 +362,29 @@ function FeaturedRow({ title, eyebrow, videos, onOpenVideo, accent }) {
 }
 
 export function HomePage({ onOpenVideo, onNav }) {
+  // DB videos: every published row with lat/lon becomes a map pin.
+  const [dbVideos, setDbVideos] = hUseState([]);
+  hUseEffect(() => {
+    let cancelled = false;
+    fetchVideos({ limit: 500 }).then(v => { if (!cancelled) setDbVideos(v || []); });
+    return () => { cancelled = true; };
+  }, []);
+  // Derive one 'location' per video (for Leaflet pin).
+  const dbLocations = hUseMemo(() => {
+    return (dbVideos || [])
+      .filter(v => Number.isFinite(v.lat) && Number.isFinite(v.lon))
+      .map(v => ({
+        id: v.youtubeId || v.id,
+        name: v.title,
+        country: (v.description || '').slice(0, 40) || '',
+        category: v.category,
+        lat: v.lat, lon: v.lon,
+        videos: 1,
+        featured: (v.qualityScore || 0) >= 8,
+        source: v.source,
+        video: v,
+      }));
+  }, [dbVideos]);
   const [selectedLoc, setSelectedLoc] = hUseState(null);
   const [categoryFilter, setCategoryFilter] = hUseState('all');
   const [mapFilters, setMapFilters] = hUseState({ free: false, uhd: false, recent: false, featured: false });
@@ -376,7 +402,7 @@ export function HomePage({ onOpenVideo, onNav }) {
 
   return (
     <>
-      <MapHero selectedLoc={selectedLoc} onSelectLoc={handleSelect} categoryFilter={categoryFilter} mapFilters={mapFilters} />
+      <MapHero selectedLoc={selectedLoc} onSelectLoc={handleSelect} categoryFilter={categoryFilter} mapFilters={mapFilters} locations={dbLocations} videos={dbVideos} />
 
       {/* Sticky category bar + map filters */}
       <div style={{
@@ -430,7 +456,7 @@ export function HomePage({ onOpenVideo, onNav }) {
             <div className="eyebrow" style={{ marginBottom: 6 }}>EDITOR'S ATLAS</div>
             <h2 style={{ fontSize: 30, letterSpacing: '-0.02em', marginBottom: 18 }}>Landmarks worth the flight</h2>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: 16 }}>
-              {LOCATIONS.filter(l => l.featured).concat(LOCATIONS.filter(l => !l.featured).slice(0, 9)).map(loc => (
+              {(dbLocations.length ? dbLocations : _MOCK_LOCATIONS).filter(l => l.featured).concat((dbLocations.length ? dbLocations : _MOCK_LOCATIONS).filter(l => !l.featured).slice(0, 9)).map(loc => (
                 <button key={loc.id} onClick={() => handleSelect(loc)} style={{
                   display: 'flex', alignItems: 'center', gap: 16,
                   padding: 18,
@@ -467,7 +493,7 @@ export function HomePage({ onOpenVideo, onNav }) {
           <FeaturedRow
             eyebrow="CINEMATIC · 4K+"
             title="Fresh from the flight deck"
-            videos={VIDEOS.slice(4, 16)}
+            videos={(dbVideos.length ? dbVideos : _MOCK_VIDEOS).slice(4, 16)}
             onOpenVideo={onOpenVideo}
           />
         </>
