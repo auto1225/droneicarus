@@ -1,84 +1,93 @@
-// src/db/videos.js — video + location data access layer
-// When Supabase is populated, these replace direct VIDEOS/LOCATIONS reads.
-import { supabase } from '../supabase';
-import { VIDEOS as MOCK_VIDEOS, LOCATIONS as MOCK_LOCATIONS } from '../data';
+// src/db/videos.js — video + location data access via raw REST (avoids
+// Supabase JS hang). Returns DB rows adapted to the shape the existing UI
+// components expect.
 
-// Feature flag — falls back to mock data if Supabase tables are empty.
-// Once the seed SQL is run in production, set this to true via env var.
-const USE_SUPABASE = import.meta.env.VITE_USE_SUPABASE_DATA === 'true';
+const SUPA_URL = import.meta.env.VITE_SUPABASE_URL;
+const SUPA_KEY = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
 
-export async function fetchLocations() {
-  if (!USE_SUPABASE) return MOCK_LOCATIONS;
-  const { data, error } = await supabase
-    .from('locations')
-    .select('*')
-    .order('featured', { ascending: false });
-  if (error) { console.warn('[db] locations:', error.message); return MOCK_LOCATIONS; }
-  return data ?? MOCK_LOCATIONS;
+async function restGet(path) {
+  if (!SUPA_URL || !SUPA_KEY) return [];
+  const res = await fetch(SUPA_URL + path, {
+    headers: { apikey: SUPA_KEY, Authorization: 'Bearer ' + SUPA_KEY },
+  });
+  if (!res.ok) {
+    console.warn('[db]', path, res.status, (await res.text()).slice(0, 120));
+    return [];
+  }
+  return await res.json();
 }
 
-export async function fetchVideos({ limit = 100, category, locationId, ownerId } = {}) {
-  if (!USE_SUPABASE) {
-    let v = [...MOCK_VIDEOS];
-    if (category && category !== 'all') v = v.filter(x => x.category === category);
-    if (locationId) v = v.filter(x => x.locationId === locationId);
-    if (ownerId) v = v.filter(x => x.creator?.handle === ownerId);
-    return v.slice(0, limit);
-  }
-  let q = supabase.from('videos').select(`
-    id, slug, title, description, category, resolution, duration_s, views, likes,
-    price_usd, tags, thumb_path, yt_id, published_at,
-    location_id,
-    owner:profiles!owner_id (id, handle, display_name, avatar_url, pilot_verified)
-  `).eq('status', 'published').limit(limit);
-  if (category && category !== 'all') q = q.eq('category', category);
-  if (locationId) q = q.eq('location_id', locationId);
-  if (ownerId) q = q.eq('owner_id', ownerId);
-  const { data, error } = await q;
-  if (error) { console.warn('[db] videos:', error.message); return MOCK_VIDEOS.slice(0, limit); }
-  return (data ?? []).map(adaptVideo);
+export async function fetchLocations() {
+  const rows = await restGet('/rest/v1/locations?select=*&order=featured.desc.nullslast,name.asc');
+  return rows;
+}
+
+export async function fetchVideos({ limit = 200, category, locationId, ownerId, source } = {}) {
+  const parts = [
+    `select=id,title,description,category,resolution,duration_s,views,likes,price_usd,tags,thumb_path,thumb_url,yt_id,youtube_id,youtube_channel,source,lat,lon,published_at,location_id,ai_quality_score,status`,
+    `status=eq.published`,
+    `limit=${limit}`,
+    `order=published_at.desc.nullslast`,
+  ];
+  if (category && category !== 'all') parts.push(`category=eq.${encodeURIComponent(category)}`);
+  if (locationId) parts.push(`location_id=eq.${encodeURIComponent(locationId)}`);
+  if (ownerId)    parts.push(`owner_id=eq.${encodeURIComponent(ownerId)}`);
+  if (source)     parts.push(`source=eq.${encodeURIComponent(source)}`);
+  const rows = await restGet('/rest/v1/videos?' + parts.join('&'));
+  return rows.map(adaptVideo);
 }
 
 export async function fetchVideo(id) {
-  if (!USE_SUPABASE) return MOCK_VIDEOS.find(v => v.id === id) ?? null;
-  const { data, error } = await supabase
-    .from('videos')
-    .select(`*, owner:profiles!owner_id (id, handle, display_name, avatar_url, pilot_verified)`)
-    .eq('id', id)
-    .maybeSingle();
-  if (error) { console.warn('[db] video:', error.message); return null; }
-  return data ? adaptVideo(data) : null;
+  // id may be a UUID (pilot original) or a YouTube id (discovered)
+  const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id);
+  const key = isUuid ? 'id' : 'youtube_id';
+  const rows = await restGet(`/rest/v1/videos?select=*&${key}=eq.${encodeURIComponent(id)}&limit=1`);
+  return rows.length > 0 ? adaptVideo(rows[0]) : null;
 }
 
-// Map DB shape → UI shape used by existing components
+// Map DB shape → UI shape
 function adaptVideo(row) {
+  const isYouTube = row.source === 'youtube';
+  const ytId = isYouTube ? (row.youtube_id || row.yt_id) : row.yt_id;
   return {
     id: row.id,
-    ytId: row.yt_id,
+    source: row.source || 'original',
+    ytId,
+    youtubeId: ytId,
     title: row.title,
+    description: row.description ?? '',
     locationId: row.location_id,
     category: row.category,
-    creator: row.owner ? {
-      handle: row.owner.handle,
-      name: row.owner.display_name,
-      verified: row.owner.pilot_verified,
-    } : null,
-    duration: secondsToClock(row.duration_s),
-    views: row.views ?? 0,
-    uploadedDaysAgo: row.published_at ? Math.max(0, Math.round((Date.now() - new Date(row.published_at)) / 86400000)) : 0,
-    price: Number(row.price_usd) || 0,
-    resolution: row.resolution,
-    likes: row.likes ?? 0,
-    description: row.description ?? '',
-    tags: row.tags ?? [],
+    lat: row.lat,
+    lon: row.lon,
+    // YouTube rows have a thumb_url hosted on ytimg; pilot rows use a Supabase storage thumb_path
+    thumbUrl: row.thumb_url
+      || (row.thumb_path ? `${SUPA_URL}/storage/v1/object/public/thumbs/${row.thumb_path}` : null)
+      || (ytId ? `https://i.ytimg.com/vi/${ytId}/hqdefault.jpg` : null),
     thumbPath: row.thumb_path,
     storagePath: row.storage_path,
+    duration: secondsToClock(row.duration_s),
+    views: row.views ?? 0,
+    likes: row.likes ?? 0,
+    uploadedDaysAgo: row.published_at
+      ? Math.max(0, Math.round((Date.now() - new Date(row.published_at)) / 86400000))
+      : 0,
+    price: Number(row.price_usd) || 0,
+    resolution: row.resolution,
+    tags: row.tags ?? [],
+    qualityScore: row.ai_quality_score,
+    channel: row.youtube_channel,
+    creator: row.youtube_channel ? {
+      handle: row.youtube_channel.toLowerCase().replace(/\s+/g, ''),
+      name: row.youtube_channel,
+      verified: false,
+      external: true,
+    } : null,
   };
 }
 
 function secondsToClock(s) {
   if (!s || Number.isNaN(s)) return '0:00';
-  const mm = Math.floor(s / 60);
-  const ss = String(s % 60).padStart(2, '0');
-  return `${mm}:${ss}`;
+  const m = Math.floor(s / 60), ss = Math.floor(s % 60);
+  return m + ':' + String(ss).padStart(2, '0');
 }
