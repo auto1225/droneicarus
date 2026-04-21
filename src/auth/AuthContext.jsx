@@ -56,7 +56,7 @@ export function AuthProvider({ children }) {
       email,
       password,
       options: {
-        emailRedirectTo: window.location.origin + window.location.pathname + '#home',
+        emailRedirectTo: window.location.origin + window.location.pathname,
         data: {
           handle: handle?.startsWith('@') ? handle : `@${handle}`,
           display_name: displayName,
@@ -76,7 +76,7 @@ export function AuthProvider({ children }) {
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider,
       options: {
-        redirectTo: window.location.origin + window.location.pathname + '#home',
+        redirectTo: window.location.origin + window.location.pathname,
       },
     });
     if (error) throw error;
