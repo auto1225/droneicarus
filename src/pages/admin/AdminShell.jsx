@@ -3,15 +3,15 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { ContentEditor } from './ContentEditor';
 import { useAuth } from '../../auth/AuthContext';
 import { toast } from '../../toast';
-import { supabase } from '../../supabase';
 import {
   getAllSettings, setSetting, fetchAuditLog,
-  adminDashboardStats,
-  adminListUsers, adminUpdateUser, adminDeleteUser,
-  adminListVideos, adminSetVideoStatus, adminDeleteVideo,
+  adminDashboardStats, adminMonthlyRevenue, adminUserGrowth, adminTopCreators,
+  adminListUsers, adminUpdateUser, adminBulkUpdateUsers, adminDeleteUser,
+  adminListVideos, adminSetVideoStatus, adminBulkSetVideoStatus, adminDeleteVideo,
   adminListOrders, adminRefundOrder,
   adminListPayouts, adminMarkPayoutPaid,
   adminListLocations, adminUpsertLocation, adminDeleteLocation,
+  rowsToCsv, downloadCsv,
 } from '../../db/admin';
 
 // ───────── sidebar config ─────────
@@ -145,9 +145,15 @@ function SectionRouter({ section, onNav }) {
 function Dashboard() {
   const [stats, setStats] = useState(null);
   const [recent, setRecent] = useState([]);
+  const [monthly, setMonthly] = useState([]);
+  const [growth, setGrowth] = useState([]);
+  const [top, setTop] = useState([]);
   useEffect(() => {
     adminDashboardStats().then(setStats);
     fetchAuditLog({ limit: 8 }).then(setRecent);
+    adminMonthlyRevenue(6).then(setMonthly);
+    adminUserGrowth(6).then(setGrowth);
+    adminTopCreators(8).then(setTop);
   }, []);
   if (!stats) return <Loading/>;
   const cards = [
@@ -158,6 +164,8 @@ function Dashboard() {
     ['플랫폼 수수료 30%', '$' + stats.platformFeeTotal.toLocaleString(undefined, {maximumFractionDigits: 2}), 'var(--sunset)'],
     ['지급 대기',        stats.payoutsScheduled.toLocaleString(),        'var(--parchment-dim)'],
   ];
+  const maxRev = Math.max(1, ...monthly.map(m => m.total));
+  const maxGrow = Math.max(1, ...growth.map(m => m.count));
   return (
     <div>
       <Header title="Dashboard" sub="실시간 운영 지표 — 데이터베이스에서 바로 집계됩니다." />
@@ -171,18 +179,64 @@ function Dashboard() {
           </div>
         ))}
       </div>
-      <h3 style={{ fontSize: 18, marginBottom: 12 }}>최근 관리자 활동</h3>
-      <div style={{ border: '1px solid var(--line)', borderRadius: 4 }}>
-        {recent.length === 0 && <Empty>활동 기록이 없습니다.</Empty>}
-        {recent.map(r => (
-          <div key={r.id} style={{ padding: '10px 16px', borderBottom: '1px solid var(--line)', fontSize: 12, display: 'grid', gridTemplateColumns: '200px 1fr 150px 180px', gap: 10 }}>
-            <span className="mono" style={{ color: 'var(--parchment-dim)' }}>{new Date(r.created_at).toLocaleString()}</span>
-            <span style={{ color: 'var(--bone)' }}>{r.action}</span>
-            <span style={{ color: 'var(--parchment-dim)' }}>{r.target_type}:{(r.target_id || '').slice(0,12)}</span>
-            <span style={{ color: 'var(--parchment-dim)' }}>{r.admin?.display_name || r.admin?.handle || ''}</span>
-          </div>
-        ))}
+
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14, marginBottom: 32 }}>
+        <ChartCard title="6-month revenue" values={monthly.map(m => ({ label: m.label, value: m.total, display: '$' + m.total.toFixed(0) }))} max={maxRev} accent="var(--amber)" />
+        <ChartCard title="6-month new users" values={growth.map(m => ({ label: m.label, value: m.count, display: String(m.count) }))} max={maxGrow} accent="var(--moss)" />
       </div>
+
+      <div style={{ display: 'grid', gridTemplateColumns: '2fr 3fr', gap: 14 }}>
+        <div>
+          <h3 style={{ fontSize: 16, marginBottom: 10 }}>Top creators</h3>
+          <div style={{ border: '1px solid var(--line)', borderRadius: 4 }}>
+            {top.length === 0 && <Empty>등록된 파일럿이 없습니다.</Empty>}
+            {top.map((c, i) => (
+              <div key={c.id} style={{ display: 'flex', gap: 10, alignItems: 'center', padding: '8px 14px', borderBottom: '1px solid var(--line)' }}>
+                <span className="mono" style={{ width: 24, color: 'var(--parchment-dim)', fontSize: 11 }}>#{i+1}</span>
+                <div style={{ flex: 1 }}>
+                  <div style={{ fontSize: 13, fontWeight: 600 }}>{c.display_name || c.handle}</div>
+                  <div style={{ fontSize: 11, color: 'var(--parchment-dim)' }}>{c.handle}</div>
+                </div>
+                <span className="mono" style={{ fontSize: 11, color: 'var(--amber)' }}>{(c.followers_count || 0).toLocaleString()} followers</span>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div>
+          <h3 style={{ fontSize: 16, marginBottom: 10 }}>최근 관리자 활동</h3>
+          <div style={{ border: '1px solid var(--line)', borderRadius: 4 }}>
+            {recent.length === 0 && <Empty>활동 기록이 없습니다.</Empty>}
+            {recent.map(r => (
+              <div key={r.id} style={{ padding: '10px 14px', borderBottom: '1px solid var(--line)', fontSize: 12, display: 'grid', gridTemplateColumns: '160px 1fr 140px', gap: 8 }}>
+                <span className="mono" style={{ color: 'var(--parchment-dim)' }}>{new Date(r.created_at).toLocaleString()}</span>
+                <span style={{ color: 'var(--bone)' }}>{r.action} <span style={{ color: 'var(--parchment-dim)' }}>→ {r.target_type}</span></span>
+                <span style={{ color: 'var(--parchment-dim)' }}>{r.admin?.display_name || r.admin?.handle || ''}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ChartCard({ title, values, max, accent }) {
+  return (
+    <div style={{ padding: 18, border: '1px solid var(--line)', borderRadius: 6, background: 'var(--forest-900)' }}>
+      <h3 style={{ fontSize: 14, marginBottom: 14, color: 'var(--parchment)' }}>{title}</h3>
+      {values.length === 0 ? <Empty>데이터가 아직 없습니다.</Empty> : (
+        <div style={{ display: 'flex', alignItems: 'flex-end', gap: 10, height: 140 }}>
+          {values.map((v, i) => (
+            <div key={i} style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4 }}>
+              <div style={{ fontSize: 10, color: 'var(--parchment-dim)' }}>{v.display}</div>
+              <div style={{ width: '100%', flex: 1, display: 'flex', alignItems: 'flex-end' }}>
+                <div style={{ width: '100%', height: Math.max(4, (v.value / max) * 120), background: accent, borderRadius: 2 }}/>
+              </div>
+              <div className="mono" style={{ fontSize: 10, color: 'var(--parchment-dim)' }}>{v.label.slice(5)}</div>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
@@ -191,17 +245,7 @@ function Dashboard() {
 function Reports() {
   const [byMonth, setByMonth] = useState([]);
   useEffect(() => {
-    (async () => {
-      const { data } = await supabase.from('orders').select('total, created_at, status');
-      const map = new Map();
-      for (const r of data || []) {
-        if (r.status !== 'complete' && r.status !== 'processing') continue;
-        const m = String(r.created_at).slice(0, 7);
-        map.set(m, (map.get(m) || 0) + Number(r.total || 0));
-      }
-      const rows = [...map.entries()].sort().map(([m, v]) => ({ m, v }));
-      setByMonth(rows);
-    })();
+    adminMonthlyRevenue(12).then(r => setByMonth(r.map(x => ({ m: x.label, v: x.total }))));
   }, []);
   return (
     <div>
@@ -248,9 +292,17 @@ function AuditLog() {
 function Users({ onNav }) {
   const [rows, setRows] = useState([]);
   const [q, setQ] = useState('');
+  const [role, setRole] = useState('');
+  const [verified, setVerified] = useState('');
+  const [since, setSince] = useState('');
   const [busy, setBusy] = useState(false);
-  const load = async () => setRows((await adminListUsers({ q })).rows);
-  useEffect(() => { load(); }, [q]);
+  const [selected, setSelected] = useState(new Set());
+  const [total, setTotal] = useState(0);
+  const load = async () => {
+    const { rows, total } = await adminListUsers({ q, role, verified, since, limit: 100 });
+    setRows(rows); setTotal(total);
+  };
+  useEffect(() => { load(); }, [q, role, verified, since]);
 
   const update = async (id, patch, label) => {
     setBusy(true);
@@ -263,16 +315,78 @@ function Users({ onNav }) {
     try { await adminDeleteUser(id); await load(); toast('Deleted', '', 'success'); }
     catch (e) { toast('Delete failed', e.message, 'error'); }
   };
+  const toggleSel = (id, v) => setSelected(prev => {
+    const n = new Set(prev);
+    if (v) n.add(id); else n.delete(id);
+    return n;
+  });
+  const toggleSelAll = (v) => setSelected(v ? new Set(rows.map(r => r.id)) : new Set());
+  const bulkRole = async (e) => {
+    const v = e.target.value; e.target.value = '';
+    if (!v || selected.size === 0) return;
+    if (!confirm(`${selected.size}명의 role을 "${v}"로 변경할까요?`)) return;
+    try { await adminBulkUpdateUsers([...selected], { role: v }); setSelected(new Set()); await load(); toast('Bulk role update', `${selected.size} users`, 'success'); }
+    catch (e) { toast('Failed', e.message, 'error'); }
+  };
+  const bulkVerify = async (on) => {
+    if (selected.size === 0) return;
+    if (!confirm(`${selected.size}명의 verified를 ${on ? '✓' : '—'}로 변경할까요?`)) return;
+    try { await adminBulkUpdateUsers([...selected], { pilot_verified: on }); setSelected(new Set()); await load(); toast('Bulk verify', '', 'success'); }
+    catch (e) { toast('Failed', e.message, 'error'); }
+  };
+  const exportCsv = () => {
+    const target = selected.size > 0 ? rows.filter(r => selected.has(r.id)) : rows;
+    const csv = rowsToCsv(target, [
+      { key: 'id', label: 'id' },
+      { key: 'handle' },
+      { key: 'display_name' },
+      { key: 'email' },
+      { key: 'role' },
+      { key: 'pilot_verified' },
+      { key: 'followers_count' },
+      { key: 'created_at' },
+    ]);
+    downloadCsv(`droneicarus-users-${new Date().toISOString().slice(0,10)}.csv`, csv);
+  };
   return (
     <div>
-      <Header title="Users" sub={`${rows.length}명`} right={<input placeholder="Search handle / email" value={q} onChange={e=>setQ(e.target.value)} style={inputStyle}/>} />
+      <Header title="Users" sub={`${total}명 (표시 ${rows.length})`} right={
+        <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+          <input placeholder="Search handle / email" value={q} onChange={e=>setQ(e.target.value)} style={inputStyle}/>
+          <select value={role} onChange={e=>setRole(e.target.value)} style={selectStyle}>
+            <option value="">All roles</option>
+            {['viewer','pilot','studio','admin'].map(o=><option key={o}>{o}</option>)}
+          </select>
+          <select value={verified} onChange={e=>setVerified(e.target.value)} style={selectStyle}>
+            <option value="">Verified?</option>
+            <option value="true">✓ Verified</option>
+            <option value="false">— Unverified</option>
+          </select>
+          <input type="date" value={since} onChange={e=>setSince(e.target.value)} style={inputStyle} title="Joined on/after"/>
+          <button onClick={exportCsv} className="btn secondary">Export CSV</button>
+        </div>
+      }/>
+      {selected.size > 0 && (
+        <div style={{ padding: '10px 14px', background: 'var(--forest-900)', border: '1px solid var(--amber)', borderRadius: 4, marginBottom: 14, display: 'flex', gap: 10, alignItems: 'center' }}>
+          <strong style={{ fontSize: 13, color: 'var(--amber)' }}>{selected.size}명 선택됨</strong>
+          <select onChange={bulkRole} style={{ ...selectStyle, width: 160 }} defaultValue="">
+            <option value="">Bulk role →</option>
+            {['viewer','pilot','studio','admin'].map(o=><option key={o}>{o}</option>)}
+          </select>
+          <button className="btn secondary" onClick={()=>bulkVerify(true)}>✓ Verify</button>
+          <button className="btn secondary" onClick={()=>bulkVerify(false)}>— Unverify</button>
+          <button className="btn secondary" onClick={()=>setSelected(new Set())}>Clear</button>
+        </div>
+      )}
       <table style={tableStyle}>
         <thead><tr>
+          <Th><input type="checkbox" checked={selected.size > 0 && selected.size === rows.length} onChange={e=>toggleSelAll(e.target.checked)}/></Th>
           <Th>Handle / Name</Th><Th>Email</Th><Th>Role</Th><Th>Verified</Th><Th>Joined</Th><Th>Actions</Th>
         </tr></thead>
         <tbody>
         {rows.map(r => (
           <tr key={r.id} style={trStyle}>
+            <td style={tdStyle}><input type="checkbox" checked={selected.has(r.id)} onChange={e=>toggleSel(r.id, e.target.checked)}/></td>
             <td style={tdStyle}>
               <div style={{ fontWeight: 600 }}>{r.display_name || r.handle}</div>
               <div style={{ fontSize: 11, color: 'var(--parchment-dim)' }}>{r.handle}</div>
@@ -306,25 +420,63 @@ function Users({ onNav }) {
 function Videos({ onNav }) {
   const [rows, setRows] = useState([]);
   const [status, setStatus] = useState('');
-  const load = async () => setRows((await adminListVideos({ status: status || undefined })).rows);
-  useEffect(() => { load(); }, [status]);
+  const [q, setQ] = useState('');
+  const [selected, setSelected] = useState(new Set());
+  const load = async () => setRows((await adminListVideos({ status: status || undefined, q, limit: 100 })).rows);
+  useEffect(() => { load(); }, [status, q]);
 
   const setS = async (id, s) => { try { await adminSetVideoStatus(id, s); await load(); toast('Status updated', s); } catch (e) { toast('Failed', e.message, 'error'); } };
   const del  = async (id) => { if (!confirm('Delete?')) return; try { await adminDeleteVideo(id); await load(); toast('Deleted'); } catch(e){ toast('Failed', e.message, 'error'); } };
+  const toggleSel = (id, v) => setSelected(prev => { const n = new Set(prev); if (v) n.add(id); else n.delete(id); return n; });
+  const toggleAll = (v) => setSelected(v ? new Set(rows.map(r => r.id)) : new Set());
+  const bulkSet = async (s) => {
+    if (selected.size === 0) return;
+    if (!confirm(`${selected.size}개 영상 상태를 "${s}"로 변경할까요?`)) return;
+    try { await adminBulkSetVideoStatus([...selected], s); setSelected(new Set()); await load(); toast('Bulk status', s, 'success'); }
+    catch (e) { toast('Failed', e.message, 'error'); }
+  };
+  const thumbUrl = (path) => {
+    if (!path) return null;
+    const base = import.meta.env.VITE_SUPABASE_URL;
+    return `${base}/storage/v1/object/public/thumbs/${path}`;
+  };
 
   return (
     <div>
       <Header title="Videos" sub={`${rows.length}개`} right={
-        <select value={status} onChange={e=>setStatus(e.target.value)} style={selectStyle}>
-          <option value="">All statuses</option>
-          {['draft','processing','published','rejected','removed'].map(s=><option key={s}>{s}</option>)}
-        </select>
+        <div style={{ display: 'flex', gap: 8 }}>
+          <input placeholder="Search title / category" value={q} onChange={e=>setQ(e.target.value)} style={inputStyle}/>
+          <select value={status} onChange={e=>setStatus(e.target.value)} style={selectStyle}>
+            <option value="">All statuses</option>
+            {['draft','processing','published','rejected','removed'].map(s=><option key={s}>{s}</option>)}
+          </select>
+        </div>
       }/>
+      {selected.size > 0 && (
+        <div style={{ padding: '10px 14px', background: 'var(--forest-900)', border: '1px solid var(--amber)', borderRadius: 4, marginBottom: 14, display: 'flex', gap: 10, alignItems: 'center' }}>
+          <strong style={{ fontSize: 13, color: 'var(--amber)' }}>{selected.size}개 선택됨</strong>
+          <button className="btn" onClick={()=>bulkSet('published')}>Approve all</button>
+          <button className="btn secondary" onClick={()=>bulkSet('rejected')}>Reject all</button>
+          <button className="btn secondary" onClick={()=>bulkSet('removed')}>Remove</button>
+          <button className="btn secondary" onClick={()=>setSelected(new Set())}>Clear</button>
+        </div>
+      )}
       <table style={tableStyle}>
-        <thead><tr><Th>Title</Th><Th>Owner</Th><Th>Category</Th><Th>Status</Th><Th>Price</Th><Th>Views</Th><Th>Actions</Th></tr></thead>
+        <thead><tr>
+          <Th><input type="checkbox" checked={selected.size > 0 && selected.size === rows.length} onChange={e=>toggleAll(e.target.checked)}/></Th>
+          <Th>Preview</Th><Th>Title</Th><Th>Owner</Th><Th>Category</Th><Th>Status</Th><Th>Price</Th><Th>Views</Th><Th>Actions</Th>
+        </tr></thead>
         <tbody>
         {rows.map(r => (
           <tr key={r.id} style={trStyle}>
+            <td style={tdStyle}><input type="checkbox" checked={selected.has(r.id)} onChange={e=>toggleSel(r.id, e.target.checked)}/></td>
+            <td style={tdStyle}>
+              {thumbUrl(r.thumb_path) ? (
+                <img src={thumbUrl(r.thumb_path)} alt="" style={{ width: 64, height: 40, objectFit: 'cover', borderRadius: 3, border: '1px solid var(--line)' }}/>
+              ) : (
+                <div style={{ width: 64, height: 40, background: 'var(--forest-900)', border: '1px dashed var(--line)', borderRadius: 3, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 10, color: 'var(--parchment-dim)' }}>no thumb</div>
+              )}
+            </td>
             <td style={tdStyle}>
               <div style={{ fontWeight: 600, maxWidth: 280, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{r.title}</div>
               <div style={{ fontSize: 11, color: 'var(--parchment-dim)' }}>{r.id?.slice(0,12)}…</div>
@@ -360,16 +512,43 @@ function statusColor(s) {
 function Orders() {
   const [rows, setRows] = useState([]);
   const [status, setStatus] = useState('');
-  const load = async () => setRows((await adminListOrders({ status: status || undefined })).rows);
-  useEffect(() => { load(); }, [status]);
+  const [q, setQ] = useState('');
+  const [from, setFrom] = useState('');
+  const [to, setTo] = useState('');
+  const load = async () => setRows((await adminListOrders({ status: status || undefined, q, from, to, limit: 200 })).rows);
+  useEffect(() => { load(); }, [status, q, from, to]);
   const refund = async (id) => { if (!confirm('Issue refund?')) return; try { await adminRefundOrder(id); await load(); toast('Refunded'); } catch(e){ toast('Failed', e.message, 'error'); } };
+  const exportCsv = () => {
+    const csv = rowsToCsv(rows, [
+      { key: 'id' },
+      { label: 'buyer_handle', get: r => r.buyer?.handle },
+      { label: 'buyer_email',  get: r => r.buyer?.email },
+      { label: 'clip_title',   get: r => r.video?.title },
+      { key: 'license' },
+      { key: 'subtotal' },
+      { key: 'tax' },
+      { key: 'total' },
+      { key: 'status' },
+      { key: 'payment_brand' },
+      { key: 'created_at' },
+    ]);
+    downloadCsv(`droneicarus-orders-${new Date().toISOString().slice(0,10)}.csv`, csv);
+  };
+  const totalRev = rows.filter(r => r.status === 'complete' || r.status === 'processing')
+                       .reduce((s, r) => s + Number(r.total || 0), 0);
   return (
     <div>
-      <Header title="Orders" sub={`${rows.length}건`} right={
-        <select value={status} onChange={e=>setStatus(e.target.value)} style={selectStyle}>
-          <option value="">All</option>
-          {['pending','processing','complete','refunded','failed'].map(s=><option key={s}>{s}</option>)}
-        </select>
+      <Header title="Orders" sub={`${rows.length}건 · 매출합 $${totalRev.toFixed(2)}`} right={
+        <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+          <input placeholder="Search buyer / clip / id" value={q} onChange={e=>setQ(e.target.value)} style={inputStyle}/>
+          <input type="date" value={from} onChange={e=>setFrom(e.target.value)} style={inputStyle} title="From"/>
+          <input type="date" value={to} onChange={e=>setTo(e.target.value)} style={inputStyle} title="To"/>
+          <select value={status} onChange={e=>setStatus(e.target.value)} style={selectStyle}>
+            <option value="">All</option>
+            {['pending','processing','complete','refunded','failed'].map(s=><option key={s}>{s}</option>)}
+          </select>
+          <button onClick={exportCsv} className="btn secondary">Export CSV</button>
+        </div>
       }/>
       <table style={tableStyle}>
         <thead><tr><Th>Order</Th><Th>Buyer</Th><Th>Clip</Th><Th>License</Th><Th>Total</Th><Th>Status</Th><Th>When</Th><Th></Th></tr></thead>
