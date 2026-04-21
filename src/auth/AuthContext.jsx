@@ -1,11 +1,33 @@
 // src/auth/AuthContext.jsx — Supabase session + profile context
+//
+// Profile loading uses raw REST (not supabase.from) because the Supabase JS
+// client's table queries can hang during initial startup waiting on session
+// restore/refresh. The raw path hits PostgREST directly with the already-
+// available session token and resolves immediately.
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { supabase } from '../supabase';
 
+const SUPA_URL = import.meta.env.VITE_SUPABASE_URL;
+const SUPA_KEY = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
+
+async function restProfile(userId, accessToken) {
+  if (!userId || !SUPA_URL || !SUPA_KEY) return null;
+  const url = `${SUPA_URL}/rest/v1/profiles?select=*&id=eq.${encodeURIComponent(userId)}&limit=1`;
+  const res = await fetch(url, {
+    headers: {
+      apikey: SUPA_KEY,
+      Authorization: 'Bearer ' + (accessToken || SUPA_KEY),
+    },
+  });
+  if (!res.ok) return null;
+  const rows = await res.json();
+  return rows?.[0] ?? null;
+}
+
 const AuthCtx = createContext({
   session: null,
-  user: null,       // auth.users row
-  profile: null,    // profiles row (our app's data)
+  user: null,
+  profile: null,
   loading: true,
   signIn: async () => {},
   signUp: async () => {},
@@ -18,15 +40,15 @@ export function AuthProvider({ children }) {
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  const loadProfile = async (userId) => {
+  const loadProfile = async (userId, accessToken) => {
     if (!userId) { setProfile(null); return; }
-    const { data, error } = await supabase
-      .from('profiles')
-      .select('*')
-      .eq('id', userId)
-      .maybeSingle();
-    if (error) console.warn('[auth] profile load:', error.message);
-    setProfile(data ?? null);
+    try {
+      const p = await restProfile(userId, accessToken);
+      setProfile(p);
+    } catch (e) {
+      console.warn('[auth] profile load:', e?.message);
+      setProfile(null);
+    }
   };
 
   useEffect(() => {
@@ -35,13 +57,13 @@ export function AuthProvider({ children }) {
       const { data: { session } } = await supabase.auth.getSession();
       if (!mounted) return;
       setSession(session);
-      await loadProfile(session?.user?.id);
+      await loadProfile(session?.user?.id, session?.access_token);
       setLoading(false);
     })();
 
     const { data: sub } = supabase.auth.onAuthStateChange(async (_evt, newSession) => {
       setSession(newSession);
-      await loadProfile(newSession?.user?.id);
+      await loadProfile(newSession?.user?.id, newSession?.access_token);
     });
     return () => { mounted = false; sub.subscription.unsubscribe(); };
   }, []);
@@ -83,7 +105,7 @@ export function AuthProvider({ children }) {
     return data;
   };
 
-  const refreshProfile = async () => loadProfile(session?.user?.id);
+  const refreshProfile = async () => loadProfile(session?.user?.id, session?.access_token);
 
   return (
     <AuthCtx.Provider value={{
