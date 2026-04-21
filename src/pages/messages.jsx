@@ -7,7 +7,7 @@ const THREADS = [
   { id: 't1', name: 'Marta L.', handle: '@marta.nomad', role: 'Creative Director, Nomad Co.', last: 'Perfect — sending the invoice tonight.', time: '11:42', unread: 2, online: true },
   { id: 't2', name: 'Kenji R.', handle: '@kenji.cuts', role: 'Documentary editor', last: 'Do you have a vertical crop of this?', time: '09:18', unread: 0, online: true },
   { id: 't3', name: 'Adaeze O.', handle: '@adaeze.motion', role: 'Motion designer', last: 'Sent over the LUT — let me know if it breaks.', time: 'Yesterday', unread: 0 },
-  { id: 't4', name: 'Drone Icarus Team', handle: '@icarus.ops', role: 'Support', last: 'Your Tier 2 verification was approved.', time: '2d', unread: 1, system: true },
+  { id: 't4', name: 'Drone Icarus Team', handle: '@icarus.ops', role: 'Support', last: 'Your pilot verification was approved.', time: '2d', unread: 1, system: true },
   { id: 't5', name: 'Ben H.', handle: '@ben.films', role: 'Freelance filmmaker', last: 'Commissioning you for a 4-day shoot in Busan.', time: '4d', unread: 0 },
   { id: 't6', name: 'Ria S.', handle: '@ria.studio', role: 'Agency — Seoul', last: 'Thanks. Will circle back Monday.', time: '1w', unread: 0 },
 ];

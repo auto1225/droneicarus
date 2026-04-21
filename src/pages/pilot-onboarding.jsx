@@ -32,7 +32,7 @@ export function PilotOnboardingPage({ onNav }) {
             <span style={{ fontStyle: 'italic', fontWeight: 400, color: 'var(--parchment)' }}>Get paid directly.</span>
           </h1>
           <p style={{ fontSize: 14, lineHeight: 1.6, color: 'var(--parchment)' }}>
-            Verified pilots earn <strong style={{ color: 'var(--amber)' }}>85% per license</strong> instead of 70%, appear in the Rankings, and get priority placement on the global map.
+            Every pilot keeps <strong style={{ color: 'var(--amber)' }}>70% of each sale</strong>. Verified pilots additionally appear in the Rankings, get priority placement on the global map, and can accept paid commission requests.
           </p>
         </div>
 
@@ -185,7 +185,7 @@ function PCert({ go }) {
   return (
     <>
       <h2 style={{ fontSize: 26, marginBottom: 10 }}>Certifications <span style={{ fontSize: 14, color: 'var(--parchment-dim)', fontWeight: 400 }}>(recommended)</span></h2>
-      <p style={{ fontSize: 13, color: 'var(--parchment-dim)', marginBottom: 24 }}>Verified pilots with commercial certification get the <span style={{ color: 'var(--amber)' }}>TIER 2 badge</span> and 85% payouts.</p>
+      <p style={{ fontSize: 13, color: 'var(--parchment-dim)', marginBottom: 24 }}>Verified pilots with commercial certification get the <span style={{ color: 'var(--amber)' }}>VERIFIED badge</span>, which earns buyer trust and unlocks paid commission invites.</p>
 
       <div style={{ display: 'grid', gap: 10 }}>
         {[

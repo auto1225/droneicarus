@@ -61,7 +61,7 @@ export function ShotLibraryPage({ onNav, onOpenVideo }) {
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 22 }}>
           {[
-            { name: 'The 10-clip wedding venue reveal kit', count: 10, price: 89, save: 41, curator: 'by Marta L.', tag: 'WEDDING · TIER 2 BUYER FAV' },
+            { name: 'The 10-clip wedding venue reveal kit', count: 10, price: 89, save: 41, curator: 'by Marta L.', tag: 'WEDDING · BUYER FAV' },
             { name: 'Music video intro — mood kit', count: 8, price: 119, save: 73, curator: 'by Kenji R.', tag: 'MUSIC · 60 FPS+ ONLY' },
             { name: 'Documentary establish — world cities', count: 20, price: 249, save: 130, curator: 'by Adaeze O.', tag: 'DOCUMENTARY · BROADCAST LICENSED' },
             { name: 'ESG reel — sustainability evidence pack', count: 15, price: 149, save: 78, curator: 'by Priya S.', tag: 'ESG · SHOT-DATE VERIFIED' },

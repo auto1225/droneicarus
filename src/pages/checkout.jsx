@@ -274,7 +274,7 @@ export function SuccessPage({ onNav }) {
         <div style={{ width: 36, height: 36, borderRadius: '50%', background: 'var(--moss)', color: '#faf6ec', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 700 }}>{v.creator.name[0]}</div>
         <div style={{ flex: 1 }}>
           <div style={{ fontSize: 13, fontWeight: 600 }}>Pilot was paid ${(order.total * 0.85).toFixed(2)}</div>
-          <div style={{ fontSize: 11, color: 'var(--parchment-dim)' }}>{v.creator.name} ({v.creator.handle}) receives 85% of every license. Thanks for supporting pilots directly.</div>
+          <div style={{ fontSize: 11, color: 'var(--parchment-dim)' }}>{v.creator.name} ({v.creator.handle}) receives 70% of every license, paid out monthly. Thanks for supporting pilots directly.</div>
         </div>
       </div>
     </div>

@@ -290,7 +290,7 @@ export function UploadPage({ onNav }) {
                 </Field>
 
                 {licenseTier === 'single' && (
-                  <Field label="Price (USD)" hint="You keep 85%. We charge 15% platform fee.">
+                  <Field label="Price (USD)" hint="You keep 70%. Platform fee is a flat 30% — same rate for every pilot and every license tier.">
                     <div style={{ display: 'flex', alignItems: 'center', gap: 0 }}>
                       <span style={{ padding: '10px 14px', background: 'var(--forest-800)', border: '1px solid var(--line-strong)', borderRight: 'none', borderRadius: '4px 0 0 4px', fontSize: 15, fontFamily: 'var(--font-display)' }}>$</span>
                       <input type="number" value={price} onChange={e => setPrice(parseFloat(e.target.value) || 0)}

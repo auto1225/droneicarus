@@ -9,7 +9,7 @@ const NOTIFS = [
   { id: 'n2', kind: 'rank', title: 'You charted #3 in Rankings', body: 'Your clip "Han River — Blue Hour" climbed to #3 this week.', time: '2h ago', unread: true, icon: '↑' },
   { id: 'n3', kind: 'comment', title: 'Kenji R. commented', body: '"Stable, clean highlights, plenty of handles at the head & tail."', time: '5h ago', unread: false, icon: '"' },
   { id: 'n4', kind: 'follow', title: '14 new followers this week', body: 'Including Ria S., Ben H., and 12 others.', time: '1d ago', unread: false, icon: '+' },
-  { id: 'n5', kind: 'system', title: 'Tier 2 verification approved', body: 'You now earn 85% per license and appear in priority search.', time: '2d ago', unread: false, icon: '✓' },
+  { id: 'n5', kind: 'system', title: 'Pilot verification approved', body: 'Your VERIFIED badge is live. You now appear in priority search and can accept commission invites. Payout split stays at the standard 70 / 30.', time: '2d ago', unread: false, icon: '✓' },
   { id: 'n6', kind: 'payout', title: 'Payout scheduled · $3,852.00', body: 'Depositing Apr 05, 2026 to Wise · USD.', time: '3d ago', unread: false, icon: '$' },
   { id: 'n7', kind: 'flight', title: 'New flight restriction near Gyeongbokgung', body: 'Temporary no-fly zone through Apr 22 for state visit.', time: '4d ago', unread: false, icon: '!' },
   { id: 'n8', kind: 'system', title: 'New reviewer badge: "Trusted voice"', body: '12 of your reviews were marked helpful by buyers.', time: '1w ago', unread: false, icon: '★' },

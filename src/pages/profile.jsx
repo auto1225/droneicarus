@@ -93,7 +93,7 @@ export function ProfilePage({ handle, onOpenVideo, onNav }) {
 
         <div style={{ position: 'absolute', top: 22, left: 28, display: 'flex', gap: 10 }}>
           <span className="mono" style={{ fontSize: 10, letterSpacing: '0.18em', color: '#f5ede0', padding: '5px 10px', background: 'var(--thumb-overlay)', borderRadius: 2 }}>● LIVE BROADCASTING</span>
-          <span className="mono" style={{ fontSize: 10, letterSpacing: '0.18em', color: 'var(--amber)', padding: '5px 10px', background: 'var(--thumb-overlay)', borderRadius: 2 }}>VERIFIED PILOT · TIER 2</span>
+          <span className="mono" style={{ fontSize: 10, letterSpacing: '0.18em', color: 'var(--amber)', padding: '5px 10px', background: 'var(--thumb-overlay)', borderRadius: 2 }}>VERIFIED PILOT</span>
         </div>
       </div>
 

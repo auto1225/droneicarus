@@ -369,7 +369,7 @@ export function AuthPage({ onNav }) {
               {role === 'pilot'
                 ? 'After signup, we\'ll walk you through drone registration & cert verification to unlock monetization.'
                 : role === 'studio'
-                ? 'We\'ll send you an invite link for your team. Studio plans billed annually.'
+                ? 'We\'ll send you an invite link for your team. Drone Icarus has no subscription — you only pay when you license a clip.'
                 : 'Browse the map, save clips to collections, and purchase licenses whenever you need footage.'}
             </div>
             <div style={{ display: 'flex', gap: 10, marginTop: 22 }}>

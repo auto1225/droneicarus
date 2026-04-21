@@ -233,7 +233,7 @@ function SPilot({ onNav }) {
             <div style={{ fontSize: 14, fontWeight: 600 }}>Verified commercial pilot</div>
             <div style={{ fontSize: 12, color: 'var(--parchment-dim)' }}>Approved 2024.03.14 · valid through 2027.03.14</div>
           </div>
-          <span className="mono" style={{ fontSize: 10, color: 'var(--lichen)', letterSpacing: '0.14em' }}>● TIER 2</span>
+          <span className="mono" style={{ fontSize: 10, color: 'var(--lichen)', letterSpacing: '0.14em' }}>● VERIFIED</span>
         </div>
       </Card>
       <Card title="Registered aircraft">
