@@ -51,14 +51,16 @@ export function AuthProvider({ children }) {
     if (error) throw error;
   };
 
-  const signUp = async ({ email, password, handle, displayName }) => {
+  const signUp = async ({ email, password, handle, displayName, role }) => {
     const { data, error } = await supabase.auth.signUp({
       email,
       password,
       options: {
+        emailRedirectTo: window.location.origin + window.location.pathname + '#home',
         data: {
           handle: handle?.startsWith('@') ? handle : `@${handle}`,
           display_name: displayName,
+          pending_role: role || 'viewer',
         },
       },
     });

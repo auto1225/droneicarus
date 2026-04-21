@@ -189,13 +189,16 @@ export function AuthPage({ onNav }) {
         if (step === 1) { setStep(2); }
         else if (step === 2) { setStep(3); }
         else {
-          await auth.signUp({ email, password, handle, displayName: name });
-          // Update profile with chosen role
-          if (auth.session?.user?.id && role) {
-            await supabase.from('profiles').update({ role }).eq('id', auth.session.user.id);
+          const { session } = await auth.signUp({ email, password, handle, displayName: name, role });
+          if (session?.user?.id && role) {
+            // Auto-confirm path: session exists immediately
+            await supabase.from('profiles').update({ role }).eq('id', session.user.id);
+            toast?.('Welcome to Drone Icarus', 'Your account is ready');
+            onNav(role === 'pilot' ? 'pilot-onboarding' : 'home');
+          } else {
+            // Email confirmation pending
+            setMode('verify-sent');
           }
-          toast?.('Welcome to Drone Icarus', 'Your account is ready');
-          onNav('home');
         }
       } else if (mode === 'forgot') {
         const { error } = await supabase.auth.resetPasswordForEmail(email, {
@@ -376,16 +379,13 @@ export function AuthPage({ onNav }) {
             </div>
             <div style={{ display: 'flex', gap: 10, marginTop: 22 }}>
               <button className="btn secondary" onClick={() => setStep(2)} style={{ padding: '12px 16px' }}>← Back</button>
-              <button className="btn primary" disabled={!name || handle.length < 3} onClick={() => {
-                toast?.('Welcome aboard, ' + (name || 'pilot') + '!', 'Account created');
-                onNav(role === 'pilot' ? 'pilot-onboarding' : 'home');
-              }}
-                style={{ flex: 1, padding: '12px 16px', opacity: (name && handle.length >= 3) ? 1 : 0.5 }}>
-                Create account
+              <button className="btn primary" disabled={!name || handle.length < 3 || loading} onClick={submit}
+                style={{ flex: 1, padding: '12px 16px', opacity: (name && handle.length >= 3 && !loading) ? 1 : 0.5 }}>
+                {loading ? 'Creating…' : 'Create account'}
               </button>
             </div>
           </div>
-        ) : mode === 'reset-sent' ? (
+        ) : (mode === 'reset-sent' || mode === 'verify-sent') ? (
           <div>
             <div style={{
               padding: 24, background: 'var(--forest-950)', border: '1px solid var(--moss)',
@@ -423,23 +423,15 @@ export function AuthPage({ onNav }) {
         ) : (
           /* mode === 'signin' || (mode === 'signup' && step === 1) */
           <div>
-            {/* Social auth */}
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 20 }}>
-              <button className="btn secondary" style={{ justifyContent: 'center', padding: 12, fontSize: 13 }}
+            {/* Social auth — Google only */}
+            <div style={{ marginBottom: 20 }}>
+              <button className="btn secondary" style={{ width: '100%', justifyContent: 'center', padding: 14, fontSize: 13, gap: 10, display: 'flex', alignItems: 'center' }}
                       onClick={async () => {
                         try { await auth.signInOAuth('google'); }
                         catch (e) { toast('Google sign-in unavailable', e.message || 'Enable Google provider in Supabase Auth', 'error'); }
                       }}>
-                <svg width="16" height="16" viewBox="0 0 48 48"><path fill="#FFC107" d="M43.6 20.1H42V20H24v8h11.3a12 12 0 1 1-3.3-13L37.7 9A20 20 0 1 0 44 24c0-1.3-.1-2.6-.4-3.9z"/><path fill="#FF3D00" d="m6.3 14.7 6.6 4.8A12 12 0 0 1 24 12c3 0 5.7 1.2 7.8 3L37.7 9A20 20 0 0 0 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2A12 12 0 0 1 12.7 28l-6.5 5A20 20 0 0 0 24 44z"/><path fill="#1976D2" d="M43.6 20.1H42V20H24v8h11.3c-.8 2.2-2.1 4-3.9 5.5l6.2 5.3C43 34.5 44 29.5 44 24c0-1.3-.1-2.6-.4-3.9z"/></svg>
-                Google
-              </button>
-              <button className="btn secondary" style={{ justifyContent: 'center', padding: 12, fontSize: 13 }}
-                      onClick={async () => {
-                        try { await auth.signInOAuth('apple'); }
-                        catch (e) { toast('Apple sign-in unavailable', e.message || 'Enable Apple provider in Supabase Auth', 'error'); }
-                      }}>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17.05 12.54c-.02-2.34 1.91-3.47 2-3.52-1.09-1.6-2.79-1.82-3.4-1.84-1.44-.15-2.82.85-3.56.85-.74 0-1.87-.83-3.09-.81-1.58.03-3.05.93-3.87 2.35-1.65 2.87-.42 7.1 1.19 9.43.78 1.14 1.71 2.41 2.93 2.37 1.18-.05 1.63-.76 3.05-.76s1.83.76 3.08.74c1.28-.02 2.08-1.15 2.86-2.3.9-1.32 1.27-2.6 1.29-2.67-.03-.01-2.47-.95-2.48-3.76zM14.7 5.06c.64-.78 1.08-1.86.96-2.94-.93.04-2.06.62-2.72 1.4-.6.7-1.12 1.8-.98 2.86 1.04.08 2.1-.53 2.74-1.32z"/></svg>
-                Apple
+                <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#FFC107" d="M43.6 20.1H42V20H24v8h11.3a12 12 0 1 1-3.3-13L37.7 9A20 20 0 1 0 44 24c0-1.3-.1-2.6-.4-3.9z"/><path fill="#FF3D00" d="m6.3 14.7 6.6 4.8A12 12 0 0 1 24 12c3 0 5.7 1.2 7.8 3L37.7 9A20 20 0 0 0 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2A12 12 0 0 1 12.7 28l-6.5 5A20 20 0 0 0 24 44z"/><path fill="#1976D2" d="M43.6 20.1H42V20H24v8h11.3c-.8 2.2-2.1 4-3.9 5.5l6.2 5.3C43 34.5 44 29.5 44 24c0-1.3-.1-2.6-.4-3.9z"/></svg>
+                Continue with Google
               </button>
             </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 20 }}>
