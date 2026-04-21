@@ -26,6 +26,25 @@ async function downloadSigned(path, suggestedName) {
 
 const ckUseState = useState;
 const ckUseEffect = useEffect;
+const ckUseRef = useRef;
+
+
+// PayPal SDK loader — injects the JS SDK once, returns a promise resolving with window.paypal
+const PAYPAL_CLIENT_ID = (import.meta.env.VITE_PAYPAL_CLIENT_ID || 'sb');
+let __paypalSdk = null;
+function loadPayPal() {
+  if (window.paypal) return Promise.resolve(window.paypal);
+  if (__paypalSdk) return __paypalSdk;
+  __paypalSdk = new Promise((resolve, reject) => {
+    const s = document.createElement('script');
+    s.src = `https://www.paypal.com/sdk/js?client-id=${encodeURIComponent(PAYPAL_CLIENT_ID)}&currency=USD&intent=capture`;
+    s.async = true;
+    s.onload = () => resolve(window.paypal);
+    s.onerror = () => reject(new Error('PayPal SDK failed to load'));
+    document.head.appendChild(s);
+  });
+  return __paypalSdk;
+}
 
 export function CheckoutPage({ videoId, licenseType = 'Commercial', onNav }) {
   const v = VIDEOS.find(x => x.id === videoId) || VIDEOS.find(x => x.price > 0);
@@ -39,12 +58,65 @@ export function CheckoutPage({ videoId, licenseType = 'Commercial', onNav }) {
   const [country, setCountry] = ckUseState('South Korea');
   const [zip, setZip] = ckUseState('04539');
   const [processing, setProcessing] = ckUseState(false);
+  const paypalContainerRef = ckUseRef(null);
+  const paypalBtnsRef = ckUseRef(null);
 
   const loc = LOCATIONS.find(l => l.id === v.locationId);
   const mult = tier === 'Extended' ? 3.5 : tier === 'Commercial' ? 1.8 : 1;
   const sub = Math.round(v.price * mult * 100) / 100;
   const tax = Math.round(sub * 0.08 * 100) / 100;
   const total = Math.round((sub + tax) * 100) / 100;
+
+  // Render PayPal Smart Buttons whenever PayPal mode is active and total > 0
+  ckUseEffect(() => {
+    if (payMethod !== 'paypal' || !paypalContainerRef.current || total <= 0) return;
+    let cancelled = false;
+    let buttons;
+    loadPayPal().then(paypal => {
+      if (cancelled || !paypalContainerRef.current) return;
+      paypalContainerRef.current.innerHTML = '';
+      buttons = paypal.Buttons({
+        style: { layout: 'vertical', shape: 'rect', color: 'gold', label: 'paypal' },
+        createOrder: (_d, actions) => actions.order.create({
+          purchase_units: [{
+            description: `${tier} license · ${v.title}`.slice(0, 127),
+            amount: { value: String(total), currency_code: 'USD' },
+          }],
+        }),
+        onApprove: async (_d, actions) => {
+          setProcessing(true);
+          try {
+            const capture = await actions.order.capture();
+            let orderId = `DI-${new Date().getFullYear()}-${Math.floor(Math.random()*90000+10000)}`;
+            if (/^[0-9a-f]{8}-/.test(String(v.id))) {
+              const { createOrder } = await import('../db/commerce');
+              const row = await createOrder({
+                videoId: v.id, license: tier.toLowerCase(),
+                subtotal: sub, tax, total, currency: 'USD',
+                paymentRef: capture.id, paymentBrand: 'PayPal', paymentLast4: null,
+              });
+              orderId = row.id;
+            }
+            __lastOrder = { id: orderId, videoId: v.id, tier, subtotal: sub, tax, total, method: `PayPal · ${capture.payer?.email_address || email}` };
+            toast?.('Payment captured', `Order ${orderId} confirmed via PayPal`);
+            onNav('success');
+          } catch (e) {
+            toast?.('Capture failed', e.message || 'Try again', 'error');
+          } finally { setProcessing(false); }
+        },
+        onError: (err) => { toast?.('PayPal error', String(err?.message || err), 'error'); },
+        onCancel: () => { toast?.('Payment cancelled', '', 'info'); },
+      });
+      buttons.render(paypalContainerRef.current).catch(e => {
+        toast?.('PayPal not ready', e.message || '', 'error');
+      });
+      paypalBtnsRef.current = buttons;
+    }).catch(e => toast?.('PayPal SDK blocked', e.message, 'error'));
+    return () => {
+      cancelled = true;
+      try { paypalBtnsRef.current?.close?.(); } catch {}
+    };
+  }, [payMethod, total, tier, v.id]);
 
   const submit = async () => {
     setProcessing(true);
@@ -138,7 +210,7 @@ export function CheckoutPage({ videoId, licenseType = 'Commercial', onNav }) {
         <div>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 22 }}>
             <div className="mono" style={{ fontSize: 11, letterSpacing: '0.18em', color: 'var(--parchment-dim)' }}>SECURE PAYMENT · 256-bit TLS</div>
-            <div style={{ fontSize: 11, fontFamily: 'var(--font-mono)', color: 'var(--parchment-dim)' }}>POWERED BY STRIPE</div>
+            <div style={{ fontSize: 11, fontFamily: 'var(--font-mono)', color: 'var(--parchment-dim)' }}>POWERED BY PAYPAL</div>
           </div>
 
           {/* Pay method tabs */}
@@ -190,24 +262,29 @@ export function CheckoutPage({ videoId, licenseType = 'Commercial', onNav }) {
               </label>
             </>
           ) : (
-            <div style={{ padding: 40, textAlign: 'center', border: '1px dashed var(--line-strong)', borderRadius: 4, background: 'var(--forest-900)' }}>
-              <div style={{ fontSize: 24, fontWeight: 700, color: '#003087', marginBottom: 10, letterSpacing: '-0.02em' }}>
+            <div style={{ padding: 28, border: '1px dashed var(--line-strong)', borderRadius: 4, background: 'var(--forest-900)' }}>
+              <div style={{ fontSize: 22, fontWeight: 700, color: '#003087', marginBottom: 4, letterSpacing: '-0.02em', textAlign: 'center' }}>
                 Pay<span style={{ color: '#0070ba' }}>Pal</span>
               </div>
-              <div style={{ fontSize: 13, color: 'var(--parchment-dim)', marginBottom: 18 }}>You'll be redirected to PayPal to approve this charge of <strong style={{ color: 'var(--bone)' }}>${total}</strong>.</div>
-              <div style={{ fontSize: 12, fontFamily: 'var(--font-mono)', color: 'var(--parchment-dim)', letterSpacing: '0.1em' }}>SIGNED IN AS {email.toUpperCase()}</div>
+              <div style={{ fontSize: 12, color: 'var(--parchment-dim)', marginBottom: 18, textAlign: 'center' }}>Click below to pay <strong style={{ color: 'var(--bone)' }}>${total}</strong> — you'll approve in a PayPal popup.</div>
+              <div ref={paypalContainerRef} style={{ minHeight: 50 }} />
+              <div className="mono" style={{ fontSize: 9, color: 'var(--parchment-dim)', letterSpacing: '0.14em', textAlign: 'center', marginTop: 12 }}>
+                {PAYPAL_CLIENT_ID === 'sb' ? '⚠ SANDBOX MODE — set VITE_PAYPAL_CLIENT_ID for live' : '● LIVE PAYMENTS'}
+              </div>
             </div>
           )}
 
-          <button disabled={processing} onClick={submit} className="btn"
-            style={{ width: '100%', padding: '14px 20px', marginTop: 22, fontSize: 15, justifyContent: 'center', opacity: processing ? 0.6 : 1 }}>
-            {processing ? (
-              <>
-                <span style={{ display: 'inline-block', width: 14, height: 14, border: '2px solid rgba(255,255,255,0.4)', borderTopColor: '#faf6ec', borderRadius: '50%', animation: 'spin 0.7s linear infinite' }}/>
-                Processing…
-              </>
-            ) : `Pay $${total}`}
-          </button>
+          {payMethod === 'card' && (
+            <button disabled={processing} onClick={submit} className="btn"
+              style={{ width: '100%', padding: '14px 20px', marginTop: 22, fontSize: 15, justifyContent: 'center', opacity: processing ? 0.6 : 1 }}>
+              {processing ? (
+                <>
+                  <span style={{ display: 'inline-block', width: 14, height: 14, border: '2px solid rgba(255,255,255,0.4)', borderTopColor: '#faf6ec', borderRadius: '50%', animation: 'spin 0.7s linear infinite' }}/>
+                  Processing…
+                </>
+              ) : `Pay $${total}`}
+            </button>
+          )}
 
           <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginTop: 16, fontSize: 11, color: 'var(--parchment-dim)' }}>
             <Ic.lock/> Encrypted · 3-D Secure · SCA compliant · PCI-DSS L1
