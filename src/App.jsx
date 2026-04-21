@@ -155,7 +155,23 @@ export default function App() {
 
   useEffect(() => {
     const parseHash = () => {
-      const h = (window.location.hash || '#home').slice(1);
+      const rawHash = (window.location.hash || '#home').slice(1);
+      // Supabase OAuth / magic-link / recovery callback lands us on
+      // '#access_token=...&refresh_token=...&...' or '#error=...'. Those
+      // aren't real routes — treat them as 'home' while the SDK consumes
+      // the tokens, then strip the hash so we don't re-enter this branch.
+      if (/^(access_token=|refresh_token=|error=|error_code=|provider_token=|expires_in=|token_type=)/.test(rawHash)) {
+        setRoute('home');
+        setRouteParam(null);
+        // Clean URL after Supabase has had a chance to parse it (~next tick)
+        setTimeout(() => {
+          if (window.location.hash && /access_token|refresh_token|error=/.test(window.location.hash)) {
+            history.replaceState(null, '', window.location.pathname + window.location.search + '#home');
+          }
+        }, 300);
+        return;
+      }
+      const h = rawHash;
       const [r, id] = h.split('/');
       setRoute(r || 'home');
       setRouteParam(id || null);
