@@ -287,7 +287,7 @@ async function run() {
             likes: Number(v.statistics?.likeCount || 0),
             thumb_url: thumbnail,
             resolution: v.contentDetails?.definition === 'hd' ? 'HD' : 'SD',
-            duration_sec: parseISO8601Duration(v.contentDetails?.duration || 'PT0S'),
+            duration_s: parseISO8601Duration(v.contentDetails?.duration || 'PT0S'),
             price_usd: 0,  // external clips are free-to-watch, non-sellable
             license_tiers: ['external'],
             published_at: new Date().toISOString(),
