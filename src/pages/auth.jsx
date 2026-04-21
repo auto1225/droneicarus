@@ -1,6 +1,7 @@
 // pages/auth.jsx — Sign in / Sign up with map-backed hero, 3-step signup, forgot pw flow
 import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react';
 import { Ic } from '../components';
+import { useContent } from '../content/ContentContext';
 import { toast } from '../toast';
 import { STATS } from '../data';
 const aUseState = useState;
@@ -155,6 +156,7 @@ export function AuthPage({ onNav }) {
   const auth = useAuth();
   const [mode, setMode] = aUseState('signin'); // signin | signup | forgot | reset-sent
   const [step, setStep] = aUseState(1); // signup: 1 account, 2 role, 3 profile
+  const txt = useContent;
   const [email, setEmail] = aUseState('');
   const [password, setPassword] = aUseState('');
   const [showPw, setShowPw] = aUseState(false);
@@ -183,7 +185,7 @@ export function AuthPage({ onNav }) {
     try {
       if (mode === 'signin') {
         await auth.signIn({ email, password });
-        toast?.('Welcome back', 'Signed in to Drone Icarus');
+        toast?.(txt('auth.toast.welcome', 'Welcome back'), txt('auth.toast.welcome_sub', 'Signed in to Drone Icarus'));
         onNav('home');
       } else if (mode === 'signup') {
         if (step === 1) { setStep(2); }
@@ -216,17 +218,19 @@ export function AuthPage({ onNav }) {
   };
 
   const title = {
-    signin: 'Welcome back, pilot.',
-    signup: step === 1 ? 'Start flying with us.' : step === 2 ? 'How will you use Icarus?' : 'Claim your handle.',
-    forgot: 'Reset your password.',
-    'reset-sent': 'Check your inbox.',
+    signin: txt('auth.signin.title', 'Welcome back, pilot.'),
+    signup: step === 1 ? txt('auth.signup.title', 'Start flying with us.') : step === 2 ? txt('auth.signup.step2.title', 'How will you use Icarus?') : txt('auth.signup.step3.title', 'Claim your handle.'),
+    forgot: txt('auth.reset.title', 'Reset your password.'),
+    'reset-sent': txt('auth.reset.sent.title', 'Check your inbox.'),
+    'verify-sent': txt('auth.verify.sent.title', 'Check your inbox.'),
   }[mode];
 
   const sub = {
-    signin: 'Sign in to access your collections, licenses, and earnings.',
-    signup: step === 1 ? 'Takes less than a minute. No credit card needed.' : step === 2 ? 'You can change this later in settings.' : 'Your handle is how pilots and buyers find you.',
-    forgot: "Enter your email and we'll send you a reset link.",
-    'reset-sent': "We've sent a secure link to " + email + ". It expires in 30 minutes.",
+    signin: txt('auth.signin.sub', 'Sign in to access your collections, licenses, and earnings.'),
+    signup: step === 1 ? txt('auth.signup.sub', 'Takes less than a minute. No credit card needed.') : step === 2 ? txt('auth.signup.step2.sub', 'You can change this later in settings.') : txt('auth.signup.step3.sub', 'Your handle is how pilots and buyers find you.'),
+    forgot: txt('auth.reset.sub', "Enter your email and we'll send you a reset link."),
+    'reset-sent': String(txt('auth.reset.sent.sub', "We've sent a secure link to {email}. It expires in 30 minutes.")).replace('{email}', email),
+    'verify-sent': txt('auth.verify.sent.sub', 'Confirm your email to finish signing up.'),
   }[mode];
 
   return (
@@ -288,7 +292,7 @@ export function AuthPage({ onNav }) {
                   color: mode === m ? 'var(--ink)' : 'var(--parchment-dim)',
                   fontWeight: mode === m ? 600 : 500,
                   transition: 'all 0.2s',
-                }}>{m === 'signin' ? 'Sign in' : 'Create account'}</button>
+                }}>{m === 'signin' ? txt('auth.tab.signin', 'Sign in') : txt('auth.tab.signup', 'Create account')}</button>
               ))}
             </div>
           </div>
@@ -381,7 +385,7 @@ export function AuthPage({ onNav }) {
               <button className="btn secondary" onClick={() => setStep(2)} style={{ padding: '12px 16px' }}>← Back</button>
               <button className="btn primary" disabled={!name || handle.length < 3 || loading} onClick={submit}
                 style={{ flex: 1, padding: '12px 16px', opacity: (name && handle.length >= 3 && !loading) ? 1 : 0.5 }}>
-                {loading ? 'Creating…' : 'Create account'}
+                {loading ? '…' : txt('auth.btn.signup', 'Create account')}
               </button>
             </div>
           </div>
@@ -395,7 +399,7 @@ export function AuthPage({ onNav }) {
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
               </div>
               <div style={{ flex: 1 }}>
-                <div style={{ fontSize: 14, fontWeight: 600, marginBottom: 4 }}>Reset link sent</div>
+                <div style={{ fontSize: 14, fontWeight: 600, marginBottom: 4 }}>{txt('auth.reset.sent.banner', 'Reset link sent')}</div>
                 <div style={{ fontSize: 12, color: 'var(--parchment-dim)', lineHeight: 1.55 }}>
                   Didn't receive it? Check your spam folder, or{' '}
                   <button onClick={() => setMode('forgot')} style={{ color: 'var(--sunset)', textDecoration: 'underline' }}>try again</button>.
@@ -403,7 +407,7 @@ export function AuthPage({ onNav }) {
               </div>
             </div>
             <button className="btn secondary" onClick={() => setMode('signin')} style={{ width: '100%', padding: '12px 16px', justifyContent: 'center' }}>
-              ← Back to sign in
+              ← {txt('auth.btn.back_to_signin', 'Back to sign in')}
             </button>
           </div>
         ) : mode === 'forgot' ? (
@@ -414,10 +418,10 @@ export function AuthPage({ onNav }) {
             </AuthField>
             <button className="btn primary" onClick={submit} disabled={loading}
               style={{ width: '100%', padding: '12px 16px', justifyContent: 'center', marginTop: 8 }}>
-              {loading ? 'Sending…' : 'Send reset link'}
+              {loading ? '…' : txt('auth.reset.btn', 'Send reset link')}
             </button>
             <button onClick={() => setMode('signin')} style={{ width: '100%', textAlign: 'center', marginTop: 18, fontSize: 12, color: 'var(--parchment-dim)' }}>
-              ← Back to sign in
+              ← {txt('auth.btn.back_to_signin', 'Back to sign in')}
             </button>
           </div>
         ) : (
@@ -431,12 +435,12 @@ export function AuthPage({ onNav }) {
                         catch (e) { toast('Google sign-in unavailable', e.message || 'Enable Google provider in Supabase Auth', 'error'); }
                       }}>
                 <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#FFC107" d="M43.6 20.1H42V20H24v8h11.3a12 12 0 1 1-3.3-13L37.7 9A20 20 0 1 0 44 24c0-1.3-.1-2.6-.4-3.9z"/><path fill="#FF3D00" d="m6.3 14.7 6.6 4.8A12 12 0 0 1 24 12c3 0 5.7 1.2 7.8 3L37.7 9A20 20 0 0 0 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2A12 12 0 0 1 12.7 28l-6.5 5A20 20 0 0 0 24 44z"/><path fill="#1976D2" d="M43.6 20.1H42V20H24v8h11.3c-.8 2.2-2.1 4-3.9 5.5l6.2 5.3C43 34.5 44 29.5 44 24c0-1.3-.1-2.6-.4-3.9z"/></svg>
-                Continue with Google
+                {txt('auth.oauth.google', 'Continue with Google')}
               </button>
             </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 20 }}>
               <div style={{ flex: 1, height: 1, background: 'var(--line)' }}/>
-              <span className="mono" style={{ fontSize: 10, color: 'var(--parchment-dim)', letterSpacing: '0.14em' }}>OR WITH EMAIL</span>
+              <span className="mono" style={{ fontSize: 10, color: 'var(--parchment-dim)', letterSpacing: '0.14em' }}>{txt('auth.divider.or', 'OR WITH EMAIL')}</span>
               <div style={{ flex: 1, height: 1, background: 'var(--line)' }}/>
             </div>
 
@@ -473,7 +477,7 @@ export function AuthPage({ onNav }) {
 
             {mode === 'signin' && (
               <div style={{ textAlign: 'right', marginTop: -8, marginBottom: 18 }}>
-                <button onClick={() => setMode('forgot')} style={{ fontSize: 12, color: 'var(--sunset)' }}>Forgot password?</button>
+                <button onClick={() => setMode('forgot')} style={{ fontSize: 12, color: 'var(--sunset)' }}>{txt('auth.btn.forgot', 'Forgot password?')}</button>
               </div>
             )}
 
@@ -515,13 +519,13 @@ export function AuthPage({ onNav }) {
                   <span className="auth-spinner"/>
                   {mode === 'signin' ? 'Signing in…' : 'Creating account…'}
                 </span>
-              ) : (mode === 'signin' ? 'Sign in to Icarus →' : 'Continue →')}
+              ) : (mode === 'signin' ? txt('auth.btn.signin', 'Sign in to Icarus →') : '→')}
             </button>
 
             <div style={{ textAlign: 'center', marginTop: 22, fontSize: 12, color: 'var(--parchment-dim)' }}>
-              {mode === 'signin' ? "New to Drone Icarus? " : 'Already have an account? '}
+              {mode === 'signin' ? txt('auth.footer.new', 'New to Drone Icarus? ') : txt('auth.footer.existing', 'Already have an account? ')}
               <button onClick={() => { setMode(mode === 'signin' ? 'signup' : 'signin'); setStep(1); setErrors({}); }} style={{ color: 'var(--sunset)', fontWeight: 600 }}>
-                {mode === 'signin' ? 'Create a free account' : 'Sign in'}
+                {mode === 'signin' ? txt('auth.footer.create', 'Create a free account') : txt('auth.tab.signin', 'Sign in')}
               </button>
             </div>
           </div>
