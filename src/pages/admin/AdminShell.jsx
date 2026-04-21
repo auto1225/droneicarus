@@ -1,5 +1,6 @@
 // src/pages/admin/AdminShell.jsx — unified admin + CMS shell
 import React, { useState, useEffect, useMemo } from 'react';
+import { ContentEditor } from './ContentEditor';
 import { useAuth } from '../../auth/AuthContext';
 import { toast } from '../../toast';
 import { supabase } from '../../supabase';
@@ -27,6 +28,7 @@ const SIDEBAR = [
     { id: 'payouts', label: 'Payouts', icon: '↗' },
   ]},
   { group: '콘텐츠 (CMS)', items: [
+    { id: 'content-strings',       label: 'All content strings', icon: 'T' },
     { id: 'content-locations',     label: 'Locations',     icon: '⊕' },
     { id: 'content-hero',          label: 'Hero copy',     icon: 'H' },
     { id: 'content-pricing',       label: 'Pricing copy',  icon: '%' },
@@ -112,6 +114,7 @@ function SectionRouter({ section, onNav }) {
     case 'videos':     return <Videos onNav={onNav}/>;
     case 'orders':     return <Orders/>;
     case 'payouts':    return <Payouts/>;
+    case 'content-strings':       return <ContentEditor/>;
     case 'content-locations':     return <LocationsEditor/>;
     case 'content-hero':          return <SettingsEditor k="hero" title="Homepage hero" fields={[
       ['eyebrow','Eyebrow'], ['title','Title'], ['title_accent','Title accent'], ['sub','Sub-copy', true],
