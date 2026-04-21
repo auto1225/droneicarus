@@ -1,6 +1,7 @@
 // pages/pricing.jsx — marketplace model: pilots set the price, platform takes 30%
 import React, { useState, useMemo } from 'react';
 import { Ic } from '../components';
+import { useSiteSetting } from '../db/useSettings';
 
 const PLATFORM_CUT = 0.30;       // 30% platform fee
 const PILOT_SHARE = 1 - PLATFORM_CUT; // 70% to the pilot
@@ -10,6 +11,7 @@ function fmt(n) {
 }
 
 export function PricingPage({ onNav }) {
+  const cms = useSiteSetting('pricing', null);
   const [price, setPrice] = useState(29);
   const [licensesPerMonth, setLicensesPerMonth] = useState(20);
 
@@ -22,12 +24,12 @@ export function PricingPage({ onNav }) {
     <div>
       {/* ───────────── Hero ───────────── */}
       <section style={{ padding: '80px 28px 50px', textAlign: 'center', borderBottom: '1px solid var(--line)' }}>
-        <div className="eyebrow" style={{ marginBottom: 14 }}>PRICING · CLIP-BY-CLIP MARKETPLACE</div>
+        <div className="eyebrow" style={{ marginBottom: 14 }}>{cms?.eyebrow || "PRICING · CLIP-BY-CLIP MARKETPLACE"}</div>
         <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 76, letterSpacing: '-0.035em', fontWeight: 500, lineHeight: 1, marginBottom: 18 }}>
           Pilots set the price.<br/>You keep <span style={{ color: 'var(--amber)' }}>70%</span>.
         </h1>
         <p style={{ fontSize: 17, color: 'var(--parchment)', maxWidth: 640, margin: '0 auto 32px', lineHeight: 1.6 }}>
-          No subscriptions. No credits. Buyers pay each pilot directly for the clip they want. Drone Icarus takes a flat <strong style={{ color: 'var(--bone)' }}>30%</strong> per sale to cover hosting, payments, licensing paperwork, and trust &amp; safety — that's it.
+          {cms?.sub || "No subscriptions. No credits. Buyers pay each pilot directly for the clip they want. Drone Icarus takes a flat 30% per sale to cover hosting, payments, licensing paperwork, and trust & safety — that's it."}
         </p>
         <div style={{ display: 'inline-flex', gap: 10, flexWrap: 'wrap', justifyContent: 'center' }}>
           <button onClick={() => onNav('home')} className="btn">Browse the map</button>

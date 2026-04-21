@@ -2,6 +2,7 @@
 import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react';
 import { CATEGORIES, CAT_ICONS, LOCATIONS, VIDEOS, TRENDING, thumbGradient, STATS} from '../data';
 import { Ic, CategoryChips, VideoCard } from '../components';
+import { useSiteSetting } from '../db/useSettings';
 const hUseState = useState;
 const hUseEffect = useEffect;
 const hUseRef = useRef;
