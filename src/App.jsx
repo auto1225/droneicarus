@@ -73,6 +73,61 @@ function RouteFallback() {
   );
 }
 
+
+// ── Chunk-reload boundary ────────────────────────────────────────────
+// When a new build is deployed, old tabs keep referencing stale chunk
+// hashes. If Vite fails to fetch a lazy chunk we reload the page *once*
+// so the user silently picks up the new index.js and its matching chunks.
+const STALE_RELOAD_KEY = 'di-stale-reloaded-once';
+class ChunkErrorBoundary extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { error: null };
+  }
+  static getDerivedStateFromError(error) {
+    return { error };
+  }
+  componentDidCatch(error) {
+    const msg = String(error?.message || '');
+    const isChunkMiss = /Failed to fetch dynamically imported module|Importing a module script failed|ChunkLoadError|Loading chunk/i.test(msg);
+    if (isChunkMiss) {
+      // Reload only once per session to avoid infinite loops on real outages
+      if (!sessionStorage.getItem(STALE_RELOAD_KEY)) {
+        sessionStorage.setItem(STALE_RELOAD_KEY, String(Date.now()));
+        // Strip any stale ?v= cache buster the old tab might have had
+        const u = new URL(window.location.href);
+        u.searchParams.set('v', String(Date.now()).slice(-6));
+        window.location.replace(u.toString());
+      }
+    }
+  }
+  render() {
+    if (this.state.error) {
+      return (
+        <div style={{ padding: 80, textAlign: 'center', color: 'var(--parchment)', fontFamily: 'var(--font-ui)' }}>
+          <div className="eyebrow" style={{ color: 'var(--amber)', marginBottom: 12 }}>LOADING…</div>
+          <h2 style={{ fontSize: 24, marginBottom: 10 }}>Updating to the latest version</h2>
+          <p style={{ fontSize: 13, color: 'var(--parchment-dim)', marginBottom: 20 }}>One moment — we just shipped a new release, refreshing now.</p>
+          <button onClick={() => { sessionStorage.removeItem(STALE_RELOAD_KEY); window.location.reload(); }} style={{ padding: '10px 18px', background: 'var(--amber)', color: '#1a2820', border: 'none', borderRadius: 4, cursor: 'pointer', fontWeight: 600 }}>Reload now</button>
+        </div>
+      );
+    }
+    return this.props.children;
+  }
+}
+// Also handle unhandled promise rejections globally (covers lazy() outside Suspense error-propagation paths)
+if (typeof window !== 'undefined') {
+  window.addEventListener('unhandledrejection', (ev) => {
+    const msg = String(ev?.reason?.message || ev?.reason || '');
+    if (/Failed to fetch dynamically imported module|Importing a module script failed|ChunkLoadError/i.test(msg)) {
+      if (!sessionStorage.getItem(STALE_RELOAD_KEY)) {
+        sessionStorage.setItem(STALE_RELOAD_KEY, String(Date.now()));
+        window.location.reload();
+      }
+    }
+  });
+}
+
 export default function App() {
   const [route, setRoute] = useState('home');
   const [routeParam, setRouteParam] = useState(null);
@@ -142,7 +197,7 @@ export default function App() {
     <>
       <Header route={route} onNav={onNav} query={query} setQuery={setQuery} />
       <ToastStack />
-      <Suspense fallback={<RouteFallback />}>
+      <ChunkErrorBoundary><Suspense fallback={<RouteFallback />}>
         {route === 'home' && <HomePage onOpenVideo={onOpenVideo} onNav={onNav} />}
         {route === 'watch' && <PlayerPage video={currentVideo} onNav={onNav} onOpenVideo={onOpenVideo} />}
         {route === 'explore' && <ExplorePage onOpenVideo={onOpenVideo} onNav={onNav} />}
@@ -175,7 +230,7 @@ export default function App() {
         {route === 'shotlibrary' && <ShotLibraryPage onNav={onNav} onOpenVideo={onOpenVideo} />}
         {route === 'advanced' && <AdvancedPage onNav={onNav} onOpenVideo={onOpenVideo} />}
         {!['home', 'watch', 'explore', 'rankings', 'creators', 'creator', 'search', 'upload', 'mypage', 'signin', 'checkout', 'success', 'orders', 'license', 'earnings', 'settings', 'pilot-onboarding', 'profile', 'messages', 'notifications', 'commission', 'guidelines', 'legal', 'flightlog', 'atlas', 'live', 'collection', 'location', 'pricing', 'shotlibrary', 'advanced'].includes(route) && <NotFoundPage onNav={onNav} />}
-      </Suspense>
+      </Suspense></ChunkErrorBoundary>
       {!['creator','pilot-onboarding','signin','messages','live'].includes(route) && <Footer onNav={onNav} />}
 
       {tweaksOpen && <TweaksPanel tweaks={tweaks} update={updateTweak} onClose={() => setTweaksOpen(false)} />}
