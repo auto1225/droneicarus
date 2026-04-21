@@ -72,6 +72,7 @@ function adaptVideo(row) {
     description: row.description ?? '',
     tags: row.tags ?? [],
     thumbPath: row.thumb_path,
+    storagePath: row.storage_path,
   };
 }
 

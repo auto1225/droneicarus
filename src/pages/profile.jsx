@@ -2,13 +2,74 @@
 import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react';
 import { VIDEOS, CREATORS, thumbGradient } from '../data';
 import { Ic, VideoCard } from '../components';
+import { supabase } from '../supabase';
+import { isFollowing, toggleFollow } from '../db/social';
+import { toast } from '../toast';
 const pUseState = useState;
 
 export function ProfilePage({ handle, onOpenVideo, onNav }) {
-  const creator = (CREATORS || []).find(c => c.handle === handle || c.handle === '@' + handle) || CREATORS[0];
+  const mockCreator = (CREATORS || []).find(c => c.handle === handle || c.handle === '@' + handle) || CREATORS[0];
+  const [creator, setCreator] = pUseState(mockCreator);
+  const [dbVideos, setDbVideos] = pUseState(null);
+  const [following, setFollowing] = pUseState(false);
   const [tab, setTab] = pUseState('clips');
-  const vids = VIDEOS.filter(v => v.creator.handle === creator.handle || v.creator.name === creator.name);
+
+  useEffect(() => {
+    // Look up real profile by handle if it's prefixed with @
+    const h = handle?.startsWith('@') ? handle : '@' + handle;
+    if (!handle) return;
+    (async () => {
+      const { data: prof } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('handle', h)
+        .maybeSingle();
+      if (prof) {
+        setCreator({
+          handle: prof.handle,
+          name: prof.display_name,
+          verified: prof.pilot_verified,
+          followers: prof.followers_count,
+          videos: 0,
+          region: prof.location,
+          earning: 0,
+          id: prof.id,
+          avatarUrl: prof.avatar_url,
+          bio: prof.bio,
+        });
+        // Fetch their videos
+        const { data: vids } = await supabase
+          .from('videos')
+          .select('id, title, category, location_id, resolution, duration_s, views, likes, price_usd, yt_id, thumb_path, published_at')
+          .eq('owner_id', prof.id)
+          .eq('status', 'published')
+          .order('published_at', { ascending: false });
+        setDbVideos((vids || []).map(v => ({
+          id: v.id, ytId: v.yt_id, title: v.title, category: v.category, locationId: v.location_id,
+          resolution: v.resolution, duration: v.duration_s ? `${Math.floor(v.duration_s/60)}:${String(v.duration_s%60).padStart(2,'0')}` : '',
+          views: v.views, uploadedDaysAgo: v.published_at ? Math.round((Date.now() - new Date(v.published_at)) / 86400000) : 0,
+          price: Number(v.price_usd) || 0, likes: v.likes,
+          creator: { handle: prof.handle, name: prof.display_name, verified: prof.pilot_verified },
+        })));
+        isFollowing(prof.id).then(setFollowing).catch(() => {});
+      }
+    })();
+  }, [handle]);
+
+  const vids = (dbVideos && dbVideos.length ? dbVideos : VIDEOS.filter(v => v.creator.handle === creator.handle || v.creator.name === creator.name));
   const displayVids = vids.length ? vids : VIDEOS.slice(0, 12);
+
+  const onToggleFollow = async () => {
+    if (!creator.id) return;
+    try {
+      const now = await toggleFollow(creator.id);
+      setFollowing(now);
+      toast?.(now ? `Following ${creator.name}` : `Unfollowed ${creator.name}`);
+    } catch (e) {
+      toast?.('Sign in to follow', '', 'error');
+      onNav?.('signin');
+    }
+  };
 
   const stats = {
     clips: displayVids.length,

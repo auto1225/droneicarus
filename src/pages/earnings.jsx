@@ -2,11 +2,16 @@
 import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react';
 import { VIDEOS, thumbGradient, CURRENT_USER, PAYOUTS } from '../data';
 import { Ic } from '../components';
+import { fetchPayouts } from '../db/commerce';
+import { useAuth } from '../auth/AuthContext';
 const eUseState = useState;
 
 export function EarningsPage({ onNav }) {
   const [period, setPeriod] = eUseState('30d');
-  const payouts = PAYOUTS || [];
+  const [payouts, setPayouts] = eUseState(PAYOUTS || []);
+  useEffect(() => {
+    fetchPayouts().then(rows => { if (rows && rows.length) setPayouts(rows); });
+  }, []);
   const myVids = VIDEOS.filter(v => v.price > 0).slice(0, 6);
   const lifetime = 48291.40;
   const pending = 1284.20;

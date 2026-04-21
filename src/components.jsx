@@ -41,18 +41,32 @@ export function formatDays(d) {
 // ——— Search Autocomplete Dropdown ———
 export function SearchDropdown({ query, onNav, onSelect, onClose }) {
   const [active, setActive] = useState(0);
+  const [remote, setRemote] = useState(null); // null = use mock, object = server results
   const q = query.trim().toLowerCase();
 
-  const locMatches = q ? LOCATIONS.filter(l =>
+  // When DB-backed search is enabled, hit Supabase on query change (debounced).
+  useEffect(() => {
+    if (!q) { setRemote(null); return; }
+    if (import.meta.env.VITE_USE_SUPABASE_DATA !== 'true') { setRemote(null); return; }
+    let alive = true;
+    const t = setTimeout(async () => {
+      const { searchAll } = await import('./db/search');
+      const r = await searchAll(q);
+      if (alive) setRemote(r);
+    }, 150);
+    return () => { alive = false; clearTimeout(t); };
+  }, [q]);
+
+  const locMatches = q ? (remote?.locations ?? LOCATIONS.filter(l =>
     l.name.toLowerCase().includes(q) || l.country.toLowerCase().includes(q)
-  ).slice(0, 5) : [];
-  const creatorMatches = q ? VIDEOS
+  )).slice(0, 5) : [];
+  const creatorMatches = q ? (remote?.creators ?? VIDEOS
     .map(v => v.creator).filter((c,i,a) => a.findIndex(x => x.handle === c.handle) === i)
     .filter(c => c.name.toLowerCase().includes(q) || c.handle.toLowerCase().includes(q))
-    .slice(0, 3) : [];
-  const videoMatches = q ? VIDEOS.filter(v =>
+  ).slice(0, 3) : [];
+  const videoMatches = q ? (remote?.videos ?? VIDEOS.filter(v =>
     v.title.toLowerCase().includes(q) || v.tags?.some(t => t.toLowerCase().includes(q))
-  ).slice(0, 4) : [];
+  )).slice(0, 4) : [];
 
   const recents = q ? [] : ['Pyramids of Giza', 'Namsan Tower', 'sunrise mountain', 'aerial beach 4K'];
   const trending = q ? [] : [

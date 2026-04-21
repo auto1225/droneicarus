@@ -4,6 +4,9 @@ import { CATEGORIES, CAT_ICONS, LOCATIONS, VIDEOS, thumbGradient } from '../data
 import { Ic, formatViews, formatDays } from '../components';
 import { hasLiked, toggleLike } from '../db/social';
 import { toast } from '../toast';
+import { signedUrl } from '../db/storage';
+import { fetchReviews, postReview } from '../db/commerce';
+import { useAuth } from '../auth/AuthContext';
 
 export function PlayerPage({ video, onNav, onOpenVideo }) {
   if (!video) return <div style={{ padding: 80, textAlign: 'center' }}>No video selected.</div>;
@@ -12,6 +15,20 @@ export function PlayerPage({ video, onNav, onOpenVideo }) {
   const [playing, setPlaying] = React.useState(true);
   const [liked, setLiked] = React.useState(false);
   const [likeBusy, setLikeBusy] = React.useState(false);
+  const [signedSrc, setSignedSrc] = React.useState(null);
+
+  // If the video has a Storage path, generate a signed URL for native playback.
+  React.useEffect(() => {
+    let alive = true;
+    if (video.storagePath) {
+      signedUrl('videos', video.storagePath, 3600).then(u => {
+        if (alive) setSignedSrc(u);
+      });
+    } else {
+      setSignedSrc(null);
+    }
+    return () => { alive = false; };
+  }, [video.id, video.storagePath]);
   const loc = LOCATIONS.find(l => l.id === video.locationId);
   const related = VIDEOS.filter(v => v.locationId === video.locationId && v.id !== video.id).slice(0, 8);
 
@@ -62,7 +79,19 @@ export function PlayerPage({ video, onNav, onOpenVideo }) {
           overflow: 'hidden',
           border: '1px solid var(--line)',
         }}>
-          {playing && !locked && (
+          {playing && !locked && signedSrc && (
+            <video
+              key={signedSrc}
+              src={signedSrc}
+              title={video.title}
+              autoPlay
+              controls
+              controlsList="nodownload"
+              playsInline
+              style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', background: '#000' }}
+            />
+          )}
+          {playing && !locked && !signedSrc && video.ytId && (
             <iframe
               src={`https://www.youtube.com/embed/${video.ytId}?autoplay=1&rel=0`}
               title={video.title}
@@ -278,6 +307,9 @@ export function PlayerPage({ video, onNav, onOpenVideo }) {
           </div>
         </div>
 
+        {/* Reviews */}
+        <ReviewsSection video={video} onNav={onNav} />
+
         {/* Comments */}
         <CommentThread video={video}/>
       </div>
@@ -322,3 +354,92 @@ export function PlayerPage({ video, onNav, onOpenVideo }) {
   );
 }
 
+
+function ReviewsSection({ video, onNav }) {
+  const { user } = useAuth();
+  const [rows, setRows] = React.useState([]);
+  const [draft, setDraft] = React.useState('');
+  const [rating, setRating] = React.useState(5);
+  const [role, setRole] = React.useState('');
+  const [saving, setSaving] = React.useState(false);
+
+  React.useEffect(() => {
+    let alive = true;
+    fetchReviews(video.id).then(r => { if (alive) setRows(r); });
+    return () => { alive = false; };
+  }, [video.id]);
+
+  const submit = async () => {
+    if (!user) { toast?.('Sign in to review', '', 'error'); onNav?.('signin'); return; }
+    if (!draft.trim()) return;
+    setSaving(true);
+    try {
+      if (/^[0-9a-f]{8}-/.test(String(video.id))) {
+        await postReview({ videoId: video.id, rating, body: draft.trim(), role });
+      }
+      setRows([{ author: 'You', role, rating, date: 'just now', text: draft.trim() }, ...rows]);
+      setDraft(''); setRole('');
+      toast?.('Review posted');
+    } catch (e) {
+      toast?.('Could not save review', e.message, 'error');
+    } finally { setSaving(false); }
+  };
+
+  const avg = rows.length ? (rows.reduce((s, r) => s + r.rating, 0) / rows.length).toFixed(1) : null;
+
+  return (
+    <div style={{ marginTop: 40, paddingTop: 32, borderTop: '1px solid var(--line)' }}>
+      <div style={{ display: 'flex', alignItems: 'baseline', gap: 14, marginBottom: 20 }}>
+        <h3 style={{ fontFamily: 'var(--font-display)', fontSize: 22, margin: 0 }}>
+          Reviews {avg && <span style={{ color: 'var(--amber)', fontSize: 16, marginLeft: 6 }}>★ {avg}</span>}
+        </h3>
+        <span className="eyebrow" style={{ color: 'var(--parchment-dim)' }}>
+          Verified buyers · editorial feedback
+        </span>
+      </div>
+
+      {/* Compose */}
+      <div style={{ background: 'var(--forest-900)', border: '1px solid var(--line)', borderRadius: 4, padding: 16, marginBottom: 20 }}>
+        <div style={{ display: 'flex', gap: 8, alignItems: 'center', marginBottom: 10 }}>
+          {[1,2,3,4,5].map(n => (
+            <button key={n} onClick={() => setRating(n)} style={{
+              fontSize: 18, color: n <= rating ? 'var(--amber)' : 'var(--parchment-dim)', padding: 0,
+            }}>★</button>
+          ))}
+          <input
+            value={role}
+            onChange={e => setRole(e.target.value)}
+            placeholder="Your role (e.g. Freelance filmmaker)"
+            style={{ flex: 1, marginLeft: 12, background: 'var(--ink)', border: '1px solid var(--line)', borderRadius: 3, padding: '6px 10px', fontSize: 12, color: 'var(--bone)' }}
+          />
+        </div>
+        <textarea
+          value={draft}
+          onChange={e => setDraft(e.target.value)}
+          placeholder="Did this clip deliver what the preview promised?"
+          rows={3}
+          style={{ width: '100%', background: 'var(--ink)', border: '1px solid var(--line)', borderRadius: 3, padding: 10, fontSize: 13, color: 'var(--bone)', resize: 'vertical' }}
+        />
+        <div style={{ textAlign: 'right', marginTop: 8 }}>
+          <button onClick={submit} disabled={saving || !draft.trim()} className="btn" style={{ fontSize: 12, padding: '8px 14px', opacity: (saving || !draft.trim()) ? 0.5 : 1 }}>
+            {saving ? 'Posting…' : 'Post review'}
+          </button>
+        </div>
+      </div>
+
+      {/* List */}
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+        {rows.map((r, i) => (
+          <div key={i} style={{ padding: '16px 20px', border: '1px solid var(--line)', borderRadius: 4 }}>
+            <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', marginBottom: 6 }}>
+              <div style={{ fontSize: 14, fontWeight: 600 }}>{r.author} <span style={{ color: 'var(--parchment-dim)', fontWeight: 400, fontSize: 12 }}>· {r.role}</span></div>
+              <div style={{ fontSize: 11, color: 'var(--parchment-dim)' }}>{r.date}</div>
+            </div>
+            <div style={{ color: 'var(--amber)', fontSize: 12, marginBottom: 6 }}>{'★'.repeat(r.rating)}<span style={{ color: 'var(--parchment-dim)' }}>{'★'.repeat(5 - r.rating)}</span></div>
+            <div style={{ fontSize: 13, lineHeight: 1.6 }}>{r.text}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
