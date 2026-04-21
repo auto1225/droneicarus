@@ -62,7 +62,7 @@ function MapHero({ selectedLoc, onSelectLoc, categoryFilter, mapFilters, locatio
       if (mapFilters.featured && !loc.featured) return false;
       return true;
     });
-  }, [categoryFilter, mapFilters]);
+  }, [categoryFilter, mapFilters, locations, videos]);
 
   hUseEffect(() => {
     const map = mapInstance.current;
