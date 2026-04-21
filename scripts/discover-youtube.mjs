@@ -220,6 +220,8 @@ async function run() {
     }
     try {
       console.log(`[q] ${q.query} (hint=${q.category})`);
+      // Geocode the query once — most videos from that query are about the same region.
+      const queryGeo = await geocode(q.query.replace(/drone|footage|aerial|cinematic|4K|8K/gi, '').trim());
       const results = await ytSearch(q.query);
       const ids = (results.items || []).map(it => it.id.videoId).filter(Boolean).slice(0, MAX_PER_QUERY);
       if (ids.length === 0) continue;
@@ -242,23 +244,17 @@ async function run() {
           const score = qualityScore(v);
           if (score < 3) { skippedLow++; continue; }
 
-          // Location inference: recordingDetails first, then title/description hints
+          // Location inference: recordingDetails first, then fall back to the
+          // per-query precomputed coordinates (geocoded once outside the loop).
           let lat = null, lon = null, inferredRaw = null;
           const rec = v.recordingDetails || {};
           if (rec.location?.latitude != null && rec.location?.longitude != null) {
             lat = rec.location.latitude;
             lon = rec.location.longitude;
             inferredRaw = { source: 'recordingDetails', value: rec };
-          } else {
-            const hints = extractLocationHints(snippet.title + ' ' + snippet.description);
-            for (const h of hints) {
-              const g = await geocode(h);
-              if (g && Number.isFinite(g.lat) && Number.isFinite(g.lon)) {
-                lat = g.lat; lon = g.lon;
-                inferredRaw = { source: 'nominatim', hint: h, value: g };
-                break;
-              }
-            }
+          } else if (queryGeo && Number.isFinite(queryGeo.lat)) {
+            lat = queryGeo.lat; lon = queryGeo.lon;
+            inferredRaw = { source: 'nominatim-query', hint: q.query, value: queryGeo };
           }
 
           const cat = inferCategory(q.category, text + ' ' + (snippet.tags || []).join(' '));
