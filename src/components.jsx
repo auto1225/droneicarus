@@ -234,7 +234,7 @@ export function Header({ route, onNav, query, setQuery }) {
   const isGuest = !user;
   return (
     <header style={{
-      position: 'sticky', top: 0, zIndex: 100,
+      position: 'sticky', top: 0, zIndex: 1000,
       background: 'var(--surface-glass)',
       backdropFilter: 'blur(14px)',
       borderBottom: '1px solid var(--line)',
@@ -334,7 +334,7 @@ export function Header({ route, onNav, query, setQuery }) {
           }}>{u.initials}</button>
           {menuOpen && (
             <div style={{
-              position: 'absolute', top: 44, right: 0, zIndex: 200,
+              position: 'absolute', top: 44, right: 0, zIndex: 1100,
               width: 260, background: 'var(--ink)',
               border: '1px solid var(--line-strong)',
               borderRadius: 6, boxShadow: 'var(--shadow-lg)',

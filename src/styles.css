@@ -1,3 +1,15 @@
+/* ──────────────────────────────────────────────────────────
+   Z-INDEX CANONICAL SCALE (injected 2026-04-21)
+   0       document flow
+   50      in-page sticky sub-navs (filter bars, section tabs)
+   200-700 Leaflet internals (tiles, overlays, markers up to +2000 offset)
+   400     map-overlay cards (hero, compass, stats)
+   1000    GLOBAL HEADER (sticky main nav)
+   1100    dropdowns spawned from header (search, avatar menu)
+   2000    full-screen modals/drawers
+   9998    toast stack container
+   9999    tweaks panel / system notifications
+   ────────────────────────────────────────────────────────── */
 /* Drone Icarus — Global Styles */
 
 :root {
@@ -555,7 +567,7 @@ input:focus, textarea:focus, select:focus {
   border: 1px solid var(--line-strong);
   border-radius: 8px;
   box-shadow: 0 20px 40px rgba(0,0,0,0.18);
-  z-index: 500;
+  z-index: 1100;
   overflow: hidden;
   animation: fadeIn 0.15s ease-out;
   max-height: 520px; overflow-y: auto;
