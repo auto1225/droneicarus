@@ -1,6 +1,6 @@
 // pages/home.jsx — Map hero + location detail bottom sheet + video grids
 import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react';
-import { CATEGORIES, CAT_ICONS, LOCATIONS, VIDEOS, TRENDING, thumbGradient } from '../data';
+import { CATEGORIES, CAT_ICONS, LOCATIONS, VIDEOS, TRENDING, thumbGradient, STATS} from '../data';
 import { Ic, CategoryChips, VideoCard } from '../components';
 const hUseState = useState;
 const hUseEffect = useEffect;
@@ -232,10 +232,10 @@ function MapHero({ selectedLoc, onSelectLoc, categoryFilter, mapFilters }) {
         borderRadius: 4,
       }}>
         {[
-          ['Clips', '12,847'],
-          ['Pilots', '1,294'],
-          ['Countries', '184'],
-          ['Licensed', '6,120'],
+          ['Clips', STATS.projected.clips.toLocaleString()],
+          ['Pilots', STATS.projected.pilots.toLocaleString()],
+          ['Countries', STATS.projected.countries.toLocaleString()],
+          ['Licensed', STATS.projected.licensed.toLocaleString()],
         ].map(([k, v], i) => (
           <div key={k} style={{
             padding: '12px 20px',

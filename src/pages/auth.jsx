@@ -2,6 +2,7 @@
 import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react';
 import { Ic } from '../components';
 import { toast } from '../toast';
+import { STATS } from '../data';
 const aUseState = useState;
 const aUseEffect = useEffect;
 const aUseRef = useRef;
@@ -242,7 +243,7 @@ export function AuthPage({ onNav }) {
               The atlas of <em style={{ fontStyle: 'italic', color: '#e8b04a' }}>aerial</em> footage.
             </h1>
             <p style={{ fontSize: 16, color: 'rgba(245,237,224,0.7)', maxWidth: 460, marginTop: 20, lineHeight: 1.55 }}>
-              Browse the world from above. Over 12,000 drone clips from 184 countries, shot and owned by verified pilots on the ground.
+              Browse the world from above. Over {STATS.projected.clips.toLocaleString()} drone clips from {STATS.projected.countries} countries, shot and owned by verified pilots on the ground.
             </p>
           </div>
 

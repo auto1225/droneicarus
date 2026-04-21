@@ -1,6 +1,6 @@
 // components.jsx — shared UI: header, chips, video card, footer
 import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react';
-import { CATEGORIES, CAT_ICONS, LOCATIONS, VIDEOS, thumbGradient, CURRENT_USER } from './data';
+import { CATEGORIES, CAT_ICONS, LOCATIONS, VIDEOS, thumbGradient, CURRENT_USER, STATS } from './data';
 import { useAuth } from './auth/AuthContext';
 
 // ——— Icons (inline SVG) ———
@@ -592,7 +592,7 @@ export function Footer({ onNav }) {
           </p>
           <div style={{ marginTop: 16, display: 'flex', gap: 8 }}>
             <span className="mono" style={{ fontSize: 10, padding: '4px 8px', border: '1px solid var(--line)', borderRadius: 2, color: 'var(--parchment-dim)' }}>EST. 2026</span>
-            <span className="mono" style={{ fontSize: 10, padding: '4px 8px', border: '1px solid var(--line)', borderRadius: 2, color: 'var(--parchment-dim)' }}>184 COUNTRIES</span>
+            <span className="mono" style={{ fontSize: 10, padding: '4px 8px', border: '1px solid var(--line)', borderRadius: 2, color: 'var(--parchment-dim)' }}>{STATS.projected.countries} COUNTRIES</span>
           </div>
         </div>
         {[

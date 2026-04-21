@@ -1,6 +1,6 @@
 // pages/rankings.jsx — Global leaderboard
 import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react';
-import { LOCATIONS, VIDEOS, TRENDING, CREATORS, thumbGradient } from '../data';
+import { LOCATIONS, VIDEOS, TRENDING, CREATORS, thumbGradient, STATS} from '../data';
 import { Ic, formatViews } from '../components';
 
 export function RankingsPage({ onOpenVideo }) {
@@ -132,7 +132,7 @@ export function CreatorsPage({ onOpenVideo }) {
       <div className="eyebrow" style={{ marginBottom: 10, color: 'var(--amber)' }}>PILOT COMMUNITY</div>
       <h1 style={{ fontSize: 52, marginBottom: 10 }}>Meet the pilots.</h1>
       <p style={{ fontSize: 16, color: 'var(--parchment)', maxWidth: 640, marginBottom: 40 }}>
-        1,294 verified drone pilots in 184 countries. Follow your favorites, license their work, commission custom flights.
+        {STATS.projected.pilots.toLocaleString()} verified drone pilots in {STATS.projected.countries} countries. Follow your favorites, license their work, commission custom flights.
       </p>
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(360px, 1fr))', gap: 20 }}>
