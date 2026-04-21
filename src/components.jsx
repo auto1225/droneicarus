@@ -317,6 +317,9 @@ export function Header({ route, onNav, query, setQuery }) {
           <span className="badge-dot"/>
         </button>
 
+        {profile?.role === 'admin' && (
+          <button onClick={() => onNav('admin')} className="btn" style={{ fontSize: 13, background: 'var(--amber)', color: '#1a2820', fontWeight: 700, letterSpacing: '0.08em' }}>CMS</button>
+        )}
         <button className="btn secondary" onClick={() => onNav('upload')} style={{ fontSize: 13 }}>
           <Ic.upload/> Upload
         </button>
