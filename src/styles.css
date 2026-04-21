@@ -588,3 +588,26 @@ input:focus, textarea:focus, select:focus {
   background: var(--sunset);
   border: 2px solid var(--ink);
 }
+
+
+/* mobile responsive overrides — injected batch 5 */
+@media (max-width: 768px) {
+  /* Collapse every 2/3/4/5 column grid declared inline to single column */
+  [style*="gridTemplateColumns"] { grid-template-columns: 1fr !important; }
+  /* Headline font-size tame */
+  h1 { font-size: clamp(28px, 8vw, 52px) !important; }
+  h2 { font-size: clamp(22px, 6vw, 38px) !important; }
+  /* Hide the right rail on watch page */
+  aside { display: none !important; }
+  /* Nav becomes a scrollable row */
+  header nav, header > div > div { overflow-x: auto !important; white-space: nowrap; scrollbar-width: none; }
+  header nav::-webkit-scrollbar, header > div > div::-webkit-scrollbar { display: none; }
+  /* Map hero card shrinks */
+  .map-hero-card { max-width: calc(100vw - 32px) !important; }
+  /* Footer 5-col → stacked */
+  footer > div:first-child { grid-template-columns: 1fr !important; gap: 24px !important; }
+}
+@media (max-width: 480px) {
+  body { font-size: 13px; }
+  section[style*="padding: '80px"] { padding: 40px 16px !important; }
+}

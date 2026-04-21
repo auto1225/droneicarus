@@ -15,7 +15,15 @@ export function ToastStack() {
   const [toasts, setToasts] = useState([]);
 
   useEffect(() => {
+    const recent = new Map(); // key → timestamp
     const fn = (title, desc, kind = 'success') => {
+      const key = String(title) + '|' + String(desc || '');
+      const now = Date.now();
+      const last = recent.get(key) || 0;
+      if (now - last < 1200) return; // dedupe identical toast within 1.2s
+      recent.set(key, now);
+      // Trim the map occasionally so it doesn't grow
+      if (recent.size > 50) { const oldest = [...recent.entries()].sort((a,b)=>a[1]-b[1])[0]; recent.delete(oldest[0]); }
       const id = Date.now() + Math.random();
       setToasts(ts => [...ts, { id, title, desc, kind, leaving: false }]);
       setTimeout(() => {
