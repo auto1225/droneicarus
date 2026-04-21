@@ -297,7 +297,7 @@ export function UploadPage({ onNav }) {
                         style={{ ...fieldStyle, borderRadius: '0 4px 4px 0', fontSize: 18, fontFamily: 'var(--font-display)' }}/>
                     </div>
                     <div style={{ fontSize: 12, color: 'var(--parchment-dim)', marginTop: 6 }}>
-                      You earn <strong style={{ color: 'var(--bone)' }}>${(price * 0.85).toFixed(2)}</strong> per sale.
+                      You earn <strong style={{ color: 'var(--bone)' }}>${(price * 0.7).toFixed(2)}</strong> per sale (70%).
                     </div>
                   </Field>
                 )}
@@ -305,9 +305,9 @@ export function UploadPage({ onNav }) {
                 {licenseTier === 'tiered' && (
                   <div style={{ border: '1px solid var(--line-strong)', borderRadius: 4 }}>
                     {[
-                      ['Personal', 'Non-commercial edits & reels', price, 0.85],
-                      ['Commercial', 'Ads, client deliverables, online spots', Math.round(price * 1.8 * 100) / 100, 0.85],
-                      ['Extended', 'Broadcast, exclusive-window, resale', Math.round(price * 3.5 * 100) / 100, 0.80],
+                      ['Personal', 'Non-commercial edits & reels', price, 0.7],
+                      ['Commercial', 'Ads, client deliverables, online spots', Math.round(price * 1.8 * 100) / 100, 0.7],
+                      ['Extended', 'Broadcast, exclusive-window, resale', Math.round(price * 3.5 * 100) / 100, 0.7],
                     ].map(([name, note, p, rev], i) => (
                       <div key={name} style={{ display: 'grid', gridTemplateColumns: '180px 1fr 140px 100px', alignItems: 'center', gap: 16, padding: '14px 18px', borderTop: i > 0 ? '1px solid var(--line)' : 'none' }}>
                         <div>
