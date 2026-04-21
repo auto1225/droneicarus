@@ -126,7 +126,7 @@ export function SearchDropdown({ query, onNav, onSelect, onClose }) {
               <span className="icon" style={{ color: 'var(--amber)' }}><Ic.pin/></span>
               <div style={{ flex: 1 }}>
                 <div>{l.name}</div>
-                <div style={{ fontSize: 11, color: 'var(--parchment-dim)' }}>{l.country} · {l.videos} clips</div>
+                <div style={{ fontSize: 11, color: 'var(--parchment-dim)' }}>{l.country}{l.videos != null ? ` · ${l.videos} clips` : ''}</div>
               </div>
               <span className="kbd">↵</span>
             </div>

@@ -7,6 +7,7 @@ import { toast } from '../toast';
 import { signedUrl } from '../db/storage';
 import { fetchReviews, postReview } from '../db/commerce';
 import { useAuth } from '../auth/AuthContext';
+import { CommentThread } from '../comments';
 
 export function PlayerPage({ video, onNav, onOpenVideo }) {
   if (!video) return <div style={{ padding: 80, textAlign: 'center' }}>No video selected.</div>;

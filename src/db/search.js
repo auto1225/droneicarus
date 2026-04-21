@@ -52,7 +52,11 @@ export async function searchAll(q, { limit = 12 } = {}) {
     views: v.views, price: Number(v.price_usd) || 0,
     creator: v.owner ? { handle: v.owner.handle, name: v.owner.display_name, verified: v.owner.pilot_verified } : null,
   }));
-  const locations = locRes.data || [];
+  // Supabase locations lack a video count column — enrich from mock data by id
+  const locations = (locRes.data || []).map(l => ({
+    ...l,
+    videos: MOCK_LOCATIONS.find(ml => ml.id === l.id)?.videos ?? 0,
+  }));
   const creators = (profRes.data || []).map(p => ({
     id: p.id, handle: p.handle, name: p.display_name, verified: p.pilot_verified,
     followers: p.followers_count, avatarUrl: p.avatar_url,
