@@ -1,5 +1,6 @@
 // pages/home.jsx — Map hero + location detail bottom sheet + video grids
 import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react';
+import { useContent } from '../content/ContentContext';
 import { CATEGORIES, CAT_ICONS, LOCATIONS, VIDEOS, TRENDING, thumbGradient, STATS} from '../data';
 import { Ic, CategoryChips, VideoCard } from '../components';
 import { useSiteSetting } from '../db/useSettings';
@@ -201,10 +202,10 @@ function MapHero({ selectedLoc, onSelectLoc, categoryFilter, mapFilters }) {
       }}>
         <div className="eyebrow" style={{ marginBottom: 14, color: 'var(--sunset)' }}>● Live · {filteredLocs.length} of {LOCATIONS.length} landmarks shown</div>
         <h1 style={{ fontSize: 56, lineHeight: 1.02, marginBottom: 14 }}>
-          The world,<br/>from <em style={{ color: 'var(--sunset)', fontStyle: 'italic', fontFamily: 'var(--font-display)' }}>1,200 feet</em> up.
+          {useContent('home.hero.title', 'The world, from 1,200 feet up.')}
         </h1>
         <p style={{ fontSize: 15, color: 'var(--parchment)', maxWidth: 440 }}>
-          Pan the map. Click any pin to find aerial footage shot by pilots on the ground — from the Giza Plateau to Namsan Tower.
+          {useContent('home.hero.sub', 'Pan the map. Click any pin to find aerial footage shot by pilots on the ground — from the Giza Plateau to Namsan Tower.')}
         </p>
       </div>
 
