@@ -3,7 +3,7 @@ import React, { useState, useEffect, useRef, Suspense, lazy } from 'react';
 
 import { VIDEOS } from './data';
 import { Header, Footer, Ic } from './components';
-import { ToastStack } from './toast';
+import { ToastStack, toast } from './toast';
 import { RequireAuth } from './auth/RequireAuth';
 
 // Heavy pages (map / uploader / player) are lazy-loaded so the initial bundle
@@ -136,6 +136,20 @@ export default function App() {
   const [pendingLoc, setPendingLoc] = useState(null);
   const [tweaksOpen, setTweaksOpen] = useState(false);
   const [tweaks, setTweaks] = useState(TWEAK_DEFAULTS);
+
+  // Global placeholder-button handler — every <button data-placeholder="true">
+  // emits a friendly toast instead of silently doing nothing.
+  useEffect(() => {
+    const onDocClick = (e) => {
+      const btn = e.target.closest('button[data-placeholder="true"]');
+      if (!btn) return;
+      e.preventDefault();
+      const label = (btn.innerText || btn.textContent || '').trim().replace(/\s+/g, ' ').slice(0, 60) || 'Action';
+      toast(label, 'This action will be available soon.', 'info');
+    };
+    document.addEventListener('click', onDocClick);
+    return () => document.removeEventListener('click', onDocClick);
+  }, []);
 
   useEffect(() => {
     const parseHash = () => {

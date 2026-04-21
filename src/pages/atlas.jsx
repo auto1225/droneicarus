@@ -40,8 +40,8 @@ export function AtlasPage({ onNav }) {
               A crowdsourced list of the places Drone Icarus doesn't yet have. Vote them up. Post a bounty. Any verified pilot can claim one — and the first to deliver a clip that clears review takes the whole purse.
             </p>
             <div style={{ display: 'flex', gap: 10 }}>
-              <button className="btn">Suggest a place</button>
-              <button className="btn secondary">How bounties work</button>
+              <button className="btn" data-placeholder="true">Suggest a place</button>
+              <button className="btn secondary" data-placeholder="true">How bounties work</button>
             </div>
           </div>
           <div style={{ padding: 24, border: '1px solid var(--line)', borderRadius: 4, background: 'var(--forest-900)' }}>
@@ -85,7 +85,7 @@ export function AtlasPage({ onNav }) {
             <button style={{
               width: 56, padding: '10px 0', border: '1px solid var(--line-strong)', borderRadius: 3, background: 'var(--forest-900)',
               display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2,
-            }}>
+            }} data-placeholder="true">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--sunset)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 4 L4 14 L10 14 L10 20 L14 20 L14 14 L20 14 Z"/></svg>
               <span className="mono" style={{ fontSize: 12, fontWeight: 700 }}>{(b.votes/1000).toFixed(1)}K</span>
             </button>
@@ -105,8 +105,8 @@ export function AtlasPage({ onNav }) {
               <div style={{ fontSize: 11, color: 'var(--parchment-dim)' }}>Deadline · {b.deadline}, 2026</div>
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-              <button className="btn" style={{ fontSize: 12 }}>Claim this</button>
-              <button className="btn secondary" style={{ fontSize: 12 }}>Add to purse</button>
+              <button className="btn" style={{ fontSize: 12 }} data-placeholder="true">Claim this</button>
+              <button className="btn secondary" style={{ fontSize: 12 }} data-placeholder="true">Add to purse</button>
             </div>
           </article>
         ))}

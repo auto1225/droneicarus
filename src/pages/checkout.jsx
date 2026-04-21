@@ -257,7 +257,7 @@ export function SuccessPage({ onNav }) {
               <div key={fmt} style={{ border: '1px solid var(--line)', padding: 12, borderRadius: 4, textAlign: 'center' }}>
                 <div style={{ fontSize: 12, fontWeight: 600, marginBottom: 3 }}>{fmt}</div>
                 <div style={{ fontSize: 10, color: 'var(--parchment-dim)', marginBottom: 8, fontFamily: 'var(--font-mono)', letterSpacing: '0.1em' }}>{q} · {size}</div>
-                <button className="btn secondary" style={{ fontSize: 11, padding: '6px 10px', width: '100%', justifyContent: 'center' }}>Download</button>
+                <button className="btn secondary" style={{ fontSize: 11, padding: '6px 10px', width: '100%', justifyContent: 'center' }} data-placeholder="true">Download</button>
               </div>
             ))}
           </div>
@@ -266,7 +266,7 @@ export function SuccessPage({ onNav }) {
 
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 10 }}>
         <button className="btn secondary" style={{ justifyContent: 'center', padding: 12 }} onClick={() => onNav('license', order.id)}>View license</button>
-        <button className="btn secondary" style={{ justifyContent: 'center', padding: 12 }}>Download receipt PDF</button>
+        <button className="btn secondary" style={{ justifyContent: 'center', padding: 12 }} data-placeholder="true">Download receipt PDF</button>
         <button className="btn" style={{ justifyContent: 'center', padding: 12 }} onClick={() => onNav('orders')}>Go to my locker</button>
       </div>
 
@@ -320,9 +320,9 @@ export function OrdersPage({ onNav }) {
           ))}
         </div>
         <div style={{ display: 'flex', gap: 10, fontSize: 12, color: 'var(--parchment-dim)' }}>
-          <button>Export CSV</button>
+          <button data-placeholder="true">Export CSV</button>
           <span>·</span>
-          <button>Download all receipts</button>
+          <button data-placeholder="true">Download all receipts</button>
         </div>
       </div>
 
@@ -357,7 +357,7 @@ export function OrdersPage({ onNav }) {
               <div style={{ textAlign: 'right', fontSize: 14, fontFamily: 'var(--font-display)', fontWeight: 600 }}>${o.total}</div>
               <div style={{ display: 'flex', gap: 6, justifyContent: 'flex-end' }}>
                 <button className="btn secondary" style={{ fontSize: 11, padding: '6px 10px' }} onClick={() => onNav('license', o.id)}>View</button>
-                <button className="btn secondary" style={{ fontSize: 11, padding: '6px 10px' }}>↓</button>
+                <button className="btn secondary" style={{ fontSize: 11, padding: '6px 10px' }} data-placeholder="true">↓</button>
               </div>
             </div>
           );
@@ -463,9 +463,9 @@ export function LicenseDetailPage({ orderId, onNav }) {
       </div>
 
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 10, marginTop: 20 }}>
-        <button className="btn" style={{ justifyContent: 'center', padding: 12 }}>Download PDF</button>
-        <button className="btn secondary" style={{ justifyContent: 'center', padding: 12 }}>Verify signature</button>
-        <button className="btn secondary" style={{ justifyContent: 'center', padding: 12 }}>Email a copy</button>
+        <button className="btn" style={{ justifyContent: 'center', padding: 12 }} data-placeholder="true">Download PDF</button>
+        <button className="btn secondary" style={{ justifyContent: 'center', padding: 12 }} data-placeholder="true">Verify signature</button>
+        <button className="btn secondary" style={{ justifyContent: 'center', padding: 12 }} data-placeholder="true">Email a copy</button>
       </div>
     </div>
   );

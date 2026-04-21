@@ -238,7 +238,7 @@ export function CommentThread({ video }) {
                     fontSize: 11, fontWeight: 700, padding: '2px 7px', borderRadius: 3,
                     background: 'var(--ink-1)', color: 'var(--paper)', border: 'none', cursor: 'pointer',
                     fontVariantNumeric: 'tabular-nums'
-                  }}>▸ {c.ts}</button>
+                  }} data-placeholder="true">▸ {c.ts}</button>
                 )}
               </div>
               <p style={{ fontSize: 14.5, lineHeight: 1.55, color: 'var(--ink-1)', margin: '0 0 10px 0' }}>{c.body}</p>
@@ -258,7 +258,7 @@ export function CommentThread({ video }) {
                   style={{ padding: 0, background: 'none', border: 'none', color: 'var(--ink-3)', cursor: 'pointer', fontWeight: 500 }}>
                   Reply
                 </button>
-                <button style={{ padding: 0, background: 'none', border: 'none', color: 'var(--ink-3)', cursor: 'pointer' }}>Report</button>
+                <button style={{ padding: 0, background: 'none', border: 'none', color: 'var(--ink-3)', cursor: 'pointer' }} data-placeholder="true">Report</button>
               </div>
 
               {/* Reply composer */}
@@ -330,7 +330,7 @@ export function CommentThread({ video }) {
                             </svg>
                             {r.likes + (liked[r.id] ? 1 : 0)}
                           </button>
-                          <button style={{ padding: 0, background: 'none', border: 'none', color: 'var(--ink-3)', cursor: 'pointer' }}>Reply</button>
+                          <button style={{ padding: 0, background: 'none', border: 'none', color: 'var(--ink-3)', cursor: 'pointer' }} data-placeholder="true">Reply</button>
                         </div>
                       </div>
                     </div>
@@ -347,7 +347,7 @@ export function CommentThread({ video }) {
         background: 'transparent', border: '1px dashed var(--line)', borderRadius: 10,
         color: 'var(--ink-2)', fontWeight: 600, fontSize: 13, cursor: 'pointer',
         letterSpacing: '0.03em'
-      }}>
+      }} data-placeholder="true">
         Load more comments
       </button>
     </div>

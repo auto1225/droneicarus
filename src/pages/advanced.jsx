@@ -172,7 +172,7 @@ export function AdvancedPage({ onOpenVideo, onNav }) {
           </h1>
           <div style={{ display: 'flex', gap: 6 }}>
             {['Relevance','Newest','Price ↑','Price ↓','Best rated'].map((s, i) => (
-              <button key={s} className={'chip' + (i === 0 ? ' active' : '')} style={{ padding: '6px 12px', fontSize: 12 }}>{s}</button>
+              <button key={s} className={'chip' + (i === 0 ? ' active' : '')} style={{ padding: '6px 12px', fontSize: 12 }} data-placeholder="true">{s}</button>
             ))}
           </div>
         </div>

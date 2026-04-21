@@ -149,7 +149,7 @@ export function CreatorsPage({ onOpenVideo }) {
                   </div>
                   <div style={{ fontSize: 13, color: 'var(--parchment-dim)' }}>{c.handle} · {c.region}</div>
                 </div>
-                <button className="btn" style={{ fontSize: 12, padding: '8px 14px' }}>Follow</button>
+                <button className="btn" style={{ fontSize: 12, padding: '8px 14px' }} data-placeholder="true">Follow</button>
               </div>
               <div style={{ display: 'flex', gap: 20, marginBottom: 18, paddingBottom: 18, borderBottom: '1px solid var(--line)' }}>
                 <div>

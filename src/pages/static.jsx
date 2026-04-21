@@ -33,7 +33,7 @@ export function GuidelinesPage({ onNav }) {
       <div style={{ marginTop: 40, padding: 24, border: '1px solid var(--amber)', borderRadius: 4, background: 'rgba(232,176,74,0.06)' }}>
         <div className="eyebrow" style={{ marginBottom: 10, color: 'var(--amber)' }}>REPORT A VIOLATION</div>
         <p style={{ fontSize: 14, color: 'var(--parchment)', marginBottom: 14 }}>Saw a clip that breaks these rules? Flagged clips are reviewed within 12 hours by our trust team — a real human, not a classifier.</p>
-        <button className="btn" style={{ fontSize: 13 }}>Open a report</button>
+        <button className="btn" style={{ fontSize: 13 }} data-placeholder="true">Open a report</button>
       </div>
     </div>
   );

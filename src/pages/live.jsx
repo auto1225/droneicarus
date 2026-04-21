@@ -177,7 +177,7 @@ export function LivePage({ onNav }) {
                 <>
                   <span style={{ padding: '4px 9px', background: 'var(--sunset)', color: '#faf6ec', fontSize: 10, fontFamily: 'var(--font-mono)', letterSpacing: '0.14em', borderRadius: 2, position: 'absolute', top: 10, left: 10, fontWeight: 700 }}>● LIVE</span>
                   <span style={{ position: 'absolute', bottom: 10, right: 10, padding: '3px 7px', background: 'rgba(13,20,16,0.85)', color: '#f5ede0', fontSize: 10, fontFamily: 'var(--font-mono)', borderRadius: 2, backdropFilter: 'blur(4px)' }}>{(selected.viewers || 0).toLocaleString()} watching</span>
-                  <button style={{ width: 44, height: 44, borderRadius: '50%', background: 'rgba(217,112,69,0.95)', border: '2px solid #faf6ec', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative', zIndex: 2 }}>
+                  <button style={{ width: 44, height: 44, borderRadius: '50%', background: 'rgba(217,112,69,0.95)', border: '2px solid #faf6ec', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative', zIndex: 2 }} data-placeholder="true">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="#faf6ec"><polygon points="8,5 20,12 8,19"/></svg>
                   </button>
                 </>
@@ -196,8 +196,8 @@ export function LivePage({ onNav }) {
             <div style={{ fontSize: 17, fontWeight: 600, marginBottom: 4 }}>{selected.place}</div>
             <div style={{ fontSize: 12, color: 'var(--parchment-dim)', marginBottom: 14 }}>{selected.pilot} · {selected.handle}</div>
             <div style={{ display: 'flex', gap: 6, marginBottom: 18 }}>
-              <button className="btn" style={{ fontSize: 12, flex: 1 }}>Tune in</button>
-              <button className="btn secondary" style={{ fontSize: 12 }}>Tip $</button>
+              <button className="btn" style={{ fontSize: 12, flex: 1 }} data-placeholder="true">Tune in</button>
+              <button className="btn secondary" style={{ fontSize: 12 }} data-placeholder="true">Tip $</button>
             </div>
 
             <div className="eyebrow" style={{ marginBottom: 10 }}>LIVE CHAT</div>

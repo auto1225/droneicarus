@@ -39,7 +39,7 @@ export function CreatorDashboard({ onNav }) {
               background: active ? 'var(--forest-800)' : 'transparent',
               borderLeft: active ? '3px solid var(--amber)' : '3px solid transparent',
               fontSize: 14,
-            }}>{label}</button>
+            }} data-placeholder="true">{label}</button>
           ))}
         </nav>
       </aside>
@@ -77,7 +77,7 @@ export function CreatorDashboard({ onNav }) {
             <h3 style={{ fontSize: 18 }}>Views over time</h3>
             <div style={{ display: 'flex', gap: 6 }}>
               {['7d', '30d', '90d', '1y'].map((p, i) => (
-                <button key={p} className={'chip' + (i === 1 ? ' active' : '')} style={{ padding: '4px 10px', fontSize: 11 }}>{p}</button>
+                <button key={p} className={'chip' + (i === 1 ? ' active' : '')} style={{ padding: '4px 10px', fontSize: 11 }} data-placeholder="true">{p}</button>
               ))}
             </div>
           </div>
@@ -242,7 +242,7 @@ function UploadFlow({ onDone }) {
             )}
           </div>
 
-          <button className="btn primary" style={{ width: '100%', padding: 14, fontSize: 14, marginTop: 16, justifyContent: 'center' }}>
+          <button className="btn primary" style={{ width: '100%', padding: 14, fontSize: 14, marginTop: 16, justifyContent: 'center' }} data-placeholder="true">
             Continue to review →
           </button>
           <button className="btn secondary" style={{ width: '100%', padding: 12, fontSize: 13, marginTop: 8, justifyContent: 'center' }}

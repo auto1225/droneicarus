@@ -40,7 +40,7 @@ export function ShotLibraryPage({ onNav, onOpenVideo }) {
       <section style={{ maxWidth: 1200, margin: '0 auto', padding: '40px 28px 30px' }}>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16 }}>
           {USE_CASES.map((u, i) => (
-            <button key={u.id} onClick={() => {}} style={{ textAlign: 'left', padding: 24, border: '1px solid var(--line)', borderRadius: 4, background: 'var(--forest-950)', position: 'relative' }}>
+            <button key={u.id} data-placeholder="true" onClick={() => {}} style={{ textAlign: 'left', padding: 24, border: '1px solid var(--line)', borderRadius: 4, background: 'var(--forest-950)', position: 'relative' }}>
               <div className="mono" style={{ fontSize: 10, letterSpacing: '0.16em', color: 'var(--amber)', marginBottom: 12, fontWeight: 600 }}>{u.tag}</div>
               <h3 style={{ fontSize: 22, letterSpacing: '-0.01em', marginBottom: 8, fontFamily: 'var(--font-display)', fontWeight: 600 }}>{u.name}</h3>
               <p style={{ fontSize: 13, color: 'var(--parchment)', lineHeight: 1.55, marginBottom: 18, minHeight: 58 }}>{u.desc}</p>
@@ -83,7 +83,7 @@ export function ShotLibraryPage({ onNav, onOpenVideo }) {
                     <div className="mono" style={{ fontSize: 10, color: 'var(--lichen)', letterSpacing: '0.1em' }}>SAVE ${k.save}</div>
                     <div style={{ fontSize: 24, fontFamily: 'var(--font-display)', fontWeight: 600, color: 'var(--amber)' }}>${k.price}</div>
                   </div>
-                  <button className="btn" style={{ fontSize: 12 }}>License kit</button>
+                  <button className="btn" style={{ fontSize: 12 }} data-placeholder="true">License kit</button>
                 </div>
               </div>
             </div>

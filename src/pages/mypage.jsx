@@ -88,7 +88,7 @@ export function MyPage({ onOpenVideo, onNav }) {
           </div>
           <div style={{ display: 'flex', gap: 8, paddingBottom: 10 }}>
             <button className="btn secondary" onClick={() => onNav('settings')}>Edit profile</button>
-            <button className="btn">Share</button>
+            <button className="btn" data-placeholder="true">Share</button>
           </div>
         </div>
 
@@ -113,7 +113,7 @@ export function MyPage({ onOpenVideo, onNav }) {
           <div>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 18 }}>
               <div className="mono" style={{ fontSize: 11, letterSpacing: '0.14em', color: 'var(--parchment-dim)' }}>SORTED BY LAST UPDATED</div>
-              <button className="btn secondary" style={{ fontSize: 12 }}>+ New board</button>
+              <button className="btn secondary" style={{ fontSize: 12 }} data-placeholder="true">+ New board</button>
             </div>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 20, marginBottom: 60 }}>
               {cols.map(c => <BoardCard key={c.id} col={c} onClick={() => setSelectedCol(c)} />)}
@@ -163,7 +163,7 @@ export function MyPage({ onOpenVideo, onNav }) {
                     {formatViews(c.followers)} FOLLOWERS · {c.videos} CLIPS
                   </div>
                 </div>
-                <button className="btn secondary" style={{ fontSize: 12, alignSelf: 'flex-start' }}>Following</button>
+                <button className="btn secondary" style={{ fontSize: 12, alignSelf: 'flex-start' }} data-placeholder="true">Following</button>
               </div>
             ))}
           </div>
@@ -240,9 +240,9 @@ function CollectionDetail({ col, onBack, onOpenVideo }) {
           <h1 style={{ fontSize: 44, lineHeight: 1.05 }}>{col.name}</h1>
         </div>
         <div style={{ display: 'flex', gap: 8 }}>
-          <button className="btn secondary" style={{ fontSize: 12 }}>Edit board</button>
-          <button className="btn secondary" style={{ fontSize: 12 }}>Share</button>
-          <button className="btn" style={{ fontSize: 12 }}>+ Add clips</button>
+          <button className="btn secondary" style={{ fontSize: 12 }} data-placeholder="true">Edit board</button>
+          <button className="btn secondary" style={{ fontSize: 12 }} data-placeholder="true">Share</button>
+          <button className="btn" style={{ fontSize: 12 }} data-placeholder="true">+ Add clips</button>
         </div>
       </div>
       <div style={{ columnCount: 4, columnGap: 14 }}>

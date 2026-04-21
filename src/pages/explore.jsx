@@ -67,7 +67,7 @@ export function ExplorePage({ onOpenVideo, onNav }) {
           <h2 style={{ fontSize: 24 }}>{CATEGORIES.find(c => c.id === active)?.label} · <span className="mono" style={{ color: 'var(--parchment-dim)', fontWeight: 400 }}>{vids.length} clips</span></h2>
           <div style={{ display: 'flex', gap: 6 }}>
             {['Trending', 'Newest', 'Highest rated', 'Free first'].map((s, i) => (
-              <button key={s} className={'chip' + (i === 0 ? ' active' : '')} style={{ padding: '6px 12px', fontSize: 12 }}>{s}</button>
+              <button key={s} className={'chip' + (i === 0 ? ' active' : '')} style={{ padding: '6px 12px', fontSize: 12 }} data-placeholder="true">{s}</button>
             ))}
           </div>
         </div>
@@ -147,7 +147,7 @@ export function SearchPage({ query, onOpenVideo, onNav, onSelectLoc }) {
                   </div>
                   <div style={{ fontSize: 12, color: 'var(--parchment-dim)' }}>{c.handle} · {formatViews(c.followers)} followers</div>
                 </div>
-                <button className="btn secondary" style={{ fontSize: 12 }}>Follow</button>
+                <button className="btn secondary" style={{ fontSize: 12 }} data-placeholder="true">Follow</button>
               </div>
             ))}
           </div>

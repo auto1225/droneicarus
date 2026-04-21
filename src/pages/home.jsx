@@ -295,7 +295,7 @@ export function LocationSheet({ loc, onOpenVideo, onClose }) {
             </div>
           </div>
           <div style={{ display: 'flex', gap: 10 }}>
-            <button className="btn secondary" style={{ fontSize: 13 }}>Follow this landmark</button>
+            <button className="btn secondary" style={{ fontSize: 13 }} data-placeholder="true">Follow this landmark</button>
             <button onClick={onClose} className="btn secondary" style={{ padding: '10px', width: 40, height: 40, justifyContent: 'center' }}>
               <Ic.close/>
             </button>
@@ -325,7 +325,7 @@ export function LocationSheet({ loc, onOpenVideo, onClose }) {
               <h3 style={{ fontSize: 18, letterSpacing: '-0.01em' }}>All footage ({rest.length})</h3>
               <div style={{ display: 'flex', gap: 4 }}>
                 {['Recent', 'Most viewed', 'Free only', '4K+'].map((opt, i) => (
-                  <button key={opt} className={'chip' + (i === 0 ? ' active' : '')} style={{ padding: '6px 12px', fontSize: 12 }}>{opt}</button>
+                  <button key={opt} className={'chip' + (i === 0 ? ' active' : '')} style={{ padding: '6px 12px', fontSize: 12 }} data-placeholder="true">{opt}</button>
                 ))}
               </div>
             </div>
@@ -347,7 +347,7 @@ function FeaturedRow({ title, eyebrow, videos, onOpenVideo, accent }) {
           <div className="eyebrow" style={{ color: accent || 'var(--amber)', marginBottom: 6 }}>{eyebrow}</div>
           <h2 style={{ fontSize: 30, letterSpacing: '-0.02em' }}>{title}</h2>
         </div>
-        <button className="btn secondary" style={{ fontSize: 13 }}>View all <Ic.chevron/></button>
+        <button className="btn secondary" style={{ fontSize: 13 }} data-placeholder="true">View all <Ic.chevron/></button>
       </div>
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 20 }}>
         {videos.slice(0, 8).map(v => <VideoCard key={v.id} video={v} onClick={onOpenVideo} showRank={!!v.rank} />)}

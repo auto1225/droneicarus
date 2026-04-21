@@ -69,7 +69,7 @@ export function CommissionPage({ onNav }) {
                     <div style={{ fontSize: 13, fontWeight: 600 }}>Namsan Tower, Seoul</div>
                     <div className="mono" style={{ fontSize: 10, color: 'var(--parchment-dim)' }}>37.5512° N · 126.9882° E</div>
                   </div>
-                  <button className="btn secondary" style={{ fontSize: 12 }}>Adjust on map</button>
+                  <button className="btn secondary" style={{ fontSize: 12 }} data-placeholder="true">Adjust on map</button>
                 </div>
               </CF>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>

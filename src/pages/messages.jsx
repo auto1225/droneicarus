@@ -54,8 +54,8 @@ export function MessagesPage({ onNav }) {
             <div style={{ fontSize: 11, color: active.online ? 'var(--lichen)' : 'var(--parchment-dim)' }}>{active.online ? '● Active now' : 'Last seen ' + active.time}</div>
           </div>
           <div style={{ display: 'flex', gap: 6 }}>
-            <button className="btn secondary" style={{ fontSize: 12 }}>View profile</button>
-            <button className="btn secondary" style={{ fontSize: 12 }}>Commission brief</button>
+            <button className="btn secondary" style={{ fontSize: 12 }} data-placeholder="true">View profile</button>
+            <button className="btn secondary" style={{ fontSize: 12 }} data-placeholder="true">Commission brief</button>
           </div>
         </div>
 
@@ -83,7 +83,7 @@ export function MessagesPage({ onNav }) {
         <div style={{ padding: '16px 28px', borderTop: '1px solid var(--line)' }}>
           <div style={{ display: 'flex', gap: 10, alignItems: 'flex-end' }}>
             <textarea placeholder="Write a reply…" style={{ flex: 1, minHeight: 56, padding: 12, background: 'var(--forest-900)', border: '1px solid var(--line-strong)', color: 'var(--bone)', fontSize: 14, borderRadius: 4, resize: 'none', outline: 'none', fontFamily: 'inherit' }}/>
-            <button className="btn" style={{ fontSize: 13 }}>Send</button>
+            <button className="btn" style={{ fontSize: 13 }} data-placeholder="true">Send</button>
           </div>
           <div style={{ fontSize: 11, color: 'var(--parchment-dim)', marginTop: 8 }}>Attach a clip, send a preview link, or start a commission brief.</div>
         </div>
@@ -100,7 +100,7 @@ export function MessagesPage({ onNav }) {
         {['Commercial-license-v2.pdf', 'KCAA-permit-namsan.pdf', 'LUT-hyunwoo-rec709.cube'].map(f => (
           <div key={f} style={{ padding: '8px 0', borderTop: '1px solid var(--line)', fontSize: 12, fontFamily: 'var(--font-mono)', display: 'flex', justifyContent: 'space-between' }}>
             <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{f}</span>
-            <button style={{ fontSize: 11, color: 'var(--sunset)' }}>open</button>
+            <button style={{ fontSize: 11, color: 'var(--sunset)' }} data-placeholder="true">open</button>
           </div>
         ))}
 

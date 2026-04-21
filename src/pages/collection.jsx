@@ -29,8 +29,8 @@ export function CollectionPage({ id, onOpenVideo, onNav }) {
                 <div style={{ fontSize: 11, color: 'var(--parchment-dim)' }}>{author.handle} · updated {col.updated}</div>
               </div>
               <div style={{ width: 1, height: 30, background: 'var(--line)', margin: '0 4px' }}/>
-              <button className="btn" style={{ fontSize: 12 }}>Follow collection</button>
-              <button style={{ fontSize: 12, color: 'var(--parchment-dim)' }}>Share</button>
+              <button className="btn" style={{ fontSize: 12 }} data-placeholder="true">Follow collection</button>
+              <button style={{ fontSize: 12, color: 'var(--parchment-dim)' }} data-placeholder="true">Share</button>
             </div>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gridTemplateRows: '110px 110px 110px', gap: 5, height: 340 }}>
@@ -76,9 +76,9 @@ export function CollectionPage({ id, onOpenVideo, onNav }) {
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 24 }}>
           <h2 style={{ fontSize: 24 }}>The clips · {videos.length}</h2>
           <div style={{ display: 'flex', gap: 6 }}>
-            <button className="chip active" style={{ fontSize: 11 }}>Curator order</button>
-            <button className="chip" style={{ fontSize: 11 }}>By date shot</button>
-            <button className="chip" style={{ fontSize: 11 }}>By country</button>
+            <button className="chip active" style={{ fontSize: 11 }} data-placeholder="true">Curator order</button>
+            <button className="chip" style={{ fontSize: 11 }} data-placeholder="true">By date shot</button>
+            <button className="chip" style={{ fontSize: 11 }} data-placeholder="true">By country</button>
           </div>
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 22 }}>

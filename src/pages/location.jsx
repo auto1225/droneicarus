@@ -48,7 +48,7 @@ export function LocationPage({ id, onOpenVideo, onNav }) {
             ))}
           </div>
           <div style={{ display: 'flex', gap: 8 }}>
-            <button className="btn secondary" style={{ fontSize: 12 }}>Save location</button>
+            <button className="btn secondary" style={{ fontSize: 12 }} data-placeholder="true">Save location</button>
             <button onClick={() => onNav('commission')} className="btn" style={{ fontSize: 12 }}>Commission a shot here</button>
           </div>
         </div>
@@ -110,11 +110,11 @@ export function LocationPage({ id, onOpenVideo, onNav }) {
               <h2 style={{ fontSize: 28 }}>{display.length} clips at this location</h2>
             </div>
             <div style={{ display: 'flex', gap: 6 }}>
-              <button className="chip active" style={{ fontSize: 11 }}>All</button>
-              <button className="chip" style={{ fontSize: 11 }}>Dawn</button>
-              <button className="chip" style={{ fontSize: 11 }}>Free</button>
-              <button className="chip" style={{ fontSize: 11 }}>4K+</button>
-              <button className="chip" style={{ fontSize: 11 }}>Commercial license</button>
+              <button className="chip active" style={{ fontSize: 11 }} data-placeholder="true">All</button>
+              <button className="chip" style={{ fontSize: 11 }} data-placeholder="true">Dawn</button>
+              <button className="chip" style={{ fontSize: 11 }} data-placeholder="true">Free</button>
+              <button className="chip" style={{ fontSize: 11 }} data-placeholder="true">4K+</button>
+              <button className="chip" style={{ fontSize: 11 }} data-placeholder="true">Commercial license</button>
             </div>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 22 }}>

@@ -36,7 +36,7 @@ export function FlightLogPage({ videoId, onNav }) {
           <div style={{ border: '1px solid var(--line)', borderRadius: 4, overflow: 'hidden' }}>
             <div style={{ padding: '14px 18px', borderBottom: '1px solid var(--line)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <div className="mono" style={{ fontSize: 11, letterSpacing: '0.14em' }}>FLIGHT TRACK · GPS ACCURACY ±0.8 M</div>
-              <button style={{ fontSize: 11, color: 'var(--sunset)' }}>Download GPX →</button>
+              <button style={{ fontSize: 11, color: 'var(--sunset)' }} data-placeholder="true">Download GPX →</button>
             </div>
             <svg viewBox="0 0 520 300" style={{ width: '100%', height: 320, background: 'var(--forest-900)', display: 'block' }}>
               {/* Topo lines */}
@@ -154,7 +154,7 @@ export function FlightLogPage({ videoId, onNav }) {
             Every clip on Drone Icarus ships with its flight log. Editors get provenance, broadcasters get compliance, and you get proof that what you licensed was flown legally and really captured where it says it was.
           </p>
         </div>
-        <button className="btn" style={{ fontSize: 13, whiteSpace: 'nowrap' }}>Verify this log →</button>
+        <button className="btn" style={{ fontSize: 13, whiteSpace: 'nowrap' }} data-placeholder="true">Verify this log →</button>
       </div>
     </div>
   );

@@ -121,12 +121,12 @@ function SProfile({ u }) {
   return (
     <>
       <Card title="Public profile" subtitle="Shown on your creator page and next to your clips."
-        footer={<><button className="btn secondary" style={{ fontSize: 12, padding: '6px 14px' }}>Cancel</button><button className="btn" style={{ fontSize: 12, padding: '6px 14px' }}>Save changes</button></>}>
+        footer={<><button className="btn secondary" style={{ fontSize: 12, padding: '6px 14px' }} data-placeholder="true">Cancel</button><button className="btn" style={{ fontSize: 12, padding: '6px 14px' }} data-placeholder="true">Save changes</button></>}>
         <Row label="Avatar" hint="PNG or JPG, max 5MB">
           <div style={{ display: 'flex', gap: 14, alignItems: 'center' }}>
             <div style={{ width: 64, height: 64, borderRadius: '50%', background: 'var(--sunset)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 22, fontWeight: 700, color: '#faf6ec' }}>{u.initials}</div>
-            <button className="btn secondary" style={{ fontSize: 12 }}>Upload new</button>
-            <button style={{ fontSize: 12, color: 'var(--parchment-dim)' }}>Remove</button>
+            <button className="btn secondary" style={{ fontSize: 12 }} data-placeholder="true">Upload new</button>
+            <button style={{ fontSize: 12, color: 'var(--parchment-dim)' }} data-placeholder="true">Remove</button>
           </div>
         </Row>
         <Row label="Display name"><input defaultValue={u.name} style={iS}/></Row>
@@ -152,21 +152,21 @@ function SAccount({ u }) {
       <Card title="Email & password">
         <Row label="Email"><input defaultValue={u.email} style={iS}/></Row>
         <Row label="Password" hint="Last changed 3 months ago">
-          <button className="btn secondary" style={{ fontSize: 12 }}>Change password</button>
+          <button className="btn secondary" style={{ fontSize: 12 }} data-placeholder="true">Change password</button>
         </Row>
       </Card>
       <Card title="Two-factor authentication" subtitle="Add a second layer of security for your flight log.">
         <Row label="Authenticator app" hint="Google Authenticator, 1Password, Authy">
           <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
             <span className="mono" style={{ fontSize: 11, color: 'var(--lichen)', letterSpacing: '0.12em' }}>● ENABLED · TOTP</span>
-            <button style={{ fontSize: 12, color: 'var(--sunset)' }}>Regenerate codes</button>
+            <button style={{ fontSize: 12, color: 'var(--sunset)' }} data-placeholder="true">Regenerate codes</button>
           </div>
         </Row>
         <Row label="SMS backup" hint="+82 10 •••• 4821">
           <Toggle defaultChecked={true}/>
         </Row>
         <Row label="Passkeys" hint="Sign in with Face ID / Touch ID">
-          <button className="btn secondary" style={{ fontSize: 12 }}>Add a passkey</button>
+          <button className="btn secondary" style={{ fontSize: 12 }} data-placeholder="true">Add a passkey</button>
         </Row>
       </Card>
       <Card title="Active sessions">
@@ -177,7 +177,7 @@ function SAccount({ u }) {
         ].map(([dev, meta, cur]) => (
           <Row key={dev} label={dev} hint={meta}>
             {cur ? <span style={{ fontSize: 11, color: 'var(--lichen)', fontFamily: 'var(--font-mono)', letterSpacing: '0.1em' }}>● THIS DEVICE</span>
-                 : <button style={{ fontSize: 12, color: 'var(--sunset)' }}>Revoke</button>}
+                 : <button style={{ fontSize: 12, color: 'var(--sunset)' }} data-placeholder="true">Revoke</button>}
           </Row>
         ))}
       </Card>
@@ -197,7 +197,7 @@ function SBilling() {
             </div>
             <span className="mono" style={{ fontSize: 10, color: 'var(--amber)', letterSpacing: '0.14em' }}>DEFAULT</span>
           </div>
-          <button className="btn secondary" style={{ fontSize: 12, marginTop: 10 }}>+ Add payment method</button>
+          <button className="btn secondary" style={{ fontSize: 12, marginTop: 10 }} data-placeholder="true">+ Add payment method</button>
         </Row>
         <Row label="Billing address">
           <div style={{ fontSize: 13, color: 'var(--parchment)' }}>
@@ -244,13 +244,13 @@ function SPilot({ onNav }) {
         ].map(([m, meta]) => (
           <Row key={m} label={m} hint={meta}>
             <div style={{ display: 'flex', gap: 6 }}>
-              <button style={{ fontSize: 12, color: 'var(--sunset)' }}>Edit</button>
-              <button style={{ fontSize: 12, color: 'var(--parchment-dim)' }}>Remove</button>
+              <button style={{ fontSize: 12, color: 'var(--sunset)' }} data-placeholder="true">Edit</button>
+              <button style={{ fontSize: 12, color: 'var(--parchment-dim)' }} data-placeholder="true">Remove</button>
             </div>
           </Row>
         ))}
         <div style={{ paddingTop: 14 }}>
-          <button className="btn secondary" style={{ fontSize: 12 }}>+ Register another drone</button>
+          <button className="btn secondary" style={{ fontSize: 12 }} data-placeholder="true">+ Register another drone</button>
         </div>
       </Card>
       <Card title="Certifications & insurance">
@@ -291,8 +291,8 @@ function SPrivacy() {
         <Row label="Show flight metadata" hint="Altitude, aircraft, shot date on your clips"><Toggle defaultChecked/></Row>
       </Card>
       <Card title="Your data">
-        <Row label="Download my data" hint="All clips, metadata, licenses, messages · delivered as .zip within 48h"><button className="btn secondary" style={{ fontSize: 12 }}>Request export</button></Row>
-        <Row label="Cookies & tracking"><button style={{ fontSize: 12, color: 'var(--sunset)' }}>Manage preferences →</button></Row>
+        <Row label="Download my data" hint="All clips, metadata, licenses, messages · delivered as .zip within 48h"><button className="btn secondary" style={{ fontSize: 12 }} data-placeholder="true">Request export</button></Row>
+        <Row label="Cookies & tracking"><button style={{ fontSize: 12, color: 'var(--sunset)' }} data-placeholder="true">Manage preferences →</button></Row>
       </Card>
     </>
   );
@@ -313,10 +313,10 @@ function SAppearance() {
 function SDanger() {
   return (
     <Card title="Danger zone" subtitle="These actions are permanent.">
-      <Row label="Deactivate account" hint="Hide your profile and clips. Reversible for 30 days."><button className="btn secondary" style={{ fontSize: 12, color: 'var(--sunset)' }}>Deactivate</button></Row>
-      <Row label="Transfer clips to another pilot"><button className="btn secondary" style={{ fontSize: 12 }}>Start transfer</button></Row>
+      <Row label="Deactivate account" hint="Hide your profile and clips. Reversible for 30 days."><button className="btn secondary" style={{ fontSize: 12, color: 'var(--sunset)' }} data-placeholder="true">Deactivate</button></Row>
+      <Row label="Transfer clips to another pilot"><button className="btn secondary" style={{ fontSize: 12 }} data-placeholder="true">Start transfer</button></Row>
       <Row label="Delete account" hint="All clips, licenses issued, and earnings history are erased. This cannot be undone.">
-        <button style={{ padding: '8px 14px', fontSize: 12, background: 'transparent', border: '1px solid #c73e3e', color: '#c73e3e', borderRadius: 3 }}>Delete permanently</button>
+        <button style={{ padding: '8px 14px', fontSize: 12, background: 'transparent', border: '1px solid #c73e3e', color: '#c73e3e', borderRadius: 3 }} data-placeholder="true">Delete permanently</button>
       </Row>
     </Card>
   );

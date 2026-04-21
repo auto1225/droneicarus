@@ -208,7 +208,7 @@ function PCert({ go }) {
                 background: added ? 'transparent' : 'var(--forest-900)',
                 border: '1px solid ' + (added ? 'var(--line)' : 'var(--line-strong)'),
                 color: added ? 'var(--parchment-dim)' : 'var(--bone)',
-              }}>{added ? 'Replace' : '+ Upload PDF'}</button>
+              }} data-placeholder="true">{added ? 'Replace' : '+ Upload PDF'}</button>
             </div>
           );
         })}
@@ -291,7 +291,7 @@ function PReview({ go }) {
           <div key={k} style={{ display: 'grid', gridTemplateColumns: '160px 1fr 80px', gap: 14, padding: '16px 22px', borderTop: i > 0 ? '1px solid var(--line)' : 'none', alignItems: 'center' }}>
             <div className="mono" style={{ fontSize: 11, letterSpacing: '0.14em', color: 'var(--parchment-dim)', textTransform: 'uppercase' }}>{k}</div>
             <div style={{ fontSize: 13 }}>{v}</div>
-            <button style={{ fontSize: 11, color: 'var(--sunset)', textAlign: 'right' }}>Edit</button>
+            <button style={{ fontSize: 11, color: 'var(--sunset)', textAlign: 'right' }} data-placeholder="true">Edit</button>
           </div>
         ))}
       </div>

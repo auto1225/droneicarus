@@ -133,7 +133,7 @@ export function PlayerPage({ video, onNav, onOpenVideo }) {
                   The creator has set a licensing fee on this clip. Unlock for HD streaming, a 4K download, and a commercial-use license.
                 </p>
                 <div style={{ display: 'flex', gap: 10 }}>
-                  <button className="btn primary" style={{ padding: '12px 24px', fontSize: 14 }}>
+                  <button className="btn primary" style={{ padding: '12px 24px', fontSize: 14 }} data-placeholder="true">
                     Unlock for ${video.price}
                   </button>
                   <button className="btn secondary" style={{ padding: '12px 24px', fontSize: 14 }}
@@ -190,12 +190,12 @@ export function PlayerPage({ video, onNav, onOpenVideo }) {
                 </div>
                 <div style={{ fontSize: 12, color: 'var(--parchment-dim)' }}>{video.creator.handle} · {formatViews(128000)} followers</div>
               </div>
-              <button className="btn" style={{ marginLeft: 12, padding: '8px 18px', fontSize: 13 }}>Follow</button>
+              <button className="btn" style={{ marginLeft: 12, padding: '8px 18px', fontSize: 13 }} data-placeholder="true">Follow</button>
             </div>
             <div style={{ display: 'flex', gap: 8 }}>
               <button onClick={onToggleLike} className="btn secondary" style={{ fontSize: 13, color: liked ? 'var(--sunset)' : undefined }}><Ic.heart/> {formatViews(video.likes + (liked ? 1 : 0))}</button>
-              <button className="btn secondary" style={{ fontSize: 13 }}>↗ Share</button>
-              <button className="btn secondary" style={{ fontSize: 13 }}>⎙ Save</button>
+              <button className="btn secondary" style={{ fontSize: 13 }} data-placeholder="true">↗ Share</button>
+              <button className="btn secondary" style={{ fontSize: 13 }} data-placeholder="true">⎙ Save</button>
             </div>
           </div>
 

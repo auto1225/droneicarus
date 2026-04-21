@@ -91,7 +91,7 @@ export function EarningsPage({ onNav }) {
           <div style={{ border: '1px solid var(--line)', borderRadius: 4 }}>
             <div style={{ padding: '16px 20px', borderBottom: '1px solid var(--line)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <h3 style={{ fontSize: 16 }}>Top earning clips</h3>
-              <button style={{ fontSize: 12, color: 'var(--sunset)' }}>View all →</button>
+              <button style={{ fontSize: 12, color: 'var(--sunset)' }} data-placeholder="true">View all →</button>
             </div>
             {myVids.map((v, i) => (
               <div key={v.id} style={{ display: 'grid', gridTemplateColumns: '30px 56px 1fr 90px 90px', gap: 12, padding: '12px 20px', borderTop: i === 0 ? 'none' : '1px solid var(--line)', alignItems: 'center' }}>
@@ -133,7 +133,7 @@ export function EarningsPage({ onNav }) {
               </div>
             ))}
             <div style={{ padding: '14px 20px', borderTop: '1px solid var(--line)' }}>
-              <button className="btn secondary" style={{ width: '100%', justifyContent: 'center', fontSize: 12 }}>Download 1099 / tax reports</button>
+              <button className="btn secondary" style={{ width: '100%', justifyContent: 'center', fontSize: 12 }} data-placeholder="true">Download 1099 / tax reports</button>
             </div>
           </div>
         </div>

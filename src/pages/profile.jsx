@@ -128,9 +128,9 @@ export function ProfilePage({ handle, onOpenVideo, onNav }) {
           </div>
 
           <div style={{ display: 'flex', gap: 8, paddingBottom: 12 }}>
-            <button className="btn secondary" style={{ fontSize: 13 }}>Message</button>
-            <button className="btn secondary" style={{ fontSize: 13 }}>Commission</button>
-            <button className="btn" style={{ fontSize: 13 }}>Follow</button>
+            <button className="btn secondary" style={{ fontSize: 13 }} data-placeholder="true">Message</button>
+            <button className="btn secondary" style={{ fontSize: 13 }} data-placeholder="true">Commission</button>
+            <button className="btn" style={{ fontSize: 13 }} data-placeholder="true">Follow</button>
           </div>
         </div>
 
