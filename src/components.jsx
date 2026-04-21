@@ -2,6 +2,7 @@
 import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react';
 import { CATEGORIES, CAT_ICONS, LOCATIONS, VIDEOS, thumbGradient, CURRENT_USER, STATS } from './data';
 import { useAuth } from './auth/AuthContext';
+import { useContent } from './content/ContentContext';
 
 // ——— Icons (inline SVG) ———
 export const Ic = {
@@ -210,15 +211,16 @@ export function Header({ route, onNav, query, setQuery }) {
     document.addEventListener('keydown', onKey);
     return () => document.removeEventListener('keydown', onKey);
   }, []);
+  const txt = useContent;
   const links = [
-    { id: 'home', label: 'Map' },
-    { id: 'explore', label: 'Explore' },
-    { id: 'shotlibrary', label: 'Shots' },
-    { id: 'rankings', label: 'Rankings' },
-    { id: 'creators', label: 'Creators' },
-    { id: 'atlas', label: 'Atlas' },
-    { id: 'pricing', label: 'Pricing' },
-    { id: 'live', label: 'Live' },
+    { id: 'home', label: txt('header.nav.map', 'Map') },
+    { id: 'explore', label: txt('header.nav.explore', 'Explore') },
+    { id: 'shotlibrary', label: txt('header.nav.shots', 'Shots') },
+    { id: 'rankings', label: txt('header.nav.rankings', 'Rankings') },
+    { id: 'creators', label: txt('header.nav.creators', 'Creators') },
+    { id: 'atlas', label: txt('header.nav.atlas', 'Atlas') },
+    { id: 'pricing', label: txt('header.nav.pricing', 'Pricing') },
+    { id: 'live', label: txt('header.nav.live', 'Live') },
   ];
   const { profile, user, signOut } = useAuth();
   // Prefer real signed-in profile; fall back to mock for guest preview.
@@ -246,9 +248,9 @@ export function Header({ route, onNav, query, setQuery }) {
         <button onClick={() => onNav('home')} style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
           <span style={{ color: 'var(--amber)' }}><Ic.drone/></span>
           <span style={{ fontFamily: 'var(--font-display)', fontSize: 20, fontWeight: 600, letterSpacing: '-0.02em' }}>
-            Drone<span style={{ color: 'var(--sunset)' }}>Icarus</span>
+            {(() => { const logo = txt('header.logo', 'DroneIcarus'); const mid = Math.ceil(logo.length / 2); return (<><span>{logo.slice(0, mid)}</span><span style={{ color: 'var(--sunset)' }}>{logo.slice(mid)}</span></>); })()}
           </span>
-          <span className="mono" style={{ fontSize: 9, color: 'var(--parchment-dim)', marginLeft: 4, border: '1px solid var(--line)', padding: '2px 5px', borderRadius: 2 }}>BETA</span>
+          <span className="mono" style={{ fontSize: 9, color: 'var(--parchment-dim)', marginLeft: 4, border: '1px solid var(--line)', padding: '2px 5px', borderRadius: 2 }}>{txt('header.badge', 'BETA')}</span>
         </button>
 
         <nav style={{ display: 'flex', gap: 4, marginLeft: 12 }}>
@@ -282,14 +284,14 @@ export function Header({ route, onNav, query, setQuery }) {
                 if (e.key === 'Enter') { onNav('search'); setDdOpen(false); }
                 if (e.key === 'Escape') { setDdOpen(false); inputRef.current?.blur(); }
               }}
-              placeholder='Search place, creator, or keyword — e.g. "Pyramids", "sunrise mountain"'
+              placeholder={txt('header.search.placeholder', 'Search place, creator, or keyword — e.g. "Pyramids", "sunrise mountain"')}
               style={{
                 flex: 1, background: 'transparent', border: 'none', outline: 'none',
                 color: 'var(--bone)', fontSize: 14, fontFamily: 'inherit',
                 boxShadow: 'none',
               }}
             />
-            <span className="kbd">⌘K</span>
+            <span className="kbd">{txt('header.search.shortcut', '⌘K')}</span>
           </div>
           {ddOpen && <SearchDropdown query={query} onNav={onNav} onClose={() => setDdOpen(false)} />}
         </div>
@@ -318,10 +320,10 @@ export function Header({ route, onNav, query, setQuery }) {
         </button>
 
         {profile?.role === 'admin' && (
-          <button onClick={() => onNav('admin')} className="btn" style={{ fontSize: 13, background: 'var(--amber)', color: '#1a2820', fontWeight: 700, letterSpacing: '0.08em' }}>CMS</button>
+          <button onClick={() => onNav('admin')} className="btn" style={{ fontSize: 13, background: 'var(--amber)', color: '#1a2820', fontWeight: 700, letterSpacing: '0.08em' }}>{txt('header.btn.cms', 'CMS')}</button>
         )}
         <button className="btn secondary" onClick={() => onNav('upload')} style={{ fontSize: 13 }}>
-          <Ic.upload/> Upload
+          <Ic.upload/> {txt('header.btn.upload', 'Upload')}
         </button>
 
         <div ref={menuRef} style={{ position: 'relative' }}>
@@ -575,6 +577,18 @@ function footerRoute(label) {
 }
 
 export function Footer({ onNav }) {
+  const txt = useContent;
+  const logo = txt('header.logo', 'DroneIcarus');
+  const mid = Math.ceil(logo.length / 2);
+  // Each footer column's link array is a JSON value in site_content (useContent already parses JSON).
+  const cols = [
+    { heading: txt('footer.col1.heading', 'Explore'),     links: txt('footer.col1.links', [{label:'Map',route:'home'}]) },
+    { heading: txt('footer.col2.heading', 'For pilots'),  links: txt('footer.col2.links', [{label:'Upload a clip',route:'upload'}]) },
+    { heading: txt('footer.col3.heading', 'Marketplace'), links: txt('footer.col3.links', [{label:'Pricing',route:'pricing'}]) },
+    { heading: txt('footer.col4.heading', 'Company'),     links: txt('footer.col4.links', [{label:'About',route:'legal'}]) },
+  ];
+  const year = new Date().getFullYear();
+  const copyright = String(txt('footer.copyright', '© {year} DroneIcarus, Inc. All footage belongs to its creators.')).replace('{year}', year);
   return (
     <footer style={{
       borderTop: '1px solid var(--line)',
@@ -587,27 +601,22 @@ export function Footer({ onNav }) {
           <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 12 }}>
             <span style={{ color: 'var(--amber)' }}><Ic.drone/></span>
             <span style={{ fontFamily: 'var(--font-display)', fontSize: 18, fontWeight: 600 }}>
-              Drone<span style={{ color: 'var(--sunset)' }}>Icarus</span>
+              <span>{logo.slice(0, mid)}</span><span style={{ color: 'var(--sunset)' }}>{logo.slice(mid)}</span>
             </span>
           </div>
           <p style={{ fontSize: 13, color: 'var(--parchment-dim)', maxWidth: 360, lineHeight: 1.6 }}>
-            The atlas of aerial footage. Browse the world from above — from Giza to Namsan, from storm fronts to submarine trenches.
+            {txt('footer.tagline', 'The atlas of aerial footage.')}
           </p>
           <div style={{ marginTop: 16, display: 'flex', gap: 8 }}>
             <span className="mono" style={{ fontSize: 10, padding: '4px 8px', border: '1px solid var(--line)', borderRadius: 2, color: 'var(--parchment-dim)' }}>EST. 2026</span>
             <span className="mono" style={{ fontSize: 10, padding: '4px 8px', border: '1px solid var(--line)', borderRadius: 2, color: 'var(--parchment-dim)' }}>{STATS.projected.countries} COUNTRIES</span>
           </div>
         </div>
-        {[
-          { t: 'Explore', links: ['Map', 'Categories', 'Rankings', 'Editor\u2019s Picks'] },
-          { t: 'For Pilots', links: ['Upload', 'Licensing', 'Payouts', 'Guidelines'] },
-          { t: 'Company', links: ['About', 'Press', 'Careers', 'Contact'] },
-          { t: 'Legal', links: ['Terms', 'Privacy', 'DMCA', 'Airspace'] },
-        ].map(col => (
-          <div key={col.t}>
-            <div className="eyebrow" style={{ marginBottom: 14 }}>{col.t}</div>
-            {col.links.map(l => (
-              <button key={l} onClick={() => onNav?.(footerRoute(l))} style={{ display: 'block', background: 'none', border: 'none', padding: 0, fontSize: 13, color: 'var(--parchment)', marginBottom: 8, cursor: 'pointer', textAlign: 'left', fontFamily: 'inherit' }}>{l}</button>
+        {cols.map((col, idx) => (
+          <div key={idx}>
+            <div className="eyebrow" style={{ marginBottom: 14 }}>{col.heading}</div>
+            {(Array.isArray(col.links) ? col.links : []).map((l, i) => (
+              <button key={i} onClick={() => onNav?.(l.route || 'home')} style={{ display: 'block', background: 'none', border: 'none', padding: 0, fontSize: 13, color: 'var(--parchment)', marginBottom: 8, cursor: 'pointer', textAlign: 'left', fontFamily: 'inherit' }}>{l.label}</button>
             ))}
           </div>
         ))}
@@ -618,8 +627,8 @@ export function Footer({ onNav }) {
         display: 'flex', justifyContent: 'space-between',
         fontSize: 11, fontFamily: 'var(--font-mono)', color: 'var(--parchment-dim)',
       }}>
-        <span>© 2026 Drone Icarus — icarus.fly</span>
-        <span>N 37°33'04" / E 126°58'18" — Seoul HQ</span>
+        <span>{copyright}</span>
+        <span className="mono">Seoul HQ</span>
       </div>
     </footer>
   );
