@@ -2,11 +2,48 @@
 import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react';
 import { CURRENT_USER } from '../data';
 import { Ic } from '../components';
+import { useAuth } from '../auth/AuthContext';
+import { supabase } from '../supabase';
+import { toast } from '../toast';
 const sUseState = useState;
 
 export function SettingsPage({ onNav }) {
   const [section, setSection] = sUseState('profile');
-  const u = CURRENT_USER;
+  const { profile, refreshProfile } = useAuth();
+  const u = profile ? {
+    id: profile.id,
+    name: profile.display_name,
+    handle: profile.handle,
+    email: profile.email,
+    initials: (profile.display_name || '?').split(/\s+/).map(s => s[0]).join('').slice(0,2).toUpperCase(),
+    location: profile.location,
+    pilotVerified: profile.pilot_verified,
+  } : CURRENT_USER;
+
+  const [draft, setDraft] = sUseState({
+    display_name: u.name || '',
+    handle: u.handle || '',
+    location: u.location || '',
+    bio: profile?.bio || '',
+  });
+  const [saving, setSaving] = sUseState(false);
+  const onSave = async () => {
+    if (!profile?.id) return;
+    setSaving(true);
+    try {
+      const { error } = await supabase.from('profiles').update({
+        display_name: draft.display_name,
+        handle: draft.handle.startsWith('@') ? draft.handle : `@${draft.handle}`,
+        location: draft.location,
+        bio: draft.bio,
+      }).eq('id', profile.id);
+      if (error) throw error;
+      await refreshProfile();
+      toast?.('Saved', 'Profile updated');
+    } catch (e) {
+      toast?.('Save failed', e.message, 'error');
+    } finally { setSaving(false); }
+  };
 
   const sections = [
     ['profile', 'Profile', Ic.user || Ic.pin],

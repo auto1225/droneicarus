@@ -1,5 +1,7 @@
 // pages/notifications.jsx — notifications inbox
 import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react';
+import { fetchNotifications, markAllRead, markRead, subscribeNotifications } from '../db/notifications';
+import { toast } from '../toast';
 const nUseState = useState;
 
 const NOTIFS = [
@@ -20,7 +22,40 @@ const KIND_COLOR = {
 
 export function NotificationsPage({ onNav }) {
   const [filter, setFilter] = nUseState('all');
-  const filtered = filter === 'all' ? NOTIFS : filter === 'unread' ? NOTIFS.filter(n => n.unread) : NOTIFS.filter(n => n.kind === filter);
+  const [rows, setRows] = nUseState(NOTIFS);
+
+  // Load real notifications if Supabase data mode is on.
+  useEffect(() => {
+    let alive = true;
+    fetchNotifications().then(data => {
+      if (!alive || !data?.length) return;
+      setRows(data.map(n => ({
+        id: n.id,
+        kind: n.kind || 'system',
+        title: n.title,
+        body: n.body || '',
+        time: n.created_at ? humanAgo(n.created_at) : 'just now',
+        unread: !n.read_at,
+        icon: iconFor(n.kind),
+        targetUrl: n.target_url,
+      })));
+    });
+    const unsub = subscribeNotifications((fresh) => {
+      setRows(cur => [{
+        id: fresh.id, kind: fresh.kind, title: fresh.title, body: fresh.body || '',
+        time: 'just now', unread: true, icon: iconFor(fresh.kind), targetUrl: fresh.target_url,
+      }, ...cur]);
+      toast?.(fresh.title, fresh.body);
+    });
+    return () => { alive = false; unsub?.(); };
+  }, []);
+
+  const filtered = filter === 'all' ? rows : filter === 'unread' ? rows.filter(n => n.unread) : rows.filter(n => n.kind === filter);
+
+  const onMarkAll = async () => {
+    await markAllRead();
+    setRows(cur => cur.map(n => ({ ...n, unread: false })));
+  };
 
   return (
     <div style={{ maxWidth: 820, margin: '0 auto', padding: '40px 28px 80px' }}>
@@ -29,7 +64,7 @@ export function NotificationsPage({ onNav }) {
           <div className="eyebrow" style={{ marginBottom: 8 }}>INBOX</div>
           <h1 style={{ fontSize: 36 }}>Notifications</h1>
         </div>
-        <button style={{ fontSize: 12, color: 'var(--sunset)' }}>Mark all as read</button>
+        <button onClick={onMarkAll} style={{ fontSize: 12, color: 'var(--sunset)' }}>Mark all as read</button>
       </div>
 
       <div style={{ display: 'flex', gap: 6, marginBottom: 20, flexWrap: 'wrap' }}>
@@ -73,3 +108,16 @@ export function NotificationsPage({ onNav }) {
   );
 }
 
+
+function humanAgo(iso) {
+  const s = Math.floor((Date.now() - new Date(iso)) / 1000);
+  if (s < 60) return 'just now';
+  if (s < 3600) return `${Math.floor(s / 60)} min ago`;
+  if (s < 86400) return `${Math.floor(s / 3600)}h ago`;
+  if (s < 604800) return `${Math.floor(s / 86400)}d ago`;
+  return `${Math.floor(s / 604800)}w ago`;
+}
+
+function iconFor(kind) {
+  return { license: '$', rank: '↑', comment: '"', follow: '+', system: '✓', payout: '$', flight: '!' }[kind] || '•';
+}

@@ -1,35 +1,45 @@
 // src/App.jsx — main shell, hash routing, Tweaks panel
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, Suspense, lazy } from 'react';
 
 import { VIDEOS } from './data';
 import { Header, Footer, Ic } from './components';
 import { ToastStack } from './toast';
+import { RequireAuth } from './auth/RequireAuth';
 
-import { HomePage } from './pages/home';
-import { PlayerPage } from './pages/player';
-import { ExplorePage, SearchPage } from './pages/explore';
-import { RankingsPage, CreatorsPage } from './pages/rankings';
-import { CreatorDashboard } from './pages/creator';
-import { UploadPage } from './pages/upload';
-import { MyPage } from './pages/mypage';
-import { AuthPage } from './pages/auth';
-import { CheckoutPage, SuccessPage, OrdersPage, LicenseDetailPage } from './pages/checkout';
-import { EarningsPage } from './pages/earnings';
-import { SettingsPage } from './pages/settings';
-import { PilotOnboardingPage } from './pages/pilot-onboarding';
-import { ProfilePage } from './pages/profile';
-import { MessagesPage } from './pages/messages';
-import { NotificationsPage } from './pages/notifications';
-import { CommissionPage } from './pages/commission';
-import { GuidelinesPage, LegalPage, NotFoundPage } from './pages/static';
-import { FlightLogPage } from './pages/flightlog';
-import { AtlasPage } from './pages/atlas';
-import { LivePage } from './pages/live';
-import { CollectionPage } from './pages/collection';
-import { LocationPage } from './pages/location';
-import { PricingPage } from './pages/pricing';
-import { ShotLibraryPage } from './pages/shotlibrary';
-import { AdvancedPage } from './pages/advanced';
+// Heavy pages (map / uploader / player) are lazy-loaded so the initial bundle
+// stays lean. The prototype was ~657KB as one chunk; with these splits the
+// home bundle drops substantially and the browser parses other routes on demand.
+const HomePage            = lazy(() => import('./pages/home').then(m => ({ default: m.HomePage })));
+const PlayerPage          = lazy(() => import('./pages/player').then(m => ({ default: m.PlayerPage })));
+const ExplorePage         = lazy(() => import('./pages/explore').then(m => ({ default: m.ExplorePage })));
+const SearchPage          = lazy(() => import('./pages/explore').then(m => ({ default: m.SearchPage })));
+const RankingsPage        = lazy(() => import('./pages/rankings').then(m => ({ default: m.RankingsPage })));
+const CreatorsPage        = lazy(() => import('./pages/rankings').then(m => ({ default: m.CreatorsPage })));
+const CreatorDashboard    = lazy(() => import('./pages/creator').then(m => ({ default: m.CreatorDashboard })));
+const UploadPage          = lazy(() => import('./pages/upload').then(m => ({ default: m.UploadPage })));
+const MyPage              = lazy(() => import('./pages/mypage').then(m => ({ default: m.MyPage })));
+const AuthPage            = lazy(() => import('./pages/auth').then(m => ({ default: m.AuthPage })));
+const CheckoutPage        = lazy(() => import('./pages/checkout').then(m => ({ default: m.CheckoutPage })));
+const SuccessPage         = lazy(() => import('./pages/checkout').then(m => ({ default: m.SuccessPage })));
+const OrdersPage          = lazy(() => import('./pages/checkout').then(m => ({ default: m.OrdersPage })));
+const LicenseDetailPage   = lazy(() => import('./pages/checkout').then(m => ({ default: m.LicenseDetailPage })));
+const EarningsPage        = lazy(() => import('./pages/earnings').then(m => ({ default: m.EarningsPage })));
+const SettingsPage        = lazy(() => import('./pages/settings').then(m => ({ default: m.SettingsPage })));
+const PilotOnboardingPage = lazy(() => import('./pages/pilot-onboarding').then(m => ({ default: m.PilotOnboardingPage })));
+const ProfilePage         = lazy(() => import('./pages/profile').then(m => ({ default: m.ProfilePage })));
+const MessagesPage        = lazy(() => import('./pages/messages').then(m => ({ default: m.MessagesPage })));
+const NotificationsPage   = lazy(() => import('./pages/notifications').then(m => ({ default: m.NotificationsPage })));
+const CommissionPage      = lazy(() => import('./pages/commission').then(m => ({ default: m.CommissionPage })));
+const GuidelinesPage      = lazy(() => import('./pages/static').then(m => ({ default: m.GuidelinesPage })));
+const LegalPage           = lazy(() => import('./pages/static').then(m => ({ default: m.LegalPage })));
+const FlightLogPage       = lazy(() => import('./pages/flightlog').then(m => ({ default: m.FlightLogPage })));
+const AtlasPage           = lazy(() => import('./pages/atlas').then(m => ({ default: m.AtlasPage })));
+const LivePage            = lazy(() => import('./pages/live').then(m => ({ default: m.LivePage })));
+const CollectionPage      = lazy(() => import('./pages/collection').then(m => ({ default: m.CollectionPage })));
+const LocationPage        = lazy(() => import('./pages/location').then(m => ({ default: m.LocationPage })));
+const PricingPage         = lazy(() => import('./pages/pricing').then(m => ({ default: m.PricingPage })));
+const ShotLibraryPage     = lazy(() => import('./pages/shotlibrary').then(m => ({ default: m.ShotLibraryPage })));
+const AdvancedPage        = lazy(() => import('./pages/advanced').then(m => ({ default: m.AdvancedPage })));
 
 const TWEAK_DEFAULTS = {
   theme: 'light',
@@ -54,6 +64,14 @@ const FONT_PAIRS = {
   tech:      { display: 'Space Grotesk',        ui: 'IBM Plex Sans' },
 };
 
+function RouteFallback() {
+  return (
+    <div style={{ padding: 80, textAlign: 'center', color: 'var(--parchment-dim)' }}>
+      <div className="mono" style={{ fontSize: 12, letterSpacing: '0.2em', textTransform: 'uppercase' }}>Loading…</div>
+    </div>
+  );
+}
+
 export default function App() {
   const [route, setRoute] = useState('home');
   const [routeParam, setRouteParam] = useState(null);
@@ -63,7 +81,6 @@ export default function App() {
   const [tweaksOpen, setTweaksOpen] = useState(false);
   const [tweaks, setTweaks] = useState(TWEAK_DEFAULTS);
 
-  // Hash routing
   useEffect(() => {
     const parseHash = () => {
       const h = (window.location.hash || '#home').slice(1);
@@ -94,7 +111,6 @@ export default function App() {
     window.scrollTo({ top: 0, behavior: 'instant' });
   };
 
-  // Apply tweaks to DOM
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', tweaks.theme);
     document.documentElement.setAttribute('data-density', tweaks.density);
@@ -105,7 +121,6 @@ export default function App() {
     document.documentElement.style.setProperty('--font-ui', `'${fp.ui}', system-ui, sans-serif`);
   }, [tweaks]);
 
-  // Claude Design edit-mode protocol (harmless if not embedded)
   useEffect(() => {
     const onMsg = (e) => {
       if (e.data?.type === '__activate_edit_mode') setTweaksOpen(true);
@@ -126,37 +141,39 @@ export default function App() {
     <>
       <Header route={route} onNav={onNav} query={query} setQuery={setQuery} />
       <ToastStack />
-      {route === 'home' && <HomePage onOpenVideo={onOpenVideo} onNav={onNav} />}
-      {route === 'watch' && <PlayerPage video={currentVideo} onNav={onNav} onOpenVideo={onOpenVideo} />}
-      {route === 'explore' && <ExplorePage onOpenVideo={onOpenVideo} onNav={onNav} />}
-      {route === 'rankings' && <RankingsPage onOpenVideo={onOpenVideo} />}
-      {route === 'creators' && <CreatorsPage onOpenVideo={onOpenVideo} />}
-      {route === 'creator' && <CreatorDashboard onNav={onNav} />}
-      {route === 'search' && <SearchPage query={query} onOpenVideo={onOpenVideo} onNav={onNav} onSelectLoc={setPendingLoc} />}
-      {route === 'upload' && <UploadPage onNav={onNav} />}
-      {route === 'mypage' && <MyPage onOpenVideo={onOpenVideo} onNav={onNav} />}
-      {route === 'signin' && <AuthPage onNav={onNav} />}
-      {route === 'checkout' && <CheckoutPage videoId={routeParam} onNav={onNav} />}
-      {route === 'success' && <SuccessPage onNav={onNav} />}
-      {route === 'orders' && <OrdersPage onNav={onNav} />}
-      {route === 'license' && <LicenseDetailPage orderId={routeParam} onNav={onNav} />}
-      {route === 'earnings' && <EarningsPage onNav={onNav} />}
-      {route === 'settings' && <SettingsPage onNav={onNav} />}
-      {route === 'pilot-onboarding' && <PilotOnboardingPage onNav={onNav} />}
-      {route === 'profile' && <ProfilePage handle={routeParam} onOpenVideo={onOpenVideo} onNav={onNav} />}
-      {route === 'messages' && <MessagesPage onNav={onNav} />}
-      {route === 'notifications' && <NotificationsPage onNav={onNav} />}
-      {route === 'commission' && <CommissionPage onNav={onNav} />}
-      {route === 'guidelines' && <GuidelinesPage onNav={onNav} />}
-      {route === 'legal' && <LegalPage onNav={onNav} />}
-      {route === 'flightlog' && <FlightLogPage videoId={routeParam} onNav={onNav} />}
-      {route === 'atlas' && <AtlasPage onNav={onNav} />}
-      {route === 'live' && <LivePage onNav={onNav} />}
-      {route === 'collection' && <CollectionPage id={routeParam} onOpenVideo={onOpenVideo} onNav={onNav} />}
-      {route === 'location' && <LocationPage id={routeParam} onOpenVideo={onOpenVideo} onNav={onNav} />}
-      {route === 'pricing' && <PricingPage onNav={onNav} />}
-      {route === 'shotlibrary' && <ShotLibraryPage onNav={onNav} onOpenVideo={onOpenVideo} />}
-      {route === 'advanced' && <AdvancedPage onNav={onNav} onOpenVideo={onOpenVideo} />}
+      <Suspense fallback={<RouteFallback />}>
+        {route === 'home' && <HomePage onOpenVideo={onOpenVideo} onNav={onNav} />}
+        {route === 'watch' && <PlayerPage video={currentVideo} onNav={onNav} onOpenVideo={onOpenVideo} />}
+        {route === 'explore' && <ExplorePage onOpenVideo={onOpenVideo} onNav={onNav} />}
+        {route === 'rankings' && <RankingsPage onOpenVideo={onOpenVideo} />}
+        {route === 'creators' && <CreatorsPage onOpenVideo={onOpenVideo} />}
+        {route === 'creator' && <RequireAuth onNav={onNav} message="Creator studio is for signed-in pilots."><CreatorDashboard onNav={onNav} /></RequireAuth>}
+        {route === 'search' && <SearchPage query={query} onOpenVideo={onOpenVideo} onNav={onNav} onSelectLoc={setPendingLoc} />}
+        {route === 'upload' && <RequireAuth onNav={onNav} message="Sign in to upload clips."><UploadPage onNav={onNav} /></RequireAuth>}
+        {route === 'mypage' && <RequireAuth onNav={onNav} message="Sign in to view your collections."><MyPage onOpenVideo={onOpenVideo} onNav={onNav} /></RequireAuth>}
+        {route === 'signin' && <AuthPage onNav={onNav} />}
+        {route === 'checkout' && <RequireAuth onNav={onNav} message="Sign in to complete your purchase."><CheckoutPage videoId={routeParam} onNav={onNav} /></RequireAuth>}
+        {route === 'success' && <SuccessPage onNav={onNav} />}
+        {route === 'orders' && <RequireAuth onNav={onNav} message="Sign in to see your orders."><OrdersPage onNav={onNav} /></RequireAuth>}
+        {route === 'license' && <RequireAuth onNav={onNav}><LicenseDetailPage orderId={routeParam} onNav={onNav} /></RequireAuth>}
+        {route === 'earnings' && <RequireAuth onNav={onNav} message="Sign in to view your earnings."><EarningsPage onNav={onNav} /></RequireAuth>}
+        {route === 'settings' && <RequireAuth onNav={onNav}><SettingsPage onNav={onNav} /></RequireAuth>}
+        {route === 'pilot-onboarding' && <RequireAuth onNav={onNav}><PilotOnboardingPage onNav={onNav} /></RequireAuth>}
+        {route === 'profile' && <ProfilePage handle={routeParam} onOpenVideo={onOpenVideo} onNav={onNav} />}
+        {route === 'messages' && <MessagesPage onNav={onNav} />}
+        {route === 'notifications' && <NotificationsPage onNav={onNav} />}
+        {route === 'commission' && <CommissionPage onNav={onNav} />}
+        {route === 'guidelines' && <GuidelinesPage onNav={onNav} />}
+        {route === 'legal' && <LegalPage onNav={onNav} />}
+        {route === 'flightlog' && <FlightLogPage videoId={routeParam} onNav={onNav} />}
+        {route === 'atlas' && <AtlasPage onNav={onNav} />}
+        {route === 'live' && <LivePage onNav={onNav} />}
+        {route === 'collection' && <CollectionPage id={routeParam} onOpenVideo={onOpenVideo} onNav={onNav} />}
+        {route === 'location' && <LocationPage id={routeParam} onOpenVideo={onOpenVideo} onNav={onNav} />}
+        {route === 'pricing' && <PricingPage onNav={onNav} />}
+        {route === 'shotlibrary' && <ShotLibraryPage onNav={onNav} onOpenVideo={onOpenVideo} />}
+        {route === 'advanced' && <AdvancedPage onNav={onNav} onOpenVideo={onOpenVideo} />}
+      </Suspense>
       {!['creator','pilot-onboarding','signin','messages','live'].includes(route) && <Footer />}
 
       {tweaksOpen && <TweaksPanel tweaks={tweaks} update={updateTweak} onClose={() => setTweaksOpen(false)} />}

@@ -2,13 +2,34 @@
 import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react';
 import { VIDEOS, CREATORS, thumbGradient, CURRENT_USER, COLLECTIONS } from '../data';
 import { Ic, formatViews } from '../components';
+import { useAuth } from '../auth/AuthContext';
+import { fetchCollections } from '../db/social';
 const mpUseState = useState;
 const mpUseMemo = useMemo;
 
 export function MyPage({ onOpenVideo, onNav }) {
-  const u = CURRENT_USER;
+  const { profile } = useAuth();
+  const u = profile ? {
+    id: profile.id,
+    name: profile.display_name || 'User',
+    handle: profile.handle || '@user',
+    email: profile.email,
+    initials: (profile.display_name || profile.handle || '?').split(/\s+/).map(s => s[0]).join('').slice(0,2).toUpperCase(),
+    pilotVerified: profile.pilot_verified,
+    joined: profile.created_at ? new Date(profile.created_at).toLocaleString('en-US', { month: 'short', year: 'numeric' }) : CURRENT_USER.joined,
+    location: profile.location || CURRENT_USER.location,
+    followers: profile.followers_count ?? CURRENT_USER.followers,
+    following: profile.following_count ?? CURRENT_USER.following,
+    collections: CURRENT_USER.collections,
+    purchases: CURRENT_USER.purchases,
+  } : CURRENT_USER;
   const [tab, setTab] = mpUseState('collections');
   const [selectedCol, setSelectedCol] = mpUseState(null);
+  const [cols, setCols] = mpUseState(COLLECTIONS);
+
+  useEffect(() => {
+    fetchCollections().then(rows => { if (rows && rows.length) setCols(rows); });
+  }, [profile?.id]);
 
   if (selectedCol) return <CollectionDetail col={selectedCol} onBack={() => setSelectedCol(null)} onOpenVideo={onOpenVideo} />;
 
@@ -95,7 +116,7 @@ export function MyPage({ onOpenVideo, onNav }) {
               <button className="btn secondary" style={{ fontSize: 12 }}>+ New board</button>
             </div>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 20, marginBottom: 60 }}>
-              {COLLECTIONS.map(c => <BoardCard key={c.id} col={c} onClick={() => setSelectedCol(c)} />)}
+              {cols.map(c => <BoardCard key={c.id} col={c} onClick={() => setSelectedCol(c)} />)}
             </div>
           </div>
         )}

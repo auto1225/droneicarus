@@ -1,6 +1,10 @@
 // comments.jsx — Comments thread + timestamp annotations
 import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react';
 import { toast } from './toast';
+import { fetchComments, postComment } from './db/comments';
+import { useAuth } from './auth/AuthContext';
+
+const USE_SUPABASE = import.meta.env.VITE_USE_SUPABASE_DATA === 'true';
 
 const COMMENT_SEED = [
   {
@@ -29,6 +33,7 @@ const COMMENT_SEED = [
 ];
 
 export function CommentThread({ video }) {
+  const { profile, user } = useAuth();
   const [comments, setComments] = React.useState(COMMENT_SEED);
   const [draft, setDraft] = React.useState('');
   const [sort, setSort] = React.useState('top'); // top | new
@@ -36,29 +41,89 @@ export function CommentThread({ video }) {
   const [replyDraft, setReplyDraft] = React.useState('');
   const [liked, setLiked] = React.useState({});
 
-  function submit() {
-    if (!draft.trim()) return;
-    const c = {
-      id: 'c' + Date.now(), user: 'You', handle: '@you', avatar: 'YU',
-      role: 'Viewer', verified: false, time: 'just now', likes: 0, ts: null,
-      body: draft.trim(), replies: []
+  // Load from Supabase when backing data is enabled and the video has a UUID id.
+  useEffect(() => {
+    if (!USE_SUPABASE || !video?.id) return;
+    // prototype videos use 'v0','v1'… ids — those aren't valid UUIDs
+    if (!/^[0-9a-f]{8}-/.test(String(video.id))) return;
+    let alive = true;
+    fetchComments(video.id).then(rows => {
+      if (!alive) return;
+      setComments(rows.map(adaptDbComment));
+    });
+    return () => { alive = false; };
+  }, [video?.id]);
+
+  async function submit() {
+    const body = draft.trim();
+    if (!body) return;
+    const me = profile ? {
+      user: profile.display_name || 'You',
+      handle: profile.handle,
+      avatar: (profile.display_name || 'U').split(/\s+/).map(s => s[0]).join('').slice(0,2).toUpperCase(),
+      role: profile.role === 'pilot' ? 'Pilot' : profile.role === 'studio' ? 'Studio' : 'Viewer',
+      verified: profile.pilot_verified,
+    } : { user: 'You', handle: '@you', avatar: 'YU', role: 'Viewer', verified: false };
+    const optimistic = {
+      id: 'c' + Date.now(), ...me, time: 'just now', likes: 0, ts: null, body, replies: [],
     };
-    setComments([c, ...comments]);
+    setComments([optimistic, ...comments]);
     setDraft('');
-    toast?.success('Comment posted');
+    toast?.('Comment posted');
+    if (USE_SUPABASE && user && /^[0-9a-f]{8}-/.test(String(video?.id))) {
+      try {
+        const row = await postComment({ videoId: video.id, body });
+        setComments((cur) => cur.map(c => c.id === optimistic.id ? adaptDbComment({ ...row, replies: [] }) : c));
+      } catch (e) {
+        toast?.('Could not save', e.message, 'error');
+      }
+    }
   }
 
-  function submitReply(cid) {
-    if (!replyDraft.trim()) return;
-    setComments(comments.map(c => c.id === cid ? {
-      ...c,
-      replies: [...c.replies, {
-        id: 'r' + Date.now(), user: 'You', handle: '@you', avatar: 'YU',
-        verified: false, time: 'just now', likes: 0, body: replyDraft.trim()
-      }]
-    } : c));
+  async function submitReply(cid) {
+    const body = replyDraft.trim();
+    if (!body) return;
+    const me = profile ? {
+      user: profile.display_name || 'You',
+      handle: profile.handle,
+      avatar: (profile.display_name || 'U').split(/\s+/).map(s => s[0]).join('').slice(0,2).toUpperCase(),
+      verified: profile.pilot_verified,
+    } : { user: 'You', handle: '@you', avatar: 'YU', verified: false };
+    const optimistic = { id: 'r' + Date.now(), ...me, time: 'just now', likes: 0, body };
+    setComments(comments.map(c => c.id === cid ? { ...c, replies: [...c.replies, optimistic] } : c));
     setReplyDraft(''); setReplyTo(null);
-    toast?.success('Reply posted');
+    toast?.('Reply posted');
+    if (USE_SUPABASE && user && /^[0-9a-f]{8}-/.test(String(cid))) {
+      try { await postComment({ videoId: video.id, body, parentId: cid }); } catch (e) {
+        toast?.('Could not save reply', e.message, 'error');
+      }
+    }
+  }
+
+  function adaptDbComment(r) {
+    const a = r.author || {};
+    return {
+      id: r.id,
+      user: a.display_name || 'Anonymous',
+      handle: a.handle || '@?',
+      avatar: (a.display_name || '?').split(/\s+/).map(s => s[0]).join('').slice(0,2).toUpperCase(),
+      role: a.role === 'pilot' ? 'Pilot' : a.role === 'studio' ? 'Studio' : 'Viewer',
+      verified: a.pilot_verified || false,
+      time: r.created_at ? relTime(r.created_at) : 'just now',
+      likes: r.likes_count || 0,
+      ts: null,
+      body: r.body,
+      replies: (r.replies || []).map(adaptDbComment),
+    };
+  }
+
+  function relTime(iso) {
+    const d = Math.floor((Date.now() - new Date(iso)) / 86400000);
+    if (d <= 0) return 'today';
+    if (d === 1) return '1d ago';
+    if (d < 7) return `${d}d ago`;
+    if (d < 30) return `${Math.round(d / 7)}w ago`;
+    return `${Math.round(d / 30)}mo ago`;
   }
 
   function toggleLike(id) {

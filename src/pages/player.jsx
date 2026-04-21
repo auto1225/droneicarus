@@ -2,14 +2,40 @@
 import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react';
 import { CATEGORIES, CAT_ICONS, LOCATIONS, VIDEOS, thumbGradient } from '../data';
 import { Ic, formatViews, formatDays } from '../components';
+import { hasLiked, toggleLike } from '../db/social';
+import { toast } from '../toast';
 
 export function PlayerPage({ video, onNav, onOpenVideo }) {
   if (!video) return <div style={{ padding: 80, textAlign: 'center' }}>No video selected.</div>;
   const [previewRemaining, setPreviewRemaining] = React.useState(video.price > 0 ? 3 : null);
   const [locked, setLocked] = React.useState(video.price > 0);
   const [playing, setPlaying] = React.useState(true);
+  const [liked, setLiked] = React.useState(false);
+  const [likeBusy, setLikeBusy] = React.useState(false);
   const loc = LOCATIONS.find(l => l.id === video.locationId);
   const related = VIDEOS.filter(v => v.locationId === video.locationId && v.id !== video.id).slice(0, 8);
+
+  // Load like state when video is a real DB row (UUID id)
+  React.useEffect(() => {
+    if (!/^[0-9a-f]{8}-/.test(String(video.id))) return;
+    hasLiked(video.id).then(setLiked).catch(() => {});
+  }, [video.id]);
+
+  const onToggleLike = async () => {
+    if (likeBusy) return;
+    setLikeBusy(true);
+    try {
+      if (/^[0-9a-f]{8}-/.test(String(video.id))) {
+        const now = await toggleLike(video.id);
+        setLiked(now);
+      } else {
+        setLiked(v => !v);
+      }
+    } catch (e) {
+      toast?.('Sign in to like', e.message, 'error');
+      onNav?.('signin');
+    } finally { setLikeBusy(false); }
+  };
 
   React.useEffect(() => {
     if (previewRemaining === null || previewRemaining <= 0) return;
@@ -137,7 +163,7 @@ export function PlayerPage({ video, onNav, onOpenVideo }) {
               <button className="btn" style={{ marginLeft: 12, padding: '8px 18px', fontSize: 13 }}>Follow</button>
             </div>
             <div style={{ display: 'flex', gap: 8 }}>
-              <button className="btn secondary" style={{ fontSize: 13 }}><Ic.heart/> {formatViews(video.likes)}</button>
+              <button onClick={onToggleLike} className="btn secondary" style={{ fontSize: 13, color: liked ? 'var(--sunset)' : undefined }}><Ic.heart/> {formatViews(video.likes + (liked ? 1 : 0))}</button>
               <button className="btn secondary" style={{ fontSize: 13 }}>↗ Share</button>
               <button className="btn secondary" style={{ fontSize: 13 }}>⎙ Save</button>
             </div>

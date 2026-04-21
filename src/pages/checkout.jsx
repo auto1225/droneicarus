@@ -2,6 +2,9 @@
 import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react';
 import { LOCATIONS, VIDEOS, thumbGradient, CURRENT_USER, ORDERS } from '../data';
 import { Ic } from '../components';
+import { useAuth } from '../auth/AuthContext';
+import { createOrder, fetchOrder } from '../db/commerce';
+import { toast } from '../toast';
 const ckUseState = useState;
 const ckUseEffect = useEffect;
 
@@ -24,13 +27,33 @@ export function CheckoutPage({ videoId, licenseType = 'Commercial', onNav }) {
   const tax = Math.round(sub * 0.08 * 100) / 100;
   const total = Math.round((sub + tax) * 100) / 100;
 
-  const submit = () => {
+  const submit = async () => {
     setProcessing(true);
-    setTimeout(() => {
-      const orderId = `DI-2026-${String(Math.floor(48100 + Math.random() * 500)).padStart(5, '0')}`;
-      __lastOrder = { id: orderId, videoId: v.id, tier, subtotal: sub, tax, total, method: payMethod === 'paypal' ? 'PayPal · ' + email : 'Visa •• ' + card.slice(-4) };
+    try {
+      // Try creating the real order if video.id is a UUID (Supabase). Otherwise just simulate.
+      let orderId = `DI-2026-${String(Math.floor(48100 + Math.random() * 500)).padStart(5, '0')}`;
+      if (/^[0-9a-f]{8}-/.test(String(v.id))) {
+        const row = await createOrder({
+          videoId: v.id,
+          license: tier.toLowerCase(),
+          subtotal: sub, tax, total,
+          paymentBrand: payMethod === 'paypal' ? 'PayPal' : 'Visa',
+          paymentLast4: payMethod === 'paypal' ? null : card.slice(-4),
+        });
+        orderId = row.id;
+      }
+      __lastOrder = {
+        id: orderId, videoId: v.id, tier,
+        subtotal: sub, tax, total,
+        method: payMethod === 'paypal' ? 'PayPal · ' + email : 'Visa •• ' + card.slice(-4),
+      };
+      toast?.('License secured', `Order ${orderId} confirmed`);
       onNav('success');
-    }, 1600);
+    } catch (e) {
+      toast?.('Payment failed', e.message || 'Try again', 'error');
+    } finally {
+      setProcessing(false);
+    }
   };
 
   return (
@@ -260,8 +283,14 @@ export function SuccessPage({ onNav }) {
 
 export function OrdersPage({ onNav }) {
   const [filter, setFilter] = ckUseState('all');
-  const rows = filter === 'all' ? ORDERS : ORDERS.filter(o => o.license.toLowerCase() === filter);
-  const lifetime = ORDERS.reduce((s, o) => s + o.total, 0);
+  const [data, setData] = ckUseState(ORDERS);
+  useEffect(() => {
+    import('../db/commerce').then(({ fetchOrders }) => {
+      fetchOrders().then(rows => { if (rows && rows.length) setData(rows); });
+    });
+  }, []);
+  const rows = filter === 'all' ? data : data.filter(o => o.license.toLowerCase() === filter);
+  const lifetime = data.reduce((s, o) => s + o.total, 0);
   return (
     <div style={{ maxWidth: 1200, margin: '0 auto', padding: '40px 28px 80px' }}>
       <div className="mono" style={{ fontSize: 11, letterSpacing: '0.18em', color: 'var(--parchment-dim)', marginBottom: 10 }}>LICENSE LOCKER</div>
