@@ -155,20 +155,34 @@ export default function App() {
 
   useEffect(() => {
     const parseHash = () => {
-      const rawHash = (window.location.hash || '#home').slice(1);
-      // Supabase OAuth / magic-link / recovery callback lands us on
-      // '#access_token=...&refresh_token=...&...' or '#error=...'. Those
-      // aren't real routes — treat them as 'home' while the SDK consumes
-      // the tokens, then strip the hash so we don't re-enter this branch.
-      if (/^(access_token=|refresh_token=|error=|error_code=|provider_token=|expires_in=|token_type=)/.test(rawHash)) {
+      let rawHash = (window.location.hash || '#home').slice(1);
+
+      // Supabase OAuth PKCE callback can glue '?code=xxx' onto our hash,
+      // producing '#home?code=xxx'. Strip that glued tail for routing
+      // purposes. Supabase's detectSessionInUrl still reads the full
+      // location.href so the token exchange proceeds; we just re-clean
+      // the URL a beat later so subsequent navigation isn't sticky.
+      const qIdx = rawHash.indexOf('?');
+      if (qIdx >= 0) {
+        const head = rawHash.slice(0, qIdx);
+        rawHash = head;
+        setTimeout(() => {
+          if (window.location.hash.includes('?')) {
+            history.replaceState(null, '', window.location.pathname + window.location.search + '#' + (head || 'home'));
+          }
+        }, 1500);
+      }
+
+      // Implicit-flow tokens or error payloads land as '#access_token=...'.
+      // Treat as home while Supabase consumes them, then strip.
+      if (/^(access_token=|refresh_token=|error=|error_code=|provider_token=|expires_in=|token_type=|code=)/.test(rawHash)) {
         setRoute('home');
         setRouteParam(null);
-        // Clean URL after Supabase has had a chance to parse it (~next tick)
         setTimeout(() => {
-          if (window.location.hash && /access_token|refresh_token|error=/.test(window.location.hash)) {
+          if (window.location.hash && /access_token|refresh_token|error=|code=/.test(window.location.hash)) {
             history.replaceState(null, '', window.location.pathname + window.location.search + '#home');
           }
-        }, 300);
+        }, 1500);
         return;
       }
       const h = rawHash;
