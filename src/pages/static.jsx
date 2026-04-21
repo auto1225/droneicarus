@@ -1,5 +1,6 @@
 // pages/static.jsx — guidelines, legal, 404
 import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react';
+import { useContent } from '../content/ContentContext';
 
 export function GuidelinesPage({ onNav }) {
   return (
@@ -54,16 +55,16 @@ export function NotFoundPage({ onNav }) {
         </g>
       </svg>
       <div style={{ textAlign: 'center', maxWidth: 560, position: 'relative' }}>
-        <div className="mono" style={{ fontSize: 11, letterSpacing: '0.24em', color: 'var(--amber)', marginBottom: 18 }}>● SIGNAL LOST · 404</div>
+        <div className="mono" style={{ fontSize: 11, letterSpacing: '0.24em', color: 'var(--amber)', marginBottom: 18 }}>{useContent('static.404.eyebrow', '● SIGNAL LOST · 404')}</div>
         <h1 style={{ fontSize: 88, fontFamily: 'var(--font-display)', fontWeight: 600, letterSpacing: '-0.04em', lineHeight: 1, marginBottom: 14 }}>
-          Off the map.
+          {useContent('static.404.title', 'Off the map.')}
         </h1>
         <p style={{ fontSize: 16, color: 'var(--parchment)', lineHeight: 1.6, marginBottom: 28 }}>
-          This page isn't in the flight log. It may have been removed, re-tagged, or it never existed. Let's get you back in range.
+          {useContent('static.404.sub', "This page isn't in the flight log. It may have been removed, re-tagged, or it never existed. Let's get you back in range.")}
         </p>
         <div style={{ display: 'flex', gap: 10, justifyContent: 'center' }}>
-          <button onClick={() => onNav('home')} className="btn">Return to map</button>
-          <button onClick={() => onNav('explore')} className="btn secondary">Browse trending</button>
+          <button onClick={() => onNav('home')} className="btn">{useContent('static.404.btn.home', 'Return to map')}</button>
+          <button onClick={() => onNav('explore')} className="btn secondary">{useContent('static.404.btn.shots', 'Browse trending')}</button>
         </div>
         <div className="mono" style={{ fontSize: 10, color: 'var(--parchment-dim)', letterSpacing: '0.14em', marginTop: 40 }}>
           LAST KNOWN WAYPOINT · 00°00′00″ N · 000°00′00″ E
