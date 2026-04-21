@@ -285,7 +285,7 @@ async function run() {
             resolution: v.contentDetails?.definition === 'hd' ? 'HD' : 'SD',
             duration_s: parseISO8601Duration(v.contentDetails?.duration || 'PT0S'),
             price_usd: 0,  // external clips are free-to-watch, non-sellable
-            license_tiers: ['external'],
+            license_tiers: null,
             published_at: new Date().toISOString(),
           };
 
