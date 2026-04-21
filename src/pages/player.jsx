@@ -1,7 +1,7 @@
 // pages/player.jsx — Video player with 3s preview paywall
 import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react';
 import { CATEGORIES, CAT_ICONS, LOCATIONS, VIDEOS, thumbGradient } from '../data';
-import { Ic, formatViews, formatDays } from '../components';
+import { Ic, formatViews, formatDays, FollowButton } from '../components';
 import { hasLiked, toggleLike } from '../db/social';
 import { toast } from '../toast';
 import { signedUrl } from '../db/storage';
@@ -190,7 +190,7 @@ export function PlayerPage({ video, onNav, onOpenVideo }) {
                 </div>
                 <div style={{ fontSize: 12, color: 'var(--parchment-dim)' }}>{video.creator.handle} · {formatViews(128000)} followers</div>
               </div>
-              <button className="btn" style={{ marginLeft: 12, padding: '8px 18px', fontSize: 13 }} data-placeholder="true">Follow</button>
+              <FollowButton creatorId={video.creator?.id || video.creator?.handle} creatorHandle={video.creator?.handle} className="btn" style={{ marginLeft: 12, padding: '8px 18px', fontSize: 13 }} />
             </div>
             <div style={{ display: 'flex', gap: 8 }}>
               <button onClick={onToggleLike} className="btn secondary" style={{ fontSize: 13, color: liked ? 'var(--sunset)' : undefined }}><Ic.heart/> {formatViews(video.likes + (liked ? 1 : 0))}</button>

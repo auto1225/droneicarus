@@ -1,7 +1,7 @@
 // pages/explore.jsx — Category explore page + Search results
 import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react';
 import { CATEGORIES, LOCATIONS, VIDEOS, CREATORS } from '../data';
-import { Ic, formatViews, CategoryChips, VideoCard } from '../components';
+import { Ic, formatViews, CategoryChips, VideoCard, FollowButton } from '../components';
 
 export function ExplorePage({ onOpenVideo, onNav }) {
   const [active, setActive] = React.useState('all');
@@ -147,7 +147,7 @@ export function SearchPage({ query, onOpenVideo, onNav, onSelectLoc }) {
                   </div>
                   <div style={{ fontSize: 12, color: 'var(--parchment-dim)' }}>{c.handle} · {formatViews(c.followers)} followers</div>
                 </div>
-                <button className="btn secondary" style={{ fontSize: 12 }} data-placeholder="true">Follow</button>
+                <FollowButton creatorId={c.id || c.handle} creatorHandle={c.handle} className="btn secondary" style={{ fontSize: 12 }} />
               </div>
             ))}
           </div>

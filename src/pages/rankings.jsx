@@ -1,7 +1,7 @@
 // pages/rankings.jsx — Global leaderboard
 import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react';
 import { LOCATIONS, VIDEOS, TRENDING, CREATORS, thumbGradient, STATS} from '../data';
-import { Ic, formatViews } from '../components';
+import { Ic, formatViews, FollowButton } from '../components';
 
 export function RankingsPage({ onOpenVideo }) {
   const [tab, setTab] = React.useState('week');
@@ -149,7 +149,7 @@ export function CreatorsPage({ onOpenVideo }) {
                   </div>
                   <div style={{ fontSize: 13, color: 'var(--parchment-dim)' }}>{c.handle} · {c.region}</div>
                 </div>
-                <button className="btn" style={{ fontSize: 12, padding: '8px 14px' }} data-placeholder="true">Follow</button>
+                <FollowButton creatorId={c.id || c.handle} creatorHandle={c.handle} className="btn" style={{ fontSize: 12, padding: '8px 14px' }} />
               </div>
               <div style={{ display: 'flex', gap: 20, marginBottom: 18, paddingBottom: 18, borderBottom: '1px solid var(--line)' }}>
                 <div>

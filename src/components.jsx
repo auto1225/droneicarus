@@ -622,3 +622,42 @@ export function Footer({ onNav }) {
   );
 }
 
+// Reusable follow button — wires real Supabase follows for UUID profiles,
+// otherwise just toggles local UI + toast (so demo creators give feedback).
+export function FollowButton({ creatorId, creatorHandle, className = 'btn', style }) {
+  const [following, setFollowing] = useState(false);
+  const [busy, setBusy] = useState(false);
+  const isUuid = typeof creatorId === 'string' && /^[0-9a-f]{8}-/.test(creatorId);
+
+  useEffect(() => {
+    if (!isUuid) return;
+    import('./db/social').then(({ isFollowing }) => isFollowing(creatorId).then(setFollowing).catch(() => {}));
+  }, [creatorId, isUuid]);
+
+  const onClick = async () => {
+    if (busy) return;
+    setBusy(true);
+    try {
+      if (isUuid) {
+        const { toggleFollow } = await import('./db/social');
+        const now = await toggleFollow(creatorId);
+        setFollowing(now);
+        (window.toast || (() => {}))(now ? 'Following' : 'Unfollowed', creatorHandle || '', 'success');
+      } else {
+        // Mock creator — toggle UI, friendly toast
+        setFollowing(v => !v);
+        (window.toast || (() => {}))(following ? 'Unfollowed' : 'Following', (creatorHandle || 'pilot') + ' (demo)', 'info');
+      }
+    } catch (e) {
+      (window.toast || (() => {}))('Sign in to follow', e.message || '', 'error');
+    } finally { setBusy(false); }
+  };
+
+  return (
+    <button className={className + (following ? ' secondary' : '')} style={style} onClick={onClick} disabled={busy}>
+      {following ? 'Following' : 'Follow'}
+    </button>
+  );
+}
+
+

@@ -1,7 +1,7 @@
 // pages/profile.jsx — public creator profile (replaces old /creators single-page)
 import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react';
 import { VIDEOS, CREATORS, thumbGradient } from '../data';
-import { Ic, VideoCard } from '../components';
+import { Ic, VideoCard, FollowButton } from '../components';
 import { supabase } from '../supabase';
 import { isFollowing, toggleFollow } from '../db/social';
 import { toast } from '../toast';
@@ -130,7 +130,7 @@ export function ProfilePage({ handle, onOpenVideo, onNav }) {
           <div style={{ display: 'flex', gap: 8, paddingBottom: 12 }}>
             <button className="btn secondary" style={{ fontSize: 13 }} data-placeholder="true">Message</button>
             <button className="btn secondary" style={{ fontSize: 13 }} data-placeholder="true">Commission</button>
-            <button className="btn" style={{ fontSize: 13 }} data-placeholder="true">Follow</button>
+            <FollowButton creatorId={p?.id || handle} creatorHandle={p?.handle || handle} className="btn" style={{ fontSize: 13 }} />
           </div>
         </div>
 
