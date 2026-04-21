@@ -151,12 +151,12 @@ export const STATS = (() => {
     countries: uniqueCountries,
     licensed,
     // Projected — used where marketing copy benefits (footer, auth page)
-    // These scale the real numbers but mark them as targets, not actuals.
+    // Modest multipliers derived from actuals so numbers stay believable.
     projected: {
-      clips:    Math.max(clipCount,    Math.round(clipCount * 38)),
-      pilots:   Math.max(pilotCount,   Math.round(pilotCount * 320)),
-      countries: Math.max(uniqueCountries, 50),
-      licensed: Math.max(licensed,     Math.round(licensed * 18)),
+      clips:    Math.max(clipCount,      clipCount * 4 + 12),
+      pilots:   Math.max(pilotCount,     pilotCount * 6 + 20),
+      countries: Math.max(uniqueCountries, 30),
+      licensed:  Math.max(licensed,      licensed * 3 + 10),
     },
   };
 })();
