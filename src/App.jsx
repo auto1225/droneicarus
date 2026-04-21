@@ -84,37 +84,68 @@ const STALE_RELOAD_KEY = 'di-stale-reloaded-once';
 class ChunkErrorBoundary extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { error: null };
+    this.state = { error: null, isChunkMiss: false };
   }
   static getDerivedStateFromError(error) {
-    return { error };
+    const msg = String(error?.message || '');
+    const isChunkMiss = /Failed to fetch dynamically imported module|Importing a module script failed|ChunkLoadError|Loading chunk/i.test(msg);
+    return { error, isChunkMiss };
   }
   componentDidCatch(error) {
     const msg = String(error?.message || '');
     const isChunkMiss = /Failed to fetch dynamically imported module|Importing a module script failed|ChunkLoadError|Loading chunk/i.test(msg);
     if (isChunkMiss) {
-      // Reload only once per session to avoid infinite loops on real outages
       if (!sessionStorage.getItem(STALE_RELOAD_KEY)) {
         sessionStorage.setItem(STALE_RELOAD_KEY, String(Date.now()));
-        // Strip any stale ?v= cache buster the old tab might have had
         const u = new URL(window.location.href);
         u.searchParams.set('v', String(Date.now()).slice(-6));
         window.location.replace(u.toString());
       }
+    } else {
+      // Log app errors so we can see them in the console
+      console.error('[app error caught by boundary]', error);
     }
   }
+  retry = () => {
+    sessionStorage.removeItem(STALE_RELOAD_KEY);
+    this.setState({ error: null, isChunkMiss: false });
+  };
+  goHome = () => {
+    sessionStorage.removeItem(STALE_RELOAD_KEY);
+    this.setState({ error: null, isChunkMiss: false });
+    window.location.hash = '#home';
+  };
+  reload = () => {
+    sessionStorage.removeItem(STALE_RELOAD_KEY);
+    window.location.reload();
+  };
   render() {
-    if (this.state.error) {
-      return (
-        <div style={{ padding: 80, textAlign: 'center', color: 'var(--parchment)', fontFamily: 'var(--font-ui)' }}>
-          <div className="eyebrow" style={{ color: 'var(--amber)', marginBottom: 12 }}>LOADING…</div>
-          <h2 style={{ fontSize: 24, marginBottom: 10 }}>Updating to the latest version</h2>
-          <p style={{ fontSize: 13, color: 'var(--parchment-dim)', marginBottom: 20 }}>One moment — we just shipped a new release, refreshing now.</p>
-          <button onClick={() => { sessionStorage.removeItem(STALE_RELOAD_KEY); window.location.reload(); }} style={{ padding: '10px 18px', background: 'var(--amber)', color: '#1a2820', border: 'none', borderRadius: 4, cursor: 'pointer', fontWeight: 600 }}>Reload now</button>
+    if (!this.state.error) return this.props.children;
+    const stale = this.state.isChunkMiss;
+    const msg = String(this.state.error?.message || this.state.error || 'Unknown');
+    return (
+      <div style={{ padding: 80, textAlign: 'center', color: 'var(--parchment)', fontFamily: 'var(--font-ui)' }}>
+        <div className="eyebrow" style={{ color: stale ? 'var(--amber)' : 'var(--sunset)', marginBottom: 12 }}>
+          {stale ? 'LOADING…' : '● PAGE ERROR'}
         </div>
-      );
-    }
-    return this.props.children;
+        <h2 style={{ fontSize: 24, marginBottom: 10 }}>
+          {stale ? 'Updating to the latest version' : 'Something went wrong on this page'}
+        </h2>
+        <p style={{ fontSize: 13, color: 'var(--parchment-dim)', marginBottom: 20, maxWidth: 560, margin: '0 auto 20px' }}>
+          {stale
+            ? 'One moment — we just shipped a new release, refreshing now.'
+            : 'You can try again or go back to the map. If it keeps happening, ask support to check the console.'}
+        </p>
+        {!stale && (
+          <pre style={{ maxWidth: 620, margin: '0 auto 20px', fontSize: 11, color: 'var(--parchment-dim)', background: 'var(--forest-900)', border: '1px solid var(--line)', borderRadius: 4, padding: 12, textAlign: 'left', whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}>{msg}</pre>
+        )}
+        <div style={{ display: 'flex', gap: 10, justifyContent: 'center' }}>
+          <button onClick={this.retry} style={{ padding: '10px 18px', background: 'var(--amber)', color: '#1a2820', border: 'none', borderRadius: 4, cursor: 'pointer', fontWeight: 600 }}>Try again</button>
+          <button onClick={this.goHome} style={{ padding: '10px 18px', background: 'transparent', color: 'var(--bone)', border: '1px solid var(--line-strong)', borderRadius: 4, cursor: 'pointer' }}>← Back to map</button>
+          <button onClick={this.reload} style={{ padding: '10px 18px', background: 'transparent', color: 'var(--parchment-dim)', border: '1px solid var(--line)', borderRadius: 4, cursor: 'pointer' }}>Hard reload</button>
+        </div>
+      </div>
+    );
   }
 }
 // Also handle unhandled promise rejections globally (covers lazy() outside Suspense error-propagation paths)
