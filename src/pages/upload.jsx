@@ -11,6 +11,42 @@ const uUseEffect = useEffect;
 const uUseMemo = useMemo;
 const uUseRef = useRef;
 
+
+// Extract a single thumbnail frame from a video File, upload to `thumbs` bucket,
+// return the storage path. Falls back to null silently if anything fails.
+async function extractAndUploadThumb({ file, ownerId, videoId }) {
+  try {
+    const url = URL.createObjectURL(file);
+    const video = document.createElement('video');
+    video.preload = 'metadata';
+    video.muted = true;
+    video.playsInline = true;
+    video.src = url;
+    await new Promise((ok, bad) => {
+      video.onloadeddata = ok;
+      video.onerror = () => bad(new Error('thumb: video decode failed'));
+      setTimeout(() => bad(new Error('thumb: timeout')), 8000);
+    });
+    // Seek to 0.5s or 10% of duration, whichever is sooner
+    const seekTo = Math.min(0.5, (video.duration || 1) * 0.1);
+    await new Promise((ok) => { video.onseeked = ok; video.currentTime = seekTo; });
+    const canvas = document.createElement('canvas');
+    canvas.width = Math.min(video.videoWidth || 1280, 1280);
+    canvas.height = Math.round(canvas.width * ((video.videoHeight || 720) / (video.videoWidth || 1280)));
+    canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
+    URL.revokeObjectURL(url);
+    const blob = await new Promise(res => canvas.toBlob(res, 'image/jpeg', 0.82));
+    if (!blob) return null;
+    const thumbFile = new File([blob], `${videoId}.jpg`, { type: 'image/jpeg' });
+    const { uploadThumb } = await import('../db/storage');
+    const { path } = await uploadThumb({ file: thumbFile, ownerId, videoId });
+    return path;
+  } catch (e) {
+    console.warn('[upload] thumb extraction failed:', e.message);
+    return null;
+  }
+}
+
 export function UploadPage({ onNav }) {
   const { user, profile } = useAuth();
   const [file, setFile] = uUseState(null);
@@ -61,10 +97,13 @@ export function UploadPage({ onNav }) {
       }).select('id').single();
       if (insErr) throw insErr;
 
-      // 2. Upload the actual file (if a real File was picked).
+      // 2. Upload the actual file + thumbnail (if a real File was picked).
       if (file instanceof File) {
         const { path } = await uploadVideo({ file, ownerId: user.id, videoId: row.id });
-        await supabase.from('videos').update({ storage_path: path, file_size_bytes: file.size }).eq('id', row.id);
+        const thumbPath = await extractAndUploadThumb({ file, ownerId: user.id, videoId: row.id });
+        const update = { storage_path: path, file_size_bytes: file.size };
+        if (thumbPath) update.thumb_path = thumbPath;
+        await supabase.from('videos').update(update).eq('id', row.id);
       }
 
       toast?.('Published', 'Your clip is now live on Drone Icarus');
@@ -94,8 +133,14 @@ export function UploadPage({ onNav }) {
   }, [stage]);
 
   const onPick = (f) => {
-    setFile(f || { name: 'DJI_0318_MasterCut.mp4', size: 4.2, duration: '6:48', resolution: '4K', codec: 'H.264' });
-    setTitle('Santorini — Caldera at First Light');
+    if (!(f instanceof File)) {
+      toast?.('No file selected', 'Drop a video file or click browse.', 'error');
+      return;
+    }
+    setFile(f);
+    // Seed title from filename
+    const base = (f.name || '').replace(/\.[^.]+$/, '').replace(/[_-]/g, ' ');
+    if (!title) setTitle(base.trim() || 'Untitled clip');
     setStage('processing');
     setProgress(0);
   };
@@ -447,6 +492,7 @@ export function UploadPage({ onNav }) {
 
 function UploadDropZone({ onPick, onCancel }) {
   const [dragOver, setDragOver] = uUseState(false);
+  const fileInputRef = uUseRef(null);
   return (
     <div style={{
       display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
@@ -469,7 +515,9 @@ function UploadDropZone({ onPick, onCancel }) {
           display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
           transition: 'all 0.15s', cursor: 'pointer',
         }}
-        onClick={() => onPick()}>
+        onClick={() => fileInputRef.current?.click()}>
+        <input ref={fileInputRef} type="file" accept="video/*" style={{ display: 'none' }}
+               onChange={e => { if (e.target.files?.[0]) onPick(e.target.files[0]); e.target.value=''; }} />
         <div style={{
           width: 64, height: 64, borderRadius: '50%',
           background: 'var(--forest-900)', border: '1px solid var(--line-strong)',

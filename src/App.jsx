@@ -158,8 +158,16 @@ export default function App() {
       setRoute(r || 'home');
       setRouteParam(id || null);
       if (r === 'watch' && id) {
-        const v = VIDEOS.find(x => x.id === id);
-        if (v) setCurrentVideo(v);
+        const mock = VIDEOS.find(x => x.id === id);
+        if (mock) {
+          setCurrentVideo(mock);
+        } else {
+          // Not in mock — probably a real Supabase-uploaded UUID. Fetch live.
+          setCurrentVideo(null);
+          import('./db/videos').then(({ fetchVideo }) => {
+            fetchVideo(id).then(v => v && setCurrentVideo(v));
+          });
+        }
       }
     };
     parseHash();

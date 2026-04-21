@@ -5,6 +5,25 @@ import { Ic } from '../components';
 import { useAuth } from '../auth/AuthContext';
 import { createOrder, fetchOrder } from '../db/commerce';
 import { toast } from '../toast';
+
+async function downloadSigned(path, suggestedName) {
+  try {
+    const { signedUrl } = await import('../db/storage');
+    const u = await signedUrl('videos', path, 600);
+    if (!u) { (window.toast || (()=>{}))('Download unavailable', 'This clip has no source file yet.', 'error'); return; }
+    // Trigger native download
+    const a = document.createElement('a');
+    a.href = u;
+    a.download = suggestedName || 'clip.mp4';
+    a.rel = 'noopener noreferrer';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+  } catch (e) {
+    (window.toast || (()=>{}))('Download failed', e.message || 'Try again', 'error');
+  }
+}
+
 const ckUseState = useState;
 const ckUseEffect = useEffect;
 
@@ -257,7 +276,12 @@ export function SuccessPage({ onNav }) {
               <div key={fmt} style={{ border: '1px solid var(--line)', padding: 12, borderRadius: 4, textAlign: 'center' }}>
                 <div style={{ fontSize: 12, fontWeight: 600, marginBottom: 3 }}>{fmt}</div>
                 <div style={{ fontSize: 10, color: 'var(--parchment-dim)', marginBottom: 8, fontFamily: 'var(--font-mono)', letterSpacing: '0.1em' }}>{q} · {size}</div>
-                <button className="btn secondary" style={{ fontSize: 11, padding: '6px 10px', width: '100%', justifyContent: 'center' }} data-placeholder="true">Download</button>
+                <button className="btn secondary" style={{ fontSize: 11, padding: '6px 10px', width: '100%', justifyContent: 'center' }}
+                        onClick={() => {
+                          const path = v.storagePath || v.storage_path;
+                          if (path) downloadSigned(path, `${v.slug || v.id}-${fmt.replace(/\s+/g,'_')}.mp4`);
+                          else (window.toast||(()=>{}))('Demo clip', 'Real downloads enable for pilot-uploaded masters.', 'info');
+                        }}>Download</button>
               </div>
             ))}
           </div>
