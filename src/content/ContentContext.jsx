@@ -1,10 +1,10 @@
 // src/content/ContentContext.jsx — Global CMS-string provider.
 //
-// Loads every public.site_content row at app startup (single query), exposes
-// them through useContent(key, fallback). Editors in AdminShell call
-// `refresh()` after saving so public pages see new values without reload.
+// Loads every public.site_content row at app startup and exposes them through
+// useContent(key, fallback). Uses a direct fetch to the Supabase REST endpoint
+// (not the Supabase JS client) so the initial paint isn't blocked waiting for
+// auth session hydration, token refresh, or schema validation.
 import React, { createContext, useContext, useEffect, useMemo, useState, useCallback } from 'react';
-import { supabase } from '../supabase';
 
 const ContentCtx = createContext({
   content: {},
@@ -13,23 +13,35 @@ const ContentCtx = createContext({
   refresh: async () => {},
 });
 
+const SUPA_URL = import.meta.env.VITE_SUPABASE_URL;
+const SUPA_KEY = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
+
+async function fetchAllContent() {
+  if (!SUPA_URL || !SUPA_KEY) return [];
+  const url = `${SUPA_URL}/rest/v1/site_content?select=key,value,type`;
+  const res = await fetch(url, {
+    headers: {
+      apikey: SUPA_KEY,
+      Authorization: `Bearer ${SUPA_KEY}`,
+    },
+  });
+  if (!res.ok) throw new Error('HTTP ' + res.status);
+  return res.json();
+}
+
 export function ContentProvider({ children }) {
   const [content, setContent] = useState({});
   const [loading, setLoading] = useState(true);
 
   const load = useCallback(async () => {
-    // runtime debug breadcrumb — survives minification
     if (typeof window !== 'undefined') {
       window.__content = window.__content || { steps: [] };
       window.__content.steps.push('load:start:' + Date.now());
     }
     try {
-      const { data, error } = await supabase
-        .from('site_content')
-        .select('key, value, type');
-      if (error) throw error;
+      const rows = await fetchAllContent();
       const map = {};
-      for (const row of data || []) {
+      for (const row of rows) {
         if (row.type === 'json' && row.value) {
           try { map[row.key] = JSON.parse(row.value); }
           catch (_) { map[row.key] = row.value; }
@@ -65,7 +77,6 @@ export function ContentProvider({ children }) {
 
   const value = useMemo(() => ({ content, loading, get, refresh: load }), [content, loading, get, load]);
 
-  // Expose refresh globally so CMS editors elsewhere can trigger a reload
   if (typeof window !== 'undefined') {
     window.__refreshContent = load;
   }
