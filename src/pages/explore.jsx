@@ -23,23 +23,42 @@ export function ExplorePage({ onOpenVideo, onNav }) {
       </p>
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: 14, marginBottom: 50 }}>
-        {catStats.map(c => (
-          <button key={c.id} onClick={() => setActive(c.id)} style={{
-            position: 'relative',
-            padding: 24,
-            background: active === c.id ? 'var(--forest-800)' : 'var(--forest-900)',
-            border: '1px solid ' + (active === c.id ? 'var(--amber)' : 'var(--line)'),
-            borderRadius: 4, textAlign: 'left',
-            minHeight: 140,
-            transition: 'all 0.15s',
-            overflow: 'hidden',
-          }}>
+        {catStats.map(c => {
+          const empty = c.count === 0;
+          return (
+          <button
+            key={c.id}
+            onClick={() => !empty && setActive(c.id)}
+            aria-disabled={empty}
+            style={{
+              position: 'relative',
+              padding: 24,
+              background: active === c.id ? 'var(--forest-800)' : 'var(--forest-900)',
+              border: '1px solid ' + (active === c.id ? 'var(--amber)' : 'var(--line)'),
+              borderRadius: 4, textAlign: 'left',
+              minHeight: 140,
+              transition: 'all 0.15s',
+              overflow: 'hidden',
+              cursor: empty ? 'default' : 'pointer',
+              opacity: empty ? 0.55 : 1,
+            }}>
             <div style={{ position: 'absolute', top: -20, right: -20, fontSize: 120, color: 'var(--forest-800)', fontFamily: 'var(--font-mono)', opacity: active === c.id ? 0.35 : 0.2 }}>{c.icon}</div>
-            <div className="mono" style={{ fontSize: 10, letterSpacing: '0.14em', color: 'var(--parchment-dim)', marginBottom: 10 }}>{String(catStats.indexOf(c) + 1).padStart(2, '0')}</div>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
+              <div className="mono" style={{ fontSize: 10, letterSpacing: '0.14em', color: 'var(--parchment-dim)' }}>{String(catStats.indexOf(c) + 1).padStart(2, '0')}</div>
+              {empty && (
+                <span className="mono" style={{
+                  fontSize: 9, letterSpacing: '0.14em', textTransform: 'uppercase',
+                  color: 'var(--amber)', padding: '2px 6px',
+                  border: '1px solid var(--amber)', borderRadius: 2,
+                  opacity: 0.85,
+                }}>Coming soon</span>
+              )}
+            </div>
             <div style={{ fontSize: 20, fontFamily: 'var(--font-display)', fontWeight: 600, marginBottom: 6, letterSpacing: '-0.01em' }}>{c.label}</div>
-            <div style={{ fontSize: 13, color: 'var(--parchment-dim)' }}>{c.count} clips</div>
+            <div style={{ fontSize: 13, color: 'var(--parchment-dim)' }}>{empty ? 'No clips yet · pilots wanted' : `${c.count} clips`}</div>
           </button>
-        ))}
+          );
+        })}
       </div>
 
       <div style={{ borderTop: '1px solid var(--line)', paddingTop: 32 }}>

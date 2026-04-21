@@ -2,8 +2,8 @@
   "name": "droneicarus",
   "version": "0.1.0",
   "private": true,
-  "description": "Map-first marketplace for drone footage — find clips by location",
-  "homepage": "https://github.com/auto1225/droneicarus",
+  "description": "Map-first marketplace for drone footage — browse aerial clips by location, license from verified pilots",
+  "homepage": "https://droneicarus.com",
   "repository": {
     "type": "git",
     "url": "https://github.com/auto1225/droneicarus.git"
@@ -33,6 +33,16 @@
     "marketplace",
     "map",
     "react",
-    "vite"
-  ]
+    "vite",
+    "supabase",
+    "leaflet",
+    "pilots",
+    "licensing",
+    "cinematic",
+    "stock-video"
+  ],
+  "author": "auto1225",
+  "bugs": {
+    "url": "https://github.com/auto1225/droneicarus/issues"
+  }
 }
