@@ -313,17 +313,25 @@ async function run() {
     }
   }
 
-  await sb(`/rest/v1/discovery_runs?id=eq.${runId}`, {
-    method: 'PATCH',
-    body: {
-      finished_at: new Date().toISOString(),
-      queries_used: queries.length,
-      candidates, inserted, updated, skipped_dupes: skippedDupes, skipped_low: skippedLow,
-      errors,
-      stats: { quota_used: quotaUsed },
-    },
-    prefer: 'return=minimal',
-  });
+  // Keep errors payload reasonable for Postgres JSONB (< ~8 MB).
+  const errorsTrunc = errors.slice(0, 50).map(e => ({
+    ...e, error: typeof e.error === 'string' ? e.error.slice(0, 240) : e.error,
+  }));
+  try {
+    await sb(`/rest/v1/discovery_runs?id=eq.${runId}`, {
+      method: 'PATCH',
+      body: {
+        finished_at: new Date().toISOString(),
+        queries_used: queries.length,
+        candidates, inserted, updated, skipped_dupes: skippedDupes, skipped_low: skippedLow,
+        errors: errorsTrunc,
+        stats: { quota_used: quotaUsed, total_errors: errors.length },
+      },
+      prefer: 'return=minimal',
+    });
+  } catch (e) {
+    console.warn('[run] could not patch finished discovery_run:', e.message);
+  }
 
   console.log(`[run] done — ${inserted} new / ${skippedDupes} dupes / ${skippedLow} low quality / quota ${quotaUsed}`);
   if (errors.length) console.log(`[run] ${errors.length} errors`);
