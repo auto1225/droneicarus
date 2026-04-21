@@ -1,0 +1,232 @@
+// pages/live.jsx — map of pilots currently uploading / broadcasting
+
+const { useState: lvUseState, useEffect: lvUseEffect, useRef: lvUseRef } = React;
+
+const LIVE = [
+  { id: 'lf1', pilot: 'Hyunwoo Park', handle: '@hyunwoo', country: 'KR', place: 'Seoul — Hangang at dusk', lat: 37.53, lon: 126.97, viewers: 284, started: '12m', kind: 'broadcasting', tier: 2 },
+  { id: 'lf2', pilot: 'Alex Rivera', handle: '@alex.aerial', country: 'CO', place: 'Cartagena rooftops', lat: 10.42, lon: -75.54, viewers: 117, started: '28m', kind: 'broadcasting', tier: 1 },
+  { id: 'lf3', pilot: 'Yuki Tanaka', handle: '@yuki.sky', country: 'JP', place: 'Shibuya scramble', lat: 35.66, lon: 139.70, viewers: 891, started: '6m', kind: 'broadcasting', tier: 2 },
+  { id: 'lf4', pilot: 'Lena Voss', handle: '@lena.v', country: 'DE', place: 'Berlin Tempelhof field', lat: 52.47, lon: 13.40, viewers: 0, started: '2m', kind: 'uploading', progress: 38, tier: 1 },
+  { id: 'lf5', pilot: 'Kwame A.', handle: '@kwame.air', country: 'GH', place: 'Cape Coast surf', lat: 5.10, lon: -1.24, viewers: 0, started: '9m', kind: 'uploading', progress: 72, tier: 2 },
+  { id: 'lf6', pilot: 'Priya Shah', handle: '@priya.aerial', country: 'IN', place: 'Jaipur rooftops — holi', lat: 26.91, lon: 75.78, viewers: 1420, started: '34m', kind: 'broadcasting', tier: 2 },
+  { id: 'lf7', pilot: 'Matteo Rossi', handle: '@matt.film', country: 'IT', place: 'Dolomites golden hour', lat: 46.41, lon: 11.84, viewers: 506, started: '18m', kind: 'broadcasting', tier: 1 },
+  { id: 'lf8', pilot: 'Nia Obi', handle: '@nia.lens', country: 'KE', place: 'Maasai Mara — long shadows', lat: -1.49, lon: 35.14, viewers: 338, started: '22m', kind: 'broadcasting', tier: 2 },
+];
+
+function LivePage({ onNav }) {
+  const [selected, setSelected] = lvUseState(LIVE[2]);
+  const [tab, setTab] = lvUseState('all');
+
+  // Pulse animation tick
+  const [tick, setTick] = lvUseState(0);
+  lvUseEffect(() => { const t = setInterval(() => setTick(x => x+1), 1200); return () => clearInterval(t); }, []);
+
+  const broadcasting = LIVE.filter(l => l.kind === 'broadcasting');
+  const uploading = LIVE.filter(l => l.kind === 'uploading');
+  const list = tab === 'broadcasting' ? broadcasting : tab === 'uploading' ? uploading : LIVE;
+
+  // Leaflet map
+  const mapEl = lvUseRef(null);
+  const mapInst = lvUseRef(null);
+  const markersRef = lvUseRef({});
+
+  lvUseEffect(() => {
+    if (!mapEl.current || mapInst.current) return;
+    const map = L.map(mapEl.current, {
+      center: [30, 15], zoom: 3, minZoom: 2, maxZoom: 18,
+      worldCopyJump: true, zoomControl: true, attributionControl: false,
+    });
+    // High-resolution satellite imagery with retina
+    const dpr = window.devicePixelRatio || 1;
+    const detectRetina = dpr > 1;
+    L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+      maxZoom: 19,
+      maxNativeZoom: 19,
+      detectRetina,
+      crossOrigin: true,
+    }).addTo(map);
+    // Labels overlay
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager_only_labels/{z}/{x}/{y}{r}.png', {
+      subdomains: 'abcd', maxZoom: 19, detectRetina, opacity: 0.9,
+    }).addTo(map);
+    mapInst.current = map;
+
+    LIVE.forEach(l => {
+      const isLive = l.kind === 'broadcasting';
+      const initial = l.pilot[0];
+      const viewers = isLive ? (l.viewers >= 1000 ? (l.viewers/1000).toFixed(1) + 'k' : l.viewers) : (l.progress + '%');
+      const html = `<div class="live-pin-v2 ${isLive ? 'live' : 'upload'}">
+        <span class="ring"></span>
+        <span class="pulse"></span>
+        <span class="avatar">${initial}</span>
+        <span class="badge">${viewers}</span>
+      </div>`;
+      const icon = L.divIcon({ className: 'live-pin-wrap', html, iconSize: [52, 52], iconAnchor: [26, 26] });
+      const m = L.marker([l.lat, l.lon], { icon, zIndexOffset: isLive ? 1000 : 0 }).addTo(map);
+      m.on('click', () => setSelected(l));
+      markersRef.current[l.id] = m;
+    });
+    return () => { map.remove(); mapInst.current = null; };
+  }, []);
+
+  lvUseEffect(() => {
+    if (mapInst.current && selected) {
+      mapInst.current.flyTo([selected.lat, selected.lon], 9, { duration: 1.2 });
+    }
+  }, [selected]);
+
+  return (
+    <div style={{ display: 'grid', gridTemplateColumns: '320px minmax(0, 1fr) 320px', minHeight: 'calc(100vh - 62px)' }}>
+      {/* Sidebar: list */}
+      <aside style={{ borderRight: '1px solid var(--line)', background: 'var(--forest-950)', display: 'flex', flexDirection: 'column' }}>
+        <div style={{ padding: '22px 22px 14px', borderBottom: '1px solid var(--line)' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 4 }}>
+            <span style={{ width: 10, height: 10, borderRadius: '50%', background: 'var(--sunset)', opacity: tick % 2 ? 1 : 0.3, transition: 'opacity 0.6s' }}/>
+            <div className="eyebrow" style={{ color: 'var(--sunset)' }}>LIVE NOW · {LIVE.length} PILOTS</div>
+          </div>
+          <h1 style={{ fontSize: 28, letterSpacing: '-0.02em' }}>Who's flying right now</h1>
+          <div style={{ display: 'flex', gap: 4, marginTop: 14 }}>
+            {[['all','All'],['broadcasting','On air · '+broadcasting.length],['uploading','Uploading · '+uploading.length]].map(([k,l]) => (
+              <button key={k} onClick={() => setTab(k)} className={'chip' + (tab === k ? ' active' : '')} style={{ fontSize: 11 }}>{l}</button>
+            ))}
+          </div>
+        </div>
+        <div style={{ overflow: 'auto', flex: 1 }}>
+          {list.map(l => (
+            <button key={l.id} onClick={() => setSelected(l)} style={{
+              display: 'block', width: '100%', padding: '16px 22px', textAlign: 'left',
+              borderBottom: '1px solid var(--line)',
+              background: selected?.id === l.id ? 'var(--forest-800)' : 'transparent',
+            }}>
+              <div style={{ display: 'flex', gap: 12 }}>
+                <div style={{ position: 'relative', flexShrink: 0 }}>
+                  <div style={{ width: 44, height: 44, borderRadius: '50%', background: 'var(--moss)', color: '#faf6ec', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 700, fontSize: 15 }}>{l.pilot[0]}</div>
+                  {l.kind === 'broadcasting' && <span style={{ position: 'absolute', top: -2, right: -2, padding: '1px 5px', background: 'var(--sunset)', color: '#faf6ec', fontSize: 8, fontFamily: 'var(--font-mono)', letterSpacing: '0.08em', borderRadius: 2, border: '2px solid var(--forest-950)' }}>LIVE</span>}
+                </div>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <div style={{ fontSize: 13, fontWeight: 600, display: 'flex', alignItems: 'center', gap: 6 }}>
+                    {l.pilot}
+                    {l.tier === 2 && <span style={{ color: 'var(--amber)' }}><Ic.check/></span>}
+                  </div>
+                  <div style={{ fontSize: 11, color: 'var(--parchment-dim)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', marginBottom: 4 }}>{l.place}</div>
+                  {l.kind === 'broadcasting' ? (
+                    <div className="mono" style={{ fontSize: 10, color: 'var(--sunset)', letterSpacing: '0.08em' }}>● {l.viewers.toLocaleString()} WATCHING · {l.started}</div>
+                  ) : (
+                    <div>
+                      <div className="mono" style={{ fontSize: 10, color: 'var(--amber)', letterSpacing: '0.08em', marginBottom: 3 }}>↑ UPLOADING {l.progress}%</div>
+                      <div style={{ height: 3, background: 'var(--forest-800)', borderRadius: 2, overflow: 'hidden' }}>
+                        <div style={{ width: l.progress + '%', height: '100%', background: 'var(--amber)' }}/>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </button>
+          ))}
+        </div>
+      </aside>
+
+      {/* World map */}
+      <main style={{ padding: 28, display: 'flex', flexDirection: 'column' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 18 }}>
+          <div>
+            <h2 style={{ fontSize: 20 }}>Live flight map</h2>
+            <div style={{ fontSize: 12, color: 'var(--parchment-dim)' }}>Pulsing dots are pilots broadcasting live · Click to preview</div>
+          </div>
+          <div className="mono" style={{ fontSize: 10, letterSpacing: '0.14em', color: 'var(--lichen)' }}>● 8 / 8 FEEDS HEALTHY</div>
+        </div>
+
+        <div ref={mapEl} style={{ flex: 1, minHeight: 500, background: 'var(--forest-900)', border: '1px solid var(--line)', borderRadius: 4 }}/>
+      </main>
+
+      {/* Right rail: preview */}
+      <aside style={{ borderLeft: '1px solid var(--line)', background: 'var(--forest-950)', padding: 22, overflow: 'auto' }}>
+        {selected && (
+          <>
+            <div style={{ aspectRatio: '16/9', background: '#0a0d0a', borderRadius: 3, position: 'relative', marginBottom: 14, display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', border: '1px solid var(--line-strong)' }}>
+              {/* Stylized live frame — atmospheric sky backdrop */}
+              <svg viewBox="0 0 320 180" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%' }} preserveAspectRatio="xMidYMid slice">
+                <defs>
+                  <linearGradient id={'sky' + selected.id} x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stopColor="#e8b04a" stopOpacity="0.35"/>
+                    <stop offset="50%" stopColor="#d97045" stopOpacity="0.25"/>
+                    <stop offset="100%" stopColor="#1a2820" stopOpacity="0.9"/>
+                  </linearGradient>
+                </defs>
+                <rect width="320" height="180" fill={'url(#sky' + selected.id + ')'}/>
+                {/* city silhouette */}
+                <g fill="#0a0d0a" opacity="0.85">
+                  <rect x="30" y="110" width="24" height="70"/><rect x="54" y="130" width="18" height="50"/>
+                  <rect x="72" y="100" width="30" height="80"/><rect x="102" y="120" width="20" height="60"/>
+                  <rect x="122" y="90" width="36" height="90"/><rect x="158" y="115" width="22" height="65"/>
+                  <rect x="180" y="105" width="28" height="75"/><rect x="208" y="125" width="24" height="55"/>
+                  <rect x="232" y="95" width="32" height="85"/><rect x="264" y="120" width="20" height="60"/>
+                  <rect x="284" y="105" width="30" height="75"/>
+                </g>
+                {/* drone crosshair */}
+                <g stroke="#faf6ec" strokeWidth="0.4" opacity="0.25" fill="none">
+                  <line x1="0" y1="90" x2="320" y2="90"/>
+                  <line x1="160" y1="0" x2="160" y2="180"/>
+                  <circle cx="160" cy="90" r="30"/>
+                </g>
+              </svg>
+              {selected.kind === 'broadcasting' ? (
+                <>
+                  <span style={{ padding: '4px 9px', background: 'var(--sunset)', color: '#faf6ec', fontSize: 10, fontFamily: 'var(--font-mono)', letterSpacing: '0.14em', borderRadius: 2, position: 'absolute', top: 10, left: 10, fontWeight: 700 }}>● LIVE</span>
+                  <span style={{ position: 'absolute', bottom: 10, right: 10, padding: '3px 7px', background: 'rgba(13,20,16,0.85)', color: '#f5ede0', fontSize: 10, fontFamily: 'var(--font-mono)', borderRadius: 2, backdropFilter: 'blur(4px)' }}>{(selected.viewers || 0).toLocaleString()} watching</span>
+                  <button style={{ width: 44, height: 44, borderRadius: '50%', background: 'rgba(217,112,69,0.95)', border: '2px solid #faf6ec', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative', zIndex: 2 }}>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="#faf6ec"><polygon points="8,5 20,12 8,19"/></svg>
+                  </button>
+                </>
+              ) : (
+                <>
+                  <span style={{ padding: '4px 9px', background: 'var(--amber)', color: '#1a2820', fontSize: 10, fontFamily: 'var(--font-mono)', letterSpacing: '0.14em', borderRadius: 2, position: 'absolute', top: 10, left: 10, fontWeight: 700 }}>↑ UPLOADING</span>
+                  <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: 12, background: 'linear-gradient(0deg, rgba(13,20,16,0.95), transparent)' }}>
+                    <div style={{ fontSize: 11, fontFamily: 'var(--font-mono)', color: 'var(--amber)', marginBottom: 6 }}>{selected.progress}% · {(selected.progress * 0.65).toFixed(1)} GB / {(100 * 0.65).toFixed(1)} GB</div>
+                    <div style={{ height: 4, background: 'rgba(245,237,224,0.2)', borderRadius: 2, overflow: 'hidden' }}>
+                      <div style={{ width: selected.progress + '%', height: '100%', background: 'var(--amber)' }}/>
+                    </div>
+                  </div>
+                </>
+              )}
+            </div>
+            <div style={{ fontSize: 17, fontWeight: 600, marginBottom: 4 }}>{selected.place}</div>
+            <div style={{ fontSize: 12, color: 'var(--parchment-dim)', marginBottom: 14 }}>{selected.pilot} · {selected.handle}</div>
+            <div style={{ display: 'flex', gap: 6, marginBottom: 18 }}>
+              <button className="btn" style={{ fontSize: 12, flex: 1 }}>Tune in</button>
+              <button className="btn secondary" style={{ fontSize: 12 }}>Tip $</button>
+            </div>
+
+            <div className="eyebrow" style={{ marginBottom: 10 }}>LIVE CHAT</div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 16, maxHeight: 220, overflow: 'auto' }}>
+              {[
+                ['marta.nomad', 'the shadow from the tower is unreal', 2],
+                ['ken.docs', 'what lens?', 12],
+                ['pilot-bot', 'Wind gust to 18 km/h at 180m — nominal.', 28],
+                ['riastudio', 'taking notes on this move', 34],
+                ['ben.films', 'he\'s flying a 2.7km out + return?', 56],
+              ].map(([h, t, s]) => (
+                <div key={h+s} style={{ fontSize: 12, lineHeight: 1.5 }}>
+                  <span style={{ color: 'var(--amber)', fontFamily: 'var(--font-mono)', marginRight: 6 }}>@{h}</span>
+                  <span style={{ color: 'var(--parchment)' }}>{t}</span>
+                  <span className="mono" style={{ color: 'var(--parchment-dim)', marginLeft: 6, fontSize: 10 }}>{s}s</span>
+                </div>
+              ))}
+            </div>
+            <input placeholder="Say something…" style={{ width: '100%', padding: 9, background: 'var(--forest-900)', border: '1px solid var(--line-strong)', color: 'var(--bone)', fontSize: 12, borderRadius: 3 }}/>
+
+            <div className="eyebrow" style={{ marginTop: 22, marginBottom: 10 }}>LIVE FLIGHT DATA</div>
+            {[['Altitude', '84 m'], ['Distance', '1.2 km'], ['Battery', '56%'], ['Wind', '12 km/h NW']].map(([k, v]) => (
+              <div key={k} style={{ display: 'flex', justifyContent: 'space-between', padding: '6px 0', fontSize: 12, borderTop: '1px solid var(--line)' }}>
+                <span style={{ color: 'var(--parchment-dim)' }}>{k}</span>
+                <span className="mono">{v}</span>
+              </div>
+            ))}
+          </>
+        )}
+      </aside>
+    </div>
+  );
+}
+
+Object.assign(window, { LivePage });

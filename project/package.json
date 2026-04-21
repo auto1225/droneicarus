@@ -1,0 +1,26 @@
+{
+  "name": "droneicarus",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Map-first marketplace prototype for drone footage",
+  "homepage": "https://github.com/auto1225/droneicarus",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/auto1225/droneicarus.git"
+  },
+  "license": "MIT",
+  "scripts": {
+    "start": "npx serve . -p 8000",
+    "dev": "npx serve . -p 8000",
+    "serve": "python3 -m http.server 8000"
+  },
+  "keywords": [
+    "drone",
+    "aerial",
+    "footage",
+    "marketplace",
+    "map",
+    "prototype",
+    "react"
+  ]
+}
