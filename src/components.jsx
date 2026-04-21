@@ -548,7 +548,30 @@ export function VideoCard({ video, onClick, size = 'md', showRank = false }) {
 }
 
 // ——— Footer ———
-export function Footer() {
+const FOOTER_LINK_ROUTES = {
+  'Map': 'home',
+  'Categories': 'explore',
+  'Rankings': 'rankings',
+  '’': 'explore', // Editor’s Picks matches by endsWith("Picks")
+  'Upload': 'upload',
+  'Licensing': 'legal',
+  'Payouts': 'earnings',
+  'Guidelines': 'guidelines',
+  'About': 'legal',
+  'Press': 'legal',
+  'Careers': 'legal',
+  'Contact': 'legal',
+  'Terms': 'legal',
+  'Privacy': 'legal',
+  'DMCA': 'legal',
+  'Airspace': 'legal',
+};
+function footerRoute(label) {
+  if (label.includes('Picks')) return 'explore';
+  return FOOTER_LINK_ROUTES[label] || 'home';
+}
+
+export function Footer({ onNav }) {
   return (
     <footer style={{
       borderTop: '1px solid var(--line)',
@@ -581,7 +604,7 @@ export function Footer() {
           <div key={col.t}>
             <div className="eyebrow" style={{ marginBottom: 14 }}>{col.t}</div>
             {col.links.map(l => (
-              <div key={l} style={{ fontSize: 13, color: 'var(--parchment)', marginBottom: 8, cursor: 'pointer' }}>{l}</div>
+              <button key={l} onClick={() => onNav?.(footerRoute(l))} style={{ display: 'block', background: 'none', border: 'none', padding: 0, fontSize: 13, color: 'var(--parchment)', marginBottom: 8, cursor: 'pointer', textAlign: 'left', fontFamily: 'inherit' }}>{l}</button>
             ))}
           </div>
         ))}

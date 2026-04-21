@@ -40,6 +40,7 @@ const LocationPage        = lazy(() => import('./pages/location').then(m => ({ d
 const PricingPage         = lazy(() => import('./pages/pricing').then(m => ({ default: m.PricingPage })));
 const ShotLibraryPage     = lazy(() => import('./pages/shotlibrary').then(m => ({ default: m.ShotLibraryPage })));
 const AdvancedPage        = lazy(() => import('./pages/advanced').then(m => ({ default: m.AdvancedPage })));
+const NotFoundPage        = lazy(() => import('./pages/static').then(m => ({ default: m.NotFoundPage })));
 
 const TWEAK_DEFAULTS = {
   theme: 'light',
@@ -173,8 +174,9 @@ export default function App() {
         {route === 'pricing' && <PricingPage onNav={onNav} />}
         {route === 'shotlibrary' && <ShotLibraryPage onNav={onNav} onOpenVideo={onOpenVideo} />}
         {route === 'advanced' && <AdvancedPage onNav={onNav} onOpenVideo={onOpenVideo} />}
+        {!['home', 'watch', 'explore', 'rankings', 'creators', 'creator', 'search', 'upload', 'mypage', 'signin', 'checkout', 'success', 'orders', 'license', 'earnings', 'settings', 'pilot-onboarding', 'profile', 'messages', 'notifications', 'commission', 'guidelines', 'legal', 'flightlog', 'atlas', 'live', 'collection', 'location', 'pricing', 'shotlibrary', 'advanced'].includes(route) && <NotFoundPage onNav={onNav} />}
       </Suspense>
-      {!['creator','pilot-onboarding','signin','messages','live'].includes(route) && <Footer />}
+      {!['creator','pilot-onboarding','signin','messages','live'].includes(route) && <Footer onNav={onNav} />}
 
       {tweaksOpen && <TweaksPanel tweaks={tweaks} update={updateTweak} onClose={() => setTweaksOpen(false)} />}
     </>
