@@ -9,6 +9,91 @@ import { fetchReviews, postReview } from '../db/commerce';
 import { useAuth } from '../auth/AuthContext';
 import { CommentThread } from '../comments';
 
+// Parse a YouTube-style description into structured sections so it doesn't render as one wall of text.
+function parseDescription(raw) {
+  if (!raw) return { sections: [{ kind: 'text', body: '' }], links: [] };
+  const txt = String(raw).replace(/\r/g, '');
+  // Extract URLs first (preserve order, dedupe)
+  const urlRe = /https?:\/\/[^\s)]+/g;
+  const urls = Array.from(new Set(txt.match(urlRe) || []));
+  // Replace URL clusters in body with placeholders so they don't dominate the text
+  let body = txt.replace(urlRe, '').replace(/\s+\)/g, ')');
+  // Normalize divider lines (---- or - - - - or ====) → split markers
+  body = body.replace(/[\-=_]{3,}|(?:\s-\s){3,}/g, '\n@@SPLIT@@\n');
+  // Collapse whitespace runs
+  body = body.replace(/\n{3,}/g, '\n\n').trim();
+
+  const blocks = body.split(/@@SPLIT@@/).map(s => s.trim()).filter(Boolean);
+
+  // Heuristic: detect role/credit section (contains lots of " - " or "[ ]")
+  // music section starts with "MUSIC", "Music:" etc.
+  const sections = blocks.map(b => {
+    const lower = b.toLowerCase();
+    if (/^(music|soundtrack|track listing|songs)/i.test(b) || /\bMUSIC[: ]/.test(b)) {
+      return { kind: 'music', body: b };
+    }
+    if (/(production team|cast|hosts?|crew|pilots?|editor|producer|director)/i.test(lower) && b.length < 600) {
+      return { kind: 'credits', body: b };
+    }
+    return { kind: 'text', body: b };
+  });
+
+  return { sections, links: urls };
+}
+
+// Render one parsed section as a clean note block
+function NoteSection({ section }) {
+  const labelMap = { text: null, credits: 'CREDITS', music: 'MUSIC' };
+  const label = labelMap[section.kind];
+  // Split into lines and bullet rows
+  const lines = section.body.split(/\n+/).map(l => l.trim()).filter(Boolean);
+  return (
+    <div style={{ marginBottom: 14 }}>
+      {label && <div className="mono" style={{ fontSize: 10, letterSpacing: '0.14em', color: 'var(--parchment-dim)', marginBottom: 6 }}>{label}</div>}
+      {section.kind === 'text' ? (
+        <p style={{ fontSize: 14, color: 'var(--parchment)', lineHeight: 1.65, margin: 0, whiteSpace: 'pre-wrap' }}>{section.body}</p>
+      ) : (
+        <ul style={{ listStyle: 'none', padding: 0, margin: 0, fontSize: 13, color: 'var(--parchment)' }}>
+          {lines.map((l, i) => (
+            <li key={i} style={{ padding: '4px 0', borderTop: i > 0 ? '1px dashed var(--line)' : 'none' }}>{l}</li>
+          ))}
+        </ul>
+      )}
+    </div>
+  );
+}
+
+// Render extracted URLs as a compact link list
+function NoteLinks({ links }) {
+  if (!links || links.length === 0) return null;
+  // Skip noisy affiliate parameter URLs by deduping host
+  const seen = new Set(); const filtered = [];
+  for (const u of links) {
+    try {
+      const host = new URL(u).host.replace(/^www\./, '');
+      const key = host + new URL(u).pathname.split('/').slice(0,3).join('/');
+      if (!seen.has(key)) { seen.add(key); filtered.push({ host, url: u }); }
+    } catch {}
+  }
+  if (filtered.length === 0) return null;
+  return (
+    <div style={{ marginTop: 14 }}>
+      <div className="mono" style={{ fontSize: 10, letterSpacing: '0.14em', color: 'var(--parchment-dim)', marginBottom: 6 }}>LINKS</div>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+        {filtered.slice(0, 12).map((l, i) => (
+          <a key={i} href={l.url} target="_blank" rel="noopener noreferrer" style={{
+            fontSize: 12, color: 'var(--amber)', textDecoration: 'none', borderBottom: '1px dashed var(--line)',
+            paddingBottom: 3, display: 'inline-block', maxWidth: '100%', overflow: 'hidden',
+            textOverflow: 'ellipsis', whiteSpace: 'nowrap',
+          }}>{l.host} <span style={{ color: 'var(--parchment-dim)' }}>· {new URL(l.url).pathname.slice(0, 50)}</span></a>
+        ))}
+        {filtered.length > 12 && <span style={{ fontSize: 11, color: 'var(--parchment-dim)' }}>+ {filtered.length - 12} more</span>}
+      </div>
+    </div>
+  );
+}
+
+
 export function PlayerPage({ video, onNav, onOpenVideo }) {
   if (!video) return <div style={{ padding: 80, textAlign: 'center' }}>No video selected.</div>;
   const [previewRemaining, setPreviewRemaining] = React.useState(video.price > 0 ? 3 : null);
@@ -217,15 +302,26 @@ export function PlayerPage({ video, onNav, onOpenVideo }) {
 
           {/* Description */}
           <div style={{ marginTop: 24, padding: 20, background: 'var(--forest-900)', border: '1px solid var(--line)', borderRadius: 4 }}>
-            <div className="eyebrow" style={{ marginBottom: 10 }}>FLIGHT NOTES</div>
-            <p style={{ fontSize: 14, color: 'var(--parchment)', lineHeight: 1.65, marginBottom: 14 }}>{video.description}</p>
-            <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
-              {video.tags.map(t => (
-                <span key={t} className="mono" style={{ fontSize: 11, padding: '3px 8px', background: 'var(--forest-800)', border: '1px solid var(--line)', borderRadius: 2, color: 'var(--parchment)' }}>#{t}</span>
-              ))}
-            </div>
+            <div className="eyebrow" style={{ marginBottom: 12 }}>FLIGHT NOTES</div>
+            {(() => {
+              const parsed = parseDescription(video.description);
+              return (
+                <>
+                  {parsed.sections.map((s, i) => <NoteSection key={i} section={s} />)}
+                  <NoteLinks links={parsed.links} />
+                  {video.tags && video.tags.length > 0 && (
+                    <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginTop: 14, paddingTop: 12, borderTop: '1px solid var(--line)' }}>
+                      {video.tags.map(t => (
+                        <span key={t} className="mono" style={{ fontSize: 11, padding: '3px 8px', background: 'var(--forest-800)', border: '1px solid var(--line)', borderRadius: 2, color: 'var(--parchment)' }}>#{t}</span>
+                      ))}
+                    </div>
+                  )}
+                </>
+              );
+            })()}
           </div>
 
+          {video.source !== 'youtube' && video.price > 0 && (<>
           {/* What you download — delivery transparency */}
           <div style={{ marginTop: 24, padding: 0, border: '1px solid var(--line)', borderRadius: 4, overflow: 'hidden' }}>
             <div style={{ padding: '14px 20px', background: 'var(--forest-900)', borderBottom: '1px solid var(--line)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -306,6 +402,26 @@ export function PlayerPage({ video, onNav, onOpenVideo }) {
               ))}
             </div>
           </div>
+          </>)}
+
+          {/* Free YouTube clip — clean credit + watch CTA */}
+          {video.source === 'youtube' && (
+            <div style={{ marginTop: 24, padding: 20, background: 'var(--forest-900)', border: '1px solid var(--lichen)', borderRadius: 4 }}>
+              <div className="eyebrow" style={{ color: 'var(--lichen)', marginBottom: 8 }}>FREE TO USE · CREATIVE COMMONS BY 4.0</div>
+              <p style={{ fontSize: 14, color: 'var(--parchment)', lineHeight: 1.6, margin: '0 0 14px' }}>
+                This clip is published on YouTube under a Creative Commons Attribution license. You may embed, share, and reuse it &mdash; including for commercial work &mdash; provided you credit the original creator.
+              </p>
+              <div style={{ display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap' }}>
+                <a href={`https://www.youtube.com/watch?v=${video.youtubeId || video.ytId}`} target="_blank" rel="noopener noreferrer"
+                   className="btn" style={{ fontSize: 13, padding: '10px 18px', textDecoration: 'none' }}>
+                  Watch on YouTube
+                </a>
+                <span className="mono" style={{ fontSize: 11, color: 'var(--parchment-dim)', letterSpacing: '0.08em' }}>
+                  CREDIT: {video.creator?.name || video.channel || 'YouTube creator'}
+                </span>
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Reviews */}
