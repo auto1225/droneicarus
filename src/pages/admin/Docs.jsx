@@ -379,10 +379,10 @@ If even step 5 fails: \`lat=null, lon=null\` and place in moderation queue.
 
 ## Anti-patterns (learned the hard way)
 
-- ❌ Bare common-noun queries: "Sunrise" → Sunrise FL, "Desert" → Desert TX
-- ❌ Country names alone: "Iceland" → country centroid → all stack
-- ❌ Skip jitter on anchor coords → multiple videos at same point
-- ❌ Trust Nominatim importance < 0.3 — mostly noise
+- [X] Bare common-noun queries: "Sunrise" → Sunrise FL, "Desert" → Desert TX
+- [X] Country names alone: "Iceland" → country centroid → all stack
+- [X] Skip jitter on anchor coords → multiple videos at same point
+- [X] Trust Nominatim importance < 0.3 — mostly noise
 
 ## Current scale (as of 2026-04-22)
 
@@ -522,7 +522,7 @@ Manual rebuild: https://github.com/auto1225/droneicarus/actions/workflows/pages.
 
 \`supabase/migrations/NNNN_*.sql\` files in repo. **Apply manually** via Supabase Dashboard SQL Editor:
 
-👉 https://supabase.com/dashboard/project/eotsbncgkgewgbemaarp/sql/new
+→ https://supabase.com/dashboard/project/eotsbncgkgewgbemaarp/sql/new
 
 Paste file contents, click Run. Migrations are idempotent (use \`IF NOT EXISTS\`).
 
@@ -551,7 +551,7 @@ curl -X POST -H "Authorization: Bearer $CF_TOKEN" \\
 ## YouTube discovery
 
 Auto-runs 4×/day via cron. Manual trigger:
-👉 https://github.com/auto1225/droneicarus/actions/workflows/discover.yml → "Run workflow"
+→ https://github.com/auto1225/droneicarus/actions/workflows/discover.yml → "Run workflow"
 
 GH Actions secrets needed:
 - \`YT_API_KEY\`
@@ -573,7 +573,7 @@ No code change required for adding categories — all data-driven.
 2. Edit their \`profiles.role = 'admin'\` (via Supabase Dashboard table editor)
 
 OR add their email to \`is_admin()\` function's email list (more robust):
-👉 SQL Editor → ALTER FUNCTION public.is_admin → add to email check list
+→ SQL Editor → ALTER FUNCTION public.is_admin → add to email check list
 
 ## Rotate a key
 
