@@ -138,19 +138,27 @@ function MapHero({ selectedLoc, onSelectLoc, categoryFilter, mapFilters, locatio
       });
       const marker = L.marker([loc.lat, loc.lon], { icon, zIndexOffset: selected ? 2000 : (isFeatured ? 600 : 100) }).addTo(map);
 
-      // Hover tooltip — lightweight, with thumbnail strip
+      // Hover tooltip — show real YouTube/storage thumbnails when available.
+      const _safeIdH = (id) => { const s = String(id||''); let h=0; for (let i=0;i<s.length;i++) h=(h*31+s.charCodeAt(i))|0; return Math.abs(h); };
       const tipHtml = `
         <div class="pin-tip">
           <div class="pin-tip-thumbs">
-            ${vids.map((v,i) => `<div class="pin-tip-thumb" style="background:${hEsc(thumbGradient(parseInt(v.id.slice(1))))};">
-              ${i === 0 ? `<span class="pin-tip-play"></span>` : ''}
-              ${v.price > 0 ? `<span class="pin-tip-paid">$${v.price}</span>` : ''}
-            </div>`).join('') || '<div class="pin-tip-thumb empty"></div>'}
+            ${vids.map((v, i) => {
+              const thumbUrl = v.thumbUrl || (v.youtubeId || v.ytId ? `https://i.ytimg.com/vi/${v.youtubeId || v.ytId}/hqdefault.jpg` : '');
+              const styleStr = thumbUrl
+                ? `background-image:url('${hEsc(thumbUrl)}');background-size:cover;background-position:center;`
+                : `background:${hEsc(thumbGradient(_safeIdH(v.id)))};`;
+              return `<div class="pin-tip-thumb" style="${styleStr}">
+                ${v.source === 'youtube' ? `<span class="pin-tip-yt">▶ YT</span>` : ''}
+                ${i === 0 ? `<span class="pin-tip-play"></span>` : ''}
+                ${v.price > 0 ? `<span class="pin-tip-paid">$${v.price}</span>` : ''}
+              </div>`;
+            }).join('') || '<div class="pin-tip-thumb empty"></div>'}
           </div>
           <div class="pin-tip-body">
-            <div class="pin-tip-country">${hEsc(loc.country)}</div>
+            <div class="pin-tip-country">${hEsc(loc.country || '')}</div>
             <div class="pin-tip-name">${hEsc(loc.name)}</div>
-            <div class="pin-tip-meta">${loc.videos} clips · ${vids.filter(v=>v.price===0).length}+ free</div>
+            <div class="pin-tip-meta">${loc.videos} clip${loc.videos === 1 ? '' : 's'}${vids.filter(v=>v.price===0).length > 0 ? ' · '+vids.filter(v=>v.price===0).length+' free' : ''}</div>
           </div>
         </div>
       `;
