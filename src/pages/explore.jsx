@@ -1,10 +1,18 @@
 // pages/explore.jsx — Category explore page + Search results
 import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react';
-import { CATEGORIES, LOCATIONS, VIDEOS, CREATORS } from '../data';
+import { CATEGORIES, LOCATIONS, VIDEOS as _MOCK_VIDEOS, CREATORS } from '../data';
+import { fetchVideos } from '../db/videos';
 import { Ic, formatViews, CategoryChips, VideoCard, FollowButton } from '../components';
 
 export function ExplorePage({ onOpenVideo, onNav }) {
   const [active, setActive] = React.useState('all');
+  const [dbVideos, setDbVideos] = useState([]);
+  useEffect(() => {
+    let cancel = false;
+    fetchVideos({ limit: 500 }).then(v => { if (!cancel) setDbVideos(v || []); });
+    return () => { cancel = true; };
+  }, []);
+  const VIDEOS = dbVideos.length > 0 ? dbVideos : _MOCK_VIDEOS;
   const vids = active === 'all' ? VIDEOS : VIDEOS.filter(v => v.category === active);
 
   // Category cells
@@ -84,6 +92,13 @@ export function SearchPage({ query, onOpenVideo, onNav, onSelectLoc }) {
   const matchedLocs = LOCATIONS.filter(l =>
     l.name.toLowerCase().includes(q) || l.country.toLowerCase().includes(q)
   );
+  const [dbVideosS, setDbVideosS] = useState([]);
+  useEffect(() => {
+    let cancel = false;
+    fetchVideos({ limit: 500 }).then(v => { if (!cancel) setDbVideosS(v || []); });
+    return () => { cancel = true; };
+  }, []);
+  const VIDEOS = dbVideosS.length > 0 ? dbVideosS : _MOCK_VIDEOS;
   const matchedVideos = VIDEOS.filter(v =>
     v.title.toLowerCase().includes(q) ||
     v.creator.name.toLowerCase().includes(q) ||
