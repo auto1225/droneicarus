@@ -83,8 +83,11 @@ export function UploadPage({ onNav }) {
 
   const [title, setTitle] = useState('');
   const [desc, setDesc] = useState('');
-  const [locationId, setLocationId] = useState('santorini');
+  const [locationId, setLocationId] = useState('');
   const [locationQuery, setLocationQuery] = useState('');
+  const [shotLat, setShotLat] = useState('');
+  const [shotLon, setShotLon] = useState('');
+  const [locMode, setLocMode] = useState('landmark'); // landmark | coords | map
   const [category, setCategory] = useState('landscape');
   const [price, setPrice] = useState(19.99);
   const [licenseTier, setLicenseTier] = useState('single');
@@ -254,7 +257,13 @@ export function UploadPage({ onNav }) {
       const visMap = { public: 'published', unlisted: 'published', private: 'draft' };
       const status = draft ? 'draft' : (visMap[visibility] || 'draft');
       const update = {
-        title, description: desc, location_id: locationId, category,
+        title, description: desc,
+        location_id: locationId || null,
+        shot_lat: coordsValid ? Number(shotLat) : (locationId ? (LOCATIONS.find(l => l.id === locationId)?.lat || null) : null),
+        shot_lon: coordsValid ? Number(shotLon) : (locationId ? (LOCATIONS.find(l => l.id === locationId)?.lon || null) : null),
+        lat:      coordsValid ? Number(shotLat) : (locationId ? (LOCATIONS.find(l => l.id === locationId)?.lat || null) : null),
+        lon:      coordsValid ? Number(shotLon) : (locationId ? (LOCATIONS.find(l => l.id === locationId)?.lon || null) : null),
+        category,
         resolution: meta?.resolution || '1080p',
         fps: parseInt(framerate, 10) || 24,
         drone_model: shotOn,
@@ -280,7 +289,17 @@ export function UploadPage({ onNav }) {
   if (stage === 'drop') return <UploadDropZone onPick={onPick} onCancel={() => onNav('home')} />;
 
   const loc = LOCATIONS.find(l => l.id === locationId);
-  const canPublish = title.trim().length > 3 && uploadDone && !uploadErr;
+  const coordsValid = shotLat !== '' && shotLon !== '' &&
+    !Number.isNaN(Number(shotLat)) && !Number.isNaN(Number(shotLon)) &&
+    Math.abs(Number(shotLat)) <= 90 && Math.abs(Number(shotLon)) <= 180;
+  const locationSet = (locMode === 'landmark' && locationId !== '') ||
+    ((locMode === 'coords' || locMode === 'map') && coordsValid);
+  const canPublish = title.trim().length > 3 && uploadDone && !uploadErr && !!category && locationSet;
+  const missing = [];
+  if (title.trim().length <= 3) missing.push('Title (4+ chars)');
+  if (!category) missing.push('Category');
+  if (!locationSet) missing.push('Location');
+  if (!uploadDone) missing.push('File upload finished');
   const etaSec = uploadSpeed > 0 ? Math.round((file.size - uploadBytes) / uploadSpeed) : null;
 
   return (
@@ -304,6 +323,20 @@ export function UploadPage({ onNav }) {
             </button>
           </div>
         </div>
+
+        {/* Required fields checklist */}
+        {missing.length > 0 && (
+          <div style={{
+            padding: '10px 16px', marginBottom: 16, borderRadius: 4,
+            background: 'var(--forest-900)', border: '1px solid var(--sunset)',
+            display: 'flex', gap: 16, alignItems: 'center', flexWrap: 'wrap',
+          }}>
+            <span className="mono" style={{ fontSize: 10, letterSpacing: '0.14em', color: 'var(--sunset)', textTransform: 'uppercase' }}>REQUIRED · {missing.length} missing</span>
+            <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', fontSize: 12 }}>
+              {missing.map(m => <span key={m} style={{ color: 'var(--parchment)' }}>· {m}</span>)}
+            </div>
+          </div>
+        )}
 
         {/* Upload status strip */}
         <div style={{
@@ -373,21 +406,71 @@ export function UploadPage({ onNav }) {
                     })}
                   </div>
                 </Field>
-                <Field label="Location">
-                  <input value={locationQuery} onChange={e => setLocationQuery(e.target.value)} placeholder="Search location…" style={fieldStyle}/>
-                  <div style={{ marginTop: 8, display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 6, maxHeight: 180, overflow: 'auto' }}>
-                    {locationMatches.map(l => (
-                      <button key={l.id} onClick={() => { setLocationId(l.id); setLocationQuery(''); }} style={{
-                        padding: '8px 12px', textAlign: 'left', fontSize: 12, borderRadius: 3,
-                        background: locationId === l.id ? 'var(--forest-900)' : 'transparent',
-                        border: locationId === l.id ? '1px solid var(--sunset)' : '1px solid var(--line)',
-                        color: 'var(--bone)',
-                      }}>
-                        <div style={{ fontSize: 13 }}>{l.name}</div>
-                        <div style={{ fontSize: 10, color: 'var(--parchment-dim)' }}>{l.country}</div>
-                      </button>
+                <Field label="Location *" hint={locationSet ? null : 'Required — tell buyers where you filmed'}>
+                  <div style={{ display: 'flex', gap: 4, marginBottom: 10, padding: 3, background: 'var(--forest-900)', border: '1px solid var(--line)', borderRadius: 999, width: 'fit-content' }}>
+                    {[['landmark','Pick a landmark'],['coords','Enter coordinates'],['map','Drop on map']].map(([k, l]) => (
+                      <button key={k} onClick={() => setLocMode(k)} style={{
+                        padding: '6px 14px', fontSize: 12, borderRadius: 999,
+                        background: locMode === k ? 'var(--bone)' : 'transparent',
+                        color: locMode === k ? 'var(--ink)' : 'var(--parchment)',
+                        border: 'none', cursor: 'pointer',
+                      }}>{l}</button>
                     ))}
                   </div>
+
+                  {locMode === 'landmark' && (
+                    <>
+                      <input value={locationQuery} onChange={e => setLocationQuery(e.target.value)} placeholder="Search landmark by name or country…" style={{...fieldStyle, borderColor: locationId ? 'var(--lichen)' : 'var(--line-strong)'}}/>
+                      <div style={{ marginTop: 8, display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 6, maxHeight: 220, overflow: 'auto' }}>
+                        {locationMatches.map(l => (
+                          <button key={l.id} onClick={() => { setLocationId(l.id); setLocationQuery(''); }} style={{
+                            padding: '8px 12px', textAlign: 'left', fontSize: 12, borderRadius: 3,
+                            background: locationId === l.id ? 'var(--forest-900)' : 'transparent',
+                            border: locationId === l.id ? '1px solid var(--sunset)' : '1px solid var(--line)',
+                            color: 'var(--bone)',
+                          }}>
+                            <div style={{ fontSize: 13 }}>{l.name}</div>
+                            <div style={{ fontSize: 10, color: 'var(--parchment-dim)' }}>{l.country} · {l.lat.toFixed(2)}, {l.lon.toFixed(2)}</div>
+                          </button>
+                        ))}
+                        {locationMatches.length === 0 && locationQuery && (
+                          <div style={{ gridColumn: '1 / -1', padding: 20, textAlign: 'center', fontSize: 12, color: 'var(--parchment-dim)' }}>
+                            No match. Try "Enter coordinates" instead.
+                          </div>
+                        )}
+                      </div>
+                    </>
+                  )}
+
+                  {locMode === 'coords' && (
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
+                      <div>
+                        <label className="mono" style={{ fontSize: 10, letterSpacing: '0.14em', color: 'var(--parchment-dim)', textTransform: 'uppercase' }}>Latitude (−90 to 90)</label>
+                        <input type="number" step="0.000001" min="-90" max="90" value={shotLat} onChange={e => setShotLat(e.target.value)}
+                          placeholder="e.g. 37.5512" style={{...fieldStyle, marginTop: 4,
+                            borderColor: shotLat === '' ? 'var(--line-strong)' :
+                              (coordsValid ? 'var(--lichen)' : 'var(--sunset)')}}/>
+                      </div>
+                      <div>
+                        <label className="mono" style={{ fontSize: 10, letterSpacing: '0.14em', color: 'var(--parchment-dim)', textTransform: 'uppercase' }}>Longitude (−180 to 180)</label>
+                        <input type="number" step="0.000001" min="-180" max="180" value={shotLon} onChange={e => setShotLon(e.target.value)}
+                          placeholder="e.g. 126.9882" style={{...fieldStyle, marginTop: 4,
+                            borderColor: shotLon === '' ? 'var(--line-strong)' :
+                              (coordsValid ? 'var(--lichen)' : 'var(--sunset)')}}/>
+                      </div>
+                      <div style={{ gridColumn: '1 / -1', fontSize: 11, color: 'var(--parchment-dim)', marginTop: 4 }}>
+                        Tip: Most drones embed GPS in the file EXIF. Check your flight log app, or look up the spot on Google Maps (right-click → copy coordinates).
+                      </div>
+                    </div>
+                  )}
+
+                  {locMode === 'map' && (
+                    <UploadMapPicker
+                      lat={shotLat ? Number(shotLat) : null}
+                      lon={shotLon ? Number(shotLon) : null}
+                      onPick={(la, lo) => { setShotLat(la.toFixed(6)); setShotLon(lo.toFixed(6)); }}
+                    />
+                  )}
                 </Field>
                 <Field label="Tags">
                   <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 8 }}>
@@ -554,14 +637,16 @@ export function UploadPage({ onNav }) {
             <div style={{ marginBottom: 14, padding: 14, border: '1px solid var(--line)', borderRadius: 4 }}>
               <div className="eyebrow" style={{ marginBottom: 10 }}>CHECKLIST</div>
               {[
-                ['File uploaded', uploadDone, uploadErr ? `✗ ${uploadErr}` : (uploadDone ? `✓ ${humanSize(file?.size)}` : `uploading… ${uploadPct.toFixed(0)}%`)],
+                ['File uploaded', uploadDone, uploadErr ? `Failed: ${uploadErr}` : (uploadDone ? humanSize(file?.size) : `uploading… ${uploadPct.toFixed(0)}%`)],
                 ['Title (4+ chars)', title.trim().length > 3, title.trim()],
                 ['Thumbnail chosen', !!thumbBlob, thumbBlob ? `frame @ ${thumbTime.toFixed(2)}s` : 'pick one in Thumbnail tab'],
                 ['Location selected', !!loc, loc?.name],
                 ['Category selected', !!category, category],
               ].map(([k, ok, v], i) => (
                 <div key={i} style={{ display: 'flex', gap: 10, padding: '6px 0', fontSize: 12 }}>
-                  <span style={{ color: ok ? 'var(--moss)' : 'var(--parchment-dim)' }}>{ok ? '✓' : '○'}</span>
+                  <span style={{ color: ok ? 'var(--moss)' : 'var(--parchment-dim)', display: 'inline-flex', width: 14, height: 14, alignItems: 'center', justifyContent: 'center' }}>
+                    {ok ? <Ic.check/> : <span style={{ width: 8, height: 8, borderRadius: '50%', border: '1.5px solid currentColor' }}/>}
+                  </span>
                   <div style={{ flex: 1 }}>
                     <div>{k}</div>
                     <div style={{ fontSize: 11, color: 'var(--parchment-dim)' }}>{v}</div>
@@ -629,6 +714,56 @@ function UploadDropZone({ onPick, onCancel }) {
         <span>By uploading, you agree to our <span style={{ color: 'var(--sunset)', textDecoration: 'underline' }}>Pilot Terms</span> &amp; <span style={{ color: 'var(--sunset)', textDecoration: 'underline' }}>content policy</span>.</span>
       </div>
       <button onClick={onCancel} style={{ marginTop: 18, fontSize: 12, color: 'var(--parchment-dim)' }}>← Cancel</button>
+    </div>
+  );
+}
+
+
+function UploadMapPicker({ lat, lon, onPick }) {
+  const mapRef = React.useRef(null);
+  const containerRef = React.useRef(null);
+  const markerRef = React.useRef(null);
+
+  React.useEffect(() => {
+    const L = window.L;
+    if (!L || !containerRef.current || mapRef.current) return;
+    const initLat = lat ?? 20;
+    const initLon = lon ?? 0;
+    const map = L.map(containerRef.current, { zoomControl: true, attributionControl: false }).setView([initLat, initLon], (lat && lon) ? 6 : 2);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 18 }).addTo(map);
+    map.on('click', (e) => {
+      const { lat: la, lng: lo } = e.latlng;
+      onPick?.(la, lo);
+      if (markerRef.current) markerRef.current.setLatLng([la, lo]);
+      else markerRef.current = L.marker([la, lo]).addTo(map);
+    });
+    if (lat != null && lon != null) {
+      markerRef.current = L.marker([lat, lon]).addTo(map);
+    }
+    mapRef.current = map;
+    return () => { map.remove(); mapRef.current = null; markerRef.current = null; };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // Update marker when coords change from outside
+  React.useEffect(() => {
+    if (!mapRef.current || lat == null || lon == null) return;
+    const L = window.L;
+    if (markerRef.current) markerRef.current.setLatLng([lat, lon]);
+    else markerRef.current = L.marker([lat, lon]).addTo(mapRef.current);
+  }, [lat, lon]);
+
+  return (
+    <div>
+      <div ref={containerRef} style={{
+        width: '100%', height: 280, borderRadius: 4,
+        border: '1px solid var(--line-strong)', background: 'var(--forest-900)',
+      }}/>
+      <div style={{ marginTop: 6, fontSize: 11, color: 'var(--parchment-dim)' }}>
+        Click the map to drop a pin. {lat != null && lon != null ? (
+          <span style={{ color: 'var(--lichen)' }}>· Picked: {lat.toFixed(4)}, {lon.toFixed(4)}</span>
+        ) : 'No location picked yet.'}
+      </div>
     </div>
   );
 }
