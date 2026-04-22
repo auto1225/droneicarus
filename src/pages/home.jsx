@@ -15,7 +15,7 @@ function hEsc(s) {
   return String(s).replace(/[&<>"']/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]));
 }
 
-function MapHero({ selectedLoc, onSelectLoc, categoryFilter, mapFilters, locations, videos }) {
+function MapHero({ selectedLoc, onSelectLoc, categoryFilter, mapFilters, locations, videos, onOpenVideo }) {
   const LOCATIONS = locations && locations.length > 0 ? locations : _MOCK_LOCATIONS;
   const VIDEOS = videos && videos.length > 0 ? videos : _MOCK_VIDEOS;
   const mapRef = hUseRef(null);
@@ -168,6 +168,10 @@ function MapHero({ selectedLoc, onSelectLoc, categoryFilter, mapFilters, locatio
       });
 
       marker.on('click', () => {
+        if (loc.video && onOpenVideo) {
+          onOpenVideo(loc.video);
+          return;
+        }
         onSelectLoc(loc);
         map.flyTo([loc.lat, loc.lon], Math.max(map.getZoom(), 9), { duration: 1.2 });
       });
@@ -412,7 +416,7 @@ export function HomePage({ onOpenVideo, onNav }) {
 
   return (
     <>
-      <MapHero selectedLoc={selectedLoc} onSelectLoc={handleSelect} categoryFilter={categoryFilter} mapFilters={mapFilters} locations={dbLocations} videos={dbVideos} />
+      <MapHero selectedLoc={selectedLoc} onSelectLoc={handleSelect} categoryFilter={categoryFilter} mapFilters={mapFilters} locations={dbLocations} videos={dbVideos} onOpenVideo={onOpenVideo} />
 
       {/* Sticky category bar + map filters */}
       <div style={{
