@@ -71,8 +71,8 @@ export function SearchDropdown({ query, onNav, onSelect, onClose }) {
     l.name.toLowerCase().includes(q) || l.country.toLowerCase().includes(q)
   )).slice(0, 5) : [];
   const creatorMatches = q ? (remote?.creators ?? VIDEOS
-    .map(v => v.creator).filter((c,i,a) => a.findIndex(x => x.handle === c.handle) === i)
-    .filter(c => c.name.toLowerCase().includes(q) || c.handle.toLowerCase().includes(q))
+    .map(v => v.creator).filter(c => c && c.handle).filter((c,i,a) => a.findIndex(x => x.handle === c.handle) === i)
+    .filter(c => ((c?.name || '').toLowerCase().includes(q) || (c?.handle || '').toLowerCase().includes(q)))
   ).slice(0, 3) : [];
   const videoMatches = q ? (remote?.videos ?? VIDEOS.filter(v =>
     v.title.toLowerCase().includes(q) || v.tags?.some(t => t.toLowerCase().includes(q))
@@ -172,7 +172,7 @@ export function SearchDropdown({ query, onNav, onSelect, onClose }) {
               </span>
               <div style={{ flex: 1, minWidth: 0 }}>
                 <div style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{v.title}</div>
-                <div style={{ fontSize: 11, color: 'var(--parchment-dim)' }}>{v.creator.handle} · {v.duration} · {v.resolution}</div>
+                <div style={{ fontSize: 11, color: 'var(--parchment-dim)' }}>{v.creator?.handle || v.channel || '—'} · {v.duration} · {v.resolution}</div>
               </div>
             </div>
           ))}
