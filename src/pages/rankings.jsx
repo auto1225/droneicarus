@@ -1,6 +1,8 @@
 // pages/rankings.jsx — Global leaderboard
 import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react';
-import { LOCATIONS, VIDEOS, TRENDING, CREATORS, thumbGradient, STATS} from '../data';
+import { LOCATIONS, VIDEOS as _MOCK_VIDEOS, TRENDING, CREATORS, thumbGradient, STATS} from '../data';
+import { fetchVideos } from '../db/videos';
+import { useState as _us, useEffect as _ue } from 'react';
 import { Ic, formatViews, FollowButton } from '../components';
 
 export function RankingsPage({ onOpenVideo }) {
@@ -127,6 +129,8 @@ export function RankingsPage({ onOpenVideo }) {
 }
 
 export function CreatorsPage({ onOpenVideo }) {
+  _us(); // keep imports used
+  _ue(() => { fetchVideos({ limit: 500 }).then(v => { window.__rkDbVideos = v || []; }); }, []);
   return (
     <div style={{ maxWidth: 1760, margin: '0 auto', padding: '40px 28px 60px' }}>
       <div className="eyebrow" style={{ marginBottom: 10, color: 'var(--amber)' }}>PILOT COMMUNITY</div>
@@ -137,7 +141,7 @@ export function CreatorsPage({ onOpenVideo }) {
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(360px, 1fr))', gap: 20 }}>
         {CREATORS.map(c => {
-          const theirVids = VIDEOS.filter(v => v.creator.handle === c.handle).slice(0, 3);
+          const theirVids = (window.__rkDbVideos && window.__rkDbVideos.length ? window.__rkDbVideos : _MOCK_VIDEOS).filter(v => v.creator?.handle === c.handle).slice(0, 3);
           return (
             <div key={c.handle} style={{ padding: 24, background: 'var(--forest-900)', border: '1px solid var(--line)', borderRadius: 4 }}>
               <div style={{ display: 'flex', gap: 16, marginBottom: 18 }}>
