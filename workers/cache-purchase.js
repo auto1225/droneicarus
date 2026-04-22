@@ -38,17 +38,16 @@ export default {
     if (req.method === 'OPTIONS') {
       return new Response(null, { status: 204, headers: corsHeaders() });
     }
-    // /download handled above; everything else requires POST
-    if (req.method !== 'POST' && url.pathname === '/cache') {
-      return json(405, { error: 'Method not allowed' });
-    }
 
     const url = new URL(req.url);
     // Route: /download — stream an R2 object to the buyer (auth-gated)
     if (url.pathname === '/download' && req.method === 'GET') {
       return handleDownload(req, env, url);
     }
-    // Route: /cache — we require POST below
+    // /cache requires POST
+    if (url.pathname === '/cache' && req.method !== 'POST') {
+      return json(405, { error: 'Method not allowed' });
+    }
     if (url.pathname !== '/cache') {
       return json(404, { error: 'Not found' });
     }

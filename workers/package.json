@@ -1,0 +1,15 @@
+{
+  "name": "workers",
+  "version": "1.0.0",
+  "description": "Cloudflare Worker that caches a pilot-hosted external file into R2 the moment a buyer completes payment. Provides a stable, time-limited download link that survives the pilot's link breaking.",
+  "main": "cache-purchase.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "wrangler": "^4.84.1"
+  }
+}

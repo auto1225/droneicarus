@@ -30,6 +30,7 @@ jobs:
           VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
           VITE_SUPABASE_PUBLISHABLE_KEY: ${{ secrets.VITE_SUPABASE_PUBLISHABLE_KEY }}
           VITE_USE_SUPABASE_DATA: ${{ vars.VITE_USE_SUPABASE_DATA }}
+          VITE_CACHE_WORKER_URL: https://droneicarus-cache-purchase.droneicarus.workers.dev
         run: npm run build
       - uses: actions/configure-pages@v4
       - uses: actions/upload-pages-artifact@v3
