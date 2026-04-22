@@ -15,7 +15,7 @@ function hEsc(s) {
   return String(s).replace(/[&<>"']/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]));
 }
 
-function MapHero({ selectedLoc, onSelectLoc, categoryFilter, mapFilters, locations, videos, onOpenVideo }) {
+function MapHero({ selectedLoc, onSelectLoc, selectedFineSet, mapFilters, locations, videos, onOpenVideo }) {
   const LOCATIONS = locations && locations.length > 0 ? locations : _MOCK_LOCATIONS;
   const VIDEOS = videos && videos.length > 0 ? videos : _MOCK_VIDEOS;
   const mapRef = hUseRef(null);
@@ -46,11 +46,17 @@ function MapHero({ selectedLoc, onSelectLoc, categoryFilter, mapFilters, locatio
     mapInstance.current = map;
   }, []);
 
-  // Compute filtered locations based on category + mapFilters
+  // Compute filtered locations based on hierarchy selection + mapFilters
   const filteredLocs = hUseMemo(() => {
-    let locs = categoryFilter === 'all'
-      ? LOCATIONS
-      : LOCATIONS.filter(l => l.category === categoryFilter);
+    let locs = LOCATIONS;
+    // selectedFineSet: a Set of fine-category strings (videos.tags[0]) when sidebar
+    // group/child is active. null/empty → show all.
+    if (selectedFineSet && selectedFineSet.size > 0) {
+      locs = locs.filter(l => {
+        const fine = l.video?.tags?.[0];
+        return fine && selectedFineSet.has(fine);
+      });
+    }
 
     if (!mapFilters) return locs;
 
@@ -62,7 +68,7 @@ function MapHero({ selectedLoc, onSelectLoc, categoryFilter, mapFilters, locatio
       if (mapFilters.featured && !loc.featured) return false;
       return true;
     });
-  }, [categoryFilter, mapFilters, locations, videos]);
+  }, [selectedFineSet, mapFilters, locations, videos]);
 
   hUseEffect(() => {
     const map = mapInstance.current;
@@ -182,7 +188,7 @@ function MapHero({ selectedLoc, onSelectLoc, categoryFilter, mapFilters, locatio
     map.off('zoomend', renderMarkers);
     map.on('zoomend', renderMarkers);
     return () => { map.off('zoomend', renderMarkers); };
-  }, [categoryFilter, mapFilters, filteredLocs, onSelectLoc, selectedLoc]);
+  }, [selectedFineSet, mapFilters, filteredLocs, onSelectLoc, selectedLoc]);
 
   // When selectedLoc changes via other UI, pan map
   hUseEffect(() => {
@@ -202,7 +208,7 @@ function MapHero({ selectedLoc, onSelectLoc, categoryFilter, mapFilters, locatio
   };
 
   return (
-    <div style={{ position: 'relative', height: 'calc(100vh - 62px)', minHeight: 560 }}>
+    <div style={{ position: 'relative', width: '100%', height: '100%' }}>
       <div ref={mapRef} style={{ position: 'absolute', inset: 0 }} />
       {/* Top-left: title overlay */}
       <div style={{
@@ -375,6 +381,199 @@ function FeaturedRow({ title, eyebrow, videos, onOpenVideo, accent }) {
   );
 }
 
+
+// ─── 2-level category hierarchy (mirrors Explore page; loaded from site_content if present) ─────────
+const HOME_DEFAULT_HIERARCHY = {
+  groups: [
+    { id: 'nature', label: 'Nature', icon: 'mountain', children: [
+      { id: 'mountain',     label: 'Mountain & Glacier', fine: ['mountain','glacier'] },
+      { id: 'volcano',      label: 'Volcano',            fine: ['volcano'] },
+      { id: 'waterfall',    label: 'Waterfall',          fine: ['waterfall'] },
+      { id: 'forest',       label: 'Forest & Jungle',    fine: ['rainforest'] },
+      { id: 'desert',       label: 'Desert & Dunes',     fine: ['desert','dunes'] },
+      { id: 'landscape',    label: 'Landscape',          fine: ['landscape'] },
+    ]},
+    { id: 'water', label: 'Ocean & Coast', icon: 'water', children: [
+      { id: 'open-ocean',   label: 'Open Ocean',     fine: ['ocean'] },
+      { id: 'atoll',        label: 'Atolls & Reefs', fine: ['atoll'] },
+      { id: 'coast',        label: 'Coastal Cliffs', fine: ['coastal-cliff'] },
+      { id: 'marine-life',  label: 'Marine Life',    fine: ['marine-life'] },
+      { id: 'polar',        label: 'Polar & Ice',    fine: ['polar'] },
+    ]},
+    { id: 'sky', label: 'Sky & Weather', icon: 'sky', children: [
+      { id: 'aurora',       label: 'Aurora',         fine: ['aurora'] },
+      { id: 'phenomena',    label: 'Phenomena',      fine: ['phenomena'] },
+      { id: 'fireworks',    label: 'Fireworks',      fine: ['fireworks'] },
+      { id: 'drone-show',   label: 'Drone Shows',    fine: ['drone-show'] },
+    ]},
+    { id: 'cities', label: 'Cities', icon: 'city', children: [
+      { id: 'skyline',      label: 'Skylines',       fine: ['cityscape'] },
+      { id: 'architecture', label: 'Architecture',   fine: ['architecture'] },
+      { id: 'bridge',       label: 'Bridges',        fine: ['bridge'] },
+      { id: 'port',         label: 'Ports & Harbors',fine: ['port'] },
+    ]},
+    { id: 'heritage', label: 'Heritage', icon: 'heritage', children: [
+      { id: 'ruins',        label: 'Ancient Ruins',  fine: ['ancient-ruins'] },
+      { id: 'temple',       label: 'Temples & Shrines', fine: ['temple'] },
+      { id: 'castle',       label: 'Castles & Palaces', fine: ['castle'] },
+    ]},
+    { id: 'human-landscape', label: 'Human Landscape', icon: 'agriculture', children: [
+      { id: 'vineyard',     label: 'Vineyards',     fine: ['vineyard'] },
+      { id: 'rice-terrace', label: 'Rice Terraces', fine: ['rice-terrace'] },
+      { id: 'flower-field', label: 'Flower Fields', fine: ['flower-field'] },
+    ]},
+    { id: 'action', label: 'Action & Sports', icon: 'action', children: [
+      { id: 'fpv-racing',   label: 'FPV Racing',    fine: ['aerial-sports'] },
+      { id: 'surfing',      label: 'Surfing',       fine: ['surfing'] },
+      { id: 'skiing',       label: 'Skiing & Snow', fine: ['skiing'] },
+    ]},
+    { id: 'wildlife', label: 'Wildlife', icon: 'wildlife', children: [
+      { id: 'safari',       label: 'Safari Big Game', fine: ['wildlife-safari'] },
+    ]},
+    { id: 'industry', label: 'Industry & Energy', icon: 'industry', children: [
+      { id: 'wind-farm',    label: 'Wind Farms',  fine: ['wind-farm'] },
+      { id: 'solar-farm',   label: 'Solar Farms', fine: ['solar-farm'] },
+    ]},
+  ],
+};
+
+function homeParseHierarchy(raw) {
+  if (!raw) return HOME_DEFAULT_HIERARCHY;
+  if (typeof raw === 'object' && raw.groups) return raw;
+  try { const p = JSON.parse(raw); return p?.groups ? p : HOME_DEFAULT_HIERARCHY; }
+  catch { return HOME_DEFAULT_HIERARCHY; }
+}
+
+function HomeSidebar({ selected, onSelect, mapFilters, onToggleMapFilter, onClearMapFilters, totals, hierarchy }) {
+  const [expanded, setExpanded] = hUseState(() => new Set(hierarchy.groups.map(g => g.id)));
+  hUseEffect(() => { setExpanded(new Set(hierarchy.groups.map(g => g.id))); }, [hierarchy]);
+  const toggleGroup = (id) => setExpanded(p => {
+    const n = new Set(p); n.has(id) ? n.delete(id) : n.add(id); return n;
+  });
+  const activeFilterCount = Object.values(mapFilters || {}).filter(Boolean).length;
+
+  return (
+    <aside style={{
+      background: 'var(--forest-950)',
+      borderRight: '1px solid var(--line)',
+      padding: '14px 10px 20px',
+      overflowY: 'auto',
+      maxHeight: 'calc(100vh - 62px)',
+    }}>
+      <div className="mono" style={{ fontSize: 9, letterSpacing: '0.18em', color: 'var(--parchment-dim)', padding: '6px 10px 8px' }}>BROWSE BY THEME</div>
+
+      <button
+        onClick={() => onSelect(null)}
+        style={{
+          display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+          width: '100%', padding: '8px 12px', marginBottom: 8,
+          background: !selected ? 'var(--bone)' : 'transparent',
+          color: !selected ? 'var(--ink)' : 'var(--parchment)',
+          border: 'none', borderRadius: 6, cursor: 'pointer', fontSize: 13, fontWeight: 600,
+          textAlign: 'left',
+        }}>
+        <span>All clips</span>
+        <span style={{ fontSize: 11, opacity: 0.7, fontVariantNumeric: 'tabular-nums' }}>{totals.total}</span>
+      </button>
+
+      <nav style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+        {hierarchy.groups.map(group => {
+          const open = expanded.has(group.id);
+          const isActive = selected?.type === 'group' && selected.id === group.id;
+          const groupCount = totals.groups[group.id] || 0;
+          if (groupCount === 0) return null;
+          return (
+            <div key={group.id}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 2, marginTop: 4 }}>
+                <button onClick={() => toggleGroup(group.id)} style={{
+                  flex: '0 0 auto', width: 22, height: 26,
+                  background: 'transparent', border: 'none', cursor: 'pointer',
+                  color: 'var(--parchment-dim)', fontSize: 11,
+                }}>{open ? '▾' : '▸'}</button>
+                <button
+                  onClick={() => onSelect({ type: 'group', id: group.id, fine: group.children.flatMap(c => c.fine || []) })}
+                  style={{
+                    flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                    padding: '6px 10px', borderRadius: 6, fontSize: 12, fontWeight: 700,
+                    background: isActive ? 'var(--bone)' : 'transparent',
+                    color: isActive ? 'var(--ink)' : 'var(--parchment)',
+                    border: 'none', cursor: 'pointer', textAlign: 'left',
+                    textTransform: 'uppercase', letterSpacing: '0.06em',
+                  }}>
+                  <span style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                    {Ic[group.icon] && <span style={{ display: 'inline-flex' }}>{Ic[group.icon]()}</span>}
+                    <span>{group.label}</span>
+                  </span>
+                  <span style={{ fontSize: 11, opacity: 0.7, fontVariantNumeric: 'tabular-nums' }}>{groupCount}</span>
+                </button>
+              </div>
+              {open && (
+                <ul style={{ listStyle: 'none', padding: '0 0 0 24px', margin: '2px 0 0', display: 'flex', flexDirection: 'column', gap: 1 }}>
+                  {group.children.map(child => {
+                    const cnt = totals.children[group.id + '/' + child.id] || 0;
+                    if (cnt === 0) return null;
+                    const childActive = selected?.type === 'child' && selected.id === child.id && selected.groupId === group.id;
+                    return (
+                      <li key={child.id}>
+                        <button
+                          onClick={() => onSelect({ type: 'child', id: child.id, groupId: group.id, fine: child.fine || [] })}
+                          style={{
+                            display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                            width: '100%', padding: '5px 10px', borderRadius: 6, fontSize: 12,
+                            background: childActive ? 'var(--bone)' : 'transparent',
+                            color: childActive ? 'var(--ink)' : 'var(--parchment)',
+                            border: 'none', cursor: 'pointer', textAlign: 'left',
+                          }}>
+                          <span>{child.label}</span>
+                          <span style={{ fontSize: 11, opacity: 0.7, fontVariantNumeric: 'tabular-nums' }}>{cnt}</span>
+                        </button>
+                      </li>
+                    );
+                  })}
+                </ul>
+              )}
+            </div>
+          );
+        })}
+      </nav>
+
+      {/* Map filters section */}
+      <div style={{ marginTop: 24, paddingTop: 14, borderTop: '1px solid var(--line)' }}>
+        <div className="mono" style={{ fontSize: 9, letterSpacing: '0.18em', color: 'var(--parchment-dim)', padding: '0 10px 8px' }}>MAP FILTERS</div>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 4, padding: '0 6px' }}>
+          {[
+            ['free', 'Free only'],
+            ['uhd', '4K+'],
+            ['recent', 'Last 30 days'],
+            ['featured', "Editor's picks"],
+          ].map(([k, label]) => (
+            <label key={k} style={{
+              display: 'flex', alignItems: 'center', gap: 8,
+              padding: '6px 10px', borderRadius: 6, cursor: 'pointer',
+              background: mapFilters[k] ? 'var(--forest-800)' : 'transparent',
+              fontSize: 12,
+            }}>
+              <input
+                type="checkbox"
+                checked={!!mapFilters[k]}
+                onChange={() => onToggleMapFilter(k)}
+                style={{ width: 14, height: 14, accentColor: 'var(--lichen)' }}/>
+              <span>{label}</span>
+            </label>
+          ))}
+          {activeFilterCount > 0 && (
+            <button onClick={onClearMapFilters} style={{
+              padding: '6px 10px', fontSize: 11, color: 'var(--sunset)',
+              background: 'transparent', border: 'none', cursor: 'pointer',
+              textAlign: 'left', letterSpacing: '0.08em', fontFamily: 'var(--font-mono)',
+            }}>CLEAR FILTERS</button>
+          )}
+        </div>
+      </div>
+    </aside>
+  );
+}
+
 export function HomePage({ onOpenVideo, onNav }) {
   // DB videos: every published row with lat/lon becomes a map pin.
   const [dbVideos, setDbVideos] = hUseState([]);
@@ -400,7 +599,27 @@ export function HomePage({ onOpenVideo, onNav }) {
       }));
   }, [dbVideos]);
   const [selectedLoc, setSelectedLoc] = hUseState(null);
-  const [categoryFilter, setCategoryFilter] = hUseState('all');
+  const [selected, setSelected] = hUseState(null);  // null | { type:'group', id, fine[] } | { type:'child', id, groupId, fine[] }
+  const hierarchyRaw = useContent('explore.hierarchy', null);
+  const hierarchy = hUseMemo(() => homeParseHierarchy(hierarchyRaw), [hierarchyRaw]);
+  const selectedFineSet = hUseMemo(() => selected?.fine ? new Set(selected.fine) : null, [selected]);
+  const totals = hUseMemo(() => {
+    const byFine = {};
+    (dbVideos || []).forEach(v => {
+      const fine = v.tags?.[0];
+      if (fine && fine !== 'drone') byFine[fine] = (byFine[fine] || 0) + 1;
+    });
+    const groups = {}, children = {};
+    hierarchy.groups.forEach(g => {
+      let s = 0;
+      g.children.forEach(c => {
+        const n = (c.fine || []).reduce((a, f) => a + (byFine[f] || 0), 0);
+        children[g.id + '/' + c.id] = n; s += n;
+      });
+      groups[g.id] = s;
+    });
+    return { byFine, groups, children, total: dbVideos.length };
+  }, [dbVideos, hierarchy]);
   const [mapFilters, setMapFilters] = hUseState({ free: false, uhd: false, recent: false, featured: false });
   const sheetRef = hUseRef(null);
 
@@ -416,38 +635,21 @@ export function HomePage({ onOpenVideo, onNav }) {
 
   return (
     <>
-      <MapHero selectedLoc={selectedLoc} onSelectLoc={handleSelect} categoryFilter={categoryFilter} mapFilters={mapFilters} locations={dbLocations} videos={dbVideos} onOpenVideo={onOpenVideo} />
-
-      {/* Sticky category bar + map filters */}
       <div style={{
-        position: 'sticky', top: 62, zIndex: 50,
-        background: 'var(--surface-glass)',
-        backdropFilter: 'blur(10px)',
-        borderBottom: '1px solid var(--line)',
-        display: 'flex', alignItems: 'center',
-      }}>
-        <div style={{ flex: 1, minWidth: 0 }}>
-          <CategoryChips active={categoryFilter} onChange={setCategoryFilter} compact />
-        </div>
-        <div style={{ display: 'flex', gap: 6, padding: '10px 20px 10px 4px', borderLeft: '1px solid var(--line)', marginLeft: 8 }}>
-          {[
-            ['free', 'Free only'],
-            ['uhd', '4K+'],
-            ['recent', 'Last 30 days'],
-            ['featured', 'Editors\u2019 picks'],
-          ].map(([k, label]) => (
-            <button key={k} onClick={() => toggleFilter(k)}
-              className={'chip' + (mapFilters[k] ? ' active' : '')}
-              style={{ padding: '6px 12px', fontSize: 12, whiteSpace: 'nowrap' }}>
-              {label}
-            </button>
-          ))}
-          {activeFilterCount > 0 && (
-            <button onClick={() => setMapFilters({ free: false, uhd: false, recent: false, featured: false })}
-              style={{ padding: '6px 10px', fontSize: 11, color: 'var(--sunset)', background: 'transparent', border: 'none', cursor: 'pointer', fontFamily: 'var(--font-mono)', letterSpacing: '0.08em' }}>
-              CLEAR
-            </button>
-          )}
+        display: 'grid', gridTemplateColumns: '260px 1fr',
+        height: 'calc(100vh - 62px)', minHeight: 560,
+      }} className="home-sidebar-grid">
+        <HomeSidebar
+          selected={selected}
+          onSelect={setSelected}
+          mapFilters={mapFilters}
+          onToggleMapFilter={toggleFilter}
+          onClearMapFilters={() => setMapFilters({ free: false, uhd: false, recent: false, featured: false })}
+          totals={totals}
+          hierarchy={hierarchy}
+        />
+        <div style={{ position: 'relative', minWidth: 0 }}>
+          <MapHero selectedLoc={selectedLoc} onSelectLoc={handleSelect} selectedFineSet={selectedFineSet} mapFilters={mapFilters} locations={dbLocations} videos={dbVideos} onOpenVideo={onOpenVideo} />
         </div>
       </div>
 
