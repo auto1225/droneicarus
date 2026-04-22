@@ -21,7 +21,7 @@ function anonHeaders() {
 // ─── Items ─────────────────────────────────────────────────────────────
 export async function fetchLabItems({ subsection, tag, type, status = 'approved', limit = 40, order = 'published_at.desc.nullslast' } = {}) {
   const parts = [
-    'select=id,title,slug,summary,cover_image_url,external_url,document_url,document_type,authors,institution,published_at,tags,level,price_min_usd,price_max_usd,brand,type,subsection,upvotes,saves,views,featured,created_at',
+    'select=id,title,slug,summary,cover_image_url,external_url,authors,institution,published_at,tags,level,price_min_usd,price_max_usd,brand,type,subsection,upvotes,saves,views,featured,created_at',
     `status=eq.${status}`,
     `limit=${limit}`,
     `order=${order}`,
