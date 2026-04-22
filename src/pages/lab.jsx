@@ -291,7 +291,13 @@ export function LabItemPage({ itemId, onNav }) {
         {item.upvotes > 0 && <span>· {item.upvotes} upvotes</span>}
       </div>
 
-      {item.cover_image_url && (
+      {/* Embedded doc/video viewer (PDF/YouTube/Vimeo) — falls back to cover image */}
+      <DocumentViewer
+        documentUrl={item.document_url}
+        externalUrl={item.external_url}
+        documentType={item.document_type}
+      />
+      {(!item.document_url || !/\.(pdf|docx)$|youtube|vimeo/.test((item.document_url || item.external_url || '').toLowerCase())) && item.cover_image_url && !(/youtube|vimeo/.test((item.external_url || '').toLowerCase())) && (
         <img src={item.cover_image_url} alt="" style={{ width: '100%', borderRadius: 6, marginBottom: 22 }} referrerPolicy="no-referrer" />
       )}
 
@@ -352,6 +358,88 @@ export function LabItemPage({ itemId, onNav }) {
 // ──────────────────────────────────────────────────────────────────────
 // Card
 // ──────────────────────────────────────────────────────────────────────
+
+// ──────────────────────────────────────────────────────────────────────
+// DocumentViewer — renders PDF, YouTube, Vimeo, or download fallback
+// ──────────────────────────────────────────────────────────────────────
+function detectMediaType(url) {
+  if (!url) return { type: 'none' };
+  const u = String(url).toLowerCase();
+  // YouTube
+  let m = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([A-Za-z0-9_-]{11})/);
+  if (m) return { type: 'youtube', id: m[1], embed: `https://www.youtube.com/embed/${m[1]}?rel=0` };
+  // Vimeo
+  m = url.match(/vimeo\.com\/(?:video\/)?([0-9]+)/);
+  if (m) return { type: 'vimeo', id: m[1], embed: `https://player.vimeo.com/video/${m[1]}` };
+  // PDF (ends in .pdf or contains /pdf/)
+  if (u.endsWith('.pdf') || u.includes('/pdf/')) return { type: 'pdf', embed: url };
+  // arXiv abstract link — can derive PDF URL
+  m = url.match(/arxiv\.org\/abs\/([\d.]+v?\d*)/);
+  if (m) return { type: 'pdf-arxiv', embed: `https://arxiv.org/pdf/${m[1]}.pdf`, abstract: url };
+  // DOCX
+  if (u.endsWith('.docx')) return { type: 'docx', embed: url };
+  return { type: 'other', url };
+}
+
+function DocumentViewer({ documentUrl, externalUrl, documentType }) {
+  const primary = detectMediaType(documentUrl);
+  const fallback = detectMediaType(externalUrl);
+  const best = primary.type !== 'none' && primary.type !== 'other' ? primary : fallback;
+
+  if (best.type === 'youtube' || best.type === 'vimeo') {
+    return (
+      <div style={{ margin: '16px 0 22px', borderRadius: 6, overflow: 'hidden', aspectRatio: '16/9', background: '#000' }}>
+        <iframe
+          src={best.embed}
+          title="embed"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowFullScreen
+          style={{ width: '100%', height: '100%', border: 'none', display: 'block' }}
+        />
+      </div>
+    );
+  }
+
+  if (best.type === 'pdf' || best.type === 'pdf-arxiv') {
+    return (
+      <div style={{ margin: '16px 0 22px' }}>
+        <div style={{
+          borderRadius: 6, overflow: 'hidden',
+          border: '1px solid var(--line-strong)',
+          height: 720, background: 'var(--forest-900)',
+        }}>
+          <object data={best.embed} type="application/pdf" style={{ width: '100%', height: '100%' }}>
+            <iframe src={best.embed} title="PDF document" style={{ width: '100%', height: '100%', border: 'none' }}/>
+          </object>
+        </div>
+        <div style={{ marginTop: 8, display: 'flex', gap: 12, fontSize: 12 }}>
+          <a href={best.embed} target="_blank" rel="noopener noreferrer" download
+             style={{ color: 'var(--amber)', textDecoration: 'none' }}>
+            Download PDF ↓
+          </a>
+          {best.type === 'pdf-arxiv' && best.abstract && (
+            <a href={best.abstract} target="_blank" rel="noopener noreferrer"
+               style={{ color: 'var(--parchment-dim)', textDecoration: 'underline', textUnderlineOffset: 3 }}>
+              View abstract on arXiv
+            </a>
+          )}
+        </div>
+      </div>
+    );
+  }
+
+  if (best.type === 'docx') {
+    return (
+      <div style={{ margin: '16px 0 22px', padding: 20, border: '1px solid var(--line)', borderRadius: 6, textAlign: 'center', background: 'var(--forest-900)' }}>
+        <div style={{ marginBottom: 10, fontSize: 13 }}>Word document</div>
+        <a href={best.embed} target="_blank" rel="noopener noreferrer" download className="btn" style={{ padding: '8px 16px', fontSize: 13 }}>Download DOCX ↓</a>
+      </div>
+    );
+  }
+
+  return null;
+}
+
 function LabItemCard({ item, onNav }) {
   return (
     <div onClick={() => onNav('lab-item', item.id)} style={{

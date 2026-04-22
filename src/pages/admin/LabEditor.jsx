@@ -181,6 +181,8 @@ function LabItemForm({ item, onCancel, onSave, saving }) {
     price_max_usd: item.price_max_usd ?? '',
     brand: item.brand || '',
     spec: item.spec ? JSON.stringify(item.spec, null, 2) : '',
+    document_url: item.document_url || '',
+    document_type: item.document_type || '',
     status: item.status || 'approved',
   });
   const set = (k, v) => setForm(p => ({ ...p, [k]: v }));
@@ -204,6 +206,8 @@ function LabItemForm({ item, onCancel, onSave, saving }) {
       price_min_usd: form.price_min_usd === '' ? null : Number(form.price_min_usd),
       price_max_usd: form.price_max_usd === '' ? null : Number(form.price_max_usd),
       brand: form.brand || null,
+      document_url: form.document_url || null,
+      document_type: form.document_type || null,
       status: form.status,
     };
     if (form.spec) {
@@ -283,6 +287,22 @@ function LabItemForm({ item, onCancel, onSave, saving }) {
         <Fld label="Cover image URL (optional)">
           <input value={form.cover_image_url} onChange={e => set('cover_image_url', e.target.value)} style={selStyle}/>
         </Fld>
+        <div style={{ display: 'grid', gridTemplateColumns: '3fr 1fr', gap: 12 }}>
+          <Fld label="Document URL (PDF / DOCX / YouTube / Vimeo — embeddable)">
+            <input value={form.document_url} onChange={e => set('document_url', e.target.value)} style={selStyle}
+                   placeholder="https://your-storage.com/paper.pdf or https://youtube.com/watch?v=..."/>
+          </Fld>
+          <Fld label="Type">
+            <select value={form.document_type} onChange={e => set('document_type', e.target.value)} style={selStyle}>
+              <option value="">auto-detect</option>
+              <option value="pdf">pdf</option>
+              <option value="docx">docx</option>
+              <option value="youtube">youtube</option>
+              <option value="vimeo">vimeo</option>
+              <option value="html">html</option>
+            </select>
+          </Fld>
+        </div>
 
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 12, marginBottom: 12 }}>
           <Fld label="Price min USD (hardware)">
