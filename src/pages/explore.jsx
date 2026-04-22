@@ -1,92 +1,233 @@
-// pages/explore.jsx — Category explore page + Search results
-import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react';
+// pages/explore.jsx — Explore (sidebar + hierarchy) + SearchPage
+import React, { useState, useEffect, useMemo } from 'react';
 import { CATEGORIES, LOCATIONS, VIDEOS as _MOCK_VIDEOS, CREATORS } from '../data';
 import { fetchVideos } from '../db/videos';
-import { Ic, formatViews, CategoryChips, VideoCard, FollowButton } from '../components';
+import { Ic, formatViews, VideoCard, FollowButton } from '../components';
+import { useContent } from '../content/ContentContext';
 
+/* ─────────────────────────────────────────────
+   Default hierarchy — used if site_content has none
+   ───────────────────────────────────────────── */
+const DEFAULT_HIERARCHY = {
+  groups: [
+    { id: 'nature', label: 'Nature', icon: '🏞', children: [
+      { id: 'mountain',     label: 'Mountain & Glacier', fine: ['mountain','glacier'] },
+      { id: 'volcano',      label: 'Volcano',            fine: ['volcano'] },
+      { id: 'waterfall',    label: 'Waterfall',          fine: ['waterfall'] },
+      { id: 'forest',       label: 'Forest & Jungle',    fine: ['rainforest'] },
+      { id: 'desert',       label: 'Desert & Dunes',     fine: ['desert','dunes'] },
+      { id: 'landscape',    label: 'Landscape',          fine: ['landscape'] },
+    ]},
+    { id: 'water', label: 'Ocean & Coast', icon: '🌊', children: [
+      { id: 'open-ocean',   label: 'Open Ocean',     fine: ['ocean'] },
+      { id: 'atoll',        label: 'Atolls & Reefs', fine: ['atoll'] },
+      { id: 'coast',        label: 'Coastal Cliffs', fine: ['coastal-cliff'] },
+      { id: 'marine-life',  label: 'Marine Life',    fine: ['marine-life'] },
+      { id: 'polar',        label: 'Polar & Ice',    fine: ['polar'] },
+    ]},
+    { id: 'sky', label: 'Sky & Weather', icon: '🌌', children: [
+      { id: 'aurora',       label: 'Aurora',         fine: ['aurora'] },
+      { id: 'phenomena',    label: 'Phenomena',      fine: ['phenomena'] },
+      { id: 'fireworks',    label: 'Fireworks',      fine: ['fireworks'] },
+      { id: 'drone-show',   label: 'Drone Shows',    fine: ['drone-show'] },
+    ]},
+    { id: 'cities', label: 'Cities', icon: '🏙', children: [
+      { id: 'skyline',      label: 'Skylines',       fine: ['cityscape'] },
+      { id: 'architecture', label: 'Architecture',   fine: ['architecture'] },
+      { id: 'bridge',       label: 'Bridges',        fine: ['bridge'] },
+      { id: 'port',         label: 'Ports & Harbors',fine: ['port'] },
+    ]},
+    { id: 'heritage', label: 'Heritage', icon: '🏛', children: [
+      { id: 'ruins',        label: 'Ancient Ruins',  fine: ['ancient-ruins'] },
+      { id: 'temple',       label: 'Temples & Shrines', fine: ['temple'] },
+      { id: 'castle',       label: 'Castles & Palaces', fine: ['castle'] },
+    ]},
+    { id: 'human-landscape', label: 'Human Landscape', icon: '🌾', children: [
+      { id: 'vineyard',     label: 'Vineyards',     fine: ['vineyard'] },
+      { id: 'rice-terrace', label: 'Rice Terraces', fine: ['rice-terrace'] },
+      { id: 'flower-field', label: 'Flower Fields', fine: ['flower-field'] },
+    ]},
+    { id: 'action', label: 'Action & Sports', icon: '🎬', children: [
+      { id: 'fpv-racing',   label: 'FPV Racing',    fine: ['aerial-sports'] },
+      { id: 'surfing',      label: 'Surfing',       fine: ['surfing'] },
+      { id: 'skiing',       label: 'Skiing & Snow', fine: ['skiing'] },
+    ]},
+    { id: 'wildlife', label: 'Wildlife', icon: '🦁', children: [
+      { id: 'safari',       label: 'Safari Big Game', fine: ['wildlife-safari'] },
+    ]},
+    { id: 'industry', label: 'Industry & Energy', icon: '⚙', children: [
+      { id: 'wind-farm',    label: 'Wind Farms',  fine: ['wind-farm'] },
+      { id: 'solar-farm',   label: 'Solar Farms', fine: ['solar-farm'] },
+    ]},
+  ],
+};
+
+function parseHierarchy(raw) {
+  if (!raw) return DEFAULT_HIERARCHY;
+  if (typeof raw === 'object' && raw.groups) return raw;
+  try { const p = JSON.parse(raw); return p?.groups ? p : DEFAULT_HIERARCHY; }
+  catch { return DEFAULT_HIERARCHY; }
+}
+
+/* ─────────────────────────────────────────────
+   ExplorePage — sidebar tree + video grid
+   ───────────────────────────────────────────── */
 export function ExplorePage({ onOpenVideo, onNav }) {
-  const [active, setActive] = React.useState('all');
-  const [dbVideos, setDbVideos] = useState([]);
+  const title    = useContent('explore.hero.title',    'Every sky has a name.');
+  const subtitle = useContent('explore.hero.subtitle', "Browse footage by what's in the frame.");
+  const hierarchyRaw = useContent('explore.hierarchy', null);
+  const hierarchy = useMemo(() => parseHierarchy(hierarchyRaw), [hierarchyRaw]);
+
+  const [videos, setVideos] = useState([]);
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
     let cancel = false;
-    fetchVideos({ limit: 500 }).then(v => { if (!cancel) setDbVideos(v || []); });
+    fetchVideos({ limit: 1000 }).then(v => {
+      if (cancel) return;
+      setVideos((v && v.length > 0) ? v : _MOCK_VIDEOS);
+      setLoading(false);
+    });
     return () => { cancel = true; };
   }, []);
-  const VIDEOS = dbVideos.length > 0 ? dbVideos : _MOCK_VIDEOS;
-  const vids = active === 'all' ? VIDEOS : VIDEOS.filter(v => v.category === active);
 
-  // Category cells
-  const catStats = CATEGORIES.slice(1).map(c => ({
-    ...c,
-    count: VIDEOS.filter(v => v.category === c.id).length,
-  }));
+  // selected: null = all | { type:'group', id } | { type:'child', id, groupId, fine[] }
+  const [selected, setSelected] = useState(null);
+  const [expanded, setExpanded] = useState(() => new Set(hierarchy.groups.map(g => g.id)));
+  const [sort, setSort] = useState('trending');
+  useEffect(() => { setExpanded(new Set(hierarchy.groups.map(g => g.id))); }, [hierarchy]);
+
+  // count map: byFine[fine] = N
+  const counts = useMemo(() => {
+    const byFine = {};
+    videos.forEach(v => {
+      const fine = v.tags?.[0];
+      if (fine && fine !== 'drone') byFine[fine] = (byFine[fine] || 0) + 1;
+    });
+    const groups = {}, children = {};
+    hierarchy.groups.forEach(g => {
+      let s = 0;
+      g.children.forEach(c => {
+        const n = (c.fine || []).reduce((a, f) => a + (byFine[f] || 0), 0);
+        children[`${g.id}/${c.id}`] = n; s += n;
+      });
+      groups[g.id] = s;
+    });
+    return { byFine, groups, children, total: videos.length };
+  }, [videos, hierarchy]);
+
+  const filtered = useMemo(() => {
+    if (!selected) return videos;
+    if (selected.type === 'group') {
+      const g = hierarchy.groups.find(x => x.id === selected.id);
+      if (!g) return [];
+      const set = new Set(g.children.flatMap(c => c.fine || []));
+      return videos.filter(v => v.tags?.[0] && set.has(v.tags[0]));
+    }
+    if (selected.type === 'child') {
+      const set = new Set(selected.fine || []);
+      return videos.filter(v => v.tags?.[0] && set.has(v.tags[0]));
+    }
+    return videos;
+  }, [videos, selected, hierarchy]);
+
+  const sorted = useMemo(() => {
+    const arr = [...filtered];
+    if (sort === 'newest')  arr.sort((a,b) => (b.uploadedDaysAgo||0) > (a.uploadedDaysAgo||0) ? -1 : 1);
+    else if (sort === 'rated') arr.sort((a,b) => (b.qualityScore||0) - (a.qualityScore||0));
+    else if (sort === 'free')  arr.sort((a,b) => (a.price||0) - (b.price||0));
+    else arr.sort((a,b) => (b.views||0) - (a.views||0));
+    return arr;
+  }, [filtered, sort]);
+
+  const headerText = !selected ? 'All Clips'
+    : selected.type === 'group'
+      ? hierarchy.groups.find(g => g.id === selected.id)?.label
+      : hierarchy.groups.find(g => g.id === selected.groupId)?.children.find(c => c.id === selected.id)?.label;
+
+  const toggleGroup = (id) => setExpanded(p => {
+    const n = new Set(p); n.has(id) ? n.delete(id) : n.add(id); return n;
+  });
 
   return (
-    <div style={{ maxWidth: 1760, margin: '0 auto', padding: '40px 28px 60px' }}>
-      <div className="eyebrow" style={{ marginBottom: 10, color: 'var(--amber)' }}>BROWSE BY THEME</div>
-      <h1 style={{ fontSize: 52, letterSpacing: '-0.02em', marginBottom: 10 }}>Every sky has a name.</h1>
-      <p style={{ fontSize: 16, color: 'var(--parchment)', maxWidth: 640, marginBottom: 40 }}>
-        Browse footage by what's in the frame — glaciers, racetracks, conflict zones, coral reefs.
-        Our taxonomy spans {CATEGORIES.length - 1} themes and counting.
-      </p>
+    <div className="explore-layout">
+      <aside className="explore-sidebar">
+        <div className="sidebar-hero">
+          <div className="eyebrow" style={{ color: 'var(--amber)', marginBottom: 6 }}>BROWSE BY THEME</div>
+          <h2>{title}</h2>
+          <p>{subtitle}</p>
+        </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: 14, marginBottom: 50 }}>
-        {catStats.map(c => {
-          const empty = c.count === 0;
-          return (
-          <button
-            key={c.id}
-            onClick={() => !empty && setActive(c.id)}
-            aria-disabled={empty}
-            style={{
-              position: 'relative',
-              padding: 24,
-              background: active === c.id ? 'var(--forest-800)' : 'var(--forest-900)',
-              border: '1px solid ' + (active === c.id ? 'var(--amber)' : 'var(--line)'),
-              borderRadius: 4, textAlign: 'left',
-              minHeight: 140,
-              transition: 'all 0.15s',
-              overflow: 'hidden',
-              cursor: empty ? 'default' : 'pointer',
-              opacity: empty ? 0.55 : 1,
-            }}>
-            <div style={{ position: 'absolute', top: -20, right: -20, fontSize: 120, color: 'var(--forest-800)', fontFamily: 'var(--font-mono)', opacity: active === c.id ? 0.35 : 0.2 }}>{c.icon}</div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
-              <div className="mono" style={{ fontSize: 10, letterSpacing: '0.14em', color: 'var(--parchment-dim)' }}>{String(catStats.indexOf(c) + 1).padStart(2, '0')}</div>
-              {empty && (
-                <span className="mono" style={{
-                  fontSize: 9, letterSpacing: '0.14em', textTransform: 'uppercase',
-                  color: 'var(--amber)', padding: '2px 6px',
-                  border: '1px solid var(--amber)', borderRadius: 2,
-                  opacity: 0.85,
-                }}>Coming soon</span>
-              )}
-            </div>
-            <div style={{ fontSize: 20, fontFamily: 'var(--font-display)', fontWeight: 600, marginBottom: 6, letterSpacing: '-0.01em' }}>{c.label}</div>
-            <div style={{ fontSize: 13, color: 'var(--parchment-dim)' }}>{empty ? 'No clips yet · pilots wanted' : `${c.count} clips`}</div>
-          </button>
-          );
-        })}
-      </div>
+        <button className={`sidebar-all ${!selected ? 'active' : ''}`} onClick={() => setSelected(null)}>
+          <span>All</span>
+          <span className="count">{counts.total}</span>
+        </button>
 
-      <div style={{ borderTop: '1px solid var(--line)', paddingTop: 32 }}>
-        <CategoryChips active={active} onChange={setActive} />
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', margin: '24px 28px 18px' }}>
-          <h2 style={{ fontSize: 24 }}>{CATEGORIES.find(c => c.id === active)?.label} · <span className="mono" style={{ color: 'var(--parchment-dim)', fontWeight: 400 }}>{vids.length} clips</span></h2>
-          <div style={{ display: 'flex', gap: 6 }}>
-            {['Trending', 'Newest', 'Highest rated', 'Free first'].map((s, i) => (
-              <button key={s} className={'chip' + (i === 0 ? ' active' : '')} style={{ padding: '6px 12px', fontSize: 12 }} data-placeholder="true">{s}</button>
+        <nav className="sidebar-tree">
+          {hierarchy.groups.map(group => {
+            const open = expanded.has(group.id);
+            const isActive = selected?.type === 'group' && selected.id === group.id;
+            const groupCount = counts.groups[group.id] || 0;
+            if (groupCount === 0) return null;
+            return (
+              <div key={group.id} className="tree-group">
+                <div className="tree-group-row">
+                  <button className="tree-group-toggle" onClick={() => toggleGroup(group.id)}
+                          aria-label={open ? 'collapse' : 'expand'}>
+                    {open ? '▾' : '▸'}
+                  </button>
+                  <button className={`tree-group-label ${isActive ? 'active' : ''}`}
+                          onClick={() => setSelected({ type:'group', id: group.id })}>
+                    <span className="icon">{group.icon}</span>
+                    <span className="label">{group.label}</span>
+                    <span className="count">{groupCount}</span>
+                  </button>
+                </div>
+                {open && (
+                  <ul className="tree-children">
+                    {group.children.map(child => {
+                      const cnt = counts.children[`${group.id}/${child.id}`] || 0;
+                      if (cnt === 0) return null;
+                      const ca = selected?.type==='child' && selected.id===child.id && selected.groupId===group.id;
+                      return (
+                        <li key={child.id}>
+                          <button className={`tree-child ${ca ? 'active' : ''}`}
+                                  onClick={() => setSelected({ type:'child', id: child.id, groupId: group.id, fine: child.fine || [] })}>
+                            <span className="label">{child.label}</span>
+                            <span className="count">{cnt}</span>
+                          </button>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                )}
+              </div>
+            );
+          })}
+        </nav>
+      </aside>
+
+      <main className="explore-main">
+        <header className="explore-header">
+          <h1>{headerText} <span className="muted">· {sorted.length} clips</span></h1>
+          <div className="sort-chips">
+            {[['trending','Trending'],['newest','Newest'],['rated','Highest rated'],['free','Free first']].map(([k,l]) => (
+              <button key={k} className={`chip ${sort===k?'active':''}`} onClick={() => setSort(k)}>{l}</button>
             ))}
           </div>
-        </div>
-        <div style={{ padding: '0 28px', display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 20 }}>
-          {vids.slice(0, 20).map(v => <VideoCard key={v.id} video={v} onClick={onOpenVideo} />)}
-        </div>
-      </div>
+        </header>
+        {loading ? <div className="explore-loading">Loading…</div>
+          : sorted.length === 0 ? <div className="explore-empty">No clips in this category yet.</div>
+          : <div className="video-grid">
+              {sorted.map(v => <VideoCard key={v.id} video={v} onClick={onOpenVideo} />)}
+            </div>}
+      </main>
     </div>
   );
 }
 
+/* ─────────────────────────────────────────────
+   SearchPage — kept as-is (was paired with ExplorePage)
+   ───────────────────────────────────────────── */
 export function SearchPage({ query, onOpenVideo, onNav, onSelectLoc }) {
   const q = (query || '').toLowerCase().trim();
   const matchedLocs = LOCATIONS.filter(l =>
@@ -100,10 +241,10 @@ export function SearchPage({ query, onOpenVideo, onNav, onSelectLoc }) {
   }, []);
   const VIDEOS = dbVideosS.length > 0 ? dbVideosS : _MOCK_VIDEOS;
   const matchedVideos = VIDEOS.filter(v =>
-    v.title.toLowerCase().includes(q) ||
-    v.creator.name.toLowerCase().includes(q) ||
-    v.creator.handle.toLowerCase().includes(q) ||
-    v.category.toLowerCase().includes(q)
+    (v.title||'').toLowerCase().includes(q) ||
+    (v.creator?.name||'').toLowerCase().includes(q) ||
+    (v.creator?.handle||'').toLowerCase().includes(q) ||
+    (v.category||'').toLowerCase().includes(q)
   );
   const matchedCreators = CREATORS.filter(c =>
     c.name.toLowerCase().includes(q) || c.handle.toLowerCase().includes(q)
@@ -178,4 +319,3 @@ export function SearchPage({ query, onOpenVideo, onNav, onSelectLoc }) {
     </div>
   );
 }
-
