@@ -1,6 +1,8 @@
 // pages/live.jsx — map of pilots currently uploading / broadcasting
 import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react';
 import { Ic } from '../components';
+import { LiveChatPanel } from './live-chat';
+import { fetchSidebarSlots } from '../db/picks';
 const lvUseState = useState;
 const lvUseEffect = useEffect;
 const lvUseRef = useRef;
@@ -181,9 +183,13 @@ export function LivePage({ onNav }) {
                 <>
                   <span style={{ padding: '4px 9px', background: 'var(--sunset)', color: '#faf6ec', fontSize: 10, fontFamily: 'var(--font-mono)', letterSpacing: '0.14em', borderRadius: 2, position: 'absolute', top: 10, left: 10, fontWeight: 700 }}>● LIVE</span>
                   <span style={{ position: 'absolute', bottom: 10, right: 10, padding: '3px 7px', background: 'rgba(13,20,16,0.85)', color: '#f5ede0', fontSize: 10, fontFamily: 'var(--font-mono)', borderRadius: 2, backdropFilter: 'blur(4px)' }}>{(selected.viewers || 0).toLocaleString()} watching</span>
-                  <button style={{ width: 44, height: 44, borderRadius: '50%', background: 'rgba(217,112,69,0.95)', border: '2px solid #faf6ec', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative', zIndex: 2 }} data-placeholder="true">
+                  {selected.yt_video_id ? (
+                    <iframe src={`https://www.youtube.com/embed/${selected.yt_video_id}?autoplay=1`} title="YouTube live" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', border: 0 }} allow="autoplay; encrypted-media" allowFullScreen></iframe>
+                  ) : (
+                    <button style={{ width: 44, height: 44, borderRadius: '50%', background: 'rgba(217,112,69,0.95)', border: '2px solid #faf6ec', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative', zIndex: 2 }} data-placeholder="true">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="#faf6ec"><polygon points="8,5 20,12 8,19"/></svg>
                   </button>
+                  )}
                 </>
               ) : (
                 <>
@@ -204,23 +210,13 @@ export function LivePage({ onNav }) {
               <button className="btn secondary" style={{ fontSize: 12 }} data-placeholder="true">Tip $</button>
             </div>
 
-            <div className="eyebrow" style={{ marginBottom: 10 }}>LIVE CHAT</div>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 16, maxHeight: 220, overflow: 'auto' }}>
-              {[
-                ['marta.nomad', 'the shadow from the tower is unreal', 2],
-                ['ken.docs', 'what lens?', 12],
-                ['pilot-bot', 'Wind gust to 18 km/h at 180m — nominal.', 28],
-                ['riastudio', 'taking notes on this move', 34],
-                ['ben.films', 'he\'s flying a 2.7km out + return?', 56],
-              ].map(([h, t, s]) => (
-                <div key={h+s} style={{ fontSize: 12, lineHeight: 1.5 }}>
-                  <span style={{ color: 'var(--amber)', fontFamily: 'var(--font-mono)', marginRight: 6 }}>@{h}</span>
-                  <span style={{ color: 'var(--parchment)' }}>{t}</span>
-                  <span className="mono" style={{ color: 'var(--parchment-dim)', marginLeft: 6, fontSize: 10 }}>{s}s</span>
-                </div>
-              ))}
-            </div>
-            <input placeholder="Say something…" style={{ width: '100%', padding: 9, background: 'var(--forest-900)', border: '1px solid var(--line-strong)', color: 'var(--bone)', fontSize: 12, borderRadius: 3 }}/>
+            {selected.id && selected.id.length === 36 ? (
+              <LiveChatPanel streamId={selected.id}/>
+            ) : (
+              <div style={{ padding: 14, background: 'var(--forest-900)', border: '1px dashed var(--line)', borderRadius: 4, color: 'var(--parchment-dim)', fontSize: 12 }}>
+                Realtime chat opens once a real live stream is selected.
+              </div>
+            )}
 
             <div className="eyebrow" style={{ marginTop: 22, marginBottom: 10 }}>LIVE FLIGHT DATA</div>
             {[['Altitude', '84 m'], ['Distance', '1.2 km'], ['Battery', '56%'], ['Wind', '12 km/h NW']].map(([k, v]) => (

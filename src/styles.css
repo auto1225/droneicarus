@@ -803,3 +803,13 @@ input:focus, textarea:focus, select:focus {
   font-size: 10px; color: var(--parchment-dim); margin-top: 2px;
   overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
 }
+
+/* Home right sidebar layout */
+.home-grid { width: 100%; }
+@media (max-width: 1024px) {
+  .home-grid { grid-template-columns: 1fr !important; height: auto !important; }
+  .home-right-sidebar { border-left: none !important; border-top: 1px solid var(--line-strong); max-height: 460px; }
+}
+.home-right-sidebar { scrollbar-width: thin; }
+.home-right-sidebar::-webkit-scrollbar { width: 6px; }
+.home-right-sidebar::-webkit-scrollbar-thumb { background: var(--line-strong); border-radius: 3px; }

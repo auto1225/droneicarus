@@ -334,3 +334,39 @@ export function downloadCsv(filename, csv) {
   a.click();
   URL.revokeObjectURL(a.href);
 }
+
+
+// ───────── Home sidebar picks / live / ads ─────────
+export async function adminListPicks() {
+  return req('/rest/v1/home_sidebar_picks?select=*&order=sort_order.asc&limit=200');
+}
+export async function adminUpsertPick(row) {
+  if (row.id) return req(`/rest/v1/home_sidebar_picks?id=eq.${encodeURIComponent(row.id)}`, { method: 'PATCH', body: row, prefer: 'return=representation' });
+  return req('/rest/v1/home_sidebar_picks', { method: 'POST', body: row, prefer: 'return=representation' });
+}
+export async function adminDeletePick(id) {
+  return req(`/rest/v1/home_sidebar_picks?id=eq.${encodeURIComponent(id)}`, { method: 'DELETE', prefer: 'return=minimal' });
+}
+export async function adminListAds() {
+  return req('/rest/v1/ads?select=*&order=created_at.desc&limit=200');
+}
+export async function adminUpsertAd(row) {
+  if (row.id) return req(`/rest/v1/ads?id=eq.${encodeURIComponent(row.id)}`, { method: 'PATCH', body: row, prefer: 'return=representation' });
+  return req('/rest/v1/ads', { method: 'POST', body: row, prefer: 'return=representation' });
+}
+export async function adminDeleteAd(id) {
+  return req(`/rest/v1/ads?id=eq.${encodeURIComponent(id)}`, { method: 'DELETE', prefer: 'return=minimal' });
+}
+export async function adminListStreams() {
+  return req('/rest/v1/live_streams?select=*&order=created_at.desc&limit=200');
+}
+export async function adminUpsertStream(row) {
+  if (row.id) return req(`/rest/v1/live_streams?id=eq.${encodeURIComponent(row.id)}`, { method: 'PATCH', body: row, prefer: 'return=representation' });
+  return req('/rest/v1/live_streams', { method: 'POST', body: row, prefer: 'return=representation' });
+}
+export async function adminDeleteStream(id) {
+  return req(`/rest/v1/live_streams?id=eq.${encodeURIComponent(id)}`, { method: 'DELETE', prefer: 'return=minimal' });
+}
+export async function adminListSuperChats() {
+  return req('/rest/v1/super_chats?select=*&order=created_at.desc&limit=200');
+}

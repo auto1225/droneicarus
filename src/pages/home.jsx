@@ -1,6 +1,7 @@
 // pages/home.jsx — Map hero + location detail bottom sheet + video grids
 import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react';
 import { useContent } from '../content/ContentContext';
+import { fetchSidebarSlots } from '../db/picks';
 import { CATEGORIES, CAT_ICONS, LOCATIONS as _MOCK_LOCATIONS, VIDEOS as _MOCK_VIDEOS, TRENDING, thumbGradient, STATS } from '../data';
 import { fetchVideos } from '../db/videos';
 import { Ic, CategoryChips, VideoCard } from '../components';
@@ -286,6 +287,7 @@ function MapHero({ selectedLoc, onSelectLoc, selectedFineSet, mapFilters, search
   };
 
   return (
+    <div style={{ display: 'grid', gridTemplateColumns: '1fr 320px', height: 'calc(100vh - 64px)', minHeight: 580 }} className="home-grid">
     <div style={{ position: 'relative', width: '100%', height: '100%' }}>
       <div ref={mapRef} style={{ position: 'absolute', inset: 0 }} />
       {/* Top-left: title overlay */}
@@ -363,6 +365,73 @@ function MapHero({ selectedLoc, onSelectLoc, selectedFineSet, mapFilters, search
         </svg>
       </div>
     </div>
+    <HomeRightSidebar onOpenVideo={onOpenVideo} onNav={onNav} />
+    </div>
+  );
+}
+
+function HomeRightSidebar({ onOpenVideo, onNav }) {
+  const [slots, setSlots] = hUseState({ hot: [], live: [], ads: [] });
+  hUseEffect(() => {
+    let cancel = false;
+    fetchSidebarSlots().then(s => { if (!cancel) setSlots(s); });
+    return () => { cancel = true; };
+  }, []);
+  const fmtViews = (n) => n >= 1000 ? (n/1000).toFixed(1).replace(/\.0$/,'') + 'k' : (n||0);
+  const ytThumb = (id) => id ? `https://i.ytimg.com/vi/${id}/mqdefault.jpg` : '';
+  return (
+    <aside className="home-right-sidebar" style={{
+      borderLeft: '1px solid var(--line-strong)', background: 'var(--ink)',
+      overflowY: 'auto', padding: '16px 14px 20px',
+    }}>
+      {slots.live.length > 0 && (
+        <section style={{ marginBottom: 18 }}>
+          <h3 className="mono" style={{ fontSize: 10, letterSpacing: '0.18em', color: 'var(--sunset)', margin: '4px 0 10px' }}>● LIVE NOW</h3>
+          {slots.live.map(s => (
+            <button key={s.id} onClick={() => onNav('live')}
+              style={{ display: 'grid', gridTemplateColumns: '120px 1fr', gap: 10, padding: 6, background: 'transparent', border: 'none', cursor: 'pointer', textAlign: 'left', width: '100%', color: 'inherit', marginBottom: 8 }}>
+              <div style={{ position: 'relative', width: 120, height: 70, background: 'var(--forest-900)', borderRadius: 4, overflow: 'hidden' }}>
+                {s.thumb_url && <img src={s.thumb_url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }}/>}
+                <span style={{ position: 'absolute', top: 4, left: 4, background: 'var(--sunset)', color: '#fff', fontSize: 9, fontFamily: 'var(--font-mono)', padding: '2px 5px', borderRadius: 2 }}>LIVE</span>
+              </div>
+              <div>
+                <div style={{ fontSize: 12, fontWeight: 600, lineHeight: 1.25, marginBottom: 4, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>{s.title}</div>
+                <div style={{ fontSize: 10, color: 'var(--parchment-dim)' }}>{(s.viewers_peak || 0).toLocaleString()} viewers</div>
+              </div>
+            </button>
+          ))}
+        </section>
+      )}
+      {slots.ads.length > 0 && (
+        <section style={{ marginBottom: 18 }}>
+          <h3 className="mono" style={{ fontSize: 10, letterSpacing: '0.18em', color: 'var(--parchment-dim)', margin: '4px 0 10px' }}>SPONSORED</h3>
+          {slots.ads.map(a => (
+            <a key={a.id} href={a.click_url || '#'} target="_blank" rel="noopener noreferrer"
+              style={{ display: 'block', padding: 10, background: 'var(--forest-900)', border: '1px solid var(--line)', borderRadius: 4, textDecoration: 'none', color: 'inherit', marginBottom: 8 }}>
+              {a.image_url && <img src={a.image_url} alt="" style={{ width: '100%', borderRadius: 3, marginBottom: 8 }}/>}
+              {a.brand && <div style={{ fontSize: 10, color: 'var(--amber)', marginBottom: 3, letterSpacing: '0.08em' }}>{a.brand}</div>}
+              <div style={{ fontSize: 13, fontWeight: 600, marginBottom: 4 }}>{a.title}</div>
+              {a.cta_label && <div style={{ fontSize: 11, color: 'var(--amber)' }}>{a.cta_label} →</div>}
+            </a>
+          ))}
+        </section>
+      )}
+      <section>
+        <h3 className="mono" style={{ fontSize: 10, letterSpacing: '0.18em', color: 'var(--amber)', margin: '4px 0 10px' }}>★ HOT NOW</h3>
+        {slots.hot.map(v => (
+          <button key={v.id} onClick={() => onOpenVideo && onOpenVideo(v)}
+            style={{ display: 'grid', gridTemplateColumns: '120px 1fr', gap: 10, padding: 6, background: 'transparent', border: 'none', cursor: 'pointer', textAlign: 'left', width: '100%', color: 'inherit', marginBottom: 8 }}>
+            <div style={{ width: 120, height: 70, background: 'var(--forest-900)', borderRadius: 4, overflow: 'hidden' }}>
+              {(v.thumb_url || v.youtube_id) && <img src={v.thumb_url || ytThumb(v.youtube_id)} alt="" referrerPolicy="no-referrer" style={{ width: '100%', height: '100%', objectFit: 'cover' }}/>}
+            </div>
+            <div>
+              <div style={{ fontSize: 12, fontWeight: 600, lineHeight: 1.25, marginBottom: 4, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>{v.title}</div>
+              <div style={{ fontSize: 10, color: 'var(--parchment-dim)' }}>{fmtViews(v.views)} views</div>
+            </div>
+          </button>
+        ))}
+      </section>
+    </aside>
   );
 }
 
