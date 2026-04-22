@@ -42,6 +42,9 @@ const ShotLibraryPage     = lazy(() => import('./pages/shotlibrary').then(m => (
 const AdvancedPage        = lazy(() => import('./pages/advanced').then(m => ({ default: m.AdvancedPage })));
 const NotFoundPage        = lazy(() => import('./pages/static').then(m => ({ default: m.NotFoundPage })));
 const AdminShell          = lazy(() => import('./pages/admin/AdminShell').then(m => ({ default: m.AdminShell })));
+const LabHubPage          = lazy(() => import('./pages/lab').then(m => ({ default: m.LabHubPage })));
+const LabSubsectionPage   = lazy(() => import('./pages/lab').then(m => ({ default: m.LabSubsectionPage })));
+const LabItemPage         = lazy(() => import('./pages/lab').then(m => ({ default: m.LabItemPage })));
 const RequireAdminM       = lazy(() => import('./auth/RequireAdmin').then(m => ({ default: m.RequireAdmin })));
 
 const TWEAK_DEFAULTS = {
@@ -314,8 +317,11 @@ export default function App() {
         {route === 'pricing' && <PricingPage onNav={onNav} />}
         {route === 'shotlibrary' && <ShotLibraryPage onNav={onNav} onOpenVideo={onOpenVideo} />}
         {route === 'advanced' && <AdvancedPage onNav={onNav} onOpenVideo={onOpenVideo} />}
+        {route === 'lab' && !routeParam && <LabHubPage onNav={onNav} />}
+        {route === 'lab' && routeParam && <LabSubsectionPage subsection={routeParam} onNav={onNav} />}
+        {route === 'lab-item' && <LabItemPage itemId={routeParam} onNav={onNav} />}
         {route === 'admin' && <RequireAdminM onNav={onNav}><AdminShell section={routeParam || 'dashboard'} onNav={onNav} /></RequireAdminM>}
-        {!['home', 'watch', 'explore', 'rankings', 'creators', 'creator', 'search', 'upload', 'mypage', 'signin', 'checkout', 'success', 'orders', 'license', 'earnings', 'settings', 'pilot-onboarding', 'profile', 'messages', 'notifications', 'commission', 'guidelines', 'legal', 'flightlog', 'atlas', 'live', 'collection', 'location', 'pricing', 'shotlibrary', 'advanced', 'admin'].includes(route) && <NotFoundPage onNav={onNav} />}
+        {!['home', 'watch', 'explore', 'rankings', 'creators', 'creator', 'search', 'upload', 'mypage', 'signin', 'checkout', 'success', 'orders', 'license', 'earnings', 'settings', 'pilot-onboarding', 'profile', 'messages', 'notifications', 'commission', 'guidelines', 'legal', 'flightlog', 'atlas', 'live', 'collection', 'location', 'pricing', 'shotlibrary', 'advanced', 'admin', 'lab', 'lab-item'].includes(route) && <NotFoundPage onNav={onNav} />}
       </Suspense></ChunkErrorBoundary>
       {!['creator','pilot-onboarding','signin','messages','live','admin'].includes(route) && <Footer onNav={onNav} />}
 

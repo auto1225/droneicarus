@@ -228,6 +228,7 @@ export function Header({ route, onNav, query, setQuery }) {
     { id: 'rankings', label: txt('header.nav.rankings', 'Rankings') },
     { id: 'creators', label: txt('header.nav.creators', 'Creators') },
     { id: 'atlas', label: txt('header.nav.atlas', 'Atlas') },
+    { id: 'lab', label: txt('header.nav.lab', 'Lab') },
     { id: 'pricing', label: txt('header.nav.pricing', 'Pricing') },
     { id: 'live', label: txt('header.nav.live', 'Live') },
   ];
