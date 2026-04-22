@@ -432,8 +432,20 @@ export function CategoryChips({ active, onChange, compact = false }) {
 }
 
 // ——— Video Card ———
+// Safe hash for IDs that may be UUIDs, YouTube ids, or short tokens.
+function safeIdHash(id) {
+  if (!id) return 0;
+  const s = String(id);
+  let h = 0;
+  for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) | 0;
+  return Math.abs(h);
+}
+
 export function VideoCard({ video, onClick, size = 'md', showRank = false }) {
-  const loc = LOCATIONS.find(l => l.id === video.locationId);
+  // For YouTube videos there's no location_id; surface country from raw geocoder hint instead.
+  const loc = video.locationId
+    ? LOCATIONS.find(l => l.id === video.locationId)
+    : (video.source === 'youtube' ? { name: video.title?.split(/[—|·]/)[1]?.trim() || video.country || '' } : null);
   const [hover, setHover] = useState(false);
   return (
     <article
@@ -445,19 +457,32 @@ export function VideoCard({ video, onClick, size = 'md', showRank = false }) {
       <div className="video-card-thumb" style={{
         position: 'relative',
         aspectRatio: '16 / 9',
-        background: thumbGradient(parseInt(video.id.slice(1))),
+        background: video.thumbUrl ? '#0d1410' : thumbGradient(safeIdHash(video.id)),
         borderRadius: 6,
         overflow: 'hidden',
         border: '1px solid var(--line)',
       }}>
-        {/* Topographic lines faux */}
-        <svg style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', opacity: 0.25 }} viewBox="0 0 400 225" preserveAspectRatio="none">
-          <g stroke="rgba(245,237,224,0.4)" fill="none" strokeWidth="0.5">
-            {[...Array(6)].map((_, i) => (
-              <path key={i} d={`M0 ${40 + i*30} Q100 ${20 + i*30} 200 ${50 + i*30} T400 ${30 + i*30}`}/>
-            ))}
-          </g>
-        </svg>
+        {video.thumbUrl ? (
+          <img src={video.thumbUrl} alt={video.title || ''} loading="lazy"
+            style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}
+            onError={e => { e.currentTarget.style.display = 'none'; }} />
+        ) : (
+          <svg style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', opacity: 0.25 }} viewBox="0 0 400 225" preserveAspectRatio="none">
+            <g stroke="rgba(245,237,224,0.4)" fill="none" strokeWidth="0.5">
+              {[...Array(6)].map((_, i) => (
+                <path key={i} d={`M0 ${40 + i*30} Q100 ${20 + i*30} 200 ${50 + i*30} T400 ${30 + i*30}`}/>
+              ))}
+            </g>
+          </svg>
+        )}
+        {video.source === 'youtube' && (
+          <div style={{
+            position: 'absolute', top: 10, left: 10, zIndex: 2,
+            fontSize: 9, fontFamily: 'var(--font-mono)', letterSpacing: '0.1em',
+            color: '#fff', background: 'rgba(204,0,0,0.92)',
+            padding: '3px 7px', borderRadius: 2, fontWeight: 700,
+          }}>▶ YOUTUBE</div>
+        )}
 
         {video.price > 0 && (
           <div style={{
@@ -526,7 +551,7 @@ export function VideoCard({ video, onClick, size = 'md', showRank = false }) {
             display: 'flex', alignItems: 'center', justifyContent: 'center',
             fontSize: 11, fontWeight: 700, color: 'var(--bone)',
             border: '1px solid var(--line)',
-          }}>{video.creator.name[0]}</div>
+          }}>{(video.creator?.name || video.channel || 'Y')[0]}</div>
           <div style={{ flex: 1, minWidth: 0 }}>
             <h4 style={{
               fontSize: 14, fontWeight: 600, marginBottom: 4,
@@ -534,16 +559,15 @@ export function VideoCard({ video, onClick, size = 'md', showRank = false }) {
               lineHeight: 1.35, fontFamily: 'var(--font-ui)', letterSpacing: '-0.01em',
             }}>{video.title}</h4>
             <div style={{ fontSize: 12, color: 'var(--parchment-dim)', display: 'flex', alignItems: 'center', gap: 6 }}>
-              <span>{video.creator.handle}</span>
-              {video.creator.verified && <span style={{ color: 'var(--amber)' }}><Ic.check/></span>}
+              <span>{video.creator?.handle || video.channel || ''}</span>
+              {video.creator?.verified && <span style={{ color: 'var(--amber)' }}><Ic.check/></span>}
             </div>
             <div style={{ fontSize: 12, color: 'var(--parchment-dim)', display: 'flex', alignItems: 'center', gap: 6, marginTop: 2 }}>
               <span style={{ color: 'var(--lichen)' }}><Ic.pin/></span>
-              <span>{loc?.name}</span>
-              <span>·</span>
+              <span>{loc?.name || ''}</span>
+              {loc?.name && <span>·</span>}
               <span>{formatViews(video.views)} views</span>
-              <span>·</span>
-              <span>{formatDays(video.uploadedDaysAgo)}</span>
+              {video.uploadedDaysAgo > 0 && <><span>·</span><span>{formatDays(video.uploadedDaysAgo)}</span></>}
             </div>
           </div>
         </div>
