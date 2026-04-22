@@ -1,4 +1,4 @@
-name: Discover Lab content (arXiv + GitHub)
+name: Discover Lab content (arXiv + GitHub + Patents)
 on:
   schedule:
     - cron: '0 2 * * *'    # 11:00 KST daily
@@ -8,7 +8,7 @@ on:
 jobs:
   discover:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 25
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -19,3 +19,8 @@ jobs:
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: node scripts/discover-lab.mjs
+      - name: Run patent discovery (Google Patents — global)
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+        run: node scripts/discover-patents.mjs

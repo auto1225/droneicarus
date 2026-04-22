@@ -9,7 +9,8 @@ import {
 } from '../db/lab';
 
 const SUBSECTIONS = [
-  { id: 'research',  label: 'Research',  icon: 'heritage', tagline: 'Papers · Patents · Journals' },
+  { id: 'research',  label: 'Research',  icon: 'heritage', tagline: 'Papers · Journals' },
+  { id: 'patents',   label: 'Patents',   icon: 'patent',   tagline: 'USPTO · EPO · KIPRIS · WIPO · global' },
   { id: 'projects',  label: 'Projects',  icon: 'action',   tagline: 'Open source · DIY builds' },
   { id: 'hardware',  label: 'Hardware',  icon: 'industry', tagline: 'FCs · ESCs · Motors · Batteries' },
   { id: 'learn',     label: 'Learn',     icon: 'sky',      tagline: 'Tutorials · Courses · Guides' },
