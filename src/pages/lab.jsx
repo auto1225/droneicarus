@@ -24,13 +24,20 @@ export function LabHubPage({ onNav }) {
   const subtitle = useContent('lab.hero.sub', 'Research, projects, hardware, learning, and industry news — for the people who build, design, and advance what drones can do.');
 
   const [perSection, setPerSection] = useState({});
+  const [counts, setCounts] = useState({});
   useEffect(() => {
     let cancel = false;
-    Promise.all(SUBSECTIONS.map(s =>
-      fetchLabItems({ subsection: s.id, limit: 6 }).then(rows => [s.id, rows])
-    )).then(pairs => {
+    // Fetch preview (6) + total count per subsection
+    Promise.all(SUBSECTIONS.map(async s => {
+      const [rows, totalRows] = await Promise.all([
+        fetchLabItems({ subsection: s.id, limit: 6 }),
+        fetchLabItems({ subsection: s.id, limit: 500 }),   // count
+      ]);
+      return [s.id, rows, totalRows.length];
+    })).then(triples => {
       if (cancel) return;
-      setPerSection(Object.fromEntries(pairs));
+      setPerSection(Object.fromEntries(triples.map(t => [t[0], t[1]])));
+      setCounts(Object.fromEntries(triples.map(t => [t[0], t[2]])));
     });
     return () => { cancel = true; };
   }, []);
@@ -60,7 +67,7 @@ export function LabHubPage({ onNav }) {
               </div>
               <div style={{ fontSize: 22, fontWeight: 700, marginBottom: 8 }}>{s.label}</div>
               <div style={{ fontSize: 12, color: 'var(--parchment-dim)', marginBottom: 10 }}>{s.tagline}</div>
-              <div style={{ fontSize: 11, color: 'var(--parchment)' }}>{rows.length} items</div>
+              <div style={{ fontSize: 11, color: 'var(--parchment)' }}>{counts[s.id] ?? rows.length} items</div>
             </button>
           );
         })}
@@ -274,7 +281,7 @@ export function LabItemPage({ itemId, onNav }) {
         ← {subsection.label}
       </button>
 
-      <div className="eyebrow" style={{ color: 'var(--amber)', marginBottom: 8 }}>{item.type?.toUpperCase()} · {subsection.label.toUpperCase()}</div>
+      <div className="eyebrow" style={{ color: 'var(--amber)', marginBottom: 8 }}>{item.type && item.type.toLowerCase() !== item.subsection ? `${item.type.toUpperCase()} · ${subsection.label.toUpperCase()}` : subsection.label.toUpperCase()}</div>
       <h1 style={{ fontSize: 32, lineHeight: 1.15, marginBottom: 14, letterSpacing: '-0.01em' }}>{item.title}</h1>
 
       <div style={{ display: 'flex', gap: 10, fontSize: 13, color: 'var(--parchment-dim)', marginBottom: 22, flexWrap: 'wrap' }}>
@@ -368,6 +375,16 @@ function LabItemCard({ item, onNav }) {
         {item.summary && (
           <div style={{ fontSize: 12, color: 'var(--parchment-dim)', lineHeight: 1.5, marginBottom: 10, display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
             {item.summary}
+          </div>
+        )}
+        {(item.price_min_usd != null || item.price_max_usd != null || item.brand) && (
+          <div style={{ display: 'flex', gap: 6, alignItems: 'center', marginBottom: 8, fontSize: 11, color: 'var(--amber)', fontFamily: 'var(--font-mono)' }}>
+            {item.price_min_usd != null && (
+              <span style={{ padding: '2px 8px', background: 'rgba(198,136,32,0.1)', border: '1px solid var(--amber)', borderRadius: 3 }}>
+                ${item.price_min_usd}{item.price_max_usd != null && item.price_max_usd !== item.price_min_usd ? `–$${item.price_max_usd}` : ''}
+              </span>
+            )}
+            {item.brand && <span style={{ color: 'var(--parchment-dim)' }}>{item.brand}</span>}
           </div>
         )}
         {(item.tags && item.tags.length > 0) && (
