@@ -272,7 +272,9 @@ function MapHero({ selectedLoc, onSelectLoc, categoryFilter, mapFilters, locatio
 
 export function LocationSheet({ loc, onOpenVideo, onClose }) {
   if (!loc) return null;
-  const vids = VIDEOS.filter(v => v.locationId === loc.id);
+  // Pull videos for this location from mock fallback (LocationSheet only fires for
+  // mock landmarks; YouTube-discovered pins are 1:1 video and bypass this sheet).
+  const vids = _MOCK_VIDEOS.filter(v => v.locationId === loc.id);
   const topThree = vids.slice(0, 3);
   const rest = vids.slice(3);
   return (
