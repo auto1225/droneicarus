@@ -16,7 +16,7 @@ function hEsc(s) {
   return String(s).replace(/[&<>"']/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]));
 }
 
-function MapHero({ selectedLoc, onSelectLoc, selectedFineSet, mapFilters, searchQuery, locations, videos, onOpenVideo }) {
+function MapHero({ selectedLoc, onSelectLoc, selectedFineSet, mapFilters, searchQuery, locations, videos, onOpenVideo, onNav }) {
   const LOCATIONS = locations && locations.length > 0 ? locations : _MOCK_LOCATIONS;
   const VIDEOS = videos && videos.length > 0 ? videos : _MOCK_VIDEOS;
   const mapRef = hUseRef(null);
@@ -810,7 +810,7 @@ export function HomePage({ onOpenVideo, onNav }) {
           onQuery={setSearchQuery}
         />
         <div style={{ position: 'relative', minWidth: 0 }}>
-          <MapHero selectedLoc={selectedLoc} onSelectLoc={handleSelect} selectedFineSet={selectedFineSet} mapFilters={mapFilters} searchQuery={searchQuery} locations={dbLocations} videos={dbVideos} onOpenVideo={onOpenVideo} />
+          <MapHero selectedLoc={selectedLoc} onSelectLoc={handleSelect} selectedFineSet={selectedFineSet} mapFilters={mapFilters} searchQuery={searchQuery} locations={dbLocations} videos={dbVideos} onOpenVideo={onOpenVideo} onNav={onNav} />
         </div>
       </div>
 
