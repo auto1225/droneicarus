@@ -58,6 +58,7 @@ export function CheckoutPage({ videoId, licenseType = 'Commercial', onNav }) {
   const [country, setCountry] = ckUseState('South Korea');
   const [zip, setZip] = ckUseState('04539');
   const [processing, setProcessing] = ckUseState(false);
+  const [singleDownloadAgreed, setSingleDownloadAgreed] = ckUseState(false);
   const paypalContainerRef = ckUseRef(null);
   const paypalBtnsRef = ckUseRef(null);
 
@@ -119,6 +120,10 @@ export function CheckoutPage({ videoId, licenseType = 'Commercial', onNav }) {
   }, [payMethod, total, tier, v.id]);
 
   const submit = async () => {
+    if (!singleDownloadAgreed) {
+      toast?.('Please confirm', 'Check the single-download agreement to continue.', 'error');
+      return;
+    }
     setProcessing(true);
     try {
       // Try creating the real order if video.id is a UUID (Supabase). Otherwise just simulate.
@@ -130,6 +135,7 @@ export function CheckoutPage({ videoId, licenseType = 'Commercial', onNav }) {
           subtotal: sub, tax, total,
           paymentBrand: payMethod === 'paypal' ? 'PayPal' : 'Visa',
           paymentLast4: payMethod === 'paypal' ? null : card.slice(-4),
+          singleDownloadAgreed: true,
         });
         orderId = row.id;
       }
@@ -267,16 +273,51 @@ export function CheckoutPage({ videoId, licenseType = 'Commercial', onNav }) {
                 Pay<span style={{ color: '#0070ba' }}>Pal</span>
               </div>
               <div style={{ fontSize: 12, color: 'var(--parchment-dim)', marginBottom: 18, textAlign: 'center' }}>Click below to pay <strong style={{ color: 'var(--bone)' }}>${total}</strong> — you'll approve in a PayPal popup.</div>
-              <div ref={paypalContainerRef} style={{ minHeight: 50 }} />
+              <div style={{ position: 'relative' }}>
+                <div ref={paypalContainerRef} style={{ minHeight: 50, pointerEvents: singleDownloadAgreed ? 'auto' : 'none', opacity: singleDownloadAgreed ? 1 : 0.35 }} />
+                {!singleDownloadAgreed && (
+                  <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, color: 'var(--sunset)', pointerEvents: 'none' }}>
+                    Check the delivery policy agreement above to enable PayPal
+                  </div>
+                )}
+              </div>
               <div className="mono" style={{ fontSize: 9, color: 'var(--parchment-dim)', letterSpacing: '0.14em', textAlign: 'center', marginTop: 12 }}>
                 {PAYPAL_CLIENT_ID === 'sb' ? '⚠ SANDBOX MODE — set VITE_PAYPAL_CLIENT_ID for live' : '● LIVE PAYMENTS'}
               </div>
             </div>
           )}
 
+          {/* REQUIRED — single-download agreement (legal evidence for delivery terms) */}
+          <div style={{
+            marginTop: 20, padding: '14px 16px',
+            background: singleDownloadAgreed ? 'var(--forest-900)' : 'rgba(200,90,46,0.06)',
+            border: '1px solid ' + (singleDownloadAgreed ? 'var(--lichen)' : 'var(--sunset)'),
+            borderRadius: 4,
+          }}>
+            <div className="mono" style={{
+              fontSize: 10, letterSpacing: '0.14em',
+              color: singleDownloadAgreed ? 'var(--lichen)' : 'var(--sunset)',
+              marginBottom: 8, textTransform: 'uppercase',
+            }}>DELIVERY POLICY · REQUIRED</div>
+            <label style={{ display: 'flex', gap: 12, alignItems: 'flex-start', cursor: 'pointer' }}>
+              <input
+                type="checkbox"
+                checked={singleDownloadAgreed}
+                onChange={e => setSingleDownloadAgreed(e.target.checked)}
+                style={{ marginTop: 3, flexShrink: 0, width: 16, height: 16, accentColor: 'var(--lichen)' }}
+              />
+              <div style={{ fontSize: 13, color: 'var(--parchment)', lineHeight: 1.55 }}>
+                <strong style={{ color: 'var(--bone)' }}>I understand this is a one-time download.</strong>{' '}
+                I have 7 days from purchase to download the master file. droneicarus does
+                not keep a copy after that window &mdash; I am responsible for backing up the file
+                on my own systems. My usage license is perpetual, but file delivery is a one-time event.
+              </div>
+            </label>
+          </div>
+
           {payMethod === 'card' && (
-            <button disabled={processing} onClick={submit} className="btn"
-              style={{ width: '100%', padding: '14px 20px', marginTop: 22, fontSize: 15, justifyContent: 'center', opacity: processing ? 0.6 : 1 }}>
+            <button disabled={processing || !singleDownloadAgreed} onClick={submit} className="btn"
+              style={{ width: '100%', padding: '14px 20px', marginTop: 22, fontSize: 15, justifyContent: 'center', opacity: (processing || !singleDownloadAgreed) ? 0.5 : 1, cursor: (processing || !singleDownloadAgreed) ? 'not-allowed' : 'pointer' }}>
               {processing ? (
                 <>
                   <span style={{ display: 'inline-block', width: 14, height: 14, border: '2px solid rgba(255,255,255,0.4)', borderTopColor: '#faf6ec', borderRadius: '50%', animation: 'spin 0.7s linear infinite' }}/>

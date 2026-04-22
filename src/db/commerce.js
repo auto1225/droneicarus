@@ -43,7 +43,7 @@ export async function fetchOrder(id) {
   return data;
 }
 
-export async function createOrder({ videoId, license, subtotal, tax, total, paymentBrand, paymentLast4 }) {
+export async function createOrder({ videoId, license, subtotal, tax, total, paymentBrand, paymentLast4, singleDownloadAgreed = false }) {
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) throw new Error('Sign in to purchase');
   const id = `DI-${new Date().getFullYear()}-${String(Math.floor(Math.random() * 90000) + 10000)}`;
@@ -57,6 +57,8 @@ export async function createOrder({ videoId, license, subtotal, tax, total, paym
     payment_last4: paymentLast4,
     status: 'complete',
     file_format: 'MP4 H.265',
+    single_download_agreed: !!singleDownloadAgreed,
+    cache_expires_at: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(),
   }).select('*').single();
   if (error) throw error;
   return data;
