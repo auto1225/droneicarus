@@ -1,6 +1,8 @@
 // pages/shotlibrary.jsx — curated by use-case
 import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react';
-import { VIDEOS, thumbGradient } from '../data';
+import { VIDEOS as _MOCK_VIDEOS, thumbGradient } from '../data';
+import { fetchVideos } from '../db/videos';
+import { useState as _us, useEffect as _ue } from 'react';
 import { VideoCard } from '../components';
 
 const USE_CASES = [
@@ -19,7 +21,9 @@ const USE_CASES = [
 ];
 
 export function ShotLibraryPage({ onNav, onOpenVideo }) {
-  const videos = VIDEOS;
+  const [dbVids, setDbVids] = _us([]);
+  _ue(() => { let c=false; fetchVideos({limit:500}).then(v=>{if(!c) setDbVids(v||[])}); return ()=>{c=true}; }, []);
+  const videos = dbVids.length > 0 ? dbVids : _MOCK_VIDEOS;
 
   return (
     <div>
