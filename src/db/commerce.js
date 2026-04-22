@@ -15,7 +15,9 @@ export async function fetchOrders({ buyerId } = {}) {
     .select(`
       id, video_id, license, subtotal, tax, total, currency,
       payment_brand, payment_last4, status, file_format, file_size, created_at,
-      video:videos!video_id ( id, title, thumb_path, resolution, duration_s )
+      cached_url, cache_expires_at, single_download_agreed, download_count,
+      first_download_at, last_download_at,
+      video:videos!video_id ( id, title, thumb_path, thumb_url, youtube_id, yt_id, source, external_url, storage_path, resolution, duration_s )
     `)
     .eq('buyer_id', uid)
     .order('created_at', { ascending: false });
@@ -32,6 +34,12 @@ export async function fetchOrders({ buyerId } = {}) {
     fileFormat: o.file_format,
     fileSize: o.file_size,
     status: o.status,
+    cachedUrl: o.cached_url,
+    cacheExpiresAt: o.cache_expires_at,
+    singleDownloadAgreed: o.single_download_agreed,
+    downloadCount: o.download_count ?? 0,
+    firstDownloadAt: o.first_download_at,
+    lastDownloadAt: o.last_download_at,
     video: o.video,
   }));
 }
@@ -73,6 +81,51 @@ export async function createOrder({ videoId, license, subtotal, tax, total, paym
     });
   }
   return data;
+}
+
+
+// Log a download event (chargeback defense + analytics)
+export async function logDownloadEvent({ orderId, videoId, bytesDelivered, httpStatus }) {
+  try {
+    const { data: { user } } = await supabase.auth.getUser();
+    const body = {
+      order_id: orderId,
+      video_id: videoId,
+      buyer_id: user?.id,
+      user_agent: (typeof navigator !== 'undefined') ? navigator.userAgent : null,
+      bytes_delivered: bytesDelivered ?? null,
+      http_status: httpStatus ?? 200,
+      started_at: new Date().toISOString(),
+      completed_at: new Date().toISOString(),
+    };
+    const { error } = await supabase.from('download_events').insert(body);
+    if (error) { console.warn('[download_events]', error.message); return false; }
+    // Bump counter + set timestamps on order (fire-and-forget)
+    supabase.from('orders').update({
+      download_count: (await fetchDownloadCount(orderId)) + 1,
+      last_download_at: new Date().toISOString(),
+    }).eq('id', orderId).then(() => {});
+    return true;
+  } catch (e) {
+    console.warn('[logDownloadEvent]', e.message);
+    return false;
+  }
+}
+async function fetchDownloadCount(orderId) {
+  const { data } = await supabase.from('orders').select('download_count').eq('id', orderId).maybeSingle();
+  return data?.download_count ?? 0;
+}
+
+// Build a signed URL for an R2 cache_url (via the same Worker — /signed endpoint)
+// Or, if your Worker only stores path keys, fetch through a presign worker endpoint.
+// Simpler: just return the Worker URL with path since our Worker can also serve auth'd fetch.
+export async function buildCacheDownloadUrl(cachedPath) {
+  const base = (typeof import.meta !== 'undefined' && import.meta.env?.VITE_CACHE_WORKER_URL) || '';
+  if (!base) return null;
+  const { data: { session } } = await supabase.auth.getSession();
+  const token = session?.access_token;
+  // Worker download endpoint will add R2 presign server-side. For now, point at /download?key=...
+  return `${base}/download?key=${encodeURIComponent(cachedPath)}&t=${encodeURIComponent(token || '')}`;
 }
 
 // ——— Payouts ———

@@ -38,11 +38,17 @@ export default {
     if (req.method === 'OPTIONS') {
       return new Response(null, { status: 204, headers: corsHeaders() });
     }
-    if (req.method !== 'POST') {
+    // /download handled above; everything else requires POST
+    if (req.method !== 'POST' && url.pathname === '/cache') {
       return json(405, { error: 'Method not allowed' });
     }
 
     const url = new URL(req.url);
+    // Route: /download — stream an R2 object to the buyer (auth-gated)
+    if (url.pathname === '/download' && req.method === 'GET') {
+      return handleDownload(req, env, url);
+    }
+    // Route: /cache — we require POST below
     if (url.pathname !== '/cache') {
       return json(404, { error: 'Not found' });
     }
@@ -177,4 +183,40 @@ function normalizeForDownload(url, provider) {
   }
   // Others: pass through
   return url;
+}
+
+
+// GET /download?key=<R2 path>&t=<buyer JWT>
+// Validates the JWT belongs to the buyer of the order that owns this R2 key,
+// then streams the R2 object back with attachment disposition.
+async function handleDownload(req, env, url) {
+  const key = url.searchParams.get('key');
+  const jwt = url.searchParams.get('t') || (req.headers.get('Authorization') || '').replace(/^Bearer\s+/, '');
+  if (!key || !jwt) return json(400, { error: 'key and t (JWT) required' });
+
+  // Load order by cached_url == key (using buyer's JWT so RLS restricts to their own)
+  const ordRes = await fetch(
+    `${env.SUPABASE_URL}/rest/v1/orders?select=id,video_id,cache_expires_at,cached_url&cached_url=eq.${encodeURIComponent(key)}&limit=1`,
+    { headers: { apikey: env.SUPABASE_SERVICE_KEY, Authorization: `Bearer ${jwt}` } }
+  );
+  if (!ordRes.ok) return json(ordRes.status, { error: 'order lookup failed' });
+  const orders = await ordRes.json();
+  if (!orders.length) return json(404, { error: 'Not your order, or key invalid' });
+  const ord = orders[0];
+
+  // Check expiry
+  if (ord.cache_expires_at && new Date(ord.cache_expires_at) < new Date()) {
+    return json(410, { error: 'Download window expired', expired_at: ord.cache_expires_at });
+  }
+
+  // Fetch R2 object
+  const obj = await env.CACHE_BUCKET.get(key);
+  if (!obj) return json(404, { error: 'Cache miss — file not found in R2' });
+
+  const headers = new Headers(corsHeaders());
+  obj.writeHttpMetadata(headers);
+  headers.set('etag', obj.httpEtag);
+  headers.set('Cache-Control', 'private, max-age=300');
+
+  return new Response(obj.body, { headers });
 }

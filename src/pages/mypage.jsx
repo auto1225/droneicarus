@@ -4,6 +4,7 @@ import { VIDEOS, CREATORS, thumbGradient, CURRENT_USER, COLLECTIONS } from '../d
 import { Ic, formatViews } from '../components';
 import { useAuth } from '../auth/AuthContext';
 import { fetchCollections } from '../db/social';
+import { fetchOrders, logDownloadEvent, buildCacheDownloadUrl } from '../db/commerce';
 const mpUseState = useState;
 const mpUseMemo = useMemo;
 
@@ -23,12 +24,23 @@ export function MyPage({ onOpenVideo, onNav }) {
     collections: CURRENT_USER.collections,
     purchases: CURRENT_USER.purchases,
   } : CURRENT_USER;
-  const [tab, setTab] = mpUseState('collections');
+  const [tab, setTab] = mpUseState('purchases');
   const [selectedCol, setSelectedCol] = mpUseState(null);
   const [cols, setCols] = mpUseState(COLLECTIONS);
+  const [orders, setOrders] = mpUseState([]);
+  const [ordersLoading, setOrdersLoading] = mpUseState(true);
 
   useEffect(() => {
     fetchCollections().then(rows => { if (rows && rows.length) setCols(rows); });
+  }, [profile?.id]);
+
+  useEffect(() => {
+    let cancel = false;
+    setOrdersLoading(true);
+    fetchOrders().then(rows => {
+      if (!cancel) { setOrders(rows || []); setOrdersLoading(false); }
+    }).catch(() => { if (!cancel) setOrdersLoading(false); });
+    return () => { cancel = true; };
   }, [profile?.id]);
 
   if (selectedCol) return <CollectionDetail col={selectedCol} onBack={() => setSelectedCol(null)} onOpenVideo={onOpenVideo} />;
@@ -95,6 +107,7 @@ export function MyPage({ onOpenVideo, onNav }) {
         {/* Tabs */}
         <div style={{ display: 'flex', gap: 2, borderBottom: '1px solid var(--line)', marginBottom: 24 }}>
           {[
+            ['purchases', 'My purchases', orders.length],
             ['collections', 'Collections', u.collections],
             ['liked', 'Liked', liked.length],
             ['following', 'Following', u.following],
@@ -108,6 +121,10 @@ export function MyPage({ onOpenVideo, onNav }) {
             }}>{label} {n !== null && <span style={{ color: 'var(--parchment-dim)', fontWeight: 400 }}>· {n}</span>}</button>
           ))}
         </div>
+
+        {tab === 'purchases' && (
+          <PurchasesPanel orders={orders} loading={ordersLoading} onOpenVideo={onOpenVideo} />
+        )}
 
         {tab === 'collections' && (
           <div>
@@ -271,3 +288,124 @@ function CollectionDetail({ col, onBack, onOpenVideo }) {
   );
 }
 
+
+// ─────────────────────────────────────────────────────────────────
+// PurchasesPanel — list of buyer's orders with 7-day download window
+// ─────────────────────────────────────────────────────────────────
+function PurchasesPanel({ orders, loading, onOpenVideo }) {
+  if (loading) {
+    return <div style={{ padding: 60, textAlign: 'center', color: 'var(--parchment-dim)' }}>Loading your purchases…</div>;
+  }
+  if (!orders.length) {
+    return (
+      <div style={{ padding: 60, textAlign: 'center' }}>
+        <div style={{ fontSize: 16, color: 'var(--parchment)', marginBottom: 6 }}>No purchases yet</div>
+        <div style={{ fontSize: 13, color: 'var(--parchment-dim)' }}>Licensed clips will appear here with a 7-day download window.</div>
+      </div>
+    );
+  }
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 12, marginBottom: 60 }}>
+      {orders.map(o => <PurchaseRow key={o.id} order={o} onOpenVideo={onOpenVideo} />)}
+    </div>
+  );
+}
+
+function PurchaseRow({ order, onOpenVideo }) {
+  const [downloading, setDownloading] = useState(false);
+  const [tick, setTick] = useState(0);
+  // tick every 30s to refresh countdown
+  useEffect(() => {
+    const id = setInterval(() => setTick(t => t + 1), 30000);
+    return () => clearInterval(id);
+  }, []);
+
+  const v = order.video || {};
+  const expiresAt = order.cacheExpiresAt ? new Date(order.cacheExpiresAt) : null;
+  const now = new Date();
+  const msLeft = expiresAt ? (expiresAt - now) : 0;
+  const expired = expiresAt && msLeft <= 0;
+  const hoursLeft = Math.max(0, Math.floor(msLeft / 3600000));
+  const daysLeft = Math.max(0, Math.floor(msLeft / 86400000));
+  const windowLabel = expired ? 'Expired' :
+    (daysLeft > 0 ? `${daysLeft}d ${hoursLeft % 24}h left` : `${hoursLeft}h left`);
+
+  const cached = !!order.cachedUrl && !expired;
+  const preparing = !order.cachedUrl && !expired && order.status === 'complete';
+
+  const thumb = v.thumb_url || v.thumbUrl ||
+    (v.youtube_id || v.yt_id ? `https://i.ytimg.com/vi/${v.youtube_id || v.yt_id}/hqdefault.jpg` : null);
+
+  const onDownload = async () => {
+    if (!cached) return;
+    setDownloading(true);
+    try {
+      const url = await buildCacheDownloadUrl(order.cachedUrl);
+      if (!url) throw new Error('Download URL not available (worker not configured)');
+      // Trigger download
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = (v.title || 'clip').replace(/[^\w\-]+/g, '_') + '.mp4';
+      a.rel = 'noopener noreferrer';
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      // Log event (fire-and-forget)
+      logDownloadEvent({ orderId: order.id, videoId: order.videoId, httpStatus: 200 });
+    } catch (e) {
+      alert('Download failed: ' + e.message);
+    } finally {
+      setDownloading(false);
+    }
+  };
+
+  return (
+    <div style={{
+      display: 'grid', gridTemplateColumns: '140px 1fr auto', gap: 16,
+      padding: 14, border: '1px solid var(--line)', borderRadius: 6,
+      background: 'var(--forest-900)', alignItems: 'center',
+    }}>
+      <div style={{
+        aspectRatio: '16/9', borderRadius: 4, overflow: 'hidden',
+        background: thumb ? `center / cover no-repeat url('${thumb}')` : 'var(--forest-800)',
+        cursor: v.id ? 'pointer' : 'default',
+      }} onClick={() => v.id && onOpenVideo?.(v)} />
+      <div style={{ minWidth: 0 }}>
+        <div style={{ fontSize: 14, fontWeight: 600, marginBottom: 4, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+          {v.title || 'Untitled'}
+        </div>
+        <div style={{ fontSize: 12, color: 'var(--parchment-dim)', marginBottom: 6 }}>
+          {order.license} license · {order.card} · {order.date}
+        </div>
+        <div style={{ display: 'flex', gap: 10, fontSize: 11, alignItems: 'center' }}>
+          <span className="mono" style={{ padding: '2px 8px', borderRadius: 999,
+            background: expired ? 'rgba(139,58,31,0.15)' : (cached ? 'rgba(139,154,91,0.15)' : 'rgba(198,136,32,0.15)'),
+            color: expired ? 'var(--rust)' : (cached ? 'var(--lichen)' : 'var(--amber)'),
+            border: '1px solid ' + (expired ? 'var(--rust)' : (cached ? 'var(--lichen)' : 'var(--amber)')),
+            letterSpacing: '0.1em',
+          }}>{expired ? 'EXPIRED' : (cached ? 'READY' : 'PREPARING')}</span>
+          <span style={{ color: 'var(--parchment-dim)' }}>{windowLabel}</span>
+          {order.downloadCount > 0 && (
+            <span style={{ color: 'var(--parchment-dim)' }}>
+              · Downloaded {order.downloadCount}×
+            </span>
+          )}
+        </div>
+      </div>
+      <div>
+        <button
+          onClick={onDownload}
+          disabled={!cached || downloading}
+          className="btn"
+          style={{
+            padding: '10px 18px', fontSize: 13,
+            opacity: (!cached || downloading) ? 0.45 : 1,
+            cursor: (!cached || downloading) ? 'not-allowed' : 'pointer',
+            minWidth: 120,
+          }}>
+          {downloading ? 'Preparing…' : (expired ? 'Window closed' : (cached ? 'Download' : 'Preparing…'))}
+        </button>
+      </div>
+    </div>
+  );
+}
