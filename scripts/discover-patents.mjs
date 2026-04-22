@@ -147,25 +147,35 @@ async function fetchGooglePatents(query, num = NUM_PER_QUERY) {
   // url= param is double-encoded (q + sort)
   const inner = `q=${encodeURIComponent(query)}&num=${num}&sort=new`;
   const u = `https://patents.google.com/xhr/query?url=${encodeURIComponent(inner)}&exp=`;
-  const r = await fetch(u, {
-    headers: {
-      'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
-      'Accept': 'application/json,*/*',
-      'Accept-Language': 'en-US,en;q=0.9',
-    },
-  });
-  if (!r.ok) throw new Error(`gp ${r.status}`);
-  const j = await r.json();
-  const cluster = j?.results?.cluster || [];
-  const out = [];
-  for (const c of cluster) {
-    for (const it of (c.result || [])) {
-      const p = it.patent;
-      if (!p) continue;
-      out.push(p);
+  const headers = {
+    'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
+    'Accept': 'application/json,*/*',
+    'Accept-Language': 'en-US,en;q=0.9',
+  };
+  // Retry on 503/429 with exponential backoff (handles GP per-IP rate limit)
+  for (let attempt = 0; attempt < 4; attempt++) {
+    const r = await fetch(u, { headers });
+    if (r.ok) {
+      const j = await r.json();
+      const cluster = j?.results?.cluster || [];
+      const out = [];
+      for (const c of cluster) {
+        for (const it of (c.result || [])) {
+          const p = it.patent;
+          if (p) out.push(p);
+        }
+      }
+      return out;
     }
+    if (r.status === 503 || r.status === 429) {
+      const wait = 4000 * Math.pow(2, attempt);  // 4s, 8s, 16s, 32s
+      console.warn(`  gp '${query}' ${r.status}, retry in ${wait}ms (attempt ${attempt + 1}/4)`);
+      await new Promise(rs => setTimeout(rs, wait));
+      continue;
+    }
+    throw new Error(`gp ${r.status}`);
   }
-  return out;
+  throw new Error(`gp 503 after 4 retries`);
 }
 
 function buildItem(p, baseTags) {
@@ -236,7 +246,7 @@ async function ingestPatents(seenSlugs) {
     }
     if (inserted_q) console.log(`  + ${inserted_q.toString().padStart(2)} '${q}'`);
     // Be polite to Google — 1.2s between queries
-    await new Promise(r => setTimeout(r, 1200));
+    await new Promise(r => setTimeout(r, 3000));
   }
   return { inserted, errors };
 }
