@@ -1,7 +1,7 @@
 // pages/live.jsx — map of pilots currently uploading / broadcasting
 import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react';
 import { Ic } from '../components';
-import { LiveChatPanel } from './live-chat';
+import { LiveChatPanel, SuperChatModal } from './live-chat';
 import { fetchSidebarSlots } from '../db/picks';
 const lvUseState = useState;
 const lvUseEffect = useEffect;
@@ -20,6 +20,7 @@ const LIVE = [
 
 export function LivePage({ onNav }) {
   const [selected, setSelected] = lvUseState(LIVE[2]);
+  const [tipOpen, setTipOpen] = lvUseState(false);
   const [tab, setTab] = lvUseState('all');
 
   // Pulse animation tick
@@ -207,7 +208,7 @@ export function LivePage({ onNav }) {
             <div style={{ fontSize: 12, color: 'var(--parchment-dim)', marginBottom: 14 }}>{selected.pilot} · {selected.handle}</div>
             <div style={{ display: 'flex', gap: 6, marginBottom: 18 }}>
               <button className="btn" style={{ fontSize: 12, flex: 1 }} data-placeholder="true">Tune in</button>
-              <button className="btn secondary" style={{ fontSize: 12 }} data-placeholder="true">Tip $</button>
+              <button className="btn secondary" style={{ fontSize: 12 }} onClick={() => setTipOpen(true)}>Tip $</button>
             </div>
 
             {selected.id && selected.id.length === 36 ? (
@@ -228,6 +229,7 @@ export function LivePage({ onNav }) {
           </>
         )}
       </aside>
+      {tipOpen && <SuperChatModal streamId={selected.id && selected.id.length === 36 ? selected.id : '00000000-0000-0000-0000-000000000000'} onClose={() => setTipOpen(false)}/>}
     </div>
   );
 }
