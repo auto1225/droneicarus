@@ -55,7 +55,7 @@ function MapHero({ selectedLoc, onSelectLoc, categoryFilter, mapFilters, locatio
     if (!mapFilters) return locs;
 
     return locs.filter(loc => {
-      const vids = VIDEOS.filter(v => v.locationId === loc.id);
+      const vids = loc.video ? [loc.video] : VIDEOS.filter(v => v.locationId === loc.id);
       if (mapFilters.free && !vids.some(v => v.price === 0)) return false;
       if (mapFilters.uhd && !vids.some(v => v.resolution && (v.resolution.includes('5K') || v.resolution.includes('8K') || v.resolution === '4K'))) return false;
       if (mapFilters.recent && !vids.some(v => (v.uploadedDaysAgo || 999) <= 30)) return false;
@@ -124,7 +124,7 @@ function MapHero({ selectedLoc, onSelectLoc, categoryFilter, mapFilters, locatio
 
     const addPin = (loc, selected) => {
       const isFeatured = loc.featured;
-      const vids = VIDEOS.filter(v => v.locationId === loc.id).slice(0, 3);
+      const vids = loc.video ? [loc.video] : VIDEOS.filter(v => v.locationId === loc.id).slice(0, 3);
       const firstVid = vids[0];
 
       const html = `<div class="pin-outer ${selected ? 'selected' : ''}">
@@ -138,27 +138,19 @@ function MapHero({ selectedLoc, onSelectLoc, categoryFilter, mapFilters, locatio
       });
       const marker = L.marker([loc.lat, loc.lon], { icon, zIndexOffset: selected ? 2000 : (isFeatured ? 600 : 100) }).addTo(map);
 
-      // Hover tooltip — actual YouTube/storage thumbnails when available.
-      const safeId = (id) => { const s = String(id||''); let h=0; for (let i=0;i<s.length;i++) h=(h*31+s.charCodeAt(i))|0; return Math.abs(h); };
+      // Hover tooltip — lightweight, with thumbnail strip
       const tipHtml = `
         <div class="pin-tip">
           <div class="pin-tip-thumbs">
-            ${vids.map((v,i) => {
-              const url = v.thumbUrl || (v.youtubeId || v.ytId ? `https://i.ytimg.com/vi/${v.youtubeId || v.ytId}/hqdefault.jpg` : '');
-              const bg = url
-                ? `background-image:url('${hEsc(url)}');background-size:cover;background-position:center;`
-                : `background:${hEsc(thumbGradient(safeId(v.id)))};`;
-              return `<div class="pin-tip-thumb" style="${bg}">
-                ${v.source === 'youtube' ? `<span class="pin-tip-yt">▶ YT</span>` : ''}
-                ${i === 0 ? `<span class="pin-tip-play"></span>` : ''}
-                ${v.price > 0 ? `<span class="pin-tip-paid">$${v.price}</span>` : ''}
-              </div>`;
-            }).join('') || '<div class="pin-tip-thumb empty"></div>'}
+            ${vids.map((v,i) => `<div class="pin-tip-thumb" style="background:${hEsc(thumbGradient(parseInt(v.id.slice(1))))};">
+              ${i === 0 ? `<span class="pin-tip-play"></span>` : ''}
+              ${v.price > 0 ? `<span class="pin-tip-paid">$${v.price}</span>` : ''}
+            </div>`).join('') || '<div class="pin-tip-thumb empty"></div>'}
           </div>
           <div class="pin-tip-body">
-            <div class="pin-tip-country">${hEsc(loc.country || '')}</div>
+            <div class="pin-tip-country">${hEsc(loc.country)}</div>
             <div class="pin-tip-name">${hEsc(loc.name)}</div>
-            <div class="pin-tip-meta">${loc.videos} clip${loc.videos===1?'':'s'}${vids.filter(v=>v.price===0).length>0 ? ' · '+vids.filter(v=>v.price===0).length+' free' : ''}</div>
+            <div class="pin-tip-meta">${loc.videos} clips · ${vids.filter(v=>v.price===0).length}+ free</div>
           </div>
         </div>
       `;
