@@ -146,15 +146,54 @@ function MapHero({ selectedLoc, onSelectLoc, selectedFineSet, mapFilters, search
           const icon = L.divIcon({ className: 'cluster-pin-wrap', html, iconSize: [size, size], iconAnchor: [size/2, size/2] });
           const marker = L.marker([c.lat, c.lon], { icon, zIndexOffset: 500 }).addTo(map);
           marker.on('click', () => {
-            // If all the locs in the cluster share the same coord, flyToBounds will
-            // produce a degenerate zoom — so detect that and fall back to opening
-            // the location sheet directly with the list of clips.
             const uniq = new Set(c.locs.map(l => `${l.lat.toFixed(5)}:${l.lon.toFixed(5)}`));
             if (uniq.size === 1 || zoom >= 14) {
-              // Same spot — open first video (selector UI could later list all)
-              const loc = c.locs[0];
-              if (loc.video && onOpenVideo) onOpenVideo(loc.video);
-              else onSelectLoc(loc);
+              // Same-spot stack (or already very zoomed in) — open a popup listing
+              // every clip at this coord so the user can pick which to play.
+              const popupHtml = `
+                <div class="stack-popup">
+                  <div class="stack-popup-title">${c.locs.length} clips here</div>
+                  <div class="stack-popup-list">
+                    ${c.locs.map((loc, i) => {
+                      const v = loc.video || {};
+                      const thumb = v.thumbUrl
+                        || (v.youtubeId || v.ytId ? `https://i.ytimg.com/vi/${v.youtubeId || v.ytId}/hqdefault.jpg` : '');
+                      const title = hEsc(v.title || loc.name || 'Untitled');
+                      const channel = hEsc(v.channel || v.creator?.name || '');
+                      return `
+                        <div class="stack-row" data-idx="${i}">
+                          <div class="stack-thumb" style="${thumb ? `background-image:url('${hEsc(thumb)}');background-size:cover;background-position:center` : 'background:var(--forest-800)'}"></div>
+                          <div class="stack-meta">
+                            <div class="stack-ttl">${title}</div>
+                            <div class="stack-sub">${channel}</div>
+                          </div>
+                        </div>
+                      `;
+                    }).join('')}
+                  </div>
+                </div>`;
+              const popup = L.popup({
+                className: 'stack-leaflet-popup',
+                maxWidth: 340, minWidth: 280, autoPan: true,
+                closeButton: true,
+              })
+                .setLatLng([c.lat, c.lon])
+                .setContent(popupHtml)
+                .openOn(map);
+              // Hook clicks on each row
+              setTimeout(() => {
+                const el = popup.getElement();
+                if (!el) return;
+                el.querySelectorAll('.stack-row').forEach(row => {
+                  row.addEventListener('click', () => {
+                    const i = Number(row.getAttribute('data-idx'));
+                    const loc = c.locs[i];
+                    if (loc?.video && onOpenVideo) onOpenVideo(loc.video);
+                    else if (loc) onSelectLoc(loc);
+                    map.closePopup();
+                  });
+                });
+              }, 50);
             } else {
               const bounds = L.latLngBounds(c.locs.map(l => [l.lat, l.lon]));
               map.flyToBounds(bounds.pad(0.4), { duration: 1.1, maxZoom: 14 });

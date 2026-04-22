@@ -766,3 +766,40 @@ input:focus, textarea:focus, select:focus {
     min-height: 400px;
   }
 }
+
+/* Stack popup — shown when clicking a cluster where all pins share the same coord */
+.leaflet-popup.stack-leaflet-popup .leaflet-popup-content-wrapper {
+  background: var(--forest-900);
+  color: var(--bone);
+  border: 1px solid var(--line-strong);
+  border-radius: 6px;
+  box-shadow: var(--shadow-lg);
+}
+.leaflet-popup.stack-leaflet-popup .leaflet-popup-tip { background: var(--forest-900); }
+.leaflet-popup.stack-leaflet-popup .leaflet-popup-content { margin: 0 !important; min-width: 260px; max-height: 360px; overflow-y: auto; }
+.stack-popup-title {
+  padding: 10px 14px;
+  font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.14em;
+  color: var(--amber); text-transform: uppercase;
+  border-bottom: 1px solid var(--line);
+}
+.stack-popup-list { padding: 4px; }
+.stack-row {
+  display: flex; gap: 10px; padding: 6px 8px; border-radius: 4px;
+  cursor: pointer; transition: background 0.12s;
+}
+.stack-row:hover { background: var(--forest-800); }
+.stack-thumb {
+  width: 72px; height: 40px; flex: 0 0 72px;
+  border-radius: 3px; background-size: cover; background-position: center;
+  border: 1px solid var(--line);
+}
+.stack-meta { flex: 1; min-width: 0; overflow: hidden; }
+.stack-ttl {
+  font-size: 12px; font-weight: 500; color: var(--bone);
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.stack-sub {
+  font-size: 10px; color: var(--parchment-dim); margin-top: 2px;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
