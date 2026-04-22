@@ -61,6 +61,17 @@ export async function createOrder({ videoId, license, subtotal, tax, total, paym
     cache_expires_at: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(),
   }).select('*').single();
   if (error) throw error;
+
+  // Fire-and-forget: trigger Cloudflare Worker to copy external file to R2.
+  // We don't await the result — the buyer's My Purchases page will poll for cached_url.
+  // Awaiting would block the thank-you screen for large files.
+  if (data?.id) {
+    import('./cache').then(({ triggerCachePurchase }) => {
+      triggerCachePurchase(data.id).then(r => {
+        if (r.ok) console.log('[cache] purchase cached:', r.cached_url);
+      });
+    });
+  }
   return data;
 }
 

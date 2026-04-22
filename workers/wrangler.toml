@@ -1,0 +1,13 @@
+name = "droneicarus-cache-purchase"
+main = "cache-purchase.js"
+compatibility_date = "2026-04-01"
+
+[[r2_buckets]]
+binding     = "CACHE_BUCKET"
+bucket_name = "droneicarus-cache"
+
+[vars]
+SUPABASE_URL = "https://eotsbncgkgewgbemaarp.supabase.co"
+
+# Set the service key as a secret AFTER first deploy:
+#   wrangler secret put SUPABASE_SERVICE_KEY
