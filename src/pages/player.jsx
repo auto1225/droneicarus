@@ -9,85 +9,123 @@ import { fetchReviews, postReview } from '../db/commerce';
 import { useAuth } from '../auth/AuthContext';
 import { CommentThread } from '../comments';
 
-// Parse a YouTube-style description into structured sections so it doesn't render as one wall of text.
+// Parse a YouTube description into compact structured sections.
+// Strategy: strip URLs into a separate links array, split on divider lines
+// (---- or - - - - or ====), then within each block detect inline headers
+// (lines ending with ':' or wrapped in dashes like -Production Team-) and
+// group following lines as items under that header.
 function parseDescription(raw) {
-  if (!raw) return { sections: [{ kind: 'text', body: '' }], links: [] };
+  if (!raw) return { items: [], links: [] };
   const txt = String(raw).replace(/\r/g, '');
-  // Extract URLs first (preserve order, dedupe)
-  const urlRe = /https?:\/\/[^\s)]+/g;
-  const urls = Array.from(new Set(txt.match(urlRe) || []));
-  // Replace URL clusters in body with placeholders so they don't dominate the text
-  let body = txt.replace(urlRe, '').replace(/\s+\)/g, ')');
-  // Normalize divider lines (---- or - - - - or ====) → split markers
-  body = body.replace(/[\-=_]{3,}|(?:\s-\s){3,}/g, '\n@@SPLIT@@\n');
-  // Collapse whitespace runs
-  body = body.replace(/\n{3,}/g, '\n\n').trim();
 
+  // 1) Pull out URLs (dedup by host+first-2-path-segments)
+  const urlRe = /https?:\/\/[^\s)\]]+/g;
+  const allUrls = txt.match(urlRe) || [];
+  const seenLinks = new Set(); const links = [];
+  for (const u of allUrls) {
+    try {
+      const o = new URL(u);
+      const key = o.host.replace(/^www\./, '') + o.pathname.split('/').slice(0, 3).join('/');
+      if (!seenLinks.has(key)) { seenLinks.add(key); links.push({ host: o.host.replace(/^www\./, ''), path: o.pathname || '/', url: u }); }
+    } catch {}
+  }
+
+  // 2) Strip URLs from body and normalize dividers
+  let body = txt.replace(urlRe, '').replace(/\s+\)/g, ')');
+  // Lines that are 3+ dashes/equals/underscores OR runs of " - " (3+) → divider
+  body = body.replace(/^[ \t]*[\-=_*]{3,}[ \t]*$/gm, '@@SPLIT@@');
+  body = body.replace(/(?:[ \t]*-[ \t]*){3,}/g, '@@SPLIT@@');
+  body = body.replace(/\n{3,}/g, '\n\n');
   const blocks = body.split(/@@SPLIT@@/).map(s => s.trim()).filter(Boolean);
 
-  // Heuristic: detect role/credit section (contains lots of " - " or "[ ]")
-  // music section starts with "MUSIC", "Music:" etc.
-  const sections = blocks.map(b => {
-    const lower = b.toLowerCase();
-    if (/^(music|soundtrack|track listing|songs)/i.test(b) || /\bMUSIC[: ]/.test(b)) {
-      return { kind: 'music', body: b };
+  // 3) Within each block, split into (header, items) groups.
+  // A header is: a line ending with ':' OR wrapped in dashes (-Foo-) OR ALL CAPS short line.
+  const items = []; // { header: string|null, lines: string[], variant: 'text'|'list' }
+  for (const b of blocks) {
+    const lines = b.split(/\n+/).map(l => l.trim()).filter(Boolean);
+    if (lines.length === 0) continue;
+    let currentHeader = null; let currentLines = [];
+    const flush = () => {
+      if (currentLines.length === 0 && !currentHeader) return;
+      // Decide variant: if items look like single short labels, render as grid; else paragraph
+      const allShort = currentLines.every(l => l.length < 80);
+      const looksList = currentLines.length >= 2 && allShort;
+      items.push({ header: currentHeader, lines: currentLines, variant: looksList ? 'list' : 'text' });
+      currentHeader = null; currentLines = [];
+    };
+    for (const ln of lines) {
+      const isHeader =
+        /^-[^-].*[^-]-$/.test(ln) ||                    // -Production Team-
+        (/[A-Z]/.test(ln) && ln.endsWith(':') && ln.length < 60) || // MUSIC:
+        (/^[A-Z][A-Z\s/]{4,}$/.test(ln) && ln.length < 50);          // ALL CAPS HEADER
+      if (isHeader) {
+        flush();
+        currentHeader = ln.replace(/^-|-$/g, '').replace(/:$/, '').trim();
+      } else {
+        currentLines.push(ln);
+      }
     }
-    if (/(production team|cast|hosts?|crew|pilots?|editor|producer|director)/i.test(lower) && b.length < 600) {
-      return { kind: 'credits', body: b };
-    }
-    return { kind: 'text', body: b };
-  });
+    flush();
+  }
 
-  return { sections, links: urls };
+  return { items, links };
 }
 
-// Render one parsed section as a clean note block
+// Compact rendering: header (small caps) + grid of items, OR a paragraph.
 function NoteSection({ section }) {
-  const labelMap = { text: null, credits: 'CREDITS', music: 'MUSIC' };
-  const label = labelMap[section.kind];
-  // Split into lines and bullet rows
-  const lines = section.body.split(/\n+/).map(l => l.trim()).filter(Boolean);
+  const { header, lines, variant } = section;
   return (
-    <div style={{ marginBottom: 14 }}>
-      {label && <div className="mono" style={{ fontSize: 10, letterSpacing: '0.14em', color: 'var(--parchment-dim)', marginBottom: 6 }}>{label}</div>}
-      {section.kind === 'text' ? (
-        <p style={{ fontSize: 14, color: 'var(--parchment)', lineHeight: 1.65, margin: 0, whiteSpace: 'pre-wrap' }}>{section.body}</p>
+    <div style={{ marginBottom: 12 }}>
+      {header && (
+        <div className="mono" style={{ fontSize: 10, letterSpacing: '0.14em', color: 'var(--parchment-dim)', marginBottom: 4, textTransform: 'uppercase' }}>
+          {header}
+        </div>
+      )}
+      {variant === 'list' ? (
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))',
+          gap: '4px 16px',
+          fontSize: 13, color: 'var(--parchment)', lineHeight: 1.45,
+        }}>
+          {lines.map((l, i) => <div key={i} style={{ minWidth: 0 }}>{l}</div>)}
+        </div>
       ) : (
-        <ul style={{ listStyle: 'none', padding: 0, margin: 0, fontSize: 13, color: 'var(--parchment)' }}>
-          {lines.map((l, i) => (
-            <li key={i} style={{ padding: '4px 0', borderTop: i > 0 ? '1px dashed var(--line)' : 'none' }}>{l}</li>
-          ))}
-        </ul>
+        <p style={{ fontSize: 13, color: 'var(--parchment)', lineHeight: 1.55, margin: 0, whiteSpace: 'pre-wrap' }}>
+          {lines.join('\n')}
+        </p>
       )}
     </div>
   );
 }
 
-// Render extracted URLs as a compact link list
+// Inline chip-style link list, max 10 visible + overflow count
 function NoteLinks({ links }) {
   if (!links || links.length === 0) return null;
-  // Skip noisy affiliate parameter URLs by deduping host
-  const seen = new Set(); const filtered = [];
-  for (const u of links) {
-    try {
-      const host = new URL(u).host.replace(/^www\./, '');
-      const key = host + new URL(u).pathname.split('/').slice(0,3).join('/');
-      if (!seen.has(key)) { seen.add(key); filtered.push({ host, url: u }); }
-    } catch {}
-  }
-  if (filtered.length === 0) return null;
+  const [expanded, setExpanded] = React.useState(false);
+  const visible = expanded ? links : links.slice(0, 10);
+  const hidden = links.length - visible.length;
   return (
-    <div style={{ marginTop: 14 }}>
+    <div style={{ marginTop: 12 }}>
       <div className="mono" style={{ fontSize: 10, letterSpacing: '0.14em', color: 'var(--parchment-dim)', marginBottom: 6 }}>LINKS</div>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-        {filtered.slice(0, 12).map((l, i) => (
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+        {visible.map((l, i) => (
           <a key={i} href={l.url} target="_blank" rel="noopener noreferrer" style={{
-            fontSize: 12, color: 'var(--amber)', textDecoration: 'none', borderBottom: '1px dashed var(--line)',
-            paddingBottom: 3, display: 'inline-block', maxWidth: '100%', overflow: 'hidden',
-            textOverflow: 'ellipsis', whiteSpace: 'nowrap',
-          }}>{l.host} <span style={{ color: 'var(--parchment-dim)' }}>· {new URL(l.url).pathname.slice(0, 50)}</span></a>
+            display: 'inline-block', padding: '3px 10px',
+            background: 'var(--forest-800)', border: '1px solid var(--line)',
+            borderRadius: 999, fontSize: 11, color: 'var(--parchment)',
+            textDecoration: 'none', lineHeight: 1.4,
+          }}>
+            <span style={{ color: 'var(--amber)' }}>{l.host}</span>
+            <span style={{ color: 'var(--parchment-dim)' }}>{l.path.length > 28 ? l.path.slice(0, 28) + '…' : l.path}</span>
+          </a>
         ))}
-        {filtered.length > 12 && <span style={{ fontSize: 11, color: 'var(--parchment-dim)' }}>+ {filtered.length - 12} more</span>}
+        {hidden > 0 && (
+          <button onClick={() => setExpanded(true)} style={{
+            padding: '3px 10px', fontSize: 11, color: 'var(--parchment-dim)',
+            border: '1px dashed var(--line)', borderRadius: 999, background: 'transparent',
+          }}>+{hidden} more</button>
+        )}
       </div>
     </div>
   );
@@ -307,7 +345,7 @@ export function PlayerPage({ video, onNav, onOpenVideo }) {
               const parsed = parseDescription(video.description);
               return (
                 <>
-                  {parsed.sections.map((s, i) => <NoteSection key={i} section={s} />)}
+                  {parsed.items.map((s, i) => <NoteSection key={i} section={s} />)}
                   <NoteLinks links={parsed.links} />
                   {video.tags && video.tags.length > 0 && (
                     <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginTop: 14, paddingTop: 12, borderTop: '1px solid var(--line)' }}>
@@ -508,7 +546,7 @@ function ReviewsSection({ video, onNav }) {
     <div style={{ marginTop: 40, paddingTop: 32, borderTop: '1px solid var(--line)' }}>
       <div style={{ display: 'flex', alignItems: 'baseline', gap: 14, marginBottom: 20 }}>
         <h3 style={{ fontFamily: 'var(--font-display)', fontSize: 22, margin: 0 }}>
-          Reviews {avg && <span style={{ color: 'var(--amber)', fontSize: 16, marginLeft: 6 }}>★ {avg}</span>}
+          Reviews {avg && <span style={{ color: 'var(--amber)', fontSize: 14, marginLeft: 6, display: 'inline-flex', alignItems: 'center', gap: 4 }}><Ic.star/>{avg}</span>}
         </h3>
         <span className="eyebrow" style={{ color: 'var(--parchment-dim)' }}>
           Verified buyers · editorial feedback
@@ -520,8 +558,10 @@ function ReviewsSection({ video, onNav }) {
         <div style={{ display: 'flex', gap: 8, alignItems: 'center', marginBottom: 10 }}>
           {[1,2,3,4,5].map(n => (
             <button key={n} onClick={() => setRating(n)} style={{
-              fontSize: 18, color: n <= rating ? 'var(--amber)' : 'var(--parchment-dim)', padding: 0,
-            }}>★</button>
+              color: n <= rating ? 'var(--amber)' : 'var(--parchment-dim)', padding: '2px 4px',
+              background: 'transparent', border: 'none', cursor: 'pointer',
+              display: 'inline-flex', alignItems: 'center',
+            }}><Ic.star/></button>
           ))}
           <input
             value={role}
@@ -552,7 +592,11 @@ function ReviewsSection({ video, onNav }) {
               <div style={{ fontSize: 14, fontWeight: 600 }}>{r.author} <span style={{ color: 'var(--parchment-dim)', fontWeight: 400, fontSize: 12 }}>· {r.role}</span></div>
               <div style={{ fontSize: 11, color: 'var(--parchment-dim)' }}>{r.date}</div>
             </div>
-            <div style={{ color: 'var(--amber)', fontSize: 12, marginBottom: 6 }}>{'★'.repeat(r.rating)}<span style={{ color: 'var(--parchment-dim)' }}>{'★'.repeat(5 - r.rating)}</span></div>
+            <div style={{ display: 'flex', gap: 2, marginBottom: 6 }}>
+              {Array.from({ length: 5 }).map((_, idx) => (
+                <span key={idx} style={{ color: idx < r.rating ? 'var(--amber)' : 'var(--parchment-dim)', display: 'inline-flex' }}><Ic.star/></span>
+              ))}
+            </div>
             <div style={{ fontSize: 13, lineHeight: 1.6 }}>{r.text}</div>
           </div>
         ))}
