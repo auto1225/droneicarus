@@ -29,6 +29,27 @@ function humanDuration(s) {
 }
 
 // Extract real metadata (duration, resolution, fps hint) from the File.
+
+// Detect provider from a URL and optionally normalize it
+// Returns { provider, url } — provider in {dropbox, gdrive, vimeo, frame-io, wetransfer, other}
+function detectProvider(rawUrl) {
+  if (!rawUrl) return { provider: '', url: '' };
+  let url = rawUrl.trim();
+  try { new URL(url); } catch { return { provider: '', url }; }
+  const host = new URL(url).host.toLowerCase();
+  // Dropbox: normalize 'dl=0' → 'dl=1' for direct download
+  if (host.includes('dropbox.com')) {
+    url = url.replace(/([?&])dl=0\b/, '$1dl=1');
+    if (!/[?&]dl=1\b/.test(url)) url += (url.includes('?') ? '&' : '?') + 'dl=1';
+    return { provider: 'dropbox', url };
+  }
+  if (host.includes('drive.google.com'))        return { provider: 'gdrive',     url };
+  if (host.includes('vimeo.com'))                return { provider: 'vimeo',      url };
+  if (host.includes('frame.io'))                 return { provider: 'frame-io',   url };
+  if (host.includes('wetransfer.com'))           return { provider: 'wetransfer', url };
+  return { provider: 'other', url };
+}
+
 async function probeMetadata(file) {
   return new Promise((resolve) => {
     const url = URL.createObjectURL(file);
@@ -101,6 +122,12 @@ export function UploadPage({ onNav }) {
   const [commercial, setCommercial] = useState(true);
 
   // Upload state
+  // External-host link mode (pilot uploads to Dropbox/Vimeo/GDrive/Frame.io, we only hold the URL)
+  const [externalMode, setExternalMode] = useState(false);
+  const [externalUrl, setExternalUrl] = useState('');
+  const [externalProvider, setExternalProvider] = useState(''); // dropbox | gdrive | vimeo | frame-io | wetransfer | other
+  const [externalCheckStatus, setExternalCheckStatus] = useState(''); // ''|pending|ok|broken
+
   const [uploadPct, setUploadPct] = useState(0);
   const [uploadBytes, setUploadBytes] = useState(0);
   const [uploadSpeed, setUploadSpeed] = useState(0); // bytes/sec
@@ -272,6 +299,10 @@ export function UploadPage({ onNav }) {
         license_tiers: tiers,
         status,
         tags,
+        external_url: externalMode ? externalUrl : null,
+        external_provider: externalMode ? externalProvider : null,
+        external_check_status: externalMode ? (externalCheckStatus || 'pending') : null,
+        storage_path: externalMode ? null : update.storage_path,
         published_at: (status === 'published') ? new Date().toISOString() : null,
       };
       if (useThumbPath) update.thumb_path = useThumbPath;
@@ -286,7 +317,21 @@ export function UploadPage({ onNav }) {
     }
   };
 
-  if (stage === 'drop') return <UploadDropZone onPick={onPick} onCancel={() => onNav('home')} />;
+  if (stage === 'drop') return <UploadDropZone
+      onPick={onPick}
+      onCancel={() => onNav('home')}
+      onLink={(url, provider, status) => {
+        setExternalMode(true);
+        setExternalUrl(url);
+        setExternalProvider(provider);
+        setExternalCheckStatus(status);
+        // synthesize a pseudo-file stub so form header has values
+        setFile({ name: `external-${provider}.mp4`, size: 0 });
+        setTitle('Untitled clip');
+        setStage('form');
+        setUploadDone(true);
+      }}
+    />;
 
   const loc = LOCATIONS.find(l => l.id === locationId);
   const coordsValid = shotLat !== '' && shotLon !== '' &&
@@ -294,12 +339,14 @@ export function UploadPage({ onNav }) {
     Math.abs(Number(shotLat)) <= 90 && Math.abs(Number(shotLon)) <= 180;
   const locationSet = (locMode === 'landmark' && locationId !== '') ||
     ((locMode === 'coords' || locMode === 'map') && coordsValid);
-  const canPublish = title.trim().length > 3 && uploadDone && !uploadErr && !!category && locationSet;
+  const externalValid = externalMode && externalUrl.trim().length > 10 && externalCheckStatus !== 'broken';
+  const mediaReady = externalMode ? externalValid : (uploadDone && !uploadErr);
+  const canPublish = title.trim().length > 3 && mediaReady && !!category && locationSet;
   const missing = [];
   if (title.trim().length <= 3) missing.push('Title (4+ chars)');
   if (!category) missing.push('Category');
   if (!locationSet) missing.push('Location');
-  if (!uploadDone) missing.push('File upload finished');
+  if (!mediaReady) missing.push(externalMode ? 'Valid external link' : 'File upload finished');
   const etaSec = uploadSpeed > 0 ? Math.round((file.size - uploadBytes) / uploadSpeed) : null;
 
   return (
@@ -671,9 +718,40 @@ export function UploadPage({ onNav }) {
   );
 }
 
-function UploadDropZone({ onPick, onCancel }) {
+function UploadDropZone({ onPick, onLink, onCancel }) {
+  const [mode, setMode] = useState('file'); // 'file' | 'link'
   const [dragOver, setDragOver] = useState(false);
   const fileInputRef = useRef(null);
+  const [linkInput, setLinkInput] = useState('');
+  const [linkCheckMsg, setLinkCheckMsg] = useState('');
+  const [linkProvider, setLinkProvider] = useState('');
+  const [linkStatus, setLinkStatus] = useState(''); // pending | ok | broken | ''
+
+  const verifyLink = async () => {
+    setLinkCheckMsg('Checking…');
+    setLinkStatus('pending');
+    const { provider, url } = detectProvider(linkInput);
+    if (!provider) { setLinkCheckMsg('That does not look like a valid URL.'); setLinkStatus('broken'); return; }
+    setLinkProvider(provider);
+    setLinkInput(url);
+    // Best-effort HEAD ping (CORS blocks many hosts, so treat errors as "unknown")
+    try {
+      const r = await fetch(url, { method: 'HEAD', mode: 'no-cors', cache: 'no-store' });
+      // With no-cors we can't read status — so we assume OK if no network error
+      setLinkCheckMsg(`Detected: ${provider} — will be verified at publish time.`);
+      setLinkStatus('ok');
+    } catch {
+      setLinkCheckMsg(`Detected: ${provider} — reachability could not be pre-checked (CORS). We'll verify on publish.`);
+      setLinkStatus('ok'); // still allow — final verification happens server-side later
+    }
+  };
+
+  const submitLink = () => {
+    if (!linkInput || linkStatus === 'broken') return;
+    const { provider, url } = detectProvider(linkInput);
+    onLink?.(url, provider, linkStatus || 'pending');
+  };
+
   return (
     <div style={{
       display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
@@ -681,39 +759,102 @@ function UploadDropZone({ onPick, onCancel }) {
     }}>
       <div className="mono" style={{ fontSize: 11, letterSpacing: '0.2em', color: 'var(--parchment-dim)', marginBottom: 10 }}>NEW UPLOAD</div>
       <h1 style={{ fontSize: 42, marginBottom: 10 }}>Bring your footage home.</h1>
-      <p style={{ fontSize: 15, color: 'var(--parchment-dim)', maxWidth: 560, marginBottom: 40 }}>
-        Drop a single clip. We'll probe metadata, stream it to our CDN with real progress, and help you pick the perfect thumbnail frame.
+      <p style={{ fontSize: 15, color: 'var(--parchment-dim)', maxWidth: 560, marginBottom: 32 }}>
+        Either upload the master directly, or paste a link to your hosted file (Dropbox, Vimeo, Google Drive, Frame.io, WeTransfer).
       </p>
-      <div
-        onDragOver={e => { e.preventDefault(); setDragOver(true); }}
-        onDragLeave={() => setDragOver(false)}
-        onDrop={e => { e.preventDefault(); setDragOver(false); onPick(e.dataTransfer.files[0]); }}
-        style={{
-          width: 620, maxWidth: '100%', aspectRatio: '16/9',
-          border: `2px dashed ${dragOver ? 'var(--sunset)' : 'var(--line-strong)'}`,
-          background: dragOver ? 'var(--forest-900)' : 'transparent',
-          borderRadius: 6,
-          display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
-          transition: 'all 0.15s', cursor: 'pointer',
-        }}
-        onClick={() => fileInputRef.current?.click()}>
-        <input ref={fileInputRef} type="file" accept="video/*" style={{ display: 'none' }}
-               onChange={e => { if (e.target.files?.[0]) onPick(e.target.files[0]); e.target.value=''; }} />
-        <div style={{
-          width: 64, height: 64, borderRadius: '50%',
-          background: 'var(--forest-900)', border: '1px solid var(--line-strong)',
-          display: 'flex', alignItems: 'center', justifyContent: 'center',
-          marginBottom: 16, color: 'var(--sunset)',
-        }}>
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M12 3v14M6 9l6-6 6 6M4 21h16"/></svg>
-        </div>
-        <div style={{ fontSize: 16, fontWeight: 600, marginBottom: 4 }}>{dragOver ? 'Drop it!' : 'Drop a file or click to browse'}</div>
-        <div style={{ fontSize: 12, color: 'var(--parchment-dim)' }}>MP4 · MOV · MKV · WebM · up to 50 GB</div>
+
+      {/* Mode switch */}
+      <div style={{ display: 'flex', gap: 4, marginBottom: 24, padding: 3, background: 'var(--forest-900)', border: '1px solid var(--line)', borderRadius: 999 }}>
+        {[['file','Upload file'],['link','Link external host']].map(([k, l]) => (
+          <button key={k} onClick={() => setMode(k)} style={{
+            padding: '8px 20px', fontSize: 13, borderRadius: 999,
+            background: mode === k ? 'var(--bone)' : 'transparent',
+            color: mode === k ? 'var(--ink)' : 'var(--parchment)',
+            border: 'none', cursor: 'pointer', fontWeight: 600,
+          }}>{l}</button>
+        ))}
       </div>
+
+      {mode === 'file' && (
+        <div
+          onDragOver={e => { e.preventDefault(); setDragOver(true); }}
+          onDragLeave={() => setDragOver(false)}
+          onDrop={e => { e.preventDefault(); setDragOver(false); onPick(e.dataTransfer.files[0]); }}
+          style={{
+            width: 620, maxWidth: '100%', aspectRatio: '16/9',
+            border: `2px dashed ${dragOver ? 'var(--sunset)' : 'var(--line-strong)'}`,
+            background: dragOver ? 'var(--forest-900)' : 'transparent',
+            borderRadius: 6,
+            display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
+            transition: 'all 0.15s', cursor: 'pointer',
+          }}
+          onClick={() => fileInputRef.current?.click()}>
+          <input ref={fileInputRef} type="file" accept="video/*" style={{ display: 'none' }}
+                 onChange={e => { if (e.target.files?.[0]) onPick(e.target.files[0]); e.target.value=''; }} />
+          <div style={{
+            width: 64, height: 64, borderRadius: '50%',
+            background: 'var(--forest-900)', border: '1px solid var(--line-strong)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            marginBottom: 16, color: 'var(--sunset)',
+          }}>
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M12 3v14M6 9l6-6 6 6M4 21h16"/></svg>
+          </div>
+          <div style={{ fontSize: 16, fontWeight: 600, marginBottom: 4 }}>{dragOver ? 'Drop it!' : 'Drop a file or click to browse'}</div>
+          <div style={{ fontSize: 12, color: 'var(--parchment-dim)' }}>MP4 · MOV · MKV · WebM · up to 50 GB</div>
+        </div>
+      )}
+
+      {mode === 'link' && (
+        <div style={{
+          width: 620, maxWidth: '100%',
+          background: 'var(--forest-900)', border: '1px solid var(--line-strong)',
+          borderRadius: 6, padding: 28, textAlign: 'left',
+        }}>
+          <div className="mono" style={{ fontSize: 10, letterSpacing: '0.18em', color: 'var(--parchment-dim)', textTransform: 'uppercase', marginBottom: 8 }}>
+            EXTERNAL HOSTING URL
+          </div>
+          <input
+            value={linkInput}
+            onChange={e => { setLinkInput(e.target.value); setLinkStatus(''); setLinkCheckMsg(''); }}
+            placeholder="https://www.dropbox.com/s/xxx/video.mp4?dl=0"
+            style={{
+              width: '100%', padding: '12px 14px', fontSize: 14,
+              background: 'var(--ink)', border: '1px solid var(--line-strong)',
+              color: 'var(--bone)', borderRadius: 4, outline: 'none',
+              marginBottom: 10,
+            }}/>
+          <div style={{ display: 'flex', gap: 8, marginBottom: 12 }}>
+            <button onClick={verifyLink} disabled={!linkInput}
+              style={{
+                padding: '8px 16px', fontSize: 13,
+                background: 'var(--forest-800)', border: '1px solid var(--line-strong)',
+                color: 'var(--bone)', borderRadius: 4, cursor: linkInput ? 'pointer' : 'not-allowed',
+                opacity: linkInput ? 1 : 0.5,
+              }}>Verify link</button>
+            <button onClick={submitLink} disabled={!linkStatus || linkStatus === 'broken'}
+              className="btn"
+              style={{
+                padding: '8px 20px', fontSize: 13,
+                opacity: (linkStatus === 'ok' ? 1 : 0.5),
+                cursor: (linkStatus === 'ok') ? 'pointer' : 'not-allowed',
+              }}>Continue →</button>
+          </div>
+          {linkCheckMsg && (
+            <div style={{ fontSize: 12, color: linkStatus === 'broken' ? 'var(--sunset)' : 'var(--lichen)', marginBottom: 12 }}>
+              {linkCheckMsg}
+            </div>
+          )}
+          <div style={{ fontSize: 11, color: 'var(--parchment-dim)', lineHeight: 1.6, borderTop: '1px solid var(--line)', paddingTop: 12 }}>
+            <strong style={{ color: 'var(--parchment)' }}>Supported hosts:</strong> Dropbox · Vimeo · Google Drive · Frame.io · WeTransfer<br/>
+            <strong style={{ color: 'var(--parchment)' }}>Required:</strong> Link must stay accessible for at least 30 days OR until the first purchase (whichever comes first). After purchase we cache the file so link breakage afterwards doesn't affect buyers.
+          </div>
+        </div>
+      )}
+
       <div style={{ marginTop: 28, display: 'flex', gap: 16, fontSize: 12, color: 'var(--parchment-dim)' }}>
         <span>By uploading, you agree to our <span style={{ color: 'var(--sunset)', textDecoration: 'underline' }}>Pilot Terms</span> &amp; <span style={{ color: 'var(--sunset)', textDecoration: 'underline' }}>content policy</span>.</span>
       </div>
-      <button onClick={onCancel} style={{ marginTop: 18, fontSize: 12, color: 'var(--parchment-dim)' }}>← Cancel</button>
+      <button onClick={onCancel} style={{ marginTop: 18, fontSize: 12, color: 'var(--parchment-dim)', background: 'transparent', border: 'none', cursor: 'pointer' }}>← Cancel</button>
     </div>
   );
 }
