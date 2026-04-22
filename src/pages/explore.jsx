@@ -10,7 +10,7 @@ import { useContent } from '../content/ContentContext';
    ───────────────────────────────────────────── */
 const DEFAULT_HIERARCHY = {
   groups: [
-    { id: 'nature', label: 'Nature', icon: '🏞', children: [
+    { id: 'nature', label: 'Nature', icon: 'mountain', children: [
       { id: 'mountain',     label: 'Mountain & Glacier', fine: ['mountain','glacier'] },
       { id: 'volcano',      label: 'Volcano',            fine: ['volcano'] },
       { id: 'waterfall',    label: 'Waterfall',          fine: ['waterfall'] },
@@ -18,44 +18,44 @@ const DEFAULT_HIERARCHY = {
       { id: 'desert',       label: 'Desert & Dunes',     fine: ['desert','dunes'] },
       { id: 'landscape',    label: 'Landscape',          fine: ['landscape'] },
     ]},
-    { id: 'water', label: 'Ocean & Coast', icon: '🌊', children: [
+    { id: 'water', label: 'Ocean & Coast', icon: 'water', children: [
       { id: 'open-ocean',   label: 'Open Ocean',     fine: ['ocean'] },
       { id: 'atoll',        label: 'Atolls & Reefs', fine: ['atoll'] },
       { id: 'coast',        label: 'Coastal Cliffs', fine: ['coastal-cliff'] },
       { id: 'marine-life',  label: 'Marine Life',    fine: ['marine-life'] },
       { id: 'polar',        label: 'Polar & Ice',    fine: ['polar'] },
     ]},
-    { id: 'sky', label: 'Sky & Weather', icon: '🌌', children: [
+    { id: 'sky', label: 'Sky & Weather', icon: 'sky', children: [
       { id: 'aurora',       label: 'Aurora',         fine: ['aurora'] },
       { id: 'phenomena',    label: 'Phenomena',      fine: ['phenomena'] },
       { id: 'fireworks',    label: 'Fireworks',      fine: ['fireworks'] },
       { id: 'drone-show',   label: 'Drone Shows',    fine: ['drone-show'] },
     ]},
-    { id: 'cities', label: 'Cities', icon: '🏙', children: [
+    { id: 'cities', label: 'Cities', icon: 'city', children: [
       { id: 'skyline',      label: 'Skylines',       fine: ['cityscape'] },
       { id: 'architecture', label: 'Architecture',   fine: ['architecture'] },
       { id: 'bridge',       label: 'Bridges',        fine: ['bridge'] },
       { id: 'port',         label: 'Ports & Harbors',fine: ['port'] },
     ]},
-    { id: 'heritage', label: 'Heritage', icon: '🏛', children: [
+    { id: 'heritage', label: 'Heritage', icon: 'heritage', children: [
       { id: 'ruins',        label: 'Ancient Ruins',  fine: ['ancient-ruins'] },
       { id: 'temple',       label: 'Temples & Shrines', fine: ['temple'] },
       { id: 'castle',       label: 'Castles & Palaces', fine: ['castle'] },
     ]},
-    { id: 'human-landscape', label: 'Human Landscape', icon: '🌾', children: [
+    { id: 'human-landscape', label: 'Human Landscape', icon: 'agriculture', children: [
       { id: 'vineyard',     label: 'Vineyards',     fine: ['vineyard'] },
       { id: 'rice-terrace', label: 'Rice Terraces', fine: ['rice-terrace'] },
       { id: 'flower-field', label: 'Flower Fields', fine: ['flower-field'] },
     ]},
-    { id: 'action', label: 'Action & Sports', icon: '🎬', children: [
+    { id: 'action', label: 'Action & Sports', icon: 'action', children: [
       { id: 'fpv-racing',   label: 'FPV Racing',    fine: ['aerial-sports'] },
       { id: 'surfing',      label: 'Surfing',       fine: ['surfing'] },
       { id: 'skiing',       label: 'Skiing & Snow', fine: ['skiing'] },
     ]},
-    { id: 'wildlife', label: 'Wildlife', icon: '🦁', children: [
+    { id: 'wildlife', label: 'Wildlife', icon: 'wildlife', children: [
       { id: 'safari',       label: 'Safari Big Game', fine: ['wildlife-safari'] },
     ]},
-    { id: 'industry', label: 'Industry & Energy', icon: '⚙', children: [
+    { id: 'industry', label: 'Industry & Energy', icon: 'industry', children: [
       { id: 'wind-farm',    label: 'Wind Farms',  fine: ['wind-farm'] },
       { id: 'solar-farm',   label: 'Solar Farms', fine: ['solar-farm'] },
     ]},
@@ -177,7 +177,7 @@ export function ExplorePage({ onOpenVideo, onNav }) {
                   </button>
                   <button className={`tree-group-label ${isActive ? 'active' : ''}`}
                           onClick={() => setSelected({ type:'group', id: group.id })}>
-                    <span className="icon">{group.icon}</span>
+                    <span className="icon">{Ic[group.icon] ? Ic[group.icon]() : null}</span>
                     <span className="label">{group.label}</span>
                     <span className="count">{groupCount}</span>
                   </button>

@@ -25,6 +25,15 @@ export const Ic = {
   },
   star: () => (<svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 6 7 1-5 5 1 7-6-3-6 3 1-7-5-5 7-1z"/></svg>),
   crown: () => (<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M2 8l5 4 5-7 5 7 5-4-2 12H4z"/></svg>),
+  mountain: () => (<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M3 20l5-9 4 6 3-4 6 7z"/><path d="M10 11l-2-3"/></svg>),
+  water: () => (<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"><path d="M3 8c2 0 2 2 4 2s2-2 4-2 2 2 4 2 2-2 4-2 2 2 2 2"/><path d="M3 14c2 0 2 2 4 2s2-2 4-2 2 2 4 2 2-2 4-2 2 2 2 2"/></svg>),
+  sky: () => (<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><circle cx="17" cy="7" r="3"/><path d="M4 17h12a4 4 0 100-8 5 5 0 00-9.8-1.1A4 4 0 004 17z"/></svg>),
+  city: () => (<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M3 21V8l4-3 4 3v13"/><path d="M11 21v-9l5-3 5 3v9"/><path d="M7 11v0M7 15v0M7 19v0M16 13v0M16 17v0"/></svg>),
+  heritage: () => (<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M3 10L12 4l9 6"/><path d="M4 10v10h16V10"/><path d="M8 20v-7M12 20v-7M16 20v-7"/></svg>),
+  agriculture: () => (<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"><path d="M12 21V7"/><path d="M12 13c-3 0-5-2-5-4s2-3 5-3M12 13c3 0 5-2 5-4s-2-3-5-3"/><path d="M12 17c-3 0-5-1-5-3M12 17c3 0 5-1 5-3"/></svg>),
+  action: () => (<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round"><path d="M13 2L4 14h7l-1 8 9-12h-7z"/></svg>),
+  wildlife: () => (<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><circle cx="12" cy="15" r="4"/><circle cx="6.5" cy="9" r="1.8"/><circle cx="17.5" cy="9" r="1.8"/><circle cx="9" cy="5.5" r="1.6"/><circle cx="15" cy="5.5" r="1.6"/></svg>),
+  industry: () => (<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/></svg>),
 };
 
 export function formatViews(n) {
