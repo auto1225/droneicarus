@@ -230,8 +230,8 @@ export function Header({ route, onNav, query, setQuery }) {
     { id: 'creators', label: txt('header.nav.creators', 'Creators') },
     { id: 'atlas', label: txt('header.nav.atlas', 'Atlas') },
     { id: 'lab', label: txt('header.nav.lab', 'Lab') },
-    { id: 'pricing', label: txt('header.nav.pricing', 'Pricing') },
     { id: 'live', label: txt('header.nav.live', 'Live') },
+    { id: 'pricing', label: txt('header.nav.pricing', 'Pricing') },
   ];
   const { profile, user, signOut } = useAuth();
   // Prefer real signed-in profile; fall back to mock for guest preview.

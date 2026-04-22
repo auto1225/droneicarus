@@ -37,7 +37,9 @@ export function LivePage({ onNav }) {
     if (!mapEl.current || mapInst.current) return;
     const map = L.map(mapEl.current, {
       center: [30, 15], zoom: 3, minZoom: 2, maxZoom: 18,
-      worldCopyJump: true, zoomControl: true, attributionControl: false,
+      worldCopyJump: false, zoomControl: true, attributionControl: false,
+      maxBounds: [[-85, -180], [85, 180]],
+      maxBoundsViscosity: 1.0,
     });
     // High-resolution satellite imagery with retina
     const dpr = devicePixelRatio || 1;
@@ -47,10 +49,12 @@ export function LivePage({ onNav }) {
       maxNativeZoom: 19,
       detectRetina,
       crossOrigin: true,
+      noWrap: true,
+      bounds: [[-85, -180], [85, 180]],
     }).addTo(map);
     // Labels overlay
     L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager_only_labels/{z}/{x}/{y}{r}.png', {
-      subdomains: 'abcd', maxZoom: 19, detectRetina, opacity: 0.9,
+      subdomains: 'abcd', maxZoom: 19, detectRetina, opacity: 0.9, noWrap: true, bounds: [[-85, -180], [85, 180]],
     }).addTo(map);
     mapInst.current = map;
 

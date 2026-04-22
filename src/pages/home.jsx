@@ -31,17 +31,19 @@ function MapHero({ selectedLoc, onSelectLoc, selectedFineSet, mapFilters, search
       minZoom: 2,
       maxZoom: 19,
       zoomControl: true,
-      worldCopyJump: true,
+      worldCopyJump: false,
       attributionControl: true,
+      maxBounds: [[-85, -180], [85, 180]],
+      maxBoundsViscosity: 1.0,
     });
     const dpr = devicePixelRatio || 1;
     const detectRetina = dpr > 1;
     L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
       attribution: '© Esri · Maxar · Earthstar Geographics',
-      maxZoom: 19, maxNativeZoom: 19, detectRetina, crossOrigin: true,
+      maxZoom: 19, maxNativeZoom: 19, detectRetina, crossOrigin: true, noWrap: true, bounds: [[-85, -180], [85, 180]],
     }).addTo(map);
     L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager_only_labels/{z}/{x}/{y}{r}.png', {
-      subdomains: 'abcd', maxZoom: 19, detectRetina, opacity: 0.9, pane: 'shadowPane',
+      subdomains: 'abcd', maxZoom: 19, detectRetina, opacity: 0.9, pane: 'shadowPane', noWrap: true, bounds: [[-85, -180], [85, 180]],
     }).addTo(map);
     mapInstance.current = map;
   }, []);

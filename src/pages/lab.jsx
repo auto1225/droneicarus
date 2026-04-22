@@ -63,10 +63,37 @@ export function LabHubPage({ onNav }) {
   }, [query, allItems]);
 
   return (
-    <div style={{ maxWidth: 1400, margin: '0 auto', padding: '40px 28px 80px' }}>
-      <div className="eyebrow" style={{ color: 'var(--amber)', marginBottom: 10 }}>DRONE LAB</div>
-      <h1 style={{ fontSize: 48, lineHeight: 1.08, letterSpacing: '-0.02em', marginBottom: 14 }}>{title}</h1>
-      <p style={{ fontSize: 16, color: 'var(--parchment)', maxWidth: 720, marginBottom: 24, lineHeight: 1.5 }}>{subtitle}</p>
+    <div style={{ display: 'grid', gridTemplateColumns: '240px 1fr', gap: 28, maxWidth: 1500, margin: '0 auto', padding: '32px 24px 80px' }} className="lab-hub-layout">
+      {/* Left sidebar — subsection nav */}
+      <aside style={{ borderRight: '1px solid var(--line)', paddingRight: 18 }} className="lab-hub-sidebar">
+        <div className="eyebrow" style={{ color: 'var(--amber)', marginBottom: 14 }}>DRONE LAB</div>
+        <nav style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+          {SUBSECTIONS.map(s => (
+            <button key={s.id} onClick={() => onNav('lab', s.id)}
+              style={{
+                display: 'grid', gridTemplateColumns: '20px 1fr auto', gap: 10, alignItems: 'center',
+                padding: '10px 10px', background: 'transparent', border: 'none', cursor: 'pointer',
+                color: 'var(--bone)', textAlign: 'left', borderRadius: 4,
+                fontFamily: 'inherit', fontSize: 14, transition: 'background 0.12s',
+              }}
+              onMouseEnter={e => e.currentTarget.style.background = 'var(--forest-900)'}
+              onMouseLeave={e => e.currentTarget.style.background = 'transparent'}
+            >
+              <span style={{ color: 'var(--amber)', display: 'inline-flex' }}>{Ic[s.icon] && Ic[s.icon]()}</span>
+              <span>
+                <span style={{ display: 'block' }}>{s.label}</span>
+                <span style={{ display: 'block', fontSize: 11, color: 'var(--parchment-dim)' }}>{s.tagline}</span>
+              </span>
+              <span className="mono" style={{ fontSize: 10, color: 'var(--parchment-dim)' }}>{counts[s.id] ?? '—'}</span>
+            </button>
+          ))}
+        </nav>
+      </aside>
+
+      {/* Main column */}
+      <div>
+      <h1 style={{ fontSize: 40, lineHeight: 1.08, letterSpacing: '-0.02em', marginBottom: 12, marginTop: 0 }}>{title}</h1>
+      <p style={{ fontSize: 15, color: 'var(--parchment)', maxWidth: 720, marginBottom: 22, lineHeight: 1.5 }}>{subtitle}</p>
 
       {/* Global search */}
       <div style={{ maxWidth: 720, marginBottom: 36 }}>
@@ -101,31 +128,6 @@ export function LabHubPage({ onNav }) {
       )}
 
       {!searchResults && (<>
-      {/* 5 subsection tiles */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 16, marginBottom: 48 }}>
-        {SUBSECTIONS.map(s => {
-          const rows = perSection[s.id] || [];
-          return (
-            <button key={s.id}
-                    onClick={() => onNav('lab', s.id)}
-                    style={{
-                      textAlign: 'left', padding: 20, background: 'var(--forest-900)',
-                      border: '1px solid var(--line)', borderRadius: 6, cursor: 'pointer',
-                      color: 'inherit', fontFamily: 'inherit', minHeight: 130,
-                      transition: 'background 0.12s, border-color 0.12s',
-                    }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 12, color: 'var(--amber)' }}>
-                {Ic[s.icon] && Ic[s.icon]()}
-                <span className="mono" style={{ fontSize: 10, letterSpacing: '0.14em' }}>{s.label.toUpperCase()}</span>
-              </div>
-              <div style={{ fontSize: 22, fontWeight: 700, marginBottom: 8 }}>{s.label}</div>
-              <div style={{ fontSize: 12, color: 'var(--parchment-dim)', marginBottom: 10 }}>{s.tagline}</div>
-              <div style={{ fontSize: 11, color: 'var(--parchment)' }}>{counts[s.id] ?? rows.length} items</div>
-            </button>
-          );
-        })}
-      </div>
-
       {/* Featured rows per subsection */}
       {SUBSECTIONS.map(s => {
         const rows = perSection[s.id] || [];
@@ -146,6 +148,7 @@ export function LabHubPage({ onNav }) {
         );
       })}
       </>)}
+      </div>
     </div>
   );
 }
