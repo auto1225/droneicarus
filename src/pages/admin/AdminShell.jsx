@@ -2,6 +2,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { ContentEditor } from './ContentEditor';
 import { AdminDocs } from './Docs';
+import { LabEditor } from './LabEditor';
 import { useAuth } from '../../auth/AuthContext';
 import { toast } from '../../toast';
 import {
@@ -112,6 +113,9 @@ const SIDEBAR = [
     { id: 'content-featured',      label: 'Featured picks',icon: '♡' },
     { id: 'content-announcements', label: 'Announcements', icon: '!' },
   ]},
+  { group: 'Lab 콘텐츠', items: [
+    { id: 'lab-items', label: 'Lab items', icon: '§' },
+  ]},
   { group: '운영 문서', items: [
     { id: 'docs', label: 'Operations & Legal docs', icon: '§' },
   ]},
@@ -204,6 +208,7 @@ function SectionRouter({ section, onNav }) {
     case 'content-atlas':         return <ArrayEditor k="atlas_bounties" title="Atlas bounties" fields={[['country','Country'],['difficulty','Difficulty'],['title','Title'],['desc','Description', true],['purse','Purse (USD)'],['deadline','Deadline (ISO)']]}/>;
     case 'content-featured':      return <FeaturedEditor/>;
     case 'content-announcements': return <ArrayEditor k="announcements" title="Announcements" fields={[['kind','Kind (info/warn/promo)'],['text','Text', true],['href','Link URL'],['active','Active?']]}/>;
+    case 'lab-items':             return <LabEditor/>;
     case 'docs':                  return <AdminDocs/>;
     case 'settings':              return <SettingsEditor k="site" title="Platform settings" fields={[
       ['name','Site name'], ['tagline','Tagline', true],
