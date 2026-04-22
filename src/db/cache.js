@@ -1,7 +1,7 @@
 // db/cache.js — trigger the JIT cache worker after purchase
 // Reads VITE_CACHE_WORKER_URL from env. If unset (e.g. local dev / worker not yet deployed),
 // silently no-ops with a console warning so the rest of the purchase flow is unaffected.
-import { supabase } from './supabase';
+import { supabase } from '../supabase';
 
 const WORKER_URL = (typeof import.meta !== 'undefined' && import.meta.env?.VITE_CACHE_WORKER_URL) || '';
 
