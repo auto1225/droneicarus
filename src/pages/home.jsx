@@ -446,7 +446,7 @@ export function HomePage({ onOpenVideo, onNav }) {
           <FeaturedRow
             eyebrow="● TRENDING THIS WEEK"
             title="What the world is watching"
-            videos={TRENDING}
+            videos={(dbVideos.length ? dbVideos : (TRENDING || _MOCK_VIDEOS)).slice(0, 12)}
             onOpenVideo={onOpenVideo}
             accent="var(--sunset)"
           />
