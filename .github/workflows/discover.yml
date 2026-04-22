@@ -1,31 +1,39 @@
 name: Discover YouTube drone clips
 on:
   schedule:
-    - cron: '0 17 * * *'   # 17:00 UTC = 02:00 KST daily
+    - cron: '0 1 * * *'    # 10:00 KST
+    - cron: '0 7 * * *'    # 16:00 KST
+    - cron: '0 13 * * *'   # 22:00 KST
+    - cron: '0 19 * * *'   # 04:00 KST next day
   workflow_dispatch:
     inputs:
       max_per_query:
         description: 'Candidates per query'
-        default: '20'
+        default: '10'
   repository_dispatch:
     types: [discover]
 
 jobs:
   discover:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 50
     steps:
       - uses: actions/checkout@v4
-
       - uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-
+        with: { node-version: '20' }
       - name: Run discovery
         env:
           YT_API_KEY: ${{ secrets.YT_API_KEY }}
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
-          MAX_PER_QUERY: ${{ github.event.inputs.max_per_query || '20' }}
+          MAX_PER_QUERY: ${{ github.event.inputs.max_per_query || '10' }}
           TRIGGERED_BY: ${{ github.event_name }}
         run: node scripts/discover-youtube.mjs
+      - name: Run enrichment after discovery
+        if: always()
+        env:
+          YT_API_KEY: ${{ secrets.YT_API_KEY }}
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: node scripts/enrich-locations.mjs
