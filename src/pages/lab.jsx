@@ -25,6 +25,8 @@ export function LabHubPage({ onNav }) {
 
   const [perSection, setPerSection] = useState({});
   const [counts, setCounts] = useState({});
+  const [query, setQuery] = useState('');
+  const [allItems, setAllItems] = useState([]);
   useEffect(() => {
     let cancel = false;
     // Fetch preview (6) + total count per subsection
@@ -38,16 +40,66 @@ export function LabHubPage({ onNav }) {
       if (cancel) return;
       setPerSection(Object.fromEntries(triples.map(t => [t[0], t[1]])));
       setCounts(Object.fromEntries(triples.map(t => [t[0], t[2]])));
+      // Combined for global search
+      setAllItems(triples.flatMap(t => t[1]));
     });
+    // Also fetch larger pool for search across everything
+    fetchLabItems({ limit: 500 }).then(rows => { if (!cancel) setAllItems(rows || []); });
     return () => { cancel = true; };
   }, []);
+
+  // Global search across all items
+  const searchResults = useMemo(() => {
+    const q = query.trim().toLowerCase();
+    if (!q) return null;
+    return (allItems || []).filter(it =>
+      (it.title || '').toLowerCase().includes(q) ||
+      (it.summary || '').toLowerCase().includes(q) ||
+      (it.institution || '').toLowerCase().includes(q) ||
+      (it.tags || []).some(t => t.toLowerCase().includes(q)) ||
+      (it.authors || []).some(a => a.toLowerCase().includes(q))
+    ).slice(0, 40);
+  }, [query, allItems]);
 
   return (
     <div style={{ maxWidth: 1400, margin: '0 auto', padding: '40px 28px 80px' }}>
       <div className="eyebrow" style={{ color: 'var(--amber)', marginBottom: 10 }}>DRONE LAB</div>
       <h1 style={{ fontSize: 48, lineHeight: 1.08, letterSpacing: '-0.02em', marginBottom: 14 }}>{title}</h1>
-      <p style={{ fontSize: 16, color: 'var(--parchment)', maxWidth: 720, marginBottom: 44, lineHeight: 1.5 }}>{subtitle}</p>
+      <p style={{ fontSize: 16, color: 'var(--parchment)', maxWidth: 720, marginBottom: 24, lineHeight: 1.5 }}>{subtitle}</p>
 
+      {/* Global search */}
+      <div style={{ maxWidth: 720, marginBottom: 36 }}>
+        <input
+          value={query}
+          onChange={e => setQuery(e.target.value)}
+          placeholder="Search across research, projects, hardware, learn, pulse…"
+          style={{
+            width: '100%', padding: '12px 16px', fontSize: 14,
+            background: 'var(--forest-900)', border: '1px solid var(--line-strong)',
+            color: 'var(--bone)', borderRadius: 6, outline: 'none',
+          }}
+        />
+      </div>
+
+      {searchResults && (
+        <div style={{ marginBottom: 48 }}>
+          <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', marginBottom: 14 }}>
+            <h2 style={{ fontSize: 20, margin: 0 }}>Search results <span style={{ color: 'var(--parchment-dim)', fontWeight: 400, fontSize: 14 }}>· {searchResults.length} match{searchResults.length === 1 ? '' : 'es'}</span></h2>
+            <button onClick={() => setQuery('')} style={{ fontSize: 12, color: 'var(--amber)', background: 'transparent', border: 'none', cursor: 'pointer', textDecoration: 'underline', textUnderlineOffset: 3 }}>Clear</button>
+          </div>
+          {searchResults.length === 0 ? (
+            <div style={{ padding: 40, textAlign: 'center', color: 'var(--parchment-dim)', border: '1px dashed var(--line)', borderRadius: 6 }}>
+              No items match "{query}" — try a broader term or check spelling.
+            </div>
+          ) : (
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 14 }}>
+              {searchResults.map(item => <LabItemCard key={item.id} item={item} onNav={onNav} />)}
+            </div>
+          )}
+        </div>
+      )}
+
+      {!searchResults && (<>
       {/* 5 subsection tiles */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 16, marginBottom: 48 }}>
         {SUBSECTIONS.map(s => {
@@ -92,6 +144,7 @@ export function LabHubPage({ onNav }) {
           </section>
         );
       })}
+      </>)}
     </div>
   );
 }

@@ -93,7 +93,8 @@ export function ExplorePage({ onOpenVideo, onNav }) {
   // selected: null = all | { type:'group', id } | { type:'child', id, groupId, fine[] }
   const [selected, setSelected] = useState(null);
   const [expanded, setExpanded] = useState(() => new Set(hierarchy.groups.map(g => g.id)));
-  const [sort, setSort] = useState('trending');
+  const [sort, setSort] = useState('newest');
+  const [query, setQuery] = useState('');
   useEffect(() => { setExpanded(new Set(hierarchy.groups.map(g => g.id))); }, [hierarchy]);
 
   // count map: byFine[fine] = N
@@ -130,14 +131,27 @@ export function ExplorePage({ onOpenVideo, onNav }) {
     return videos;
   }, [videos, selected, hierarchy]);
 
+  // apply text search on top of category filter
+  const searched = useMemo(() => {
+    const q = query.trim().toLowerCase();
+    if (!q) return filtered;
+    return filtered.filter(v =>
+      (v.title || '').toLowerCase().includes(q) ||
+      (v.description || '').toLowerCase().includes(q) ||
+      (v.creator?.name || '').toLowerCase().includes(q) ||
+      (v.creator?.handle || '').toLowerCase().includes(q) ||
+      (v.tags || []).some(t => String(t).toLowerCase().includes(q))
+    );
+  }, [filtered, query]);
+
   const sorted = useMemo(() => {
-    const arr = [...filtered];
+    const arr = [...searched];
     if (sort === 'newest')  arr.sort((a,b) => (b.uploadedDaysAgo||0) > (a.uploadedDaysAgo||0) ? -1 : 1);
     else if (sort === 'rated') arr.sort((a,b) => (b.qualityScore||0) - (a.qualityScore||0));
     else if (sort === 'free')  arr.sort((a,b) => (a.price||0) - (b.price||0));
     else arr.sort((a,b) => (b.views||0) - (a.views||0));
     return arr;
-  }, [filtered, sort]);
+  }, [searched, sort]);
 
   const headerText = !selected ? 'All Clips'
     : selected.type === 'group'
@@ -209,10 +223,22 @@ export function ExplorePage({ onOpenVideo, onNav }) {
       <main className="explore-main">
         <header className="explore-header">
           <h1>{headerText} <span className="muted">· {sorted.length} clips</span></h1>
-          <div className="sort-chips">
+          <div style={{ display: 'flex', gap: 12, alignItems: 'center', flexWrap: 'wrap' }}>
+            <input
+              value={query}
+              onChange={e => setQuery(e.target.value)}
+              placeholder="Search clips…"
+              style={{
+                padding: '6px 12px', fontSize: 13,
+                background: 'var(--forest-900)', border: '1px solid var(--line-strong)',
+                color: 'var(--bone)', borderRadius: 999, outline: 'none',
+                width: 200,
+              }}/>
+            <div className="sort-chips">
             {[['trending','Trending'],['newest','Newest'],['rated','Highest rated'],['free','Free first']].map(([k,l]) => (
               <button key={k} className={`chip ${sort===k?'active':''}`} onClick={() => setSort(k)}>{l}</button>
             ))}
+          </div>
           </div>
         </header>
         {loading ? <div className="explore-loading">Loading…</div>

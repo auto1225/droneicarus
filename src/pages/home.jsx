@@ -15,7 +15,7 @@ function hEsc(s) {
   return String(s).replace(/[&<>"']/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]));
 }
 
-function MapHero({ selectedLoc, onSelectLoc, selectedFineSet, mapFilters, locations, videos, onOpenVideo }) {
+function MapHero({ selectedLoc, onSelectLoc, selectedFineSet, mapFilters, searchQuery, locations, videos, onOpenVideo }) {
   const LOCATIONS = locations && locations.length > 0 ? locations : _MOCK_LOCATIONS;
   const VIDEOS = videos && videos.length > 0 ? videos : _MOCK_VIDEOS;
   const mapRef = hUseRef(null);
@@ -58,6 +58,20 @@ function MapHero({ selectedLoc, onSelectLoc, selectedFineSet, mapFilters, locati
       });
     }
 
+    // text search (on title and country/name)
+    const q = (searchQuery || '').trim().toLowerCase();
+    if (q) {
+      locs = locs.filter(loc => {
+        const v = loc.video || {};
+        return (
+          (v.title || '').toLowerCase().includes(q) ||
+          (loc.name || '').toLowerCase().includes(q) ||
+          (loc.country || '').toLowerCase().includes(q) ||
+          (v.description || '').toLowerCase().includes(q)
+        );
+      });
+    }
+
     if (!mapFilters) return locs;
 
     return locs.filter(loc => {
@@ -68,7 +82,7 @@ function MapHero({ selectedLoc, onSelectLoc, selectedFineSet, mapFilters, locati
       if (mapFilters.featured && !loc.featured) return false;
       return true;
     });
-  }, [selectedFineSet, mapFilters, locations, videos]);
+  }, [selectedFineSet, mapFilters, searchQuery, locations, videos]);
 
   hUseEffect(() => {
     const map = mapInstance.current;
@@ -188,7 +202,7 @@ function MapHero({ selectedLoc, onSelectLoc, selectedFineSet, mapFilters, locati
     map.off('zoomend', renderMarkers);
     map.on('zoomend', renderMarkers);
     return () => { map.off('zoomend', renderMarkers); };
-  }, [selectedFineSet, mapFilters, filteredLocs, onSelectLoc, selectedLoc]);
+  }, [selectedFineSet, mapFilters, searchQuery, filteredLocs, onSelectLoc, selectedLoc]);
 
   // When selectedLoc changes via other UI, pan map
   hUseEffect(() => {
@@ -444,7 +458,7 @@ function homeParseHierarchy(raw) {
   catch { return HOME_DEFAULT_HIERARCHY; }
 }
 
-function HomeSidebar({ selected, onSelect, mapFilters, onToggleMapFilter, onClearMapFilters, totals, hierarchy }) {
+function HomeSidebar({ selected, onSelect, mapFilters, onToggleMapFilter, onClearMapFilters, totals, hierarchy, query, onQuery }) {
   const [expanded, setExpanded] = hUseState(() => new Set(hierarchy.groups.map(g => g.id)));
   hUseEffect(() => { setExpanded(new Set(hierarchy.groups.map(g => g.id))); }, [hierarchy]);
   const toggleGroup = (id) => setExpanded(p => {
@@ -460,6 +474,17 @@ function HomeSidebar({ selected, onSelect, mapFilters, onToggleMapFilter, onClea
       overflowY: 'auto',
       maxHeight: 'calc(100vh - 62px)',
     }}>
+      <div style={{ padding: '4px 6px 10px' }}>
+        <input
+          value={query || ''}
+          onChange={e => onQuery?.(e.target.value)}
+          placeholder="Search clips / landmarks…"
+          style={{
+            width: '100%', padding: '8px 12px', fontSize: 12,
+            background: 'var(--forest-900)', border: '1px solid var(--line-strong)',
+            color: 'var(--bone)', borderRadius: 999, outline: 'none',
+          }}/>
+      </div>
       <div className="mono" style={{ fontSize: 9, letterSpacing: '0.18em', color: 'var(--parchment-dim)', padding: '6px 10px 8px' }}>BROWSE BY THEME</div>
 
       <button
@@ -599,7 +624,8 @@ export function HomePage({ onOpenVideo, onNav }) {
       }));
   }, [dbVideos]);
   const [selectedLoc, setSelectedLoc] = hUseState(null);
-  const [selected, setSelected] = hUseState(null);  // null | { type:'group', id, fine[] } | { type:'child', id, groupId, fine[] }
+  const [selected, setSelected] = hUseState(null);
+  const [searchQuery, setSearchQuery] = hUseState('');  // null | { type:'group', id, fine[] } | { type:'child', id, groupId, fine[] }
   const hierarchyRaw = useContent('explore.hierarchy', null);
   const hierarchy = hUseMemo(() => homeParseHierarchy(hierarchyRaw), [hierarchyRaw]);
   const selectedFineSet = hUseMemo(() => selected?.fine ? new Set(selected.fine) : null, [selected]);
@@ -647,9 +673,11 @@ export function HomePage({ onOpenVideo, onNav }) {
           onClearMapFilters={() => setMapFilters({ free: false, uhd: false, recent: false, featured: false })}
           totals={totals}
           hierarchy={hierarchy}
+          query={searchQuery}
+          onQuery={setSearchQuery}
         />
         <div style={{ position: 'relative', minWidth: 0 }}>
-          <MapHero selectedLoc={selectedLoc} onSelectLoc={handleSelect} selectedFineSet={selectedFineSet} mapFilters={mapFilters} locations={dbLocations} videos={dbVideos} onOpenVideo={onOpenVideo} />
+          <MapHero selectedLoc={selectedLoc} onSelectLoc={handleSelect} selectedFineSet={selectedFineSet} mapFilters={mapFilters} searchQuery={searchQuery} locations={dbLocations} videos={dbVideos} onOpenVideo={onOpenVideo} />
         </div>
       </div>
 

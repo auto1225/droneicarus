@@ -22,8 +22,20 @@ const USE_CASES = [
 
 export function ShotLibraryPage({ onNav, onOpenVideo }) {
   const [dbVids, setDbVids] = _us([]);
+  const [query, setQuery] = _us('');
   _ue(() => { let c=false; fetchVideos({limit:500}).then(v=>{if(!c) setDbVids(v||[])}); return ()=>{c=true}; }, []);
-  const videos = dbVids.length > 0 ? dbVids : _MOCK_VIDEOS;
+  const allVideos = dbVids.length > 0 ? dbVids : _MOCK_VIDEOS;
+  const videos = (() => {
+    const q = query.trim().toLowerCase();
+    if (!q) return allVideos;
+    return allVideos.filter(v =>
+      (v.title || '').toLowerCase().includes(q) ||
+      (v.description || '').toLowerCase().includes(q) ||
+      (v.creator?.name || '').toLowerCase().includes(q) ||
+      (v.creator?.handle || '').toLowerCase().includes(q) ||
+      (v.tags || []).some(t => String(t).toLowerCase().includes(q))
+    );
+  })();
 
   return (
     <div>
@@ -34,9 +46,23 @@ export function ShotLibraryPage({ onNav, onOpenVideo }) {
           <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 72, letterSpacing: '-0.035em', lineHeight: 0.98, fontWeight: 600, marginBottom: 16, maxWidth: 900 }}>
             Not sure where to start? Start with the cut.
           </h1>
-          <p style={{ fontSize: 17, color: 'var(--parchment)', maxWidth: 620, lineHeight: 1.55 }}>
+          <p style={{ fontSize: 17, color: 'var(--parchment)', maxWidth: 620, lineHeight: 1.55, marginBottom: 22 }}>
             Curated shot bundles by production use-case. Real estate reveals, music video intros, documentary establishing shots — picked by editors who actually cut these formats every day.
           </p>
+          <input
+            value={query}
+            onChange={e => setQuery(e.target.value)}
+            placeholder="Search clips by title, creator, or tag…"
+            style={{
+              width: '100%', maxWidth: 620, padding: '12px 16px', fontSize: 14,
+              background: 'var(--forest-900)', border: '1px solid var(--line-strong)',
+              color: 'var(--bone)', borderRadius: 6, outline: 'none',
+            }}/>
+          {query && (
+            <div style={{ fontSize: 12, color: 'var(--parchment-dim)', marginTop: 8 }}>
+              {videos.length} result{videos.length === 1 ? '' : 's'} — <button onClick={() => setQuery('')} style={{ background: 'transparent', border: 'none', color: 'var(--amber)', cursor: 'pointer', textDecoration: 'underline', textUnderlineOffset: 3 }}>clear</button>
+            </div>
+          )}
         </div>
       </section>
 
