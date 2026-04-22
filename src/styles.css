@@ -623,3 +623,7 @@ input:focus, textarea:focus, select:focus {
   body { font-size: 13px; }
   section[style*="padding: '80px"] { padding: 40px 16px !important; }
 }
+
+/* Map pin tooltip — small YouTube badge over real thumbnail */
+.pin-tip-yt { position: absolute; top: 4px; left: 4px; padding: 1px 5px; border-radius: 2px; background: #cc0000; color: #fff; font-size: 9px; font-weight: 700; font-family: var(--font-mono); }
+.pin-tip-thumb { position: relative; }
