@@ -291,15 +291,17 @@ export function LabItemPage({ itemId, onNav }) {
         {item.upvotes > 0 && <span>· {item.upvotes} upvotes</span>}
       </div>
 
-      {/* Embedded doc/video viewer (PDF/YouTube/Vimeo) — falls back to cover image */}
-      <DocumentViewer
-        documentUrl={item.document_url}
-        externalUrl={item.external_url}
-        documentType={item.document_type}
-      />
-      {(!item.document_url || !/\.(pdf|docx)$|youtube|vimeo/.test((item.document_url || item.external_url || '').toLowerCase())) && item.cover_image_url && !(/youtube|vimeo/.test((item.external_url || '').toLowerCase())) && (
-        <img src={item.cover_image_url} alt="" style={{ width: '100%', borderRadius: 6, marginBottom: 22 }} referrerPolicy="no-referrer" />
-      )}
+      {(() => {
+        const embed = detectMediaType(item.document_url) .type !== 'none' && detectMediaType(item.document_url).type !== 'other'
+          ? detectMediaType(item.document_url)
+          : detectMediaType(item.external_url);
+        const hasEmbed = ['youtube','vimeo','pdf','pdf-arxiv','docx'].includes(embed.type);
+        return hasEmbed
+          ? <DocumentViewer documentUrl={item.document_url} externalUrl={item.external_url} documentType={item.document_type} />
+          : (item.cover_image_url
+              ? <img src={item.cover_image_url} alt="" style={{ width: '100%', borderRadius: 6, marginBottom: 22 }} referrerPolicy="no-referrer" />
+              : null);
+      })()}
 
       {item.summary && (
         <p style={{ fontSize: 16, lineHeight: 1.65, color: 'var(--parchment)', marginBottom: 22 }}>{item.summary}</p>
