@@ -219,6 +219,34 @@ export function CheckoutPage({ videoId, licenseType = 'Commercial', onNav }) {
             <div style={{ fontSize: 11, fontFamily: 'var(--font-mono)', color: 'var(--parchment-dim)' }}>POWERED BY PAYPAL</div>
           </div>
 
+          {/* REQUIRED — single-download agreement (legal evidence for delivery terms) */}
+          <div style={{
+            marginTop: 20, padding: '14px 16px',
+            background: singleDownloadAgreed ? 'var(--forest-900)' : 'rgba(200,90,46,0.06)',
+            border: '1px solid ' + (singleDownloadAgreed ? 'var(--lichen)' : 'var(--sunset)'),
+            borderRadius: 4,
+          }}>
+            <div className="mono" style={{
+              fontSize: 10, letterSpacing: '0.14em',
+              color: singleDownloadAgreed ? 'var(--lichen)' : 'var(--sunset)',
+              marginBottom: 8, textTransform: 'uppercase',
+            }}>DELIVERY POLICY · REQUIRED</div>
+            <label style={{ display: 'flex', gap: 12, alignItems: 'flex-start', cursor: 'pointer' }}>
+              <input
+                type="checkbox"
+                checked={singleDownloadAgreed}
+                onChange={e => setSingleDownloadAgreed(e.target.checked)}
+                style={{ marginTop: 3, flexShrink: 0, width: 16, height: 16, accentColor: 'var(--lichen)' }}
+              />
+              <div style={{ fontSize: 13, color: 'var(--parchment)', lineHeight: 1.55 }}>
+                <strong style={{ color: 'var(--bone)' }}>I understand this is a one-time download.</strong>{' '}
+                I have 7 days from purchase to download the master file. droneicarus does
+                not keep a copy after that window &mdash; I am responsible for backing up the file
+                on my own systems. My usage license is perpetual, but file delivery is a one-time event.
+              </div>
+            </label>
+          </div>
+
           {/* Pay method tabs */}
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, marginBottom: 22 }}>
             {[['card', 'Card'], ['paypal', 'PayPal']].map(([k, label]) => (
@@ -277,7 +305,7 @@ export function CheckoutPage({ videoId, licenseType = 'Commercial', onNav }) {
                 <div ref={paypalContainerRef} style={{ minHeight: 50, pointerEvents: singleDownloadAgreed ? 'auto' : 'none', opacity: singleDownloadAgreed ? 1 : 0.35 }} />
                 {!singleDownloadAgreed && (
                   <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, color: 'var(--sunset)', pointerEvents: 'none' }}>
-                    Check the delivery policy agreement above to enable PayPal
+                    Check the delivery policy agreement to enable PayPal
                   </div>
                 )}
               </div>
@@ -287,33 +315,6 @@ export function CheckoutPage({ videoId, licenseType = 'Commercial', onNav }) {
             </div>
           )}
 
-          {/* REQUIRED — single-download agreement (legal evidence for delivery terms) */}
-          <div style={{
-            marginTop: 20, padding: '14px 16px',
-            background: singleDownloadAgreed ? 'var(--forest-900)' : 'rgba(200,90,46,0.06)',
-            border: '1px solid ' + (singleDownloadAgreed ? 'var(--lichen)' : 'var(--sunset)'),
-            borderRadius: 4,
-          }}>
-            <div className="mono" style={{
-              fontSize: 10, letterSpacing: '0.14em',
-              color: singleDownloadAgreed ? 'var(--lichen)' : 'var(--sunset)',
-              marginBottom: 8, textTransform: 'uppercase',
-            }}>DELIVERY POLICY · REQUIRED</div>
-            <label style={{ display: 'flex', gap: 12, alignItems: 'flex-start', cursor: 'pointer' }}>
-              <input
-                type="checkbox"
-                checked={singleDownloadAgreed}
-                onChange={e => setSingleDownloadAgreed(e.target.checked)}
-                style={{ marginTop: 3, flexShrink: 0, width: 16, height: 16, accentColor: 'var(--lichen)' }}
-              />
-              <div style={{ fontSize: 13, color: 'var(--parchment)', lineHeight: 1.55 }}>
-                <strong style={{ color: 'var(--bone)' }}>I understand this is a one-time download.</strong>{' '}
-                I have 7 days from purchase to download the master file. droneicarus does
-                not keep a copy after that window &mdash; I am responsible for backing up the file
-                on my own systems. My usage license is perpetual, but file delivery is a one-time event.
-              </div>
-            </label>
-          </div>
 
           {payMethod === 'card' && (
             <button disabled={processing || !singleDownloadAgreed} onClick={submit} className="btn"
