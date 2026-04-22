@@ -463,9 +463,23 @@ export function VideoCard({ video, onClick, size = 'md', showRank = false }) {
         border: '1px solid var(--line)',
       }}>
         {video.thumbUrl ? (
-          <img src={video.thumbUrl} alt={video.title || ''} loading="lazy"
+          <img src={video.thumbUrl} alt={video.title || ''}
+            referrerPolicy="no-referrer"
+            crossOrigin="anonymous"
             style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}
-            onError={e => { e.currentTarget.style.display = 'none'; }} />
+            onError={e => {
+              // Many ad-blockers / tracking-protection mode in Brave/Firefox/Safari
+              // hide i.ytimg.com images. Try a YouTube-Nocookie alias first, then a
+              // generic vi.googleusercontent fallback, then hide.
+              const img = e.currentTarget;
+              const tries = (img.dataset.tries || '0');
+              const next = parseInt(tries, 10) + 1;
+              img.dataset.tries = String(next);
+              const id = (video.youtubeId || video.ytId || '');
+              if (next === 1 && id) { img.src = `https://i.ytimg.com/vi_webp/${id}/hqdefault.webp`; return; }
+              if (next === 2 && id) { img.src = `https://img.youtube.com/vi/${id}/hqdefault.jpg`; return; }
+              img.style.display = 'none';
+            }} />
         ) : (
           <svg style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', opacity: 0.25 }} viewBox="0 0 400 225" preserveAspectRatio="none">
             <g stroke="rgba(245,237,224,0.4)" fill="none" strokeWidth="0.5">
