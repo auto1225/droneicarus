@@ -102,44 +102,67 @@ function MapHero({ selectedLoc, onSelectLoc, selectedFineSet, mapFilters, search
       const zoom = map.getZoom();
       const isSelected = (loc) => selectedLoc?.id === loc.id;
 
-      if (zoom <= 3) {
-        // CLUSTER MODE — group by rough lat/lon cell
-        const clusters = new Map();
-        filteredLocs.forEach(loc => {
-          const cx = Math.floor(loc.lon / 20) * 20 + 10;
-          const cy = Math.floor(loc.lat / 20) * 20 + 10;
-          const key = `${cx}:${cy}`;
-          if (!clusters.has(key)) clusters.set(key, { lat: cy, lon: cx, locs: [], videos: 0 });
-          const c = clusters.get(key);
-          c.locs.push(loc);
-          c.videos += loc.videos;
-          // average
-          c.lat = c.locs.reduce((s,l)=>s+l.lat,0)/c.locs.length;
-          c.lon = c.locs.reduce((s,l)=>s+l.lon,0)/c.locs.length;
-        });
+      // Adaptive cluster cell size — shrinks as zoom increases so pins at the
+      // same coord never visually overlap. At the finest level (zoom 17+) we
+      // still collapse exact-coord stacks so the count displayed is always
+      // exactly what's visible on screen.
+      let cellDeg;
+      if      (zoom <= 3)  cellDeg = 20;     // continental
+      else if (zoom <= 5)  cellDeg = 8;
+      else if (zoom <= 7)  cellDeg = 2;
+      else if (zoom <= 9)  cellDeg = 0.5;
+      else if (zoom <= 11) cellDeg = 0.1;
+      else if (zoom <= 13) cellDeg = 0.02;
+      else if (zoom <= 15) cellDeg = 0.005;
+      else                 cellDeg = 0.0005;  // ~50m — still stacks exact duplicates
 
-        clusters.forEach(c => {
-          if (c.locs.length === 1) {
-            addPin(c.locs[0], isSelected(c.locs[0]));
-          } else {
-            const size = Math.min(72, 36 + Math.log2(c.videos) * 5);
-            const html = `<div class="cluster-pin" style="width:${size}px;height:${size}px;">
-              <span class="cluster-ring"></span>
-              <span class="cluster-num">${c.locs.length}</span>
-              <span class="cluster-vids">${c.videos} clips</span>
-            </div>`;
-            const icon = L.divIcon({ className: 'cluster-pin-wrap', html, iconSize: [size, size], iconAnchor: [size/2, size/2] });
-            const marker = L.marker([c.lat, c.lon], { icon, zIndexOffset: 500 }).addTo(map);
-            marker.on('click', () => {
+      const clusters = new Map();
+      filteredLocs.forEach(loc => {
+        const cx = Math.floor(loc.lon / cellDeg) * cellDeg + cellDeg/2;
+        const cy = Math.floor(loc.lat / cellDeg) * cellDeg + cellDeg/2;
+        const key = `${cx.toFixed(6)}:${cy.toFixed(6)}`;
+        if (!clusters.has(key)) clusters.set(key, { lat: cy, lon: cx, locs: [], videos: 0 });
+        const c = clusters.get(key);
+        c.locs.push(loc);
+        c.videos += (loc.videos || 1);
+        c.lat = c.locs.reduce((s,l)=>s+l.lat,0)/c.locs.length;
+        c.lon = c.locs.reduce((s,l)=>s+l.lon,0)/c.locs.length;
+      });
+
+      clusters.forEach(c => {
+        if (c.locs.length === 1) {
+          // Single item — ensure the badge shows 1
+          addPin(c.locs[0], isSelected(c.locs[0]));
+        } else {
+          // Stacked or multi-location cluster — the count is ALWAYS c.locs.length
+          // (sum of per-location counts — since dbLocations has videos:1 each,
+          // this is exactly the number of clips in the stack).
+          const size = Math.min(72, 30 + Math.log2(Math.max(c.locs.length, 2)) * 7);
+          const html = `<div class="cluster-pin" style="width:${size}px;height:${size}px;">
+            <span class="cluster-ring"></span>
+            <span class="cluster-num">${c.locs.length}</span>
+            <span class="cluster-vids">${c.locs.length === 1 ? '1 clip' : c.locs.length + ' clips'}</span>
+          </div>`;
+          const icon = L.divIcon({ className: 'cluster-pin-wrap', html, iconSize: [size, size], iconAnchor: [size/2, size/2] });
+          const marker = L.marker([c.lat, c.lon], { icon, zIndexOffset: 500 }).addTo(map);
+          marker.on('click', () => {
+            // If all the locs in the cluster share the same coord, flyToBounds will
+            // produce a degenerate zoom — so detect that and fall back to opening
+            // the location sheet directly with the list of clips.
+            const uniq = new Set(c.locs.map(l => `${l.lat.toFixed(5)}:${l.lon.toFixed(5)}`));
+            if (uniq.size === 1 || zoom >= 14) {
+              // Same spot — open first video (selector UI could later list all)
+              const loc = c.locs[0];
+              if (loc.video && onOpenVideo) onOpenVideo(loc.video);
+              else onSelectLoc(loc);
+            } else {
               const bounds = L.latLngBounds(c.locs.map(l => [l.lat, l.lon]));
-              map.flyToBounds(bounds.pad(0.4), { duration: 1.1, maxZoom: 6 });
-            });
-            markersRef.current.push(marker);
-          }
-        });
-      } else {
-        filteredLocs.forEach(loc => addPin(loc, isSelected(loc)));
-      }
+              map.flyToBounds(bounds.pad(0.4), { duration: 1.1, maxZoom: 14 });
+            }
+          });
+          markersRef.current.push(marker);
+        }
+      });
     };
 
     const addPin = (loc, selected) => {
