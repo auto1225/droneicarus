@@ -200,7 +200,7 @@ export function LivePage({ onNav, streamId }) {
                   <circle cx="160" cy="90" r="30"/>
                 </g>
               </svg>
-              {selected.kind === 'broadcasting' ? (
+              {(selected.kind === 'broadcasting' || selected.status === 'live') ? (
                 <>
                   <span style={{ padding: '4px 9px', background: 'var(--sunset)', color: '#faf6ec', fontSize: 10, fontFamily: 'var(--font-mono)', letterSpacing: '0.14em', borderRadius: 2, position: 'absolute', top: 10, left: 10, fontWeight: 700 }}>● LIVE</span>
                   <span style={{ position: 'absolute', bottom: 10, right: 10, padding: '3px 7px', background: 'rgba(13,20,16,0.85)', color: '#f5ede0', fontSize: 10, fontFamily: 'var(--font-mono)', borderRadius: 2, backdropFilter: 'blur(4px)' }}>{(selected.viewers || 0).toLocaleString()} watching</span>
