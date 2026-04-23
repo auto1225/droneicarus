@@ -16,6 +16,7 @@ const SUBSECTIONS = [
   { id: 'hardware',  label: 'Hardware',  icon: 'industry', tagline: 'FCs · ESCs · Motors · Batteries' },
   { id: 'learn',     label: 'Learn',     icon: 'sky',      tagline: 'Tutorials · Courses · Guides' },
   { id: 'pulse',     label: 'Pulse',     icon: 'water',    tagline: 'News · Regulations · Events' },
+  { id: 'print',     label: 'Print',     icon: 'print3d',  tagline: '3D-printable frames · parts · tools (STL)' },
 ];
 
 // ──────────────────────────────────────────────────────────────────────

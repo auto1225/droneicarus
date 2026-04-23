@@ -39,6 +39,7 @@ export const Ic = {
   idCard: (size=20) => (<svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="12" r="2.5"/><path d="M14 10h5M14 14h5M5 17c.5-1.5 2-2.5 4-2.5s3.5 1 4 2.5"/></svg>),
   cap: (size=20) => (<svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"><path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11v5c0 1.5 3 3 6 3s6-1.5 6-3v-5"/><path d="M22 9v6"/></svg>),
   shield: (size=20) => (<svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"><path d="M12 2L4 5v7c0 5 3.5 8.5 8 10 4.5-1.5 8-5 8-10V5z"/><path d="M9 12l2 2 4-4"/></svg>),
+  print3d: () => (<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><path d="M3 17V9a2 2 0 012-2h14a2 2 0 012 2v8h-3"/><path d="M6 17h12v4H6z"/><path d="M8 7V3h8v4"/><path d="M17.5 11h.01"/></svg>),
 };
 
 export function formatViews(n) {
