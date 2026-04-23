@@ -8,7 +8,15 @@ const SUPA_KEY = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
 async function restGet(path) {
   if (!SUPA_URL || !SUPA_KEY) return [];
   const res = await fetch(SUPA_URL + path, {
-    headers: { apikey: SUPA_KEY, Authorization: 'Bearer ' + SUPA_KEY },
+    headers: {
+      apikey: SUPA_KEY,
+      Authorization: 'Bearer ' + SUPA_KEY,
+      // Request a very large range so Supabase returns all matching rows
+      // instead of the default 1000-row cap. Server-side PG still caps this
+      // to whatever max_rows is configured.
+      'Range-Unit': 'items',
+      Range: '0-49999',
+    },
   });
   if (!res.ok) {
     console.warn('[db]', path, res.status, (await res.text()).slice(0, 120));
@@ -22,13 +30,13 @@ export async function fetchLocations() {
   return rows;
 }
 
-export async function fetchVideos({ limit = 200, category, locationId, ownerId, source } = {}) {
+export async function fetchVideos({ limit = null, category, locationId, ownerId, source } = {}) {
   const parts = [
     `select=id,title,description,category,resolution,duration_s,views,likes,price_usd,tags,thumb_path,thumb_url,yt_id,youtube_id,youtube_channel,source,lat,lon,published_at,location_id,ai_quality_score,status`,
     `status=eq.published`,
-    `limit=${limit}`,
     `order=published_at.desc.nullslast`,
   ];
+  if (limit != null) parts.push(`limit=${limit}`);
   if (category && category !== 'all') parts.push(`category=eq.${encodeURIComponent(category)}`);
   if (locationId) parts.push(`location_id=eq.${encodeURIComponent(locationId)}`);
   if (ownerId)    parts.push(`owner_id=eq.${encodeURIComponent(ownerId)}`);
