@@ -49,6 +49,45 @@ export function LivePage({ onNav, streamId }) {
   const mapEl = lvUseRef(null);
   const mapInst = lvUseRef(null);
   const markersRef = lvUseRef({});
+  const dbMarkersRef = lvUseRef({});
+  const [dbLiveStreams, setDbLiveStreams] = lvUseState([]);
+
+  // Fetch DB live streams + refresh every 30s
+  lvUseEffect(() => {
+    let cancel = false;
+    const fetchLive = async () => {
+      const { data } = await supabase.from('live_streams')
+        .select('id,title,thumb_url,lat,lon,viewers_peak,yt_video_id,pilot_id,status,monetization_enabled,started_at,description,embed_provider')
+        .eq('status', 'live').limit(50);
+      if (!cancel) setDbLiveStreams(data || []);
+    };
+    fetchLive();
+    const t = setInterval(fetchLive, 30000);
+    return () => { cancel = true; clearInterval(t); };
+  }, []);
+
+  // Render DB live stream markers on the map (separate from mock LIVE)
+  lvUseEffect(() => {
+    const map = mapInst.current;
+    if (!map) return;
+    Object.values(dbMarkersRef.current).forEach(m => map.removeLayer(m));
+    dbMarkersRef.current = {};
+    for (const s of (dbLiveStreams || [])) {
+      if (!s.lat || !s.lon) continue;
+      const escTitle = (s.title || '').replace(/"/g, '&quot;').replace(/</g, '&lt;');
+      const viewers = s.viewers_peak ? (s.viewers_peak >= 1000 ? (s.viewers_peak/1000).toFixed(1).replace(/\.0$/,'')+'k' : s.viewers_peak) : '';
+      const html = `<div class="live-pin-wrap">
+        <div class="live-pin-pulse"></div>
+        <div class="live-pin-pulse-2"></div>
+        <div class="live-pin-dot">● LIVE${viewers ? ` · ${viewers}` : ''}</div>
+        <div class="live-pin-callout">${escTitle.slice(0,60)}</div>
+      </div>`;
+      const icon = L.divIcon({ className: 'live-pin-icon', html, iconSize: [240, 90], iconAnchor: [120, 30] });
+      const m = L.marker([s.lat, s.lon], { icon, zIndexOffset: 2000 }).addTo(map);
+      m.on('click', () => setSelected(s));
+      dbMarkersRef.current[s.id] = m;
+    }
+  }, [dbLiveStreams]);
 
   lvUseEffect(() => {
     if (!mapEl.current || mapInst.current) return;
