@@ -207,18 +207,29 @@ export function LabSubsectionPage({ subsection, onNav }) {
     );
   }, [items, query]);
 
-  // Build tag sidebar from ALL subsection items (unfiltered).
-  // This way, clicking a tag filters the item grid but the tag list itself
-  // doesn't collapse.
-  const usedTagSlugs = useMemo(() => {
-    const set = new Set();
-    allItems.forEach(it => (it.tags || []).forEach(t => set.add(t)));
-    return set;
+  // Build tag sidebar from REAL item tags (count-sorted, top 25).
+  // lab_tags is consulted only for human-readable labels; if a slug isn't
+  // there, we title-case the slug itself.
+  const tagLabels = useMemo(() => {
+    const m = new Map();
+    tags.forEach(t => m.set(t.slug, t.label_en || t.slug));
+    return m;
+  }, [tags]);
+  const tagCounts = useMemo(() => {
+    const m = new Map();
+    allItems.forEach(it => (it.tags || []).forEach(t => m.set(t, (m.get(t) || 0) + 1)));
+    return m;
   }, [allItems]);
   const sidebarTags = useMemo(() => {
-    return tags.filter(t => !t.parent_slug && usedTagSlugs.has(t.slug))
-      .concat(tags.filter(t => t.parent_slug && usedTagSlugs.has(t.slug)));
-  }, [tags, usedTagSlugs]);
+    const entries = Array.from(tagCounts.entries())
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 25);
+    return entries.map(([slug, count]) => ({
+      slug,
+      label_en: tagLabels.get(slug) || slug.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase()),
+      count,
+    }));
+  }, [tagCounts, tagLabels]);
 
   return (
     <div style={{ display: 'grid', gridTemplateColumns: '240px 1fr', gap: 28, maxWidth: 1500, margin: '0 auto', padding: '32px 24px 80px' }} className="lab-subsection-layout">
@@ -255,7 +266,7 @@ export function LabSubsectionPage({ subsection, onNav }) {
               </button>
               {sidebarTags.map(t => {
                 const active = selectedTag === t.slug;
-                const count = allItems.filter(it => (it.tags || []).includes(t.slug)).length;
+                const count = t.count;
                 if (count === 0 && !active) return null;
                 return (
                   <button key={t.slug} onClick={() => setSelectedTag(t.slug)} style={rowStyle(active, true)}>
@@ -305,12 +316,69 @@ export function LabSubsectionPage({ subsection, onNav }) {
             <div style={{ fontSize: 14 }}>{selectedTag ? 'Try clearing the tag filter' : 'No items match your filters yet.'}</div>
           </div>
         ) : (
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 14 }}>
-            {filtered.map(item => <LabItemCard key={item.id} item={item} onNav={onNav} />)}
-          </div>
+          <>
+            <PaginatedGrid items={filtered} onNav={onNav} />
+          </>
         )}
       </main>
     </div>
+  );
+}
+
+const PAGE_SIZE = 30;
+function PaginatedGrid({ items, onNav }) {
+  const [page, setPage] = useState(1);
+  // Reset to page 1 when item set changes (new filter/search/sort)
+  useEffect(() => { setPage(1); }, [items.length, items[0]?.id]);
+  const totalPages = Math.max(1, Math.ceil(items.length / PAGE_SIZE));
+  const cur = Math.min(page, totalPages);
+  const slice = items.slice((cur - 1) * PAGE_SIZE, cur * PAGE_SIZE);
+  return (
+    <>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 14 }}>
+        {slice.map(item => <LabItemCard key={item.id} item={item} onNav={onNav} />)}
+      </div>
+      {totalPages > 1 && <Pager current={cur} total={totalPages} onPage={(p) => {
+        setPage(p);
+        // scroll to top of main on page change
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }} />}
+    </>
+  );
+}
+
+function Pager({ current, total, onPage }) {
+  // Render: ◀ 1 … (current-1) current (current+1) … total ▶
+  const pages = [];
+  const push = (n) => { if (!pages.includes(n)) pages.push(n); };
+  push(1);
+  for (let i = Math.max(2, current - 2); i <= Math.min(total - 1, current + 2); i++) push(i);
+  if (total > 1) push(total);
+  const btn = (label, disabled, onClick, active) => (
+    <button key={label + '-' + (active ? 'A' : '')} onClick={onClick} disabled={disabled} style={{
+      minWidth: 40, height: 36, padding: '0 12px', fontSize: 14, fontWeight: active ? 700 : 500,
+      background: active ? 'var(--amber)' : 'var(--forest-900)',
+      color: active ? 'var(--ink)' : disabled ? 'var(--parchment-dim)' : 'var(--bone)',
+      border: '1px solid ' + (active ? 'var(--amber)' : 'var(--line)'),
+      borderRadius: 4, cursor: disabled ? 'default' : 'pointer',
+      opacity: disabled ? 0.5 : 1,
+    }}>{label}</button>
+  );
+  return (
+    <nav style={{ display: 'flex', gap: 6, justifyContent: 'center', alignItems: 'center', marginTop: 32, flexWrap: 'wrap' }}>
+      {btn('◀', current === 1, () => onPage(current - 1), false)}
+      {pages.map((p, i) => {
+        const prev = pages[i - 1];
+        const gap = prev && p - prev > 1;
+        return (
+          <React.Fragment key={p}>
+            {gap && <span style={{ color: 'var(--parchment-dim)', padding: '0 4px' }}>…</span>}
+            {btn(String(p), false, () => onPage(p), p === current)}
+          </React.Fragment>
+        );
+      })}
+      {btn('▶', current === total, () => onPage(current + 1), false)}
+    </nav>
   );
 }
 
