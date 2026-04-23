@@ -233,6 +233,7 @@ function SBilling() {
         </Row>
         <Row label="VAT number" hint="For business invoices"><input defaultValue="KR-1048-28392-18" style={iS}/></Row>
       </Card>
+      <MonetizationCard/>
       <Card title="Payout account" subtitle="Where your pilot earnings are deposited.">
         <Row label="Method">
           <div style={{ padding: 14, background: 'var(--forest-900)', border: '1px solid var(--line)', borderRadius: 3 }}>
@@ -244,6 +245,86 @@ function SBilling() {
         <Row label="Schedule"><Toggle defaultChecked label="Auto-deposit on the 28th of every month"/></Row>
       </Card>
     </>
+  );
+}
+
+function MonetizationCard() {
+  const auth = useAuth() || {};
+  const [paypal, setPaypal] = React.useState('');
+  const [payee, setPayee] = React.useState('');
+  const [country, setCountry] = React.useState('');
+  const [accepted, setAccepted] = React.useState(false);
+  const [savedAt, setSavedAt] = React.useState(null);
+  const [busy, setBusy] = React.useState(false);
+  const [err, setErr] = React.useState('');
+  const [ok, setOk] = React.useState('');
+
+  React.useEffect(() => {
+    if (!auth.user) return;
+    (async () => {
+      const { data } = await supabase.from('profiles')
+        .select('paypal_email, payee_name, payout_country, payout_terms_at')
+        .eq('id', auth.user.id).maybeSingle();
+      if (data) {
+        setPaypal(data.paypal_email || '');
+        setPayee(data.payee_name || '');
+        setCountry(data.payout_country || '');
+        setAccepted(!!data.payout_terms_at);
+        setSavedAt(data.payout_terms_at);
+      }
+    })();
+  }, [auth.user?.id]);
+
+  const ready = !!(paypal && payee && country && accepted);
+
+  const save = async () => {
+    setErr(''); setOk(''); setBusy(true);
+    if (!paypal || !payee || !country || !accepted) {
+      setErr('Fill PayPal email, legal name, country, and accept terms.');
+      setBusy(false); return;
+    }
+    try {
+      const { error } = await supabase.from('profiles').update({
+        paypal_email: paypal.trim(),
+        payee_name: payee.trim(),
+        payout_country: country.trim().toUpperCase(),
+        payout_terms_at: new Date().toISOString(),
+      }).eq('id', auth.user.id);
+      if (error) throw error;
+      setOk('Saved. You can now enable monetization on your live streams.');
+      setSavedAt(new Date().toISOString());
+    } catch (e) { setErr(e.message || 'Failed to save'); }
+    setBusy(false);
+  };
+
+  if (!auth.user) return null;
+  return (
+    <Card title="Live monetization · Super Chats" subtitle="Required to receive Super Chat tips on live broadcasts. Pilots keep 70%, platform 30%.">
+      <div style={{ padding: 12, marginBottom: 14, background: ready ? 'rgba(95,154,67,0.08)' : 'rgba(217,112,69,0.08)', border: '1px solid ' + (ready ? 'var(--moss)' : 'var(--sunset)'), borderRadius: 3, display: 'flex', gap: 12, alignItems: 'center' }}>
+        <span style={{ width: 10, height: 10, borderRadius: '50%', background: ready ? 'var(--moss)' : 'var(--sunset)' }}/>
+        <div style={{ flex: 1, fontSize: 13 }}>
+          {ready ? <>Monetization-ready. Toggle "Super Chat" on when you Go Live.</> :
+                   <>Monetization is <strong>disabled</strong>. Fill the fields below to enable Super Chat tips.</>}
+        </div>
+      </div>
+      <Row label="PayPal email *" hint="Where Super Chat 70% share gets deposited">
+        <input value={paypal} onChange={e => setPaypal(e.target.value)} placeholder="you@paypal.com" style={iS}/>
+      </Row>
+      <Row label="Legal name *" hint="For tax records"><input value={payee} onChange={e => setPayee(e.target.value)} placeholder="Hong Gildong" style={iS}/></Row>
+      <Row label="Country code *" hint="ISO-2 (KR / US / JP …)"><input value={country} onChange={e => setCountry(e.target.value.toUpperCase())} maxLength={2} placeholder="KR" style={iS}/></Row>
+      <Row label="Terms" hint="Required to receive any payout">
+        <label style={{ display: 'flex', gap: 10, alignItems: 'flex-start', fontSize: 13, color: 'var(--parchment)' }}>
+          <input type="checkbox" checked={accepted} onChange={e => setAccepted(e.target.checked)} style={{ marginTop: 3 }}/>
+          <span>I accept that droneicarus retains 30% per Super Chat as platform fee, payouts run monthly to my PayPal once balance ≥ $50, and tax responsibility lies with me.</span>
+        </label>
+      </Row>
+      {savedAt && <div style={{ fontSize: 11, color: 'var(--parchment-dim)', marginTop: 6 }}>Last saved {new Date(savedAt).toLocaleString()}</div>}
+      {err && <div style={{ color: 'var(--sunset)', fontSize: 12, marginTop: 8 }}>{err}</div>}
+      {ok && <div style={{ color: 'var(--moss)', fontSize: 12, marginTop: 8 }}>{ok}</div>}
+      <button onClick={save} disabled={busy} style={{ marginTop: 14, padding: '8px 16px', background: 'var(--amber)', color: 'var(--ink)', border: 'none', borderRadius: 4, cursor: busy ? 'wait' : 'pointer', fontWeight: 600 }}>
+        {busy ? 'Saving…' : 'Save monetization profile'}
+      </button>
+    </Card>
   );
 }
 

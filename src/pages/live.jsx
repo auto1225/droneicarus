@@ -218,7 +218,7 @@ export function LivePage({ onNav }) {
             <div style={{ fontSize: 12, color: 'var(--parchment-dim)', marginBottom: 14 }}>{selected.pilot} · {selected.handle}</div>
             <div style={{ display: 'flex', gap: 6, marginBottom: 18 }}>
               <button className="btn" style={{ fontSize: 12, flex: 1 }} data-placeholder="true">Tune in</button>
-              <button className="btn secondary" style={{ fontSize: 12 }} onClick={() => setTipOpen(true)}>Tip $</button>
+              {(selected.id && selected.id.length === 36 && selected.monetization_enabled) && <button className="btn secondary" style={{ fontSize: 12 }} onClick={() => setTipOpen(true)}>Tip $</button>}
             </div>
 
             {selected.id && selected.id.length === 36 ? (
@@ -240,23 +240,40 @@ export function LivePage({ onNav }) {
         )}
       </aside>
       {tipOpen && <SuperChatModal streamId={selected.id && selected.id.length === 36 ? selected.id : '00000000-0000-0000-0000-000000000000'} onClose={() => setTipOpen(false)}/>}
-      {goLiveOpen && <GoLiveModal onClose={() => setGoLiveOpen(false)} onCreated={(stream) => { setGoLiveOpen(false); setSelected(stream); }} user={auth.user} profile={auth.profile}/>}
+      {goLiveOpen && <GoLiveModal onClose={() => setGoLiveOpen(false)} onCreated={(stream) => { setGoLiveOpen(false); setSelected(stream); }} user={auth.user} profile={auth.profile} onNav={onNav}/>}
     </div>
   );
 }
 
-function GoLiveModal({ onClose, onCreated, user, profile }) {
+function GoLiveModal({ onClose, onCreated, user, profile, onNav }) {
   const [title, setTitle] = lvUseState('');
   const [description, setDescription] = lvUseState('');
   const [ytUrl, setYtUrl] = lvUseState('');
   const [thumbUrl, setThumbUrl] = lvUseState('');
+  const [monetize, setMonetize] = lvUseState(false);
+  const [payoutReady, setPayoutReady] = lvUseState(null);  // null = unknown, true/false after fetch
   const [busy, setBusy] = lvUseState(false);
   const [err, setErr] = lvUseState('');
 
+  // Check if pilot has completed payout setup
+  lvUseEffect(() => {
+    if (!user) return;
+    (async () => {
+      const { data } = await supabase.from('profiles')
+        .select('paypal_email, payee_name, payout_country, payout_terms_at')
+        .eq('id', user.id).maybeSingle();
+      const ready = !!(data && data.paypal_email && data.payee_name && data.payout_country && data.payout_terms_at);
+      setPayoutReady(ready);
+    })();
+  }, [user?.id]);
+
   const start = async () => {
     if (!title.trim()) { setErr('Title is required'); return; }
+    if (monetize && !payoutReady) {
+      setErr('Set up your payout profile in Settings first to enable Super Chat.');
+      return;
+    }
     setErr(''); setBusy(true);
-    // Extract YT video id from URL if provided
     let yt_video_id = null;
     if (ytUrl) {
       const m = ytUrl.match(/[?&]v=([\w-]{11})|youtu\.be\/([\w-]{11})|embed\/([\w-]{11})/);
@@ -272,6 +289,7 @@ function GoLiveModal({ onClose, onCreated, user, profile }) {
         started_at: new Date().toISOString(),
         yt_video_id,
         embed_provider: yt_video_id ? 'youtube' : 'site',
+        monetization_enabled: !!monetize,
       }).select().single();
       if (error) throw error;
       onCreated(data);
@@ -307,6 +325,27 @@ function GoLiveModal({ onClose, onCreated, user, profile }) {
           <label style={{ display: 'block', fontSize: 11, color: 'var(--parchment-dim)', marginBottom: 4 }}>Custom thumbnail URL (optional)</label>
           <input value={thumbUrl} onChange={e => setThumbUrl(e.target.value)} placeholder="https://..."
             style={{ width: '100%', padding: '10px 12px', background: 'var(--forest-900)', border: '1px solid var(--line-strong)', color: 'var(--bone)', borderRadius: 4, fontFamily: 'inherit' }}/>
+        </div>
+
+        {/* Monetization */}
+        <div style={{ marginBottom: 14, padding: 14, background: monetize ? 'rgba(198,136,32,0.06)' : 'var(--forest-900)', border: '1px solid ' + (monetize ? 'var(--amber)' : 'var(--line)'), borderRadius: 4 }}>
+          <label style={{ display: 'flex', gap: 10, alignItems: 'flex-start', cursor: 'pointer' }}>
+            <input type="checkbox" checked={monetize} onChange={e => setMonetize(e.target.checked)} style={{ marginTop: 3 }} disabled={payoutReady === false}/>
+            <span style={{ flex: 1 }}>
+              <span style={{ fontSize: 13, fontWeight: 600, display: 'block' }}>Enable Super Chat tipping (monetization)</span>
+              <span style={{ fontSize: 12, color: 'var(--parchment-dim)' }}>Viewers can send tips $1–$100. You keep 70%, platform 30%.</span>
+              {payoutReady === false && (
+                <span style={{ display: 'block', marginTop: 8, padding: '8px 10px', background: 'rgba(217,112,69,0.1)', border: '1px solid var(--sunset)', borderRadius: 3, fontSize: 11 }}>
+                  ⚠ Payout profile not set up.
+                  <button type="button" onClick={() => { onClose(); onNav?.('settings'); }} style={{ marginLeft: 6, background: 'transparent', border: 'none', color: 'var(--amber)', cursor: 'pointer', fontWeight: 600, padding: 0 }}>
+                    Set it up →
+                  </button>
+                </span>
+              )}
+              {payoutReady === null && <span style={{ display: 'block', marginTop: 6, fontSize: 11, color: 'var(--parchment-dim)' }}>Checking your payout setup…</span>}
+              {payoutReady === true && <span style={{ display: 'block', marginTop: 6, fontSize: 11, color: 'var(--moss)' }}>✓ Payout profile ready</span>}
+            </span>
+          </label>
         </div>
         {err && <div style={{ color: 'var(--sunset)', fontSize: 12, marginBottom: 12 }}>{err}</div>}
         <div style={{ display: 'flex', gap: 10, justifyContent: 'flex-end' }}>

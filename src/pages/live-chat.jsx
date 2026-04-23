@@ -24,7 +24,20 @@ export function LiveChatPanel({ streamId }) {
   const [input, setInput] = useState('');
   const [busy, setBusy] = useState(false);
   const [showSuper, setShowSuper] = useState(false);
+  const [monetized, setMonetized] = useState(false);
   const listRef = useRef(null);
+
+  // Probe monetization flag for this stream
+  useEffect(() => {
+    if (!streamId) return;
+    let cancel = false;
+    (async () => {
+      const { data } = await supabase.from('live_streams')
+        .select('monetization_enabled').eq('id', streamId).maybeSingle();
+      if (!cancel) setMonetized(!!(data && data.monetization_enabled));
+    })();
+    return () => { cancel = true; };
+  }, [streamId]);
 
   // Initial load + subscribe to inserts
   useEffect(() => {
@@ -93,11 +106,13 @@ export function LiveChatPanel({ streamId }) {
         <input value={input} onChange={e => setInput(e.target.value)} onKeyDown={e => e.key === 'Enter' && send()}
           placeholder={user ? 'Say something…' : 'Sign in to chat'} disabled={!user || busy}
           style={{ flex: 1, padding: 9, background: 'var(--forest-900)', border: '1px solid var(--line-strong)', color: 'var(--bone)', fontSize: 12, borderRadius: 3 }}/>
-        <button onClick={() => setShowSuper(true)} disabled={!user}
-          title="Send a Super Chat — pinned, color-highlighted, supports the pilot 70%"
-          style={{ padding: '8px 10px', background: 'var(--amber)', color: 'var(--ink)', border: 'none', borderRadius: 3, cursor: user ? 'pointer' : 'not-allowed', fontWeight: 700, fontSize: 12 }}>
-          $
-        </button>
+        {monetized && (
+          <button onClick={() => setShowSuper(true)} disabled={!user}
+            title="Send a Super Chat — pinned, color-highlighted, supports the pilot 70%"
+            style={{ padding: '8px 10px', background: 'var(--amber)', color: 'var(--ink)', border: 'none', borderRadius: 3, cursor: user ? 'pointer' : 'not-allowed', fontWeight: 700, fontSize: 12 }}>
+            $
+          </button>
+        )}
       </div>
       {showSuper && <SuperChatModal streamId={streamId} onClose={() => setShowSuper(false)}/>}
     </div>
