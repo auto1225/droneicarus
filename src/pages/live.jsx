@@ -219,6 +219,13 @@ export function LivePage({ onNav }) {
             <div style={{ display: 'flex', gap: 6, marginBottom: 18 }}>
               <button className="btn" style={{ fontSize: 12, flex: 1 }} data-placeholder="true">Tune in</button>
               {(selected.id && selected.id.length === 36 && selected.monetization_enabled) && <button className="btn secondary" style={{ fontSize: 12 }} onClick={() => setTipOpen(true)}>Tip $</button>}
+              {(selected.id && selected.id.length === 36 && auth.user && auth.user.id === selected.pilot_id && selected.status === 'live') &&
+                <button className="btn secondary" style={{ fontSize: 12, color: 'var(--sunset)', borderColor: 'var(--sunset)' }} onClick={async () => {
+                  if (!confirm('End this live stream?')) return;
+                  await supabase.from('live_streams').update({ status: 'ended', ended_at: new Date().toISOString() }).eq('id', selected.id);
+                  setSelected({ ...selected, status: 'ended', ended_at: new Date().toISOString() });
+                }}>End stream</button>
+              }
             </div>
 
             {selected.id && selected.id.length === 36 ? (
@@ -269,16 +276,16 @@ function GoLiveModal({ onClose, onCreated, user, profile, onNav }) {
 
   const start = async () => {
     if (!title.trim()) { setErr('Title is required'); return; }
+    if (!ytUrl.trim()) { setErr('YouTube Live URL is required (start a stream on YouTube first)'); return; }
     if (monetize && !payoutReady) {
       setErr('Set up your payout profile in Settings first to enable Super Chat.');
       return;
     }
     setErr(''); setBusy(true);
     let yt_video_id = null;
-    if (ytUrl) {
-      const m = ytUrl.match(/[?&]v=([\w-]{11})|youtu\.be\/([\w-]{11})|embed\/([\w-]{11})/);
-      yt_video_id = m && (m[1] || m[2] || m[3]);
-    }
+    const m = ytUrl.match(/[?&]v=([\w-]{11})|youtu\.be\/([\w-]{11})|embed\/([\w-]{11})/);
+    yt_video_id = m && (m[1] || m[2] || m[3]);
+    if (!yt_video_id) { setErr('Could not extract video id from that YouTube URL — paste the full /watch?v=... link'); setBusy(false); return; }
     try {
       const { data, error } = await supabase.from('live_streams').insert({
         pilot_id: user.id,
@@ -302,9 +309,21 @@ function GoLiveModal({ onClose, onCreated, user, profile, onNav }) {
 
   return (
     <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.7)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 200 }} onClick={onClose}>
-      <div onClick={e => e.stopPropagation()} style={{ background: 'var(--ink)', padding: 26, borderRadius: 8, maxWidth: 460, width: '92%', border: '1px solid var(--line-strong)' }}>
-        <div style={{ fontSize: 11, color: 'var(--sunset)', fontFamily: 'var(--font-mono)', letterSpacing: '0.18em', marginBottom: 6 }}>● GO LIVE</div>
-        <h3 style={{ marginTop: 0, marginBottom: 14 }}>Start a live broadcast</h3>
+      <div onClick={e => e.stopPropagation()} style={{ background: 'var(--ink)', padding: 26, borderRadius: 8, maxWidth: 540, width: '92%', border: '1px solid var(--line-strong)', maxHeight: '90vh', overflowY: 'auto' }}>
+        <div style={{ fontSize: 11, color: 'var(--sunset)', fontFamily: 'var(--font-mono)', letterSpacing: '0.18em', marginBottom: 6 }}>● GO LIVE · YouTube mirror</div>
+        <h3 style={{ marginTop: 0, marginBottom: 8 }}>Start a live broadcast</h3>
+        <p style={{ fontSize: 12, color: 'var(--parchment-dim)', marginBottom: 14, lineHeight: 1.5 }}>
+          droneicarus mirrors your live stream from YouTube. Chat & Super Chat run on our site (you keep 70%). <button type="button" onClick={() => { onClose(); onNav?.('livehelp'); }} style={{ background: 'transparent', border: 'none', color: 'var(--amber)', cursor: 'pointer', textDecoration: 'underline', padding: 0, fontSize: 12 }}>Full guide →</button>
+        </p>
+
+        <div style={{ marginBottom: 16, padding: '12px 14px', background: 'var(--forest-900)', border: '1px solid var(--line)', borderRadius: 4, fontSize: 12 }}>
+          <div style={{ fontWeight: 600, marginBottom: 8 }}>3 steps to broadcast:</div>
+          <ol style={{ margin: 0, paddingLeft: 20, color: 'var(--parchment)', lineHeight: 1.7 }}>
+            <li>Start your live stream on YouTube (Studio → Go Live)</li>
+            <li>Copy the URL (e.g. <code style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--amber)' }}>youtube.com/watch?v=...</code>)</li>
+            <li>Paste below + press Start. Viewers watch the YT player here, chat with you in our chat panel.</li>
+          </ol>
+        </div>
         <div style={{ marginBottom: 12 }}>
           <label style={{ display: 'block', fontSize: 11, color: 'var(--parchment-dim)', marginBottom: 4 }}>Stream title *</label>
           <input value={title} onChange={e => setTitle(e.target.value)} placeholder="e.g. Sunset over Hangang"
@@ -316,10 +335,10 @@ function GoLiveModal({ onClose, onCreated, user, profile, onNav }) {
             style={{ width: '100%', padding: '10px 12px', background: 'var(--forest-900)', border: '1px solid var(--line-strong)', color: 'var(--bone)', borderRadius: 4, fontFamily: 'inherit', fontSize: 13 }}/>
         </div>
         <div style={{ marginBottom: 12 }}>
-          <label style={{ display: 'block', fontSize: 11, color: 'var(--parchment-dim)', marginBottom: 4 }}>YouTube Live URL (optional — mirror your YT stream here)</label>
+          <label style={{ display: 'block', fontSize: 11, color: 'var(--parchment-dim)', marginBottom: 4 }}>YouTube Live URL *</label>
           <input value={ytUrl} onChange={e => setYtUrl(e.target.value)} placeholder="https://youtube.com/watch?v=..."
             style={{ width: '100%', padding: '10px 12px', background: 'var(--forest-900)', border: '1px solid var(--line-strong)', color: 'var(--bone)', borderRadius: 4, fontFamily: 'inherit' }}/>
-          <div style={{ fontSize: 11, color: 'var(--parchment-dim)', marginTop: 4 }}>If set, the YT player embeds. Chat & Super Chat run on droneicarus regardless.</div>
+          <div style={{ fontSize: 11, color: 'var(--parchment-dim)', marginTop: 4 }}>Required. The 11-char video id is auto-extracted from any youtube.com / youtu.be URL.</div>
         </div>
         <div style={{ marginBottom: 14 }}>
           <label style={{ display: 'block', fontSize: 11, color: 'var(--parchment-dim)', marginBottom: 4 }}>Custom thumbnail URL (optional)</label>

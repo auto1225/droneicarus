@@ -381,6 +381,8 @@ export function Header({ route, onNav, query, setQuery }) {
                 ['orders', 'Orders & licenses'],
                 ['creator', 'Creator studio'],
                 ['earnings', 'Earnings'],
+                ['mystreams', 'My streams'],
+                ['livehelp', 'Live help · Go live guide'],
                 ['commission', 'Commission a shoot'],
                 ['settings', 'Settings'],
                 ['pilot-onboarding', 'Become a verified pilot'],

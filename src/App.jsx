@@ -35,6 +35,8 @@ const LegalPage           = lazy(() => import('./pages/static').then(m => ({ def
 const FlightLogPage       = lazy(() => import('./pages/flightlog').then(m => ({ default: m.FlightLogPage })));
 const AtlasPage           = lazy(() => import('./pages/atlas').then(m => ({ default: m.AtlasPage })));
 const LivePage            = lazy(() => import('./pages/live').then(m => ({ default: m.LivePage })));
+const LiveHelpPage        = lazy(() => import('./pages/live-help').then(m => ({ default: m.LiveHelpPage })));
+const MyStreamsPage       = lazy(() => import('./pages/my-streams').then(m => ({ default: m.MyStreamsPage })));
 const CollectionPage      = lazy(() => import('./pages/collection').then(m => ({ default: m.CollectionPage })));
 const LocationPage        = lazy(() => import('./pages/location').then(m => ({ default: m.LocationPage })));
 const PricingPage         = lazy(() => import('./pages/pricing').then(m => ({ default: m.PricingPage })));
@@ -312,6 +314,8 @@ export default function App() {
         {route === 'flightlog' && <FlightLogPage videoId={routeParam} onNav={onNav} />}
         {route === 'atlas' && <AtlasPage onNav={onNav} />}
         {route === 'live' && <LivePage onNav={onNav} />}
+        {route === 'livehelp' && <LiveHelpPage onNav={onNav} />}
+        {route === 'mystreams' && <MyStreamsPage onNav={onNav} />}
         {route === 'collection' && <CollectionPage id={routeParam} onOpenVideo={onOpenVideo} onNav={onNav} />}
         {route === 'location' && <LocationPage id={routeParam} onOpenVideo={onOpenVideo} onNav={onNav} />}
         {route === 'pricing' && <PricingPage onNav={onNav} />}
@@ -321,7 +325,7 @@ export default function App() {
         {route === 'lab' && routeParam && <LabSubsectionPage subsection={routeParam} onNav={onNav} />}
         {route === 'lab-item' && <LabItemPage itemId={routeParam} onNav={onNav} />}
         {route === 'admin' && <RequireAdminM onNav={onNav}><AdminShell section={routeParam || 'dashboard'} onNav={onNav} /></RequireAdminM>}
-        {!['home', 'watch', 'explore', 'rankings', 'creators', 'creator', 'search', 'upload', 'mypage', 'signin', 'checkout', 'success', 'orders', 'license', 'earnings', 'settings', 'pilot-onboarding', 'profile', 'messages', 'notifications', 'commission', 'guidelines', 'legal', 'flightlog', 'atlas', 'live', 'collection', 'location', 'pricing', 'shotlibrary', 'advanced', 'admin', 'lab', 'lab-item'].includes(route) && <NotFoundPage onNav={onNav} />}
+        {!['home', 'watch', 'explore', 'rankings', 'creators', 'creator', 'search', 'upload', 'mypage', 'signin', 'checkout', 'success', 'orders', 'license', 'earnings', 'settings', 'pilot-onboarding', 'profile', 'messages', 'notifications', 'commission', 'guidelines', 'legal', 'flightlog', 'atlas', 'live', 'collection', 'location', 'pricing', 'shotlibrary', 'advanced', 'admin', 'lab', 'lab-item', 'livehelp', 'mystreams'].includes(route) && <NotFoundPage onNav={onNav} />}
       </Suspense></ChunkErrorBoundary>
       {!['creator','pilot-onboarding','signin','messages','live','admin'].includes(route) && <Footer onNav={onNav} />}
 
