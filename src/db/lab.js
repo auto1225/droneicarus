@@ -19,18 +19,20 @@ function anonHeaders() {
 }
 
 // ─── Items ─────────────────────────────────────────────────────────────
-export async function fetchLabItems({ subsection, tag, type, status = 'approved', limit = 40, order = 'published_at.desc.nullslast' } = {}) {
+export async function fetchLabItems({ subsection, tag, type, status = 'approved', limit = null, order = 'published_at.desc.nullslast' } = {}) {
   const parts = [
     'select=id,title,slug,summary,cover_image_url,external_url,document_url,document_type,authors,institution,published_at,tags,level,price_min_usd,price_max_usd,brand,type,subsection,upvotes,saves,views,featured,created_at',
     `status=eq.${status}`,
-    `limit=${limit}`,
     `order=${order}`,
   ];
+  if (limit != null) parts.push(`limit=${limit}`);
   if (subsection) parts.push(`subsection=eq.${encodeURIComponent(subsection)}`);
   if (type)       parts.push(`type=eq.${encodeURIComponent(type)}`);
   if (tag)        parts.push(`tags=cs.{${encodeURIComponent(tag)}}`);
 
-  const r = await fetch(`${SUPA_URL}/rest/v1/lab_items?${parts.join('&')}`, { headers: anonHeaders() });
+  // Supabase enforces 1000-row default cap; Range header raises it up to the server max.
+  const headers = { ...anonHeaders(), 'Range-Unit': 'items', 'Range': '0-9999' };
+  const r = await fetch(`${SUPA_URL}/rest/v1/lab_items?${parts.join('&')}`, { headers });
   if (!r.ok) { console.warn('[lab]', r.status, await r.text()); return []; }
   return r.json();
 }
