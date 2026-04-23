@@ -110,8 +110,10 @@ function send(body) {
 export function trackPageview({ path, user, profile } = {}) {
   if (!KEY) return;
   const now = Date.now();
-  if (path === _lastPath && now - _lastTrackedAt < 1500) return;
-  _lastPath = path;
+  const userKey = (user && user.id) || 'guest';
+  const cacheKey = path + '|' + userKey;
+  if (cacheKey === _lastPath && now - _lastTrackedAt < 1500) return;
+  _lastPath = cacheKey;
   _lastTrackedAt = now;
 
   // 1) Fire immediately with whatever geo we already have cached.

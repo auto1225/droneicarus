@@ -247,10 +247,22 @@ export default function App() {
 
   // Fire visitor analytics beacon on every route change
   const _auth = useAuth() || {};
+  // Belt: React effect on route/auth change
   useEffect(() => {
     const path = '#' + (routeParam ? route + '/' + routeParam : route);
     trackPageview({ path, user: _auth.user || null, profile: _auth.profile || null });
-  }, [route, routeParam, _auth.user]);
+  }, [route, routeParam, _auth.user, _auth.profile]);
+  // Suspenders: independent hashchange listener that re-reads auth from window
+  useEffect(() => {
+    const fire = () => {
+      const path = window.location.hash || '#home';
+      trackPageview({ path, user: window.__authUser || _auth.user || null, profile: window.__authProfile || _auth.profile || null });
+    };
+    window.addEventListener('hashchange', fire);
+    return () => window.removeEventListener('hashchange', fire);
+  }, [_auth.user, _auth.profile]);
+  // Stash auth on window for non-React tracker callsites
+  useEffect(() => { window.__authUser = _auth.user; window.__authProfile = _auth.profile; }, [_auth.user, _auth.profile]);
 
   const onNav = (r, id) => {
     let h = r;
