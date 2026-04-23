@@ -1,5 +1,6 @@
 // src/App.jsx — main shell, hash routing, Tweaks panel
 import { trackPageview } from './lib/track';
+import { applyRouteSEO, setVideoJsonLd } from './lib/seo';
 import { useAuth } from './auth/AuthContext';
 import React, { useState, useEffect, useRef, Suspense, lazy } from 'react';
 
@@ -251,7 +252,15 @@ export default function App() {
   useEffect(() => {
     const path = '#' + (routeParam ? route + '/' + routeParam : route);
     trackPageview({ path, user: _auth.user || null, profile: _auth.profile || null });
-  }, [route, routeParam, _auth.user, _auth.profile]);
+    applyRouteSEO({
+      route, routeParam,
+      videoTitle: currentVideo?.title,
+      labTitle: null,
+      locationName: null,
+    });
+    if (route === 'watch' && currentVideo) setVideoJsonLd(currentVideo);
+    else setVideoJsonLd(null);
+  }, [route, routeParam, _auth.user, _auth.profile, currentVideo]);
   // Suspenders: independent hashchange listener that re-reads auth from window
   useEffect(() => {
     const fire = () => {
