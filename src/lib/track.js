@@ -93,18 +93,22 @@ function buildBody({ path, user, profile, geo }) {
 function send(body) {
   try {
     const url = `${SUPA_URL}/rest/v1/page_views?apikey=${encodeURIComponent(KEY)}`;
-    if (navigator.sendBeacon) {
-      const blob = new Blob([JSON.stringify(body)], { type: 'application/json' });
-      const ok = navigator.sendBeacon(url, blob);
-      if (ok) return;
-    }
-    fetch(url, {
+    // Use fetch+keepalive only (visible in DevTools, never blocked by preflight quirks).
+    const p = fetch(url, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', Prefer: 'return=minimal' },
       body: JSON.stringify(body),
       keepalive: true,
-    }).catch(() => {});
-  } catch {}
+      mode: 'cors',
+    });
+    p.then(r => { if (!r.ok) console.warn('[track]', r.status); }).catch(e => console.warn('[track]', e.message));
+    return p;
+  } catch (e) { console.warn('[track] catch:', e.message); }
+}
+
+// Expose for manual diagnostics
+if (typeof window !== 'undefined') {
+  window.__trackTest = (path) => trackPageview({ path: path || '#__manual', user: window.__authUser, profile: window.__authProfile });
 }
 
 export function trackPageview({ path, user, profile } = {}) {
