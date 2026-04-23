@@ -95,7 +95,7 @@ export function SettingsPage({ onNav }) {
         </nav>
 
         <div>
-          {section === 'profile' && <SProfile u={u}/>}
+          {section === 'profile' && <SProfile u={u} profile={profile} draft={draft} setDraft={setDraft} onSave={onSave} saving={saving} onAvatarPick={onAvatarPick} onAvatarRemove={onAvatarRemove} avatarInputRef={avatarInputRef}/>}
           {section === 'account' && <SAccount u={u}/>}
           {section === 'billing' && <SBilling/>}
           {section === 'pilot' && <SPilot onNav={onNav}/>}
@@ -136,7 +136,7 @@ function Row({ label, hint, children }) {
 
 const iS = { width: '100%', padding: '9px 12px', background: 'var(--forest-900)', border: '1px solid var(--line-strong)', color: 'var(--bone)', fontSize: 13, borderRadius: 3, outline: 'none', fontFamily: 'inherit' };
 
-function SProfile({ u }) {
+function SProfile({ u, profile, draft, setDraft, onSave, saving, onAvatarPick, onAvatarRemove, avatarInputRef }) {
   return (
     <>
       <Card title="Public profile" subtitle="Shown on your creator page and next to your clips."
