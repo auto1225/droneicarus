@@ -173,7 +173,7 @@ export function LabSubsectionPage({ subsection, onNav }) {
     const order = sort === 'latest'
       ? 'published_at.desc.nullslast'
       : sort === 'upvoted' ? 'upvotes.desc.nullslast' : 'created_at.desc';
-    fetchLabItems({ subsection: current.id, tag: selectedTag, limit: 60, order })
+    fetchLabItems({ subsection: current.id, tag: selectedTag, limit: 500, order })
       .then(rows => { if (!cancel) { setItems(rows || []); setLoading(false); } });
     return () => { cancel = true; };
   }, [current.id, selectedTag, sort]);
