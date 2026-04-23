@@ -1,16 +1,21 @@
 name: Rebuild sitemap
+
 on:
-  schedule:
-    - cron: '0 3 * * *'   # 12:00 KST daily
   workflow_dispatch:
+  schedule:
+    - cron: "0 3 * * *"
+
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        with: { token: ${{ secrets.GITHUB_TOKEN }} }
       - uses: actions/setup-node@v4
-        with: { node-version: '20' }
+        with:
+          node-version: "20"
       - name: Generate sitemap.xml
         env:
           VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
@@ -21,7 +26,7 @@ jobs:
           git config user.email "auto0104@gmail.com"
           git config user.name "minho via Cowork"
           git add public/sitemap.xml
-          git diff --cached --quiet || git commit -m "chore(sitemap): nightly refresh"
+          git diff --cached --quiet || git commit -m "chore(sitemap): refresh"
           git push || true
       - name: Ping Google + Bing
         run: |
