@@ -130,7 +130,7 @@ export function RankingsPage({ onOpenVideo }) {
 
 export function CreatorsPage({ onOpenVideo }) {
   _us(); // keep imports used
-  _ue(() => { fetchVideos({ limit: 500 }).then(v => { window.__rkDbVideos = v || []; }); }, []);
+  _ue(() => { fetchVideos().then(v => { window.__rkDbVideos = v || []; }); }, []);
   return (
     <div style={{ maxWidth: 1760, margin: '0 auto', padding: '40px 28px 60px' }}>
       <div className="eyebrow" style={{ marginBottom: 10, color: 'var(--amber)' }}>PILOT COMMUNITY</div>

@@ -89,7 +89,7 @@ export function ExplorePage({ onOpenVideo, onNav }) {
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     let cancel = false;
-    fetchVideos({ limit: 1000 }).then(v => {
+    fetchVideos().then(v => {
       if (cancel) return;
       setVideos((v && v.length > 0) ? v : _MOCK_VIDEOS);
       setLoading(false);
@@ -269,7 +269,7 @@ export function SearchPage({ query, onOpenVideo, onNav, onSelectLoc }) {
   const [dbVideosS, setDbVideosS] = useState([]);
   useEffect(() => {
     let cancel = false;
-    fetchVideos({ limit: 500 }).then(v => { if (!cancel) setDbVideosS(v || []); });
+    fetchVideos().then(v => { if (!cancel) setDbVideosS(v || []); });
     return () => { cancel = true; };
   }, []);
   const VIDEOS = dbVideosS.length > 0 ? dbVideosS : _MOCK_VIDEOS;

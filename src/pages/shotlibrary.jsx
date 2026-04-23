@@ -23,7 +23,7 @@ const USE_CASES = [
 export function ShotLibraryPage({ onNav, onOpenVideo }) {
   const [dbVids, setDbVids] = _us([]);
   const [query, setQuery] = _us('');
-  _ue(() => { let c=false; fetchVideos({limit:500}).then(v=>{if(!c) setDbVids(v||[])}); return ()=>{c=true}; }, []);
+  _ue(() => { let c=false; fetchVideos().then(v=>{if(!c) setDbVids(v||[])}); return ()=>{c=true}; }, []);
   const allVideos = dbVids.length > 0 ? dbVids : _MOCK_VIDEOS;
   const videos = (() => {
     const q = query.trim().toLowerCase();
