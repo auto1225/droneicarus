@@ -13,7 +13,7 @@ const RANGES = [
 
 function fmt(n) { return Number(n || 0).toLocaleString(); }
 function pct(n) { return (Number(n || 0)).toFixed(1) + '%'; }
-function dur(s) { const m = Math.floor(s/60), sec = Math.floor(s%60); return m ? `${m}m ${sec}s` : `${sec}s`; }
+function dur(s) { const v = Number(s) || 0; const m = Math.floor(v/60), sec = Math.floor(v%60); return m ? `${m}m ${sec}s` : `${sec}s`; }
 
 async function rpc(fn, args = {}) {
   const { data, error } = await supabase.rpc(fn, args);
