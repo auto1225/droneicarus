@@ -167,16 +167,30 @@ export function LabSubsectionPage({ subsection, onNav }) {
   const [query, setQuery] = useState('');
   const [loading, setLoading] = useState(true);
 
+  // Fetch ALL subsection items once (no tag filter). Tag filtering happens
+  // client-side so the sidebar tag list + counts stay stable when the user
+  // clicks a tag.
+  const [allItems, setAllItems] = useState([]);
   useEffect(() => {
     let cancel = false;
     setLoading(true);
     const order = sort === 'latest'
       ? 'published_at.desc.nullslast'
       : sort === 'upvoted' ? 'upvotes.desc.nullslast' : 'created_at.desc';
-    fetchLabItems({ subsection: current.id, tag: selectedTag, order })
-      .then(rows => { if (!cancel) { setItems(rows || []); setLoading(false); } });
+    fetchLabItems({ subsection: current.id, order })
+      .then(rows => {
+        if (cancel) return;
+        setAllItems(rows || []);
+        setLoading(false);
+      });
     return () => { cancel = true; };
-  }, [current.id, selectedTag, sort]);
+  }, [current.id, sort]);
+
+  // Items visible in the grid = allItems filtered by selectedTag (if any)
+  useEffect(() => {
+    if (!selectedTag) { setItems(allItems); return; }
+    setItems(allItems.filter(it => (it.tags || []).includes(selectedTag)));
+  }, [allItems, selectedTag]);
 
   useEffect(() => {
     fetchLabTags().then(rs => setTags(rs || []));
@@ -193,12 +207,14 @@ export function LabSubsectionPage({ subsection, onNav }) {
     );
   }, [items, query]);
 
-  // Build tag sidebar: only show tags used by items in this subsection (approx)
+  // Build tag sidebar from ALL subsection items (unfiltered).
+  // This way, clicking a tag filters the item grid but the tag list itself
+  // doesn't collapse.
   const usedTagSlugs = useMemo(() => {
     const set = new Set();
-    items.forEach(it => (it.tags || []).forEach(t => set.add(t)));
+    allItems.forEach(it => (it.tags || []).forEach(t => set.add(t)));
     return set;
-  }, [items]);
+  }, [allItems]);
   const sidebarTags = useMemo(() => {
     return tags.filter(t => !t.parent_slug && usedTagSlugs.has(t.slug))
       .concat(tags.filter(t => t.parent_slug && usedTagSlugs.has(t.slug)));
@@ -235,11 +251,11 @@ export function LabSubsectionPage({ subsection, onNav }) {
             <div style={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
               <button onClick={() => setSelectedTag(null)} style={rowStyle(!selectedTag, true)}>
                 <span>All</span>
-                <span style={{ fontSize: 12, opacity: 0.6 }}>{items.length}</span>
+                <span style={{ fontSize: 12, opacity: 0.6 }}>{allItems.length}</span>
               </button>
               {sidebarTags.map(t => {
                 const active = selectedTag === t.slug;
-                const count = items.filter(it => (it.tags || []).includes(t.slug)).length;
+                const count = allItems.filter(it => (it.tags || []).includes(t.slug)).length;
                 if (count === 0 && !active) return null;
                 return (
                   <button key={t.slug} onClick={() => setSelectedTag(t.slug)} style={rowStyle(active, true)}>
