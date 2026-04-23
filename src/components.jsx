@@ -259,7 +259,7 @@ export function Header({ route, onNav, query, setQuery }) {
         <button onClick={() => onNav('home')} style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
           <span style={{ color: 'var(--amber)' }}><Ic.drone/></span>
           <span style={{ fontFamily: 'var(--font-display)', fontSize: 20, fontWeight: 600, letterSpacing: '-0.02em' }}>
-            {(() => { const logo = txt('header.logo', 'DroneIcarus'); const mid = Math.ceil(logo.length / 2); return (<><span>{logo.slice(0, mid)}</span><span style={{ color: 'var(--sunset)' }}>{logo.slice(mid)}</span></>); })()}
+            {(() => { const logo = txt('header.logo', 'DroneIcarus'); const m = logo.match(/^[A-Z][a-z]+/); const mid = m ? m[0].length : Math.ceil(logo.length / 2); return (<><span>{logo.slice(0, mid)}</span><span style={{ color: 'var(--sunset)' }}>{logo.slice(mid)}</span></>); })()}
           </span>
           <span className="mono" style={{ fontSize: 9, color: 'var(--parchment-dim)', marginLeft: 4, border: '1px solid var(--line)', padding: '2px 5px', borderRadius: 2 }}>{txt('header.badge', 'BETA')}</span>
         </button>
