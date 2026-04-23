@@ -8,15 +8,29 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 
-// PDF.js loaded once on demand from CDN (ESM build, no server bundle hit)
+// PDF.js loaded once on demand from CDN — UMD build sets window.pdfjsLib
 let _pdfjsPromise = null;
-async function loadPdfJs() {
+function loadPdfJs() {
   if (_pdfjsPromise) return _pdfjsPromise;
-  _pdfjsPromise = (async () => {
-    const m = await import('https://cdn.jsdelivr.net/npm/pdfjs-dist@4.6.82/build/pdf.min.mjs');
-    m.GlobalWorkerOptions.workerSrc = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@4.6.82/build/pdf.worker.min.mjs';
-    return m;
-  })();
+  _pdfjsPromise = new Promise((resolve, reject) => {
+    if (window.pdfjsLib) {
+      window.pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/legacy/build/pdf.worker.min.js';
+      resolve(window.pdfjsLib);
+      return;
+    }
+    const sc = document.createElement('script');
+    sc.src = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/legacy/build/pdf.min.js';
+    sc.onload = () => {
+      if (window.pdfjsLib) {
+        window.pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/legacy/build/pdf.worker.min.js';
+        resolve(window.pdfjsLib);
+      } else {
+        reject(new Error('pdfjsLib not available'));
+      }
+    };
+    sc.onerror = () => reject(new Error('pdf.js failed to load'));
+    document.head.appendChild(sc);
+  });
   return _pdfjsPromise;
 }
 
