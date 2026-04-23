@@ -371,7 +371,7 @@ function MapHero({ selectedLoc, onSelectLoc, selectedFineSet, mapFilters, search
 }
 
 function HomeRightSidebar({ onOpenVideo, onNav }) {
-  const [slots, setSlots] = hUseState({ hot: [], live: [], ads: [] });
+  const [slots, setSlots] = hUseState({ hot: [], live: [], ads: [], recent: [] });
   hUseEffect(() => {
     let cancel = false;
     fetchSidebarSlots().then(s => { if (!cancel) setSlots(s); });
@@ -413,6 +413,23 @@ function HomeRightSidebar({ onOpenVideo, onNav }) {
               <div style={{ fontSize: 13, fontWeight: 600, marginBottom: 4 }}>{a.title}</div>
               {a.cta_label && <div style={{ fontSize: 11, color: 'var(--amber)' }}>{a.cta_label} →</div>}
             </a>
+          ))}
+        </section>
+      )}
+      {slots.recent && slots.recent.length > 0 && (
+        <section style={{ marginBottom: 18 }}>
+          <h3 className="mono" style={{ fontSize: 10, letterSpacing: '0.18em', color: 'var(--moss)', margin: '4px 0 10px' }}>↑ JUST UPLOADED</h3>
+          {slots.recent.slice(0, 4).map(v => (
+            <button key={v.id} onClick={() => onOpenVideo && onOpenVideo(v)}
+              style={{ display: 'grid', gridTemplateColumns: '120px 1fr', gap: 10, padding: 6, background: 'transparent', border: 'none', cursor: 'pointer', textAlign: 'left', width: '100%', color: 'inherit', marginBottom: 8 }}>
+              <div style={{ width: 120, height: 70, background: 'var(--forest-900)', borderRadius: 4, overflow: 'hidden' }}>
+                {(v.thumb_url || v.youtube_id) && <img src={v.thumb_url || ytThumb(v.youtube_id)} alt="" referrerPolicy="no-referrer" style={{ width: '100%', height: '100%', objectFit: 'cover' }}/>}
+              </div>
+              <div>
+                <div style={{ fontSize: 12, fontWeight: 600, lineHeight: 1.25, marginBottom: 4, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>{v.title}</div>
+                <div style={{ fontSize: 10, color: 'var(--parchment-dim)' }}>{v.published_at ? new Date(v.published_at).toLocaleDateString() : 'recent'}</div>
+              </div>
+            </button>
           ))}
         </section>
       )}
@@ -844,14 +861,24 @@ export function HomePage({ onOpenVideo, onNav }) {
                   transition: 'all 0.15s',
                 }} onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--amber)'; e.currentTarget.style.transform = 'translateY(-2px)'; }}
                    onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--line)'; e.currentTarget.style.transform = 'translateY(0)'; }}>
-                  <div style={{
-                    width: 56, height: 56, flexShrink: 0,
-                    background: thumbGradient(loc.id.length * 7),
-                    borderRadius: 2,
-                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    color: 'var(--amber)',
-                    border: '1px solid var(--line)',
-                  }}>{CAT_ICONS[loc.category] && CAT_ICONS[loc.category](22)}</div>
+                  {(() => {
+                    const v = (dbVideos || []).find(vv => vv.location_id === loc.id || (vv.shot_lat && Math.abs(vv.shot_lat - (loc.lat||0)) < 0.05 && Math.abs((vv.shot_lon||vv.lon||0) - (loc.lon||0)) < 0.05));
+                    const yt = v && (v.youtube_id || v.yt_id);
+                    if (yt) {
+                      return <div style={{
+                        width: 88, height: 56, flexShrink: 0,
+                        backgroundImage: `url(https://i.ytimg.com/vi/${yt}/mqdefault.jpg)`,
+                        backgroundSize: 'cover', backgroundPosition: 'center',
+                        borderRadius: 3, border: '1px solid var(--line)',
+                      }}/>;
+                    }
+                    return <div style={{
+                      width: 88, height: 56, flexShrink: 0,
+                      background: thumbGradient(loc.id.length * 7),
+                      borderRadius: 3, display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      color: 'var(--amber)', border: '1px solid var(--line)',
+                    }}>{CAT_ICONS[loc.category] && CAT_ICONS[loc.category](22)}</div>;
+                  })()}
                   <div style={{ flex: 1, minWidth: 0 }}>
                     <div className="mono" style={{ fontSize: 10, letterSpacing: '0.1em', color: 'var(--parchment-dim)', textTransform: 'uppercase', marginBottom: 2 }}>
                       {loc.country}

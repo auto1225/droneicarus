@@ -12,11 +12,12 @@ async function get(path) {
 }
 
 export async function fetchSidebarSlots() {
-  const [picks, topVids, ads, liveActive] = await Promise.all([
+  const [picks, topVids, ads, liveActive, recent] = await Promise.all([
     get('/rest/v1/home_sidebar_picks?select=id,kind,ref_id,payload,sort_order&active=eq.true&order=sort_order.asc&limit=30'),
-    get('/rest/v1/videos?select=id,slug,title,youtube_id,thumb_url,views,duration_s,owner_id&order=views.desc.nullslast&limit=8'),
+    get('/rest/v1/videos?select=id,slug,title,youtube_id,thumb_url,views,duration_s,owner_id&order=views.desc.nullslast&limit=14'),
     get('/rest/v1/ads?select=id,title,brand,image_url,click_url,cta_label&active=eq.true&limit=4'),
     get('/rest/v1/live_streams?select=id,title,thumb_url,status,yt_video_id,viewers_peak&status=eq.live&order=started_at.desc.nullslast&limit=2'),
+    get('/rest/v1/videos?select=id,slug,title,youtube_id,thumb_url,published_at&order=published_at.desc.nullslast&limit=8'),
   ]);
 
   const liveCurated = picks.filter(p => p.kind === 'live');
@@ -52,5 +53,5 @@ export async function fetchSidebarSlots() {
     adRows = ads;
   }
 
-  return { hot, live, ads: adRows };
+  return { hot, live, ads: adRows, recent };
 }
