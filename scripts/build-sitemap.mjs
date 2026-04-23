@@ -61,7 +61,7 @@ function urlEntry(loc, lastmod = today, priority = '0.5', changefreq = 'weekly',
   const entries = STATIC.map(([path, priority, freq]) => urlEntry(BASE + path, today, priority, freq));
 
   // Videos — each clip deserves its own URL
-  const videos = await get('/rest/v1/videos?select=id,slug,title,thumb_url,youtube_id,published_at&status=eq.approved&limit=5000');
+  const videos = await get('/rest/v1/videos?select=id,slug,title,thumb_url,youtube_id,published_at&status=eq.published&limit=5000');
   for (const v of videos) {
     const img = v.thumb_url || (v.youtube_id ? `https://i.ytimg.com/vi/${v.youtube_id}/hqdefault.jpg` : null);
     entries.push(urlEntry(
