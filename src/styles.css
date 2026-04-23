@@ -860,3 +860,40 @@ input:focus, textarea:focus, select:focus {
   0%, 100% { opacity: 1; transform: scale(1); }
   50%      { opacity: 0.55; transform: scale(0.8); }
 }
+
+/* ───────── Admin CMS readability scope ───────── */
+/* Wrapped on AdminShell <main className="admin-scope">. Forces YouTube-Studio-style sizing
+   regardless of inline fontSize that's smaller. Use min font-size via CSS only;
+   we don't override large headings (>= 18px). */
+.admin-scope { font-size: 16px; line-height: 1.55; }
+.admin-scope h1 { font-size: 28px !important; margin: 0 0 12px; }
+.admin-scope h2 { font-size: 24px !important; margin: 0 0 10px; }
+.admin-scope h3 { font-size: 18px !important; margin: 0 0 10px; }
+.admin-scope p, .admin-scope label, .admin-scope li { font-size: 15px; }
+.admin-scope button, .admin-scope input, .admin-scope select, .admin-scope textarea {
+  font-size: 15px; line-height: 1.5;
+}
+.admin-scope .mono { font-size: 13px; letter-spacing: 0.16em; }
+.admin-scope table { width: 100%; border-collapse: collapse; font-size: 15px; }
+.admin-scope th { padding: 12px 14px !important; font-size: 13px !important; font-weight: 700 !important; text-transform: uppercase; letter-spacing: 0.1em; color: var(--parchment-dim); border-bottom: 2px solid var(--line-strong); background: rgba(0,0,0,0.18); text-align: left; }
+.admin-scope td { padding: 12px 14px !important; font-size: 15px !important; border-bottom: 1px solid var(--line); vertical-align: middle; }
+.admin-scope tbody tr:hover { background: rgba(217,112,69,0.05); }
+.admin-scope tbody tr:nth-child(even) { background: rgba(255,255,255,0.015); }
+/* KPI/stat numbers stay big */
+.admin-scope .stat-num { font-size: 36px !important; font-weight: 700; line-height: 1.1; }
+.admin-scope .stat-label { font-size: 12px !important; letter-spacing: 0.18em; text-transform: uppercase; color: var(--parchment-dim); }
+/* Chart containers */
+.admin-scope .chart-card { padding: 22px; border: 1px solid var(--line); border-radius: 8px; background: var(--forest-900); }
+.admin-scope .chart-card h3 { font-size: 16px !important; margin: 0 0 16px; color: var(--parchment); }
+.admin-scope .chart-bar-label { font-size: 13px; color: var(--parchment-dim); }
+.admin-scope .chart-bar-value { font-size: 13px; font-weight: 600; color: var(--bone); }
+.admin-scope .chart-axis { font-size: 11px; color: var(--parchment-dim); font-family: var(--font-mono); }
+/* Cards/sections */
+.admin-scope .card { padding: 22px; border-radius: 8px; }
+/* Form fields */
+.admin-scope input[type="text"], .admin-scope input[type="email"], .admin-scope input[type="number"],
+.admin-scope input[type="search"], .admin-scope textarea, .admin-scope select {
+  padding: 10px 12px !important; font-size: 15px !important;
+}
+/* Lists/rows */
+.admin-scope .row, .admin-scope .list-row { padding: 14px 16px; font-size: 15px; }

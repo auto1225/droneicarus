@@ -139,10 +139,10 @@ export function AnalyticsPage() {
         <Card title="Top countries"><Tab cols={['Country','Views','Uniques']} rows={countries.map(c => [c.country, fmt(c.pageviews), fmt(c.unique_visitors)])}/></Card>
         <Card title="Top pages"><Tab cols={['Path','Views','Uniques']} rows={pages.map(p => [p.path, fmt(p.pageviews), fmt(p.unique_visitors)])}/></Card>
         <Card title="Top referrers"><Tab cols={['Source','Views']} rows={refs.map(r => [r.referrer, fmt(r.pageviews)])}/></Card>
-        <Card title="Browsers"><Tab cols={['Browser','Views']} rows={browsers.map(b => [b.label, fmt(b.pageviews)])}/></Card>
-        <Card title="OS"><Tab cols={['OS','Views']} rows={oses.map(b => [b.label, fmt(b.pageviews)])}/></Card>
-        <Card title="Device"><Tab cols={['Device','Views']} rows={devices.map(b => [b.label, fmt(b.pageviews)])}/></Card>
-        <Card title="Language"><Tab cols={['Lang','Views']} rows={langs.map(b => [b.label, fmt(b.pageviews)])}/></Card>
+        <Card title="Browsers"><Donut slices={browsers.map(b => ({ label: b.label, value: Number(b.pageviews) }))}/></Card>
+        <Card title="OS"><Donut slices={oses.map(b => ({ label: b.label, value: Number(b.pageviews) }))}/></Card>
+        <Card title="Device"><Donut slices={devices.map(b => ({ label: b.label, value: Number(b.pageviews) }))}/></Card>
+        <Card title="Language"><Donut slices={langs.map(b => ({ label: b.label, value: Number(b.pageviews) }))}/></Card>
         <Card title="Top members (signed-in users)">
           <Tab cols={['Email','Handle','Views','Sessions','Last seen']}
             rows={members.map(m => [m.user_email || '—', m.user_handle || '—', fmt(m.pageviews), fmt(m.sessions), m.last_seen ? new Date(m.last_seen).toLocaleString() : '—'])}/>
@@ -190,19 +190,103 @@ function Tab({ cols, rows }) {
 
 function Bars({ data }) {
   if (!data || !data.length) return <div style={{ padding: 24, textAlign: 'center', color: 'var(--parchment-dim)', fontSize: 14 }}>No data yet.</div>;
-  const max = Math.max(...data.map(d => Number(d.pageviews))) || 1;
+  const W = 760, H = 220, P = { l: 50, r: 14, t: 14, b: 30 };
+  const max = Math.max(...data.map(d => Number(d.pageviews)), ...data.map(d => Number(d.unique_visitors))) || 1;
+  const niceMax = Math.ceil(max / 10) * 10 || 1;
+  const cw = W - P.l - P.r, ch = H - P.t - P.b;
+  const barW = Math.max(4, cw / data.length - 6);
+  // y-axis ticks
+  const ticks = [0, 0.25, 0.5, 0.75, 1].map(t => Math.round(niceMax * t));
+  // line points for unique visitors
+  const pts = data.map((d, i) => {
+    const x = P.l + (i + 0.5) * (cw / data.length);
+    const y = P.t + ch - (Number(d.unique_visitors) / niceMax) * ch;
+    return [x, y, d];
+  });
+  const linePath = pts.map((p, i) => (i ? 'L' : 'M') + p[0] + ' ' + p[1]).join(' ');
   return (
-    <div style={{ display: 'flex', alignItems: 'flex-end', gap: 4, height: 160, paddingTop: 14 }}>
-      {data.map((d, i) => {
-        const h = (Number(d.pageviews) / max) * 100;
-        const date = new Date(d.bucket).toLocaleDateString();
+    <svg viewBox={`0 0 ${W} ${H}`} width="100%" height={H} style={{ overflow: 'visible' }}>
+      {/* horizontal grid + y labels */}
+      {ticks.map((tv, i) => {
+        const y = P.t + ch - (tv / niceMax) * ch;
         return (
-          <div key={i} title={`${date}: ${d.pageviews} views, ${d.unique_visitors} uniques`}
-               style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4, minWidth: 4 }}>
-            <div style={{ width: '100%', height: h + '%', background: 'var(--amber)', borderRadius: '2px 2px 0 0', minHeight: 1, transition: 'height .3s' }}/>
-          </div>
+          <g key={i}>
+            <line x1={P.l} x2={W - P.r} y1={y} y2={y} stroke="var(--line)" strokeDasharray="2 4" />
+            <text x={P.l - 8} y={y + 4} className="chart-axis" textAnchor="end" fill="var(--parchment-dim)" fontSize="11">{tv.toLocaleString()}</text>
+          </g>
         );
       })}
+      {/* bars: pageviews */}
+      {data.map((d, i) => {
+        const x = P.l + i * (cw / data.length) + (cw / data.length - barW) / 2;
+        const h = (Number(d.pageviews) / niceMax) * ch;
+        const y = P.t + ch - h;
+        return (
+          <g key={i}>
+            <rect x={x} y={y} width={barW} height={Math.max(1, h)} fill="var(--amber)" opacity="0.78" rx="2">
+              <title>{`${new Date(d.bucket).toLocaleDateString()} — pageviews: ${d.pageviews}, uniques: ${d.unique_visitors}`}</title>
+            </rect>
+          </g>
+        );
+      })}
+      {/* line: unique visitors */}
+      <path d={linePath} fill="none" stroke="var(--moss)" strokeWidth="2.4" />
+      {pts.map(([x, y], i) => <circle key={i} cx={x} cy={y} r="3" fill="var(--moss)" />)}
+      {/* x-axis labels — every Nth */}
+      {data.map((d, i) => {
+        const step = Math.max(1, Math.ceil(data.length / 8));
+        if (i % step !== 0 && i !== data.length - 1) return null;
+        const x = P.l + (i + 0.5) * (cw / data.length);
+        const lab = new Date(d.bucket).toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
+        return <text key={i} x={x} y={H - 10} fontSize="11" fill="var(--parchment-dim)" textAnchor="middle" className="chart-axis">{lab}</text>;
+      })}
+      {/* legend */}
+      <g transform={`translate(${P.l}, ${P.t - 4})`}>
+        <rect x="0" y="-2" width="10" height="10" fill="var(--amber)" opacity="0.78" rx="1"/>
+        <text x="14" y="6" fontSize="12" fill="var(--parchment)">Pageviews</text>
+        <line x1="92" y1="3" x2="108" y2="3" stroke="var(--moss)" strokeWidth="2.4"/>
+        <circle cx="100" cy="3" r="3" fill="var(--moss)"/>
+        <text x="114" y="6" fontSize="12" fill="var(--parchment)">Unique visitors</text>
+      </g>
+    </svg>
+  );
+}
+
+function Donut({ slices, size = 200 }) {
+  if (!slices || !slices.length) return <div style={{ padding: 24, textAlign: 'center', color: 'var(--parchment-dim)', fontSize: 14 }}>No data yet.</div>;
+  const total = slices.reduce((a, s) => a + s.value, 0) || 1;
+  const cx = size / 2, cy = size / 2, R = size / 2 - 6, r = size / 2 - 32;
+  const palette = ['var(--amber)', 'var(--moss)', 'var(--lichen)', 'var(--sunset)', 'var(--forest-300)', 'var(--bone)'];
+  let acc = 0;
+  const arcs = slices.slice(0, 6).map((s, i) => {
+    const start = (acc / total) * 2 * Math.PI - Math.PI / 2;
+    acc += s.value;
+    const end = (acc / total) * 2 * Math.PI - Math.PI / 2;
+    const large = end - start > Math.PI ? 1 : 0;
+    const x1 = cx + R * Math.cos(start), y1 = cy + R * Math.sin(start);
+    const x2 = cx + R * Math.cos(end),   y2 = cy + R * Math.sin(end);
+    const x3 = cx + r * Math.cos(end),   y3 = cy + r * Math.sin(end);
+    const x4 = cx + r * Math.cos(start), y4 = cy + r * Math.sin(start);
+    const d = `M ${x1} ${y1} A ${R} ${R} 0 ${large} 1 ${x2} ${y2} L ${x3} ${y3} A ${r} ${r} 0 ${large} 0 ${x4} ${y4} Z`;
+    return { d, color: palette[i % palette.length], label: s.label, value: s.value, pct: ((s.value / total) * 100).toFixed(1) };
+  });
+  return (
+    <div style={{ display: 'flex', alignItems: 'center', gap: 22 }}>
+      <svg viewBox={`0 0 ${size} ${size}`} width={size} height={size}>
+        {arcs.map((a, i) => <path key={i} d={a.d} fill={a.color}><title>{`${a.label}: ${a.value} (${a.pct}%)`}</title></path>)}
+        <text x={cx} y={cy - 4} textAnchor="middle" fontSize="22" fill="var(--bone)" fontWeight="700">{total.toLocaleString()}</text>
+        <text x={cx} y={cy + 16} textAnchor="middle" fontSize="11" fill="var(--parchment-dim)" letterSpacing="0.18em">TOTAL</text>
+      </svg>
+      <div style={{ flex: 1, display: 'grid', gap: 6 }}>
+        {arcs.map((a, i) => (
+          <div key={i} style={{ display: 'grid', gridTemplateColumns: '14px 1fr 60px 50px', alignItems: 'center', gap: 8, fontSize: 13 }}>
+            <span style={{ width: 12, height: 12, background: a.color, borderRadius: 2 }}/>
+            <span style={{ color: 'var(--parchment)' }}>{a.label}</span>
+            <span style={{ color: 'var(--bone)', textAlign: 'right' }}>{a.value.toLocaleString()}</span>
+            <span style={{ color: 'var(--parchment-dim)', textAlign: 'right' }}>{a.pct}%</span>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

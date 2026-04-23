@@ -152,12 +152,12 @@ export function AdminShell({ section = 'dashboard', onNav }) {
       }}>
         <div style={{ padding: '6px 10px 14px' }}>
           <div className="mono" style={{ fontSize: 12, letterSpacing: '0.2em', color: 'var(--amber)' }}>ADMIN · CMS</div>
-          <div style={{ fontSize: 14, color: 'var(--bone)', marginTop: 4 }}>{profile?.display_name || profile?.handle || 'Operator'}</div>
-          <div style={{ fontSize: 12, color: 'var(--parchment-dim)' }}>{profile?.email}</div>
+          <div style={{ fontSize: 16, color: 'var(--bone)', marginTop: 4 }}>{profile?.display_name || profile?.handle || 'Operator'}</div>
+          <div style={{ fontSize: 13, color: 'var(--parchment-dim)' }}>{profile?.email}</div>
         </div>
         {SIDEBAR.map(group => (
           <div key={group.group} style={{ marginBottom: 14 }}>
-            <div className="mono" style={{ fontSize: 12, letterSpacing: '0.2em', color: 'var(--parchment-dim)', padding: '8px 12px' }}>{group.group.toUpperCase()}</div>
+            <div className="mono" style={{ fontSize: 11, letterSpacing: '0.18em', color: 'var(--amber)', padding: '12px 12px 6px' }}>{group.group.toUpperCase()}</div>
             {group.items.map(it => {
               const active = section === it.id;
               return (
@@ -165,7 +165,7 @@ export function AdminShell({ section = 'dashboard', onNav }) {
                         onClick={() => onNav('admin', it.id)}
                         style={{
                           display: 'flex', alignItems: 'center', gap: 10, width: '100%',
-                          padding: '8px 12px', borderRadius: 4, fontSize: 14,
+                          padding: '10px 14px', borderRadius: 4, fontSize: 15,
                           background: active ? 'var(--forest-800)' : 'transparent',
                           color: active ? 'var(--amber)' : 'var(--parchment)',
                           border: 'none', cursor: 'pointer', textAlign: 'left',
@@ -179,16 +179,16 @@ export function AdminShell({ section = 'dashboard', onNav }) {
         ))}
         <div style={{ borderTop: '1px solid var(--line)', marginTop: 14, paddingTop: 14 }}>
           <button onClick={() => onNav('home')} style={{
-            display: 'block', width: '100%', padding: '8px 12px', borderRadius: 4, fontSize: 14, color: 'var(--parchment-dim)', textAlign: 'left',
+            display: 'block', width: '100%', padding: '10px 14px', borderRadius: 4, fontSize: 15, color: 'var(--parchment-dim)', textAlign: 'left',
           }}>← Back to site</button>
           <button onClick={async () => { await signOut(); onNav('home'); }} style={{
-            display: 'block', width: '100%', padding: '8px 12px', borderRadius: 4, fontSize: 14, color: 'var(--sunset)', textAlign: 'left',
+            display: 'block', width: '100%', padding: '10px 14px', borderRadius: 4, fontSize: 15, color: 'var(--sunset)', textAlign: 'left',
           }}>Sign out</button>
         </div>
       </aside>
 
       {/* Content */}
-      <main style={{ padding: '32px 40px', minWidth: 0 }}>
+      <main className="admin-scope" style={{ padding: '32px 40px', minWidth: 0 }}>
         <SectionRouter section={section} onNav={onNav} />
       </main>
     </div>
@@ -272,7 +272,7 @@ function Dashboard() {
             padding: 22, background: 'var(--forest-900)', border: '1px solid var(--line)', borderRadius: 6,
           }}>
             <div className="mono" style={{ fontSize: 12, letterSpacing: '0.14em', color: 'var(--parchment-dim)' }}>{label.toUpperCase()}</div>
-            <div style={{ fontSize: 32, fontFamily: 'var(--font-display)', fontWeight: 600, color, marginTop: 6 }}>{value}</div>
+            <div style={{ fontSize: 40, fontFamily: 'var(--font-display)', fontWeight: 700, color, marginTop: 8 }}>{value}</div>
           </div>
         ))}
       </div>
@@ -318,21 +318,40 @@ function Dashboard() {
 }
 
 function ChartCard({ title, values, max, accent }) {
+  const W = 560, H = 240, P = { l: 50, r: 16, t: 16, b: 46 };
+  const cw = W - P.l - P.r, ch = H - P.t - P.b;
+  const niceMax = Math.max(1, Math.ceil((max || 1) / 10) * 10);
+  const ticks = [0, 0.25, 0.5, 0.75, 1].map(t => Math.round(niceMax * t));
+  const barW = values.length ? Math.max(8, cw / values.length - 12) : 8;
   return (
-    <div style={{ padding: 18, border: '1px solid var(--line)', borderRadius: 6, background: 'var(--forest-900)' }}>
-      <h3 style={{ fontSize: 14, marginBottom: 14, color: 'var(--parchment)' }}>{title}</h3>
+    <div className="chart-card">
+      <h3>{title}</h3>
       {values.length === 0 ? <Empty>데이터가 아직 없습니다.</Empty> : (
-        <div style={{ display: 'flex', alignItems: 'flex-end', gap: 10, height: 140 }}>
-          {values.map((v, i) => (
-            <div key={i} style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4 }}>
-              <div style={{ fontSize: 12, color: 'var(--parchment-dim)' }}>{v.display}</div>
-              <div style={{ width: '100%', flex: 1, display: 'flex', alignItems: 'flex-end' }}>
-                <div style={{ width: '100%', height: Math.max(4, (v.value / max) * 120), background: accent, borderRadius: 2 }}/>
-              </div>
-              <div className="mono" style={{ fontSize: 12, color: 'var(--parchment-dim)' }}>{v.label.slice(5)}</div>
-            </div>
-          ))}
-        </div>
+        <svg viewBox={`0 0 ${W} ${H}`} width="100%" height={H}>
+          {ticks.map((tv, i) => {
+            const y = P.t + ch - (tv / niceMax) * ch;
+            return (
+              <g key={i}>
+                <line x1={P.l} x2={W - P.r} y1={y} y2={y} stroke="var(--line)" strokeDasharray="2 4"/>
+                <text x={P.l - 8} y={y + 4} textAnchor="end" fontSize="11" fill="var(--parchment-dim)" className="chart-axis">{tv.toLocaleString()}</text>
+              </g>
+            );
+          })}
+          {values.map((v, i) => {
+            const x = P.l + i * (cw / values.length) + (cw / values.length - barW) / 2;
+            const h = (v.value / niceMax) * ch;
+            const y = P.t + ch - h;
+            return (
+              <g key={i}>
+                <rect x={x} y={y} width={barW} height={Math.max(1, h)} fill={accent} opacity="0.85" rx="3">
+                  <title>{`${v.label}: ${v.display}`}</title>
+                </rect>
+                <text x={x + barW / 2} y={y - 6} textAnchor="middle" fontSize="12" fill="var(--bone)" fontWeight="600">{v.display}</text>
+                <text x={x + barW / 2} y={H - 14} textAnchor="middle" fontSize="12" fill="var(--parchment-dim)" className="chart-axis">{v.label.slice(5)}</text>
+              </g>
+            );
+          })}
+        </svg>
       )}
     </div>
   );
