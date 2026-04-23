@@ -543,6 +543,22 @@ function DocumentViewer({ documentUrl, externalUrl, documentType }) {
   return null;
 }
 
+function cleanLabTitle(item) {
+  let t = item.title || '';
+  if (item.subsection === 'projects' && item.external_url) {
+    // GitHub repo: pull just the repo name out of OWNER/REPO[ — desc] format
+    const m = (item.external_url || '').match(/github\.com\/[^/]+\/([^/?#]+)/);
+    if (m) return m[1].replace(/\.git$/, '');
+  }
+  return t;
+}
+function cleanLabSummary(item) {
+  let s = item.summary || '';
+  if (item.subsection === 'projects') {
+    s = s.replace(/^[★\u2605]\s*[\d,]+\s*stars?\.\s*/i, '');  // strip "★ N stars. "
+  }
+  return s;
+}
 function LabItemCard({ item, onNav }) {
   return (
     <div onClick={() => onNav('lab-item', item.id)} style={{
@@ -556,10 +572,10 @@ function LabItemCard({ item, onNav }) {
         <div className="mono" style={{ fontSize: 9, letterSpacing: '0.14em', color: 'var(--parchment-dim)', marginBottom: 6 }}>
           {item.type?.toUpperCase()}{item.institution ? ` · ${item.institution}` : ''}
         </div>
-        <div style={{ fontSize: 14, fontWeight: 600, lineHeight: 1.35, marginBottom: 8 }}>{item.title}</div>
+        <div style={{ fontSize: 14, fontWeight: 600, lineHeight: 1.35, marginBottom: 8 }}>{cleanLabTitle(item)}</div>
         {item.summary && (
-          <div style={{ fontSize: 12, color: 'var(--parchment-dim)', lineHeight: 1.5, marginBottom: 10, display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
-            {item.summary}
+          <div style={{ fontSize: 12, color: 'var(--parchment-dim)', lineHeight: 1.5, marginBottom: 10, display: '-webkit-box', WebkitLineClamp: 4, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
+            {cleanLabSummary(item)}
           </div>
         )}
         {(item.price_min_usd != null || item.price_max_usd != null || item.brand) && (
