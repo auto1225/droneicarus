@@ -178,7 +178,7 @@ We only embed videos with \`videoLicense=creativeCommon\` filter. Player shows Y
 
 ## DMCA
 
-- Notices sent to: dmca@droneicarus.com (set up forwarder)
+- Notices sent to: droneicarusadmin@gmail.com (set up forwarder)
 - Counter-notices: 14-day takedown window
 - Repeat infringer policy: 3 strikes → account termination
 

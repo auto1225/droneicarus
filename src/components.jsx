@@ -677,7 +677,16 @@ export function Footer({ onNav }) {
         fontSize: 11, fontFamily: 'var(--font-mono)', color: 'var(--parchment-dim)',
       }}>
         <span>{copyright}</span>
-        <span className="mono">Seoul HQ</span>
+        <span className="mono">
+          <a href={`mailto:${txt('footer.contact_email', 'droneicarusadmin@gmail.com')}`}
+             style={{ color: 'var(--parchment-dim)', textDecoration: 'none' }}
+             onMouseEnter={e => e.currentTarget.style.color = 'var(--amber)'}
+             onMouseLeave={e => e.currentTarget.style.color = 'var(--parchment-dim)'}>
+            {txt('footer.contact_email', 'droneicarusadmin@gmail.com')}
+          </a>
+          <span style={{ margin: '0 10px', opacity: 0.5 }}>·</span>
+          Seoul HQ
+        </span>
       </div>
     </footer>
   );
