@@ -7,6 +7,15 @@ const SUPA_URL = (process.env.VITE_SUPABASE_URL || 'https://eotsbncgkgewgbemaarp
 const KEY = process.env.VITE_SUPABASE_PUBLISHABLE_KEY || process.env.SUPABASE_ANON_KEY;
 const BASE = 'https://droneicarus.com';
 const today = new Date().toISOString().slice(0, 10);
+const MIN_LASTMOD = '2020-01-01';
+// Clamp lastmod so Google doesn't flag ancient/future dates on the sitemap.
+function clampDate(iso) {
+  if (!iso) return today;
+  const d = String(iso).slice(0, 10);
+  if (d < MIN_LASTMOD) return today;   // ancient (e.g. 1932 arXiv paper) → use today
+  if (d > today) return today;          // future (shouldn't happen, but guard)
+  return d;
+}
 
 async function get(path) {
   try {
@@ -66,7 +75,7 @@ function urlEntry(loc, lastmod = today, priority = '0.5', changefreq = 'weekly',
     const img = v.thumb_url || (v.youtube_id ? `https://i.ytimg.com/vi/${v.youtube_id}/hqdefault.jpg` : null);
     entries.push(urlEntry(
       `${BASE}/#watch/${v.id}`,
-      (v.published_at || today).slice(0, 10),
+      clampDate(v.published_at),
       '0.7', 'weekly',
       img ? [{ url: img, title: v.title }] : []
     ));
@@ -77,7 +86,7 @@ function urlEntry(loc, lastmod = today, priority = '0.5', changefreq = 'weekly',
   for (const l of labs) {
     entries.push(urlEntry(
       `${BASE}/#lab-item/${l.id}`,
-      (l.published_at || today).slice(0, 10),
+      clampDate(l.published_at),
       '0.6', 'monthly',
       l.cover_image_url ? [{ url: l.cover_image_url, title: l.title }] : []
     ));
