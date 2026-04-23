@@ -349,13 +349,13 @@ export default function App() {
         {route === 'collection' && <CollectionPage id={routeParam} onOpenVideo={onOpenVideo} onNav={onNav} />}
         {route === 'location' && <LocationPage id={routeParam} onOpenVideo={onOpenVideo} onNav={onNav} />}
         {route === 'pricing' && <PricingPage onNav={onNav} />}
-        {route === 'shotlibrary' && <ShotLibraryPage onNav={onNav} onOpenVideo={onOpenVideo} />}
+        {(route === 'shotlibrary' || route === 'shots') && <ShotLibraryPage onNav={onNav} onOpenVideo={onOpenVideo} />}
         {route === 'advanced' && <AdvancedPage onNav={onNav} onOpenVideo={onOpenVideo} />}
         {route === 'lab' && !routeParam && <LabHubPage onNav={onNav} />}
         {route === 'lab' && routeParam && <LabSubsectionPage subsection={routeParam} onNav={onNav} />}
         {route === 'lab-item' && <LabItemPage itemId={routeParam} onNav={onNav} />}
         {route === 'admin' && <RequireAdminM onNav={onNav}><AdminShell section={routeParam || 'dashboard'} onNav={onNav} /></RequireAdminM>}
-        {!['home', 'watch', 'explore', 'rankings', 'creators', 'creator', 'search', 'upload', 'mypage', 'signin', 'checkout', 'success', 'orders', 'license', 'earnings', 'settings', 'pilot-onboarding', 'profile', 'messages', 'notifications', 'commission', 'guidelines', 'legal', 'flightlog', 'atlas', 'live', 'collection', 'location', 'pricing', 'shotlibrary', 'advanced', 'admin', 'lab', 'lab-item', 'livehelp', 'mystreams'].includes(route) && <NotFoundPage onNav={onNav} />}
+        {!['home', 'watch', 'explore', 'rankings', 'creators', 'creator', 'search', 'upload', 'mypage', 'signin', 'checkout', 'success', 'orders', 'license', 'earnings', 'settings', 'pilot-onboarding', 'profile', 'messages', 'notifications', 'commission', 'guidelines', 'legal', 'flightlog', 'atlas', 'live', 'collection', 'location', 'pricing', 'shotlibrary', 'advanced', 'admin', 'lab', 'lab-item', 'livehelp', 'mystreams', 'shots'].includes(route) && <NotFoundPage onNav={onNav} />}
       </Suspense></ChunkErrorBoundary>
       {!['creator','pilot-onboarding','signin','messages','live','admin'].includes(route) && <Footer onNav={onNav} />}
 
