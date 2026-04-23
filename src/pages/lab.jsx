@@ -550,13 +550,7 @@ function LabItemCard({ item, onNav }) {
       display: 'flex', flexDirection: 'column',
       transition: 'border-color 0.15s, transform 0.15s',
     }}>
-      {item.cover_image_url && (
-        <div style={{
-          aspectRatio: '16/9', width: '100%',
-          background: `center / cover no-repeat url('${item.cover_image_url.replace(/'/g, "%27")}')`,
-          borderBottom: '1px solid var(--line)',
-        }} />
-      )}
+      <LabPagePreview item={item} fallback={item.cover_image_url}/>
       <div style={{ padding: 14, flex: 1, display: 'flex', flexDirection: 'column' }}>
         <div className="mono" style={{ fontSize: 9, letterSpacing: '0.14em', color: 'var(--parchment-dim)', marginBottom: 6 }}>
           {item.type?.toUpperCase()}{item.institution ? ` · ${item.institution}` : ''}
