@@ -2,13 +2,13 @@
 // Apply static og:image mapping (scraped from sandbox) to lab_items.
 import fs from 'node:fs';
 
-const URL = process.env.SUPABASE_URL;
+const SUPA_URL = process.env.SUPABASE_URL;
 const KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
-if (!URL || !KEY) { console.error('Missing env'); process.exit(1); }
+if (!SUPA_URL || !KEY) { console.error('Missing env'); process.exit(1); }
 const H = { apikey: KEY, Authorization: `Bearer ${KEY}`, 'Content-Type': 'application/json', Prefer: 'return=minimal' };
 
 // Map scraped in sandbox on 2026-04-23
-const MAP = JSON.parse(fs.readFileSync(new URL('./print-thumbs-map.json', import.meta.url), 'utf8'));
+const MAP = JSON.parse(fs.readFileSync('scripts/print-thumbs-map.json', 'utf8'));
 
 (async () => {
   let ok = 0, skip = 0;
@@ -18,10 +18,10 @@ const MAP = JSON.parse(fs.readFileSync(new URL('./print-thumbs-map.json', import
     let cover = og;
     if (og.includes('arxiv-logo-fb.png')) {
       // find external_url and use thum.io
-      const row = await fetch(`${URL}/rest/v1/lab_items?select=external_url&id=eq.${id}`, { headers: H }).then(r => r.json());
+      const row = await fetch(`${SUPA_URL}/rest/v1/lab_items?select=external_url&id=eq.${id}`, { headers: H }).then(r => r.json());
       if (row[0]?.external_url) cover = `https://image.thum.io/get/width/800/crop/600/${encodeURIComponent(row[0].external_url)}`;
     }
-    const r = await fetch(`${URL}/rest/v1/lab_items?id=eq.${id}`, {
+    const r = await fetch(`${SUPA_URL}/rest/v1/lab_items?id=eq.${id}`, {
       method: 'PATCH', headers: H,
       body: JSON.stringify({ cover_image_url: cover }),
     });
