@@ -22,6 +22,26 @@ function MapHero({ selectedLoc, onSelectLoc, selectedFineSet, mapFilters, search
   const mapRef = hUseRef(null);
   const mapInstance = hUseRef(null);
   const markersRef = hUseRef([]);
+  const liveMarkersRef = hUseRef([]);
+  const [liveStreams, setLiveStreams] = hUseState([]);
+
+  // Fetch active live streams + refresh every 30s
+  hUseEffect(() => {
+    let cancel = false;
+    const SUPA_URL = import.meta.env.VITE_SUPABASE_URL || 'https://eotsbncgkgewgbemaarp.supabase.co';
+    const KEY = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
+    const fetchLive = async () => {
+      try {
+        const r = await fetch(`${SUPA_URL}/rest/v1/live_streams?select=id,title,thumb_url,lat,lon,viewers_peak,yt_video_id&status=eq.live&limit=50`, {
+          headers: { apikey: KEY, Authorization: `Bearer ${KEY}` },
+        });
+        if (r.ok && !cancel) setLiveStreams(await r.json());
+      } catch {}
+    };
+    fetchLive();
+    const t = setInterval(fetchLive, 30000);
+    return () => { cancel = true; clearInterval(t); };
+  }, []);
 
   hUseEffect(() => {
     if (mapInstance.current || !mapRef.current) return;
