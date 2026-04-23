@@ -298,11 +298,15 @@ function MapHero({ selectedLoc, onSelectLoc, selectedFineSet, mapFilters, search
     liveMarkersRef.current = [];
     for (const s of (liveStreams || [])) {
       if (!s.lat || !s.lon) continue;
-      const html = `<div class="live-pin-wrap" title="${(s.title || '').replace(/"/g, '&quot;')}">
+      const escTitle = (s.title || '').replace(/"/g, '&quot;').replace(/</g, '&lt;');
+      const viewers = s.viewers_peak ? (s.viewers_peak >= 1000 ? (s.viewers_peak/1000).toFixed(1).replace(/\.0$/,'')+'k' : s.viewers_peak) : '';
+      const html = `<div class="live-pin-wrap">
         <div class="live-pin-pulse"></div>
-        <div class="live-pin-dot">LIVE</div>
+        <div class="live-pin-pulse-2"></div>
+        <div class="live-pin-dot">● LIVE${viewers ? ` · ${viewers}` : ''}</div>
+        <div class="live-pin-callout">${escTitle.slice(0,60)}</div>
       </div>`;
-      const icon = L.divIcon({ className: 'live-pin-icon', html, iconSize: [56, 56], iconAnchor: [28, 28] });
+      const icon = L.divIcon({ className: 'live-pin-icon', html, iconSize: [240, 90], iconAnchor: [120, 30] });
       const marker = L.marker([s.lat, s.lon], { icon, zIndexOffset: 1000 }).addTo(map);
       marker.on('click', () => onNav && onNav('live', s.id));
       liveMarkersRef.current.push(marker);
@@ -389,6 +393,25 @@ function MapHero({ selectedLoc, onSelectLoc, selectedFineSet, mapFilters, search
           </div>
         ))}
       </div>
+      {/* Live broadcasts persistent badge */}
+      {liveStreams && liveStreams.length > 0 && (
+        <button onClick={() => onNav && onNav('live', liveStreams[0].id)}
+          style={{
+            position: 'absolute', top: 28, right: 110, zIndex: 401,
+            display: 'flex', alignItems: 'center', gap: 10,
+            padding: '10px 16px', background: 'var(--sunset)', color: '#fff',
+            border: '2px solid #faf6ec', borderRadius: 4, cursor: 'pointer',
+            fontFamily: 'var(--font-mono)', fontSize: 12, fontWeight: 700,
+            letterSpacing: '0.08em', boxShadow: '0 6px 20px rgba(217,112,69,0.45)',
+            animation: 'live-badge-glow 2s ease-in-out infinite',
+          }}
+          title={`${liveStreams.length} live broadcast(s) · click to tune in`}>
+          <span style={{ width: 8, height: 8, borderRadius: '50%', background: '#fff', boxShadow: '0 0 0 4px rgba(255,255,255,0.4)', animation: 'live-dot-blink 1s infinite' }}/>
+          {liveStreams.length} LIVE NOW
+          <span style={{ opacity: 0.85, fontSize: 11 }}>· Tune in →</span>
+        </button>
+      )}
+
       {/* Compass rose */}
       <div style={{
         position: 'absolute', top: 28, right: 28, zIndex: 400,

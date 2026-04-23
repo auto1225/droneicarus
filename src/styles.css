@@ -815,11 +815,48 @@ input:focus, textarea:focus, select:focus {
 .home-right-sidebar::-webkit-scrollbar-thumb { background: var(--line-strong); border-radius: 3px; }
 
 /* Live broadcast pin on home map */
-.live-pin-icon { background: transparent !important; border: none !important; }
-.live-pin-wrap { position: relative; width: 56px; height: 56px; display: flex; align-items: center; justify-content: center; cursor: pointer; }
-.live-pin-pulse { position: absolute; width: 56px; height: 56px; border-radius: 50%; background: rgba(217, 112, 69, 0.35); animation: live-pulse 1.6s ease-out infinite; }
-.live-pin-dot { position: relative; padding: 4px 9px; background: var(--sunset); color: #fff; font-size: 10px; font-weight: 700; font-family: var(--font-mono); border-radius: 3px; letter-spacing: 0.1em; border: 2px solid #faf6ec; box-shadow: 0 4px 14px rgba(0,0,0,0.4); }
+.live-pin-icon { background: transparent !important; border: none !important; overflow: visible !important; }
+.live-pin-wrap { position: relative; width: 240px; height: 90px; display: flex; flex-direction: column; align-items: center; cursor: pointer; pointer-events: auto; }
+.live-pin-pulse,
+.live-pin-pulse-2 {
+  position: absolute; top: 8px; left: 50%; margin-left: -36px;
+  width: 72px; height: 72px; border-radius: 50%;
+  background: rgba(217, 112, 69, 0.45);
+  pointer-events: none;
+}
+.live-pin-pulse   { animation: live-pulse 1.6s ease-out infinite; }
+.live-pin-pulse-2 { animation: live-pulse 1.6s ease-out infinite 0.8s; }
+.live-pin-dot {
+  position: relative; z-index: 2;
+  margin-top: 18px;
+  padding: 6px 12px;
+  background: var(--sunset); color: #fff;
+  font-size: 11px; font-weight: 700; font-family: var(--font-mono);
+  border-radius: 4px; letter-spacing: 0.1em;
+  border: 2px solid #faf6ec;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.55);
+  white-space: nowrap;
+}
+.live-pin-callout {
+  margin-top: 6px;
+  padding: 4px 10px;
+  background: rgba(13, 20, 16, 0.92);
+  color: #f5ede0;
+  font-size: 11px; font-family: 'Inter Tight', Inter, sans-serif;
+  border-radius: 3px;
+  border: 1px solid rgba(217, 112, 69, 0.6);
+  white-space: nowrap; max-width: 220px; overflow: hidden; text-overflow: ellipsis;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.45);
+}
 @keyframes live-pulse {
-  0%   { transform: scale(0.7); opacity: 0.85; }
-  100% { transform: scale(1.7); opacity: 0; }
+  0%   { transform: scale(0.55); opacity: 0.9; }
+  100% { transform: scale(2.4); opacity: 0; }
+}
+@keyframes live-badge-glow {
+  0%, 100% { box-shadow: 0 6px 20px rgba(217,112,69,0.45); }
+  50%      { box-shadow: 0 6px 28px rgba(217,112,69,0.85); }
+}
+@keyframes live-dot-blink {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%      { opacity: 0.55; transform: scale(0.8); }
 }
