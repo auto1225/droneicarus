@@ -59,6 +59,13 @@ const DEFAULT_HIERARCHY = {
       { id: 'wind-farm',    label: 'Wind Farms',  fine: ['wind-farm'] },
       { id: 'solar-farm',   label: 'Solar Farms', fine: ['solar-farm'] },
     ]},
+    { id: 'warfare', label: 'Warfare & Defense', icon: 'warfare', children: [
+      { id: 'ukraine-war',  label: 'Ukraine · Russia',   fine: ['war-ukraine','war-russia'] },
+      { id: 'middle-east',  label: 'Middle East',        fine: ['war-mideast','war-israel','war-gaza','war-iran'] },
+      { id: 'autonomous',   label: 'Autonomous Swarms',  fine: ['war-swarm','war-autonomous'] },
+      { id: 'counter-uav',  label: 'Counter-UAV',        fine: ['war-counter'] },
+      { id: 'platforms',    label: 'Platforms (MQ-9/Bayraktar/Shahed)', fine: ['war-platform'] },
+    ]},
   ],
 };
 
