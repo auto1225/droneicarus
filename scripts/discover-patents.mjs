@@ -145,7 +145,7 @@ ${lns.map((l,i) => `<text x="40" y="${160+44*i}" fill="#f5ede0" font-family="Int
 // ────────────────────────────────────────────────────────────────────────
 async function fetchGooglePatents(query, num = NUM_PER_QUERY) {
   // url= param is double-encoded (q + sort)
-  const inner = `q=${encodeURIComponent(query)}&num=${num}&sort=new`;
+  const inner = `q=${encodeURIComponent(query)}&num=${num}`;
   const u = `https://patents.google.com/xhr/query?url=${encodeURIComponent(inner)}&exp=`;
   const headers = {
     'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
