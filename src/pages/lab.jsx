@@ -102,7 +102,7 @@ export function LabHubPage({ onNav }) {
         <input
           value={query}
           onChange={e => setQuery(e.target.value)}
-          placeholder="Search across research, projects, hardware, learn, pulse…"
+          placeholder="Search across research, patents, projects, hardware, learn, pulse, print…"
           style={{
             width: '100%', padding: '12px 16px', fontSize: 14,
             background: 'var(--forest-900)', border: '1px solid var(--line-strong)',
