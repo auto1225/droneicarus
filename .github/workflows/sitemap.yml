@@ -28,7 +28,5 @@ jobs:
           git add public/sitemap.xml
           git diff --cached --quiet || git commit -m "chore(sitemap): refresh"
           git push || true
-      - name: Ping Google + Bing
-        run: |
-          curl -sI "https://www.google.com/ping?sitemap=https://droneicarus.com/sitemap.xml" | head -1 || true
-          curl -sI "https://www.bing.com/ping?sitemap=https://droneicarus.com/sitemap.xml" | head -1 || true
+      - name: IndexNow submit (Bing + Yandex)
+        run: node scripts/indexnow-submit.mjs
