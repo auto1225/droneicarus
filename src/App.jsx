@@ -1,4 +1,6 @@
 // src/App.jsx — main shell, hash routing, Tweaks panel
+import { trackPageview } from './lib/track';
+import { useAuth } from './auth/AuthContext';
 import React, { useState, useEffect, useRef, Suspense, lazy } from 'react';
 
 import { VIDEOS } from './data';
@@ -242,6 +244,13 @@ export default function App() {
     window.addEventListener('hashchange', parseHash);
     return () => window.removeEventListener('hashchange', parseHash);
   }, []);
+
+  // Fire visitor analytics beacon on every route change
+  const _auth = useAuth() || {};
+  useEffect(() => {
+    const path = '#' + (routeParam ? route + '/' + routeParam : route);
+    trackPageview({ path, user: _auth.user || null, profile: _auth.profile || null });
+  }, [route, routeParam, _auth.user]);
 
   const onNav = (r, id) => {
     let h = r;

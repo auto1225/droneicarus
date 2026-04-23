@@ -4,6 +4,7 @@ import { ContentEditor } from './ContentEditor';
 import { AdminDocs } from './Docs';
 import { LabEditor } from './LabEditor';
 import { SidebarEditor, AdsEditor, StreamsEditor, SuperChatsViewer } from './SidebarEditor';
+import { AnalyticsPage } from './Analytics';
 import { useAuth } from '../../auth/AuthContext';
 import { toast } from '../../toast';
 import {
@@ -117,6 +118,7 @@ const SIDEBAR = [
   { group: 'Lab 콘텐츠', items: [
     { id: 'lab-items', label: 'Lab items', icon: '§' },
         { id: 'home-sidebar', label: 'Home sidebar' }, { id: 'ads', label: 'Ads' }, { id: 'live-streams', label: 'Live streams' }, { id: 'super-chats', label: 'Super Chats' },
+        { id: 'analytics', label: 'Analytics' },
   ]},
   { group: '운영 문서', items: [
     { id: 'docs', label: 'Operations & Legal docs', icon: '§' },
@@ -215,6 +217,7 @@ function SectionRouter({ section, onNav }) {
     case 'ads':                   return <AdsEditor/>;
     case 'live-streams':          return <StreamsEditor/>;
     case 'super-chats':           return <SuperChatsViewer/>;
+    case 'analytics':             return <AnalyticsPage/>;
     case 'docs':                  return <AdminDocs/>;
     case 'settings':              return <SettingsEditor k="site" title="Platform settings" fields={[
       ['name','Site name'], ['tagline','Tagline', true],
