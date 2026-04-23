@@ -269,6 +269,26 @@ function MapHero({ selectedLoc, onSelectLoc, selectedFineSet, mapFilters, search
     return () => { map.off('zoomend', renderMarkers); };
   }, [selectedFineSet, mapFilters, searchQuery, filteredLocs, onSelectLoc, selectedLoc]);
 
+  // Render LIVE broadcast pins as a separate animated overlay
+  hUseEffect(() => {
+    const map = mapInstance.current;
+    if (!map) return;
+    const L = window.L;
+    liveMarkersRef.current.forEach(m => map.removeLayer(m));
+    liveMarkersRef.current = [];
+    for (const s of (liveStreams || [])) {
+      if (!s.lat || !s.lon) continue;
+      const html = `<div class="live-pin-wrap" title="${(s.title || '').replace(/"/g, '&quot;')}">
+        <div class="live-pin-pulse"></div>
+        <div class="live-pin-dot">LIVE</div>
+      </div>`;
+      const icon = L.divIcon({ className: 'live-pin-icon', html, iconSize: [56, 56], iconAnchor: [28, 28] });
+      const marker = L.marker([s.lat, s.lon], { icon, zIndexOffset: 1000 }).addTo(map);
+      marker.on('click', () => onNav && onNav('live', s.id));
+      liveMarkersRef.current.push(marker);
+    }
+  }, [liveStreams]);
+
   // When selectedLoc changes via other UI, pan map
   hUseEffect(() => {
     if (!selectedLoc) return;
@@ -388,7 +408,7 @@ function HomeRightSidebar({ onOpenVideo, onNav }) {
         <section style={{ marginBottom: 18 }}>
           <h3 className="mono" style={{ fontSize: 10, letterSpacing: '0.18em', color: 'var(--sunset)', margin: '4px 0 10px' }}>● LIVE NOW</h3>
           {slots.live.map(s => (
-            <button key={s.id} onClick={() => onNav('live')}
+            <button key={s.id} onClick={() => onNav('live', s.id)}
               style={{ display: 'grid', gridTemplateColumns: '120px 1fr', gap: 10, padding: 6, background: 'transparent', border: 'none', cursor: 'pointer', textAlign: 'left', width: '100%', color: 'inherit', marginBottom: 8 }}>
               <div style={{ position: 'relative', width: 120, height: 70, background: 'var(--forest-900)', borderRadius: 4, overflow: 'hidden' }}>
                 {s.thumb_url && <img src={s.thumb_url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }}/>}

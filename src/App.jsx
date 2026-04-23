@@ -313,7 +313,7 @@ export default function App() {
         {route === 'legal' && <LegalPage onNav={onNav} />}
         {route === 'flightlog' && <FlightLogPage videoId={routeParam} onNav={onNav} />}
         {route === 'atlas' && <AtlasPage onNav={onNav} />}
-        {route === 'live' && <LivePage onNav={onNav} />}
+        {route === 'live' && <LivePage onNav={onNav} streamId={routeParam} />}
         {route === 'livehelp' && <LiveHelpPage onNav={onNav} />}
         {route === 'mystreams' && <MyStreamsPage onNav={onNav} />}
         {route === 'collection' && <CollectionPage id={routeParam} onOpenVideo={onOpenVideo} onNav={onNav} />}

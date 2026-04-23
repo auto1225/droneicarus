@@ -20,11 +20,21 @@ const LIVE = [
   { id: 'lf8', pilot: 'Nia Obi', handle: '@nia.lens', country: 'KE', place: 'Maasai Mara — long shadows', lat: -1.49, lon: 35.14, viewers: 338, started: '22m', kind: 'broadcasting', tier: 2 },
 ];
 
-export function LivePage({ onNav }) {
+export function LivePage({ onNav, streamId }) {
   const [selected, setSelected] = lvUseState(LIVE[2]);
   const [tipOpen, setTipOpen] = lvUseState(false);
   const [goLiveOpen, setGoLiveOpen] = lvUseState(false);
   const auth = useAuth() || {};
+
+  // If a streamId is in the route, fetch and select that real DB stream
+  lvUseEffect(() => {
+    if (!streamId) return;
+    (async () => {
+      const { data } = await supabase.from('live_streams')
+        .select('*').eq('id', streamId).maybeSingle();
+      if (data) setSelected(data);
+    })();
+  }, [streamId]);
   const [tab, setTab] = lvUseState('all');
 
   // Pulse animation tick
