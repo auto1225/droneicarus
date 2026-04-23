@@ -37,7 +37,7 @@ export function LabHubPage({ onNav }) {
     Promise.all(SUBSECTIONS.map(async s => {
       const [rows, totalRows] = await Promise.all([
         fetchLabItems({ subsection: s.id, limit: 6 }),
-        fetchLabItems({ subsection: s.id, limit: 500 }),   // count
+        fetchLabItems({ subsection: s.id }),   // count (no limit)
       ]);
       return [s.id, rows, totalRows.length];
     })).then(triples => {
