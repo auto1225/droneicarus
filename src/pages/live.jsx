@@ -2,6 +2,8 @@
 import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react';
 import { Ic } from '../components';
 import { LiveChatPanel, SuperChatModal } from './live-chat';
+import { useAuth } from '../auth/AuthContext';
+import { supabase } from '../supabase';
 import { fetchSidebarSlots } from '../db/picks';
 const lvUseState = useState;
 const lvUseEffect = useEffect;
@@ -21,6 +23,8 @@ const LIVE = [
 export function LivePage({ onNav }) {
   const [selected, setSelected] = lvUseState(LIVE[2]);
   const [tipOpen, setTipOpen] = lvUseState(false);
+  const [goLiveOpen, setGoLiveOpen] = lvUseState(false);
+  const auth = useAuth() || {};
   const [tab, setTab] = lvUseState('all');
 
   // Pulse animation tick
@@ -94,7 +98,13 @@ export function LivePage({ onNav }) {
             <span style={{ width: 10, height: 10, borderRadius: '50%', background: 'var(--sunset)', opacity: tick % 2 ? 1 : 0.3, transition: 'opacity 0.6s' }}/>
             <div className="eyebrow" style={{ color: 'var(--sunset)' }}>LIVE NOW · {LIVE.length} PILOTS</div>
           </div>
-          <h1 style={{ fontSize: 28, letterSpacing: '-0.02em' }}>Who's flying right now</h1>
+          <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between' }}>
+            <h1 style={{ fontSize: 28, letterSpacing: '-0.02em' }}>Who's flying right now</h1>
+            <button onClick={() => auth.user ? setGoLiveOpen(true) : onNav?.('signin')}
+              style={{ padding: '8px 14px', background: 'var(--sunset)', color: '#fff', border: 'none', borderRadius: 4, cursor: 'pointer', fontWeight: 700, fontSize: 12, letterSpacing: '0.05em' }}>
+              ● Go Live
+            </button>
+          </div>
           <div style={{ display: 'flex', gap: 4, marginTop: 14 }}>
             {[['all','All'],['broadcasting','On air · '+broadcasting.length],['uploading','Uploading · '+uploading.length]].map(([k,l]) => (
               <button key={k} onClick={() => setTab(k)} className={'chip' + (tab === k ? ' active' : '')} style={{ fontSize: 11 }}>{l}</button>
@@ -230,6 +240,82 @@ export function LivePage({ onNav }) {
         )}
       </aside>
       {tipOpen && <SuperChatModal streamId={selected.id && selected.id.length === 36 ? selected.id : '00000000-0000-0000-0000-000000000000'} onClose={() => setTipOpen(false)}/>}
+      {goLiveOpen && <GoLiveModal onClose={() => setGoLiveOpen(false)} onCreated={(stream) => { setGoLiveOpen(false); setSelected(stream); }} user={auth.user} profile={auth.profile}/>}
+    </div>
+  );
+}
+
+function GoLiveModal({ onClose, onCreated, user, profile }) {
+  const [title, setTitle] = lvUseState('');
+  const [description, setDescription] = lvUseState('');
+  const [ytUrl, setYtUrl] = lvUseState('');
+  const [thumbUrl, setThumbUrl] = lvUseState('');
+  const [busy, setBusy] = lvUseState(false);
+  const [err, setErr] = lvUseState('');
+
+  const start = async () => {
+    if (!title.trim()) { setErr('Title is required'); return; }
+    setErr(''); setBusy(true);
+    // Extract YT video id from URL if provided
+    let yt_video_id = null;
+    if (ytUrl) {
+      const m = ytUrl.match(/[?&]v=([\w-]{11})|youtu\.be\/([\w-]{11})|embed\/([\w-]{11})/);
+      yt_video_id = m && (m[1] || m[2] || m[3]);
+    }
+    try {
+      const { data, error } = await supabase.from('live_streams').insert({
+        pilot_id: user.id,
+        title: title.trim(),
+        description: description.trim() || null,
+        thumb_url: thumbUrl.trim() || (yt_video_id ? `https://i.ytimg.com/vi/${yt_video_id}/hqdefault.jpg` : null),
+        status: 'live',
+        started_at: new Date().toISOString(),
+        yt_video_id,
+        embed_provider: yt_video_id ? 'youtube' : 'site',
+      }).select().single();
+      if (error) throw error;
+      onCreated(data);
+    } catch (e) {
+      console.warn('Go Live err:', e);
+      setErr(e.message || 'Failed to start stream');
+    }
+    setBusy(false);
+  };
+
+  return (
+    <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.7)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 200 }} onClick={onClose}>
+      <div onClick={e => e.stopPropagation()} style={{ background: 'var(--ink)', padding: 26, borderRadius: 8, maxWidth: 460, width: '92%', border: '1px solid var(--line-strong)' }}>
+        <div style={{ fontSize: 11, color: 'var(--sunset)', fontFamily: 'var(--font-mono)', letterSpacing: '0.18em', marginBottom: 6 }}>● GO LIVE</div>
+        <h3 style={{ marginTop: 0, marginBottom: 14 }}>Start a live broadcast</h3>
+        <div style={{ marginBottom: 12 }}>
+          <label style={{ display: 'block', fontSize: 11, color: 'var(--parchment-dim)', marginBottom: 4 }}>Stream title *</label>
+          <input value={title} onChange={e => setTitle(e.target.value)} placeholder="e.g. Sunset over Hangang"
+            style={{ width: '100%', padding: '10px 12px', background: 'var(--forest-900)', border: '1px solid var(--line-strong)', color: 'var(--bone)', borderRadius: 4, fontFamily: 'inherit' }}/>
+        </div>
+        <div style={{ marginBottom: 12 }}>
+          <label style={{ display: 'block', fontSize: 11, color: 'var(--parchment-dim)', marginBottom: 4 }}>Description</label>
+          <textarea value={description} onChange={e => setDescription(e.target.value)} rows={2}
+            style={{ width: '100%', padding: '10px 12px', background: 'var(--forest-900)', border: '1px solid var(--line-strong)', color: 'var(--bone)', borderRadius: 4, fontFamily: 'inherit', fontSize: 13 }}/>
+        </div>
+        <div style={{ marginBottom: 12 }}>
+          <label style={{ display: 'block', fontSize: 11, color: 'var(--parchment-dim)', marginBottom: 4 }}>YouTube Live URL (optional — mirror your YT stream here)</label>
+          <input value={ytUrl} onChange={e => setYtUrl(e.target.value)} placeholder="https://youtube.com/watch?v=..."
+            style={{ width: '100%', padding: '10px 12px', background: 'var(--forest-900)', border: '1px solid var(--line-strong)', color: 'var(--bone)', borderRadius: 4, fontFamily: 'inherit' }}/>
+          <div style={{ fontSize: 11, color: 'var(--parchment-dim)', marginTop: 4 }}>If set, the YT player embeds. Chat & Super Chat run on droneicarus regardless.</div>
+        </div>
+        <div style={{ marginBottom: 14 }}>
+          <label style={{ display: 'block', fontSize: 11, color: 'var(--parchment-dim)', marginBottom: 4 }}>Custom thumbnail URL (optional)</label>
+          <input value={thumbUrl} onChange={e => setThumbUrl(e.target.value)} placeholder="https://..."
+            style={{ width: '100%', padding: '10px 12px', background: 'var(--forest-900)', border: '1px solid var(--line-strong)', color: 'var(--bone)', borderRadius: 4, fontFamily: 'inherit' }}/>
+        </div>
+        {err && <div style={{ color: 'var(--sunset)', fontSize: 12, marginBottom: 12 }}>{err}</div>}
+        <div style={{ display: 'flex', gap: 10, justifyContent: 'flex-end' }}>
+          <button onClick={onClose} style={{ padding: '8px 14px', background: 'transparent', border: '1px solid var(--line-strong)', color: 'var(--bone)', borderRadius: 4, cursor: 'pointer' }}>Cancel</button>
+          <button onClick={start} disabled={busy} style={{ padding: '8px 18px', background: 'var(--sunset)', color: '#fff', border: 'none', borderRadius: 4, cursor: busy ? 'wait' : 'pointer', fontWeight: 700 }}>
+            {busy ? 'Starting…' : '● Start'}
+          </button>
+        </div>
+      </div>
     </div>
   );
 }
