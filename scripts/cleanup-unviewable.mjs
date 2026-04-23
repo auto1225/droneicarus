@@ -28,6 +28,17 @@ async function sb(path, opts = {}) {
     console.log(`[cleanup] deleted ${orphans.length} lab_items`);
   }
 
+  // --- patents: nuke ALL existing patents (rebuilt by discover-patents.mjs with verified PDFs) ---
+  if (process.env.PURGE_PATENTS) {
+    const pats = await sb('/rest/v1/lab_items?select=id&subsection=eq.patents&limit=10000');
+    console.log(`[cleanup] patents to purge: ${pats.length}`);
+    if (pats.length) {
+      const ids = pats.map(p => `"${p.id}"`).join(',');
+      await sb(`/rest/v1/lab_items?id=in.(${ids})`, { method: 'DELETE', prefer: 'return=minimal' });
+      console.log(`[cleanup] purged ${pats.length} patents`);
+    }
+  }
+
   // --- videos: youtube_id null AND yt_id null AND storage_path null AND external_url null ---
   const vorphans = await sb('/rest/v1/videos?select=id,title&youtube_id=is.null&yt_id=is.null&storage_path=is.null&external_url=is.null&limit=2000');
   console.log(`[cleanup] videos unplayable: ${vorphans.length}`);

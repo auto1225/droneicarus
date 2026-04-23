@@ -69,7 +69,7 @@ const PATENT_QUERIES = [
   ['drone tether power',              ['power','tethered']],
 ];
 
-const NUM_PER_QUERY = 8;       // top-N results per query per run
+const NUM_PER_QUERY = 5;       // top-N results per query per run
 
 // ────────────────────────────────────────────────────────────────────────
 // Helpers
@@ -178,6 +178,22 @@ async function fetchGooglePatents(query, num = NUM_PER_QUERY) {
   throw new Error(`gp 503 after 4 retries`);
 }
 
+// Fetch the GP patent page and extract citation_pdf_url meta tag.
+// Returns null if no PDF URL is found (typical for un-granted applications).
+async function resolvePatentPdf(pubNo) {
+  try {
+    const r = await fetch(`https://patents.google.com/patent/${encodeURIComponent(pubNo)}/en`, {
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
+      },
+    });
+    if (!r.ok) return null;
+    const html = await r.text();
+    const m = html.match(/citation_pdf_url"\s+content="([^"]+)"/);
+    return m ? m[1] : null;
+  } catch { return null; }
+}
+
 function buildItem(p, baseTags) {
   const pubNo = (p.publication_number || '').trim();
   if (!pubNo) return null;
@@ -192,10 +208,8 @@ function buildItem(p, baseTags) {
   const filingDate = (p.filing_date || '').slice(0, 10) || null;
   // Public Google Patents page (always works for any pub number)
   const externalUrl = `https://patents.google.com/patent/${pubNo}/en`;
-  // PDF: GP serves at /pdf path — works for most patents
-  const pdfUrl = p.pdf
-    ? `https://patentimages.storage.googleapis.com/${p.pdf}`
-    : null;
+  // PDF URL is resolved later via resolvePatentPdf() in the ingest loop
+  const pdfUrl = null;
   const tags = [...new Set([...baseTags, country.toLowerCase()])].slice(0, 10);
   const item = {
     type: 'patent',
@@ -230,11 +244,17 @@ async function ingestPatents(seenSlugs) {
       errors++;
       continue;
     }
-    let inserted_q = 0;
+    let inserted_q = 0, skipped_no_pdf = 0;
     for (const p of patents) {
       const item = buildItem(p, tags);
       if (!item) continue;
       if (seenSlugs.has(item.slug)) continue;
+      // Resolve viewable PDF URL — skip patent if none (un-granted applications)
+      const pubNo = (p.publication_number || '').trim();
+      const pdfUrl = await resolvePatentPdf(pubNo);
+      if (!pdfUrl) { skipped_no_pdf++; continue; }
+      item.document_url = pdfUrl;
+      item.document_type = 'pdf';
       try {
         await sb('/rest/v1/lab_items', { method: 'POST', body: item, prefer: 'return=minimal' });
         seenSlugs.add(item.slug);
@@ -243,8 +263,11 @@ async function ingestPatents(seenSlugs) {
       } catch (e) {
         if (!String(e).includes('23505')) console.warn('  insert err:', e.message);
       }
+      // tiny pause between per-patent fetches to be polite
+      await new Promise(r => setTimeout(r, 600));
     }
-    if (inserted_q) console.log(`  + ${inserted_q.toString().padStart(2)} '${q}'`);
+    if (inserted_q) console.log(`  + ${inserted_q.toString().padStart(2)} '${q}' (${skipped_no_pdf} skipped — no PDF)`);
+    else if (skipped_no_pdf) console.log(`     0 '${q}' (${skipped_no_pdf} skipped — no PDF)`);
     // Be polite to Google — 1.2s between queries
     await new Promise(r => setTimeout(r, 3000));
   }

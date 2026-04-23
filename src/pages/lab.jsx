@@ -308,6 +308,49 @@ function rowStyle(active, indented = false) {
   };
 }
 
+// ─── Patents — Google Patents search portal ───────────────────────────
+function PatentsGoogleSearch({ defaultQuery }) {
+  const [q, setQ] = useState(defaultQuery || '');
+  const open = (query) => {
+    const u = `https://patents.google.com/?q=${encodeURIComponent(query || 'drone')}`;
+    window.open(u, '_blank', 'noopener,noreferrer');
+  };
+  const presets = [
+    'drone navigation', 'UAV swarm', 'quadcopter battery', 'FPV racing',
+    'VTOL aircraft', 'drone delivery', 'agricultural drone', 'anti-drone',
+    'drone gimbal', 'LiDAR UAV', 'solar drone', 'tethered drone',
+  ];
+  return (
+    <div style={{ marginBottom: 28, padding: 18, background: 'linear-gradient(135deg, #3a1f3a, #1a0f1f)', border: '1px solid var(--line-strong)', borderRadius: 6 }}>
+      <div className="mono" style={{ fontSize: 10, letterSpacing: '0.18em', color: '#b97a4d', marginBottom: 10 }}>SEARCH GOOGLE PATENTS · GLOBAL</div>
+      <div style={{ display: 'flex', gap: 8, marginBottom: 12 }}>
+        <input
+          value={q}
+          onChange={e => setQ(e.target.value)}
+          onKeyDown={e => e.key === 'Enter' && open(q)}
+          placeholder="Search any drone-related patent topic worldwide…"
+          style={{ flex: 1, padding: '10px 14px', fontSize: 13, background: 'rgba(13,20,16,0.6)', border: '1px solid #5a3a5a', color: 'var(--bone)', borderRadius: 4, outline: 'none' }}/>
+        <button onClick={() => open(q)} style={{ padding: '10px 18px', background: '#b97a4d', color: 'var(--ink)', border: 'none', borderRadius: 4, cursor: 'pointer', fontWeight: 600, fontSize: 13 }}>
+          Search →
+        </button>
+      </div>
+      <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
+        <span style={{ fontSize: 11, color: '#d1c8b5', opacity: 0.7, padding: '4px 0', marginRight: 4 }}>Popular:</span>
+        {presets.map(t => (
+          <button key={t} onClick={() => open(t)} style={{
+            padding: '4px 10px', fontSize: 11, borderRadius: 999,
+            background: 'rgba(13,20,16,0.4)', color: '#f5ede0',
+            border: '1px solid #5a3a5a', cursor: 'pointer',
+          }}>{t}</button>
+        ))}
+      </div>
+      <div style={{ fontSize: 11, color: '#d1c8b5', opacity: 0.6, marginTop: 10 }}>
+        Results open at patents.google.com — every patent listed below also has its full PDF viewable inside the lab.
+      </div>
+    </div>
+  );
+}
+
 // ──────────────────────────────────────────────────────────────────────
 // Item detail — /#lab/item/:id
 // ──────────────────────────────────────────────────────────────────────
