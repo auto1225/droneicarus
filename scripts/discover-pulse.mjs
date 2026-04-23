@@ -6,16 +6,21 @@ const SUPA_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
 if (!SUPA_URL || !SUPA_KEY) { console.error('missing env'); process.exit(1); }
 
 const FEEDS = [
-  // Industry blogs / news
+  // Drone-focused news
   { url: 'https://dronedj.com/feed/',                                 source: 'DroneDJ',          tags: ['news'] },
   { url: 'https://www.suasnews.com/feed/',                            source: 'sUAS News',        tags: ['news','regulation'] },
-  { url: 'https://www.commercialuavnews.com/rss',                     source: 'Commercial UAV',   tags: ['news','industry'] },
-  { url: 'https://uavcoach.com/feed/',                                source: 'UAV Coach',        tags: ['news','tutorial'] },
-  // Manufacturer blogs
-  { url: 'https://enterprise.dji.com/news/feed',                      source: 'DJI Enterprise',   tags: ['news','dji'] },
-  // Regulators / safety bodies (RSS where available)
+  { url: 'https://dronelife.com/feed/',                               source: 'DroneLife',        tags: ['news'] },
+  { url: 'https://www.unmannedsystemstechnology.com/feed/',           source: 'UST News',         tags: ['news','industry'] },
+  { url: 'https://www.unmannedairspace.info/feed/',                   source: 'Unmanned Airspace',tags: ['news','regulation'] },
   { url: 'https://www.faa.gov/newsroom/rss/news-stories.xml',         source: 'FAA',              tags: ['regulation','usa'] },
-  { url: 'https://www.easa.europa.eu/en/newsroom-and-events/news.rss',source: 'EASA',             tags: ['regulation','europe'] },
+  // Aviation / drone tech
+  { url: 'https://feeds.arstechnica.com/arstechnica/index',           source: 'Ars Technica',     tags: ['news','tech'] },
+  // Reddit drone subs (rss appended via .rss)
+  { url: 'https://www.reddit.com/r/drones/.rss?limit=30',             source: 'r/drones',         tags: ['community']},
+  { url: 'https://www.reddit.com/r/Multicopter/.rss?limit=30',        source: 'r/Multicopter',    tags: ['fpv','community']},
+  { url: 'https://www.reddit.com/r/fpv/.rss?limit=30',                source: 'r/fpv',            tags: ['fpv','community']},
+  { url: 'https://www.reddit.com/r/diydrones/.rss?limit=30',          source: 'r/diydrones',      tags: ['diy','community']},
+  { url: 'https://www.reddit.com/r/UAVmapping/.rss?limit=30',         source: 'r/UAVmapping',     tags: ['mapping','community']},
 ];
 
 async function sb(path, opts = {}) {

@@ -23,7 +23,7 @@ jobs:
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
-          YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
+          YT_API_KEY: ${{ secrets.YT_API_KEY }}
         run: node scripts/discover-learn.mjs
         continue-on-error: true
       - name: Run pulse discovery (RSS feeds)

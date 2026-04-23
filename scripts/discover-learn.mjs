@@ -5,9 +5,9 @@
 
 const SUPA_URL = (process.env.SUPABASE_URL || '').replace(/\/$/, '');
 const SUPA_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
-const YT_KEY   = process.env.YOUTUBE_API_KEY;
+const YT_KEY   = process.env.YT_API_KEY || process.env.YOUTUBE_API_KEY;
 if (!SUPA_URL || !SUPA_KEY) { console.error('missing SUPABASE env'); process.exit(1); }
-if (!YT_KEY) { console.error('missing YOUTUBE_API_KEY'); process.exit(1); }
+if (!YT_KEY) { console.error('missing YT_API_KEY'); process.exit(1); }
 
 // Curated drone-tutorial channels (well-known, prolific, high-quality)
 const CHANNELS = [
