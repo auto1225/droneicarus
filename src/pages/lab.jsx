@@ -17,6 +17,7 @@ const SUBSECTIONS = [
   { id: 'learn',     label: 'Learn',     icon: 'sky',      tagline: 'Tutorials · Courses · Guides' },
   { id: 'pulse',     label: 'Pulse',     icon: 'water',    tagline: 'News · Regulations · Events' },
   { id: 'print',     label: 'Print',     icon: 'print3d',  tagline: '3D-printable frames · parts · tools (STL)' },
+  { id: 'warfare',   label: 'Warfare',   icon: 'warfare',  tagline: 'Combat · defense · counter-UAV analysis (news + docs)' },
 ];
 
 // ──────────────────────────────────────────────────────────────────────
