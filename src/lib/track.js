@@ -66,18 +66,11 @@ async function getGeo() {
 let _lastPath = null;
 let _lastTrackedAt = 0;
 
-export async function trackPageview({ path, user, profile } = {}) {
-  if (!KEY) return;
-  const now = Date.now();
-  if (path === _lastPath && now - _lastTrackedAt < 1500) return;
-  _lastPath = path;
-  _lastTrackedAt = now;
-
-  const geo = await getGeo();
+function buildBody({ path, user, profile, geo }) {
   const ua = parseUa();
   const utm = parseUtm();
   const sessionId = getSessionId();
-  const body = {
+  return {
     session_id: sessionId,
     user_id: user?.id || null,
     user_email: user?.email || null,
@@ -88,24 +81,44 @@ export async function trackPageview({ path, user, profile } = {}) {
     full_url: window.location.href,
     referrer: document.referrer || null,
     ...utm,
-    ...geo,
+    ...(geo || {}),
     user_agent: navigator.userAgent,
     ...ua,
     screen: `${window.screen?.width || 0}x${window.screen?.height || 0}`,
     language: navigator.language || null,
     timezone: Intl.DateTimeFormat().resolvedOptions().timeZone || null,
   };
+}
+
+function send(body) {
   try {
-    const blob = new Blob([JSON.stringify(body)], { type: 'application/json' });
+    const url = `${SUPA_URL}/rest/v1/page_views?apikey=${encodeURIComponent(KEY)}`;
     if (navigator.sendBeacon) {
-      const url = `${SUPA_URL}/rest/v1/page_views?apikey=${encodeURIComponent(KEY)}`;
-      navigator.sendBeacon(url, blob);
-    } else {
-      await fetch(`${SUPA_URL}/rest/v1/page_views`, {
-        method: 'POST',
-        headers: { apikey: KEY, Authorization: `Bearer ${KEY}`, 'Content-Type': 'application/json', Prefer: 'return=minimal' },
-        body: JSON.stringify(body),
-      });
+      const blob = new Blob([JSON.stringify(body)], { type: 'application/json' });
+      const ok = navigator.sendBeacon(url, blob);
+      if (ok) return;
     }
+    fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Prefer: 'return=minimal' },
+      body: JSON.stringify(body),
+      keepalive: true,
+    }).catch(() => {});
   } catch {}
+}
+
+export function trackPageview({ path, user, profile } = {}) {
+  if (!KEY) return;
+  const now = Date.now();
+  if (path === _lastPath && now - _lastTrackedAt < 1500) return;
+  _lastPath = path;
+  _lastTrackedAt = now;
+
+  // 1) Fire immediately with whatever geo we already have cached.
+  send(buildBody({ path, user, profile, geo: _geoCache || {} }));
+
+  // 2) If geo not resolved yet, fetch in background. Future beacons benefit.
+  if (_geoCache === null) {
+    getGeo().catch(() => {});
+  }
 }
