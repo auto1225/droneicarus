@@ -117,8 +117,15 @@ const SIDEBAR = [
   ]},
   { group: 'Lab 콘텐츠', items: [
     { id: 'lab-items', label: 'Lab items', icon: '§' },
-        { id: 'home-sidebar', label: 'Home sidebar' }, { id: 'ads', label: 'Ads' }, { id: 'live-streams', label: 'Live streams' }, { id: 'super-chats', label: 'Super Chats' },
-        { id: 'analytics', label: 'Analytics' },
+  ]},
+  { group: '홈 섹션', items: [
+    { id: 'home-sidebar',  label: 'Home sidebar',  icon: '▤' },
+    { id: 'ads',           label: 'Ads',           icon: '◎' },
+    { id: 'live-streams',  label: 'Live streams',  icon: '●' },
+    { id: 'super-chats',   label: 'Super Chats',   icon: '$' },
+  ]},
+  { group: '방문자 분석', items: [
+    { id: 'analytics', label: '방문자 통계 (Visitors)', icon: '◉' },
   ]},
   { group: '운영 문서', items: [
     { id: 'docs', label: 'Operations & Legal docs', icon: '§' },
