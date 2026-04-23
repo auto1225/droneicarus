@@ -10,22 +10,34 @@
 import React, { useEffect, useRef, useState } from 'react';
 
 function pickSource(item) {
-  // 1) GitHub project — opengraph card
+  // 0) Honor the curated cover_image_url FIRST when it's a real http(s) image
+  //    (not a data:image SVG placeholder). This lets the seed/discovery pipeline
+  //    pin a known-good thumbnail (Printables og:image, ytimg, thum.io of arxiv, etc.)
+  //    instead of having LabPagePreview re-derive (and sometimes fail) every load.
+  if (item.cover_image_url && /^https?:\/\//.test(item.cover_image_url)) {
+    return item.cover_image_url;
+  }
+  // 1) YouTube — derive from external_url too (not just document_url)
+  if (item.external_url) {
+    const ytm = item.external_url.match(/(?:[?&]v=|youtu\.be\/|embed\/)([\w-]{11})/);
+    if (ytm) return `https://i.ytimg.com/vi/${ytm[1]}/hqdefault.jpg`;
+  }
+  // 2) GitHub project — opengraph card
   if (item.external_url && /github\.com\/([^/]+\/[^/?#]+)/.test(item.external_url)) {
     const m = item.external_url.match(/github\.com\/([^/]+\/[^/?#]+)/);
     return `https://opengraph.githubassets.com/1/${m[1]}`;
   }
-  // 2) YouTube doc
+  // 3) YouTube doc (separate document_url path)
   if (item.document_type === 'youtube' && item.document_url) {
     const m = item.document_url.match(/[?&]v=([\w-]{11})|youtu\.be\/([\w-]{11})|embed\/([\w-]{11})/);
     const id = m && (m[1] || m[2] || m[3]);
     if (id) return `https://i.ytimg.com/vi/${id}/hqdefault.jpg`;
   }
-  // 3) PDF document — image.thum.io renders first page server-side, cached 24h
+  // 4) PDF document — image.thum.io renders first page server-side, cached 24h
   if (item.document_type === 'pdf' && item.document_url) {
     return `https://image.thum.io/get/width/480/pdfSource/${item.document_url}`;
   }
-  // 4) Any external HTML page — return list of candidates, tried in order
+  // 5) Any external HTML page — return list of candidates, tried in order
   if (item.external_url) {
     const u = encodeURIComponent(item.external_url);
     return [
