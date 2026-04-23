@@ -48,7 +48,7 @@ export function LabHubPage({ onNav }) {
       setAllItems(triples.flatMap(t => t[1]));
     });
     // Also fetch larger pool for search across everything
-    fetchLabItems({ limit: 500 }).then(rows => { if (!cancel) setAllItems(rows || []); });
+    fetchLabItems().then(rows => { if (!cancel) setAllItems(rows || []); });
     return () => { cancel = true; };
   }, []);
 
