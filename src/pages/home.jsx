@@ -824,7 +824,7 @@ export function HomePage({ onOpenVideo, onNav }) {
   const [dbVideos, setDbVideos] = hUseState([]);
   hUseEffect(() => {
     let cancelled = false;
-    fetchVideos({ limit: 500 }).then(v => { if (!cancelled) setDbVideos(v || []); });
+    fetchVideos().then(v => { if (!cancelled) setDbVideos(v || []); });
     return () => { cancelled = true; };
   }, []);
   // Derive one 'location' per video (for Leaflet pin).
