@@ -67,10 +67,10 @@ export function RankingsPage({ onOpenVideo }) {
                   color: podiumColor, lineHeight: 1,
                   textShadow: '0 4px 20px rgba(0,0,0,0.8)',
                 }}>#{realRank}</div>
-                <div style={{ position: 'absolute', bottom: 14, right: 14, padding: '3px 7px', background: 'rgba(13,20,16,0.9)', borderRadius: 2, fontFamily: 'var(--font-mono)', fontSize: 11 }}>{v.duration}</div>
+                <div style={{ position: 'absolute', bottom: 14, right: 14, padding: '3px 7px', background: 'rgba(13,20,16,0.9)', borderRadius: 2, fontFamily: 'var(--font-mono)', fontSize: 12 }}>{v.duration}</div>
               </div>
               <div style={{ fontSize: realRank === 1 ? 18 : 15, fontWeight: 600, marginBottom: 4, lineHeight: 1.3 }}>{v.title}</div>
-              <div style={{ fontSize: 12, color: 'var(--parchment-dim)' }}>{v.creator.handle} · {formatViews(v.views)} views</div>
+              <div style={{ fontSize: 14, color: 'var(--parchment-dim)' }}>{v.creator.handle} · {formatViews(v.views)} views</div>
             </div>
           );
         })}
@@ -81,7 +81,7 @@ export function RankingsPage({ onOpenVideo }) {
         <div style={{
           display: 'grid', gridTemplateColumns: '60px 1.2fr 2fr 1fr 1fr 120px 100px',
           padding: '14px 20px', background: 'var(--forest-900)',
-          fontFamily: 'var(--font-mono)', fontSize: 10, letterSpacing: '0.14em', textTransform: 'uppercase',
+          fontFamily: 'var(--font-mono)', fontSize: 12, letterSpacing: '0.14em', textTransform: 'uppercase',
           color: 'var(--parchment-dim)', borderBottom: '1px solid var(--line)',
         }}>
           <span>RANK</span>
@@ -106,19 +106,19 @@ export function RankingsPage({ onOpenVideo }) {
             }} onMouseEnter={e => e.currentTarget.style.background = 'var(--forest-900)'}
                onMouseLeave={e => e.currentTarget.style.background = 'transparent'}>
               <span style={{ fontFamily: 'var(--font-display)', fontSize: 24, fontWeight: 700, color: i < 3 ? 'var(--amber)' : 'var(--bone)' }}>{String(i + 1).padStart(2, '0')}</span>
-              <span className="mono" style={{ fontSize: 12, color: delta > 0 ? 'var(--lichen)' : delta < 0 ? 'var(--sunset)' : 'var(--parchment-dim)' }}>
+              <span className="mono" style={{ fontSize: 14, color: delta > 0 ? 'var(--lichen)' : delta < 0 ? 'var(--sunset)' : 'var(--parchment-dim)' }}>
                 {delta > 0 ? `▲ ${delta}` : delta < 0 ? `▼ ${Math.abs(delta)}` : '—'}
               </span>
               <div style={{ display: 'flex', gap: 12, alignItems: 'center', minWidth: 0 }}>
                 <div style={{ width: 80, aspectRatio: '16/9', background: thumbGradient(parseInt(v.id.slice(1))), borderRadius: 2, flexShrink: 0, border: '1px solid var(--line)' }}/>
                 <div style={{ minWidth: 0 }}>
                   <div style={{ fontSize: 14, fontWeight: 600, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{v.title}</div>
-                  <div style={{ fontSize: 11, color: 'var(--parchment-dim)' }}>{v.duration} · {v.resolution} {v.price > 0 && <span style={{ color: 'var(--sunset)' }}>· ${v.price}</span>}</div>
+                  <div style={{ fontSize: 12, color: 'var(--parchment-dim)' }}>{v.duration} · {v.resolution} {v.price > 0 && <span style={{ color: 'var(--sunset)' }}>· ${v.price}</span>}</div>
                 </div>
               </div>
-              <span style={{ fontSize: 13, color: 'var(--parchment)' }}>{loc?.name}</span>
-              <span style={{ fontSize: 13, color: 'var(--parchment)' }}>{v.creator.handle}</span>
-              <span className="mono" style={{ textAlign: 'right', fontSize: 13 }}>{formatViews(v.views)}</span>
+              <span style={{ fontSize: 14, color: 'var(--parchment)' }}>{loc?.name}</span>
+              <span style={{ fontSize: 14, color: 'var(--parchment)' }}>{v.creator.handle}</span>
+              <span className="mono" style={{ textAlign: 'right', fontSize: 14 }}>{formatViews(v.views)}</span>
               <span style={{ textAlign: 'right', fontFamily: 'var(--font-mono)', fontSize: 14, fontWeight: 600, color: 'var(--amber)' }}>{score}</span>
             </div>
           );
@@ -151,28 +151,28 @@ export function CreatorsPage({ onOpenVideo }) {
                     {c.name}
                     {c.verified && <span style={{ color: 'var(--amber)' }}><Ic.check/></span>}
                   </div>
-                  <div style={{ fontSize: 13, color: 'var(--parchment-dim)' }}>{c.handle} · {c.region}</div>
+                  <div style={{ fontSize: 14, color: 'var(--parchment-dim)' }}>{c.handle} · {c.region}</div>
                 </div>
-                <FollowButton creatorId={c.id || c.handle} creatorHandle={c.handle} className="btn" style={{ fontSize: 12, padding: '8px 14px' }} />
+                <FollowButton creatorId={c.id || c.handle} creatorHandle={c.handle} className="btn" style={{ fontSize: 14, padding: '8px 14px' }} />
               </div>
               <div style={{ display: 'flex', gap: 20, marginBottom: 18, paddingBottom: 18, borderBottom: '1px solid var(--line)' }}>
                 <div>
-                  <div className="mono" style={{ fontSize: 10, letterSpacing: '0.14em', color: 'var(--parchment-dim)', textTransform: 'uppercase' }}>Followers</div>
+                  <div className="mono" style={{ fontSize: 12, letterSpacing: '0.14em', color: 'var(--parchment-dim)', textTransform: 'uppercase' }}>Followers</div>
                   <div style={{ fontSize: 18, fontFamily: 'var(--font-display)', fontWeight: 600 }}>{formatViews(c.followers)}</div>
                 </div>
                 <div>
-                  <div className="mono" style={{ fontSize: 10, letterSpacing: '0.14em', color: 'var(--parchment-dim)', textTransform: 'uppercase' }}>Clips</div>
+                  <div className="mono" style={{ fontSize: 12, letterSpacing: '0.14em', color: 'var(--parchment-dim)', textTransform: 'uppercase' }}>Clips</div>
                   <div style={{ fontSize: 18, fontFamily: 'var(--font-display)', fontWeight: 600 }}>{c.videos}</div>
                 </div>
                 <div>
-                  <div className="mono" style={{ fontSize: 10, letterSpacing: '0.14em', color: 'var(--parchment-dim)', textTransform: 'uppercase' }}>YTD Earnings</div>
+                  <div className="mono" style={{ fontSize: 12, letterSpacing: '0.14em', color: 'var(--parchment-dim)', textTransform: 'uppercase' }}>YTD Earnings</div>
                   <div style={{ fontSize: 18, fontFamily: 'var(--font-display)', fontWeight: 600, color: 'var(--amber)' }}>${c.earning.toLocaleString()}</div>
                 </div>
               </div>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 8 }}>
                 {theirVids.map(v => (
                   <div key={v.id} onClick={() => onOpenVideo(v)} style={{ cursor: 'pointer', aspectRatio: '16/9', background: thumbGradient(parseInt(v.id.slice(1))), borderRadius: 2, position: 'relative', border: '1px solid var(--line)' }}>
-                    {v.price > 0 && <div style={{ position: 'absolute', top: 4, right: 4, fontSize: 10, padding: '1px 4px', background: 'var(--sunset)', fontFamily: 'var(--font-mono)', borderRadius: 2 }}>${v.price}</div>}
+                    {v.price > 0 && <div style={{ position: 'absolute', top: 4, right: 4, fontSize: 12, padding: '1px 4px', background: 'var(--sunset)', fontFamily: 'var(--font-mono)', borderRadius: 2 }}>${v.price}</div>}
                   </div>
                 ))}
               </div>

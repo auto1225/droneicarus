@@ -22,7 +22,7 @@ export function FlightLogPage({ videoId, onNav }) {
 
   return (
     <div style={{ maxWidth: 1200, margin: '0 auto', padding: '40px 28px 80px' }}>
-      <button onClick={() => onNav('watch', v.id)} style={{ fontSize: 12, color: 'var(--parchment-dim)', marginBottom: 18 }}>← Back to clip</button>
+      <button onClick={() => onNav('watch', v.id)} style={{ fontSize: 14, color: 'var(--parchment-dim)', marginBottom: 18 }}>← Back to clip</button>
 
       <div className="eyebrow" style={{ marginBottom: 8 }}>FLIGHT LOG · {v.id.toUpperCase()} · CHAIN-OF-CUSTODY VERIFIED</div>
       <h1 style={{ fontSize: 42, letterSpacing: '-0.02em', marginBottom: 6 }}>{v.title}</h1>
@@ -35,8 +35,8 @@ export function FlightLogPage({ videoId, onNav }) {
         <div>
           <div style={{ border: '1px solid var(--line)', borderRadius: 4, overflow: 'hidden' }}>
             <div style={{ padding: '14px 18px', borderBottom: '1px solid var(--line)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <div className="mono" style={{ fontSize: 11, letterSpacing: '0.14em' }}>FLIGHT TRACK · GPS ACCURACY ±0.8 M</div>
-              <button style={{ fontSize: 11, color: 'var(--sunset)' }} data-placeholder="true">Download GPX →</button>
+              <div className="mono" style={{ fontSize: 12, letterSpacing: '0.14em' }}>FLIGHT TRACK · GPS ACCURACY ±0.8 M</div>
+              <button style={{ fontSize: 12, color: 'var(--sunset)' }} data-placeholder="true">Download GPX →</button>
             </div>
             <svg viewBox="0 0 520 300" style={{ width: '100%', height: 320, background: 'var(--forest-900)', display: 'block' }}>
               {/* Topo lines */}
@@ -61,7 +61,7 @@ export function FlightLogPage({ videoId, onNav }) {
 
             {/* Altitude profile */}
             <div style={{ padding: '14px 18px', borderTop: '1px solid var(--line)' }}>
-              <div className="mono" style={{ fontSize: 10, letterSpacing: '0.14em', color: 'var(--parchment-dim)', marginBottom: 10 }}>ALTITUDE PROFILE (M AGL)</div>
+              <div className="mono" style={{ fontSize: 12, letterSpacing: '0.14em', color: 'var(--parchment-dim)', marginBottom: 10 }}>ALTITUDE PROFILE (M AGL)</div>
               <svg viewBox="0 0 520 80" style={{ width: '100%', height: 80 }}>
                 <polyline fill="rgba(217,112,69,0.18)" stroke="var(--sunset)" strokeWidth="1.5"
                   points={`0,80 ${waypoints.map((w, i) => `${(i/(waypoints.length-1))*520},${80 - (w.alt/120)*70}`).join(' ')} 520,80`}/>
@@ -74,7 +74,7 @@ export function FlightLogPage({ videoId, onNav }) {
           {/* Chain of custody */}
           <div style={{ marginTop: 22, border: '1px solid var(--line)', borderRadius: 4 }}>
             <div style={{ padding: '14px 18px', borderBottom: '1px solid var(--line)' }}>
-              <div className="mono" style={{ fontSize: 11, letterSpacing: '0.14em' }}>CHAIN OF CUSTODY</div>
+              <div className="mono" style={{ fontSize: 12, letterSpacing: '0.14em' }}>CHAIN OF CUSTODY</div>
             </div>
             {[
               ['T+00:00', 'Take-off · N37.5512 E126.9882 · battery 98%'],
@@ -85,7 +85,7 @@ export function FlightLogPage({ videoId, onNav }) {
               ['+1h 20m', 'Passed automated airspace audit · KCAA permit matched'],
               ['+2h', 'Published · immutable metadata committed'],
             ].map(([t, e], i) => (
-              <div key={i} style={{ display: 'grid', gridTemplateColumns: '90px 1fr 20px', padding: '11px 18px', borderTop: i === 0 ? 'none' : '1px solid var(--line)', fontSize: 12, alignItems: 'center' }}>
+              <div key={i} style={{ display: 'grid', gridTemplateColumns: '90px 1fr 20px', padding: '11px 18px', borderTop: i === 0 ? 'none' : '1px solid var(--line)', fontSize: 14, alignItems: 'center' }}>
                 <span className="mono" style={{ color: 'var(--parchment-dim)', letterSpacing: '0.08em' }}>{t}</span>
                 <span style={{ color: 'var(--parchment)' }}>{e}</span>
                 <span style={{ color: 'var(--lichen)' }}>✓</span>
@@ -150,11 +150,11 @@ export function FlightLogPage({ videoId, onNav }) {
       <div style={{ marginTop: 40, padding: 22, background: 'var(--forest-900)', border: '1px solid var(--line)', borderRadius: 4, display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 20 }}>
         <div style={{ flex: 1 }}>
           <div className="eyebrow" style={{ marginBottom: 6 }}>WHY THIS MATTERS</div>
-          <p style={{ fontSize: 13, color: 'var(--parchment)', lineHeight: 1.6, margin: 0 }}>
+          <p style={{ fontSize: 14, color: 'var(--parchment)', lineHeight: 1.6, margin: 0 }}>
             Every clip on Drone Icarus ships with its flight log. Editors get provenance, broadcasters get compliance, and you get proof that what you licensed was flown legally and really captured where it says it was.
           </p>
         </div>
-        <button className="btn" style={{ fontSize: 13, whiteSpace: 'nowrap' }} data-placeholder="true">Verify this log →</button>
+        <button className="btn" style={{ fontSize: 14, whiteSpace: 'nowrap' }} data-placeholder="true">Verify this log →</button>
       </div>
     </div>
   );
@@ -165,9 +165,9 @@ function StatBlock({ title, rows, accent }) {
     <div style={{ border: '1px solid ' + (accent ? 'var(--amber)' : 'var(--line)'), borderRadius: 4, background: accent ? 'rgba(232,176,74,0.04)' : 'transparent' }}>
       <div className="eyebrow" style={{ padding: '12px 16px', borderBottom: '1px solid var(--line)', color: accent ? 'var(--amber)' : 'var(--parchment-dim)' }}>{title}</div>
       {rows.map(([k, v], i) => (
-        <div key={k} style={{ display: 'grid', gridTemplateColumns: '120px 1fr', gap: 10, padding: '9px 16px', borderTop: i === 0 ? 'none' : '1px solid var(--line)', fontSize: 12 }}>
-          <span className="mono" style={{ color: 'var(--parchment-dim)', letterSpacing: '0.06em', fontSize: 10, textTransform: 'uppercase' }}>{k}</span>
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 12 }}>{v}</span>
+        <div key={k} style={{ display: 'grid', gridTemplateColumns: '120px 1fr', gap: 10, padding: '9px 16px', borderTop: i === 0 ? 'none' : '1px solid var(--line)', fontSize: 14 }}>
+          <span className="mono" style={{ color: 'var(--parchment-dim)', letterSpacing: '0.06em', fontSize: 12, textTransform: 'uppercase' }}>{k}</span>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 14 }}>{v}</span>
         </div>
       ))}
     </div>

@@ -360,7 +360,7 @@ function MapHero({ selectedLoc, onSelectLoc, selectedFineSet, mapFilters, search
         padding: '12px 18px',
         background: 'var(--sunset)', color: '#faf6ec',
         border: 'none', borderRadius: 4,
-        fontFamily: 'var(--font-ui)', fontWeight: 600, fontSize: 13,
+        fontFamily: 'var(--font-ui)', fontWeight: 600, fontSize: 14,
         letterSpacing: '0.02em',
         cursor: 'pointer',
         display: 'flex', alignItems: 'center', gap: 10,
@@ -388,7 +388,7 @@ function MapHero({ selectedLoc, onSelectLoc, selectedFineSet, mapFilters, search
             padding: '12px 20px',
             borderLeft: i > 0 ? '1px solid var(--line)' : 'none',
           }}>
-            <div className="mono" style={{ fontSize: 10, letterSpacing: '0.14em', color: 'var(--parchment-dim)', textTransform: 'uppercase', marginBottom: 2 }}>{k}</div>
+            <div className="mono" style={{ fontSize: 12, letterSpacing: '0.14em', color: 'var(--parchment-dim)', textTransform: 'uppercase', marginBottom: 2 }}>{k}</div>
             <div style={{ fontSize: 20, fontFamily: 'var(--font-display)', fontWeight: 600 }}>{v}</div>
           </div>
         ))}
@@ -401,14 +401,14 @@ function MapHero({ selectedLoc, onSelectLoc, selectedFineSet, mapFilters, search
             display: 'flex', alignItems: 'center', gap: 10,
             padding: '10px 16px', background: 'var(--sunset)', color: '#fff',
             border: '2px solid #faf6ec', borderRadius: 4, cursor: 'pointer',
-            fontFamily: 'var(--font-mono)', fontSize: 12, fontWeight: 700,
+            fontFamily: 'var(--font-mono)', fontSize: 14, fontWeight: 700,
             letterSpacing: '0.08em', boxShadow: '0 6px 20px rgba(217,112,69,0.45)',
             animation: 'live-badge-glow 2s ease-in-out infinite',
           }}
           title={`${liveStreams.length} live broadcast(s) · click to tune in`}>
           <span style={{ width: 8, height: 8, borderRadius: '50%', background: '#fff', boxShadow: '0 0 0 4px rgba(255,255,255,0.4)', animation: 'live-dot-blink 1s infinite' }}/>
           {liveStreams.length} LIVE NOW
-          <span style={{ opacity: 0.85, fontSize: 11 }}>· Tune in →</span>
+          <span style={{ opacity: 0.85, fontSize: 12 }}>· Tune in →</span>
         </button>
       )}
 
@@ -449,17 +449,17 @@ function HomeRightSidebar({ onOpenVideo, onNav }) {
     }}>
       {slots.live.length > 0 && (
         <section style={{ marginBottom: 18 }}>
-          <h3 className="mono" style={{ fontSize: 10, letterSpacing: '0.18em', color: 'var(--sunset)', margin: '4px 0 10px' }}>● LIVE NOW</h3>
+          <h3 className="mono" style={{ fontSize: 12, letterSpacing: '0.18em', color: 'var(--sunset)', margin: '4px 0 10px' }}>● LIVE NOW</h3>
           {slots.live.map(s => (
             <button key={s.id} onClick={() => onNav('live', s.id)}
               style={{ display: 'grid', gridTemplateColumns: '120px 1fr', gap: 10, padding: 6, background: 'transparent', border: 'none', cursor: 'pointer', textAlign: 'left', width: '100%', color: 'inherit', marginBottom: 8 }}>
               <div style={{ position: 'relative', width: 120, height: 70, background: 'var(--forest-900)', borderRadius: 4, overflow: 'hidden' }}>
                 {s.thumb_url && <img src={s.thumb_url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }}/>}
-                <span style={{ position: 'absolute', top: 4, left: 4, background: 'var(--sunset)', color: '#fff', fontSize: 9, fontFamily: 'var(--font-mono)', padding: '2px 5px', borderRadius: 2 }}>LIVE</span>
+                <span style={{ position: 'absolute', top: 4, left: 4, background: 'var(--sunset)', color: '#fff', fontSize: 12, fontFamily: 'var(--font-mono)', padding: '2px 5px', borderRadius: 2 }}>LIVE</span>
               </div>
               <div>
-                <div style={{ fontSize: 12, fontWeight: 600, lineHeight: 1.25, marginBottom: 4, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>{s.title}</div>
-                <div style={{ fontSize: 10, color: 'var(--parchment-dim)' }}>{(s.viewers_peak || 0).toLocaleString()} viewers</div>
+                <div style={{ fontSize: 14, fontWeight: 600, lineHeight: 1.25, marginBottom: 4, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>{s.title}</div>
+                <div style={{ fontSize: 12, color: 'var(--parchment-dim)' }}>{(s.viewers_peak || 0).toLocaleString()} viewers</div>
               </div>
             </button>
           ))}
@@ -467,21 +467,21 @@ function HomeRightSidebar({ onOpenVideo, onNav }) {
       )}
       {slots.ads.length > 0 && (
         <section style={{ marginBottom: 18 }}>
-          <h3 className="mono" style={{ fontSize: 10, letterSpacing: '0.18em', color: 'var(--parchment-dim)', margin: '4px 0 10px' }}>SPONSORED</h3>
+          <h3 className="mono" style={{ fontSize: 12, letterSpacing: '0.18em', color: 'var(--parchment-dim)', margin: '4px 0 10px' }}>SPONSORED</h3>
           {slots.ads.map(a => (
             <a key={a.id} href={a.click_url || '#'} target="_blank" rel="noopener noreferrer"
               style={{ display: 'block', padding: 10, background: 'var(--forest-900)', border: '1px solid var(--line)', borderRadius: 4, textDecoration: 'none', color: 'inherit', marginBottom: 8 }}>
               {a.image_url && <img src={a.image_url} alt="" style={{ width: '100%', borderRadius: 3, marginBottom: 8 }}/>}
-              {a.brand && <div style={{ fontSize: 10, color: 'var(--amber)', marginBottom: 3, letterSpacing: '0.08em' }}>{a.brand}</div>}
-              <div style={{ fontSize: 13, fontWeight: 600, marginBottom: 4 }}>{a.title}</div>
-              {a.cta_label && <div style={{ fontSize: 11, color: 'var(--amber)' }}>{a.cta_label} →</div>}
+              {a.brand && <div style={{ fontSize: 12, color: 'var(--amber)', marginBottom: 3, letterSpacing: '0.08em' }}>{a.brand}</div>}
+              <div style={{ fontSize: 14, fontWeight: 600, marginBottom: 4 }}>{a.title}</div>
+              {a.cta_label && <div style={{ fontSize: 12, color: 'var(--amber)' }}>{a.cta_label} →</div>}
             </a>
           ))}
         </section>
       )}
       {slots.recent && slots.recent.length > 0 && (
         <section style={{ marginBottom: 18 }}>
-          <h3 className="mono" style={{ fontSize: 10, letterSpacing: '0.18em', color: 'var(--moss)', margin: '4px 0 10px' }}>↑ JUST UPLOADED</h3>
+          <h3 className="mono" style={{ fontSize: 12, letterSpacing: '0.18em', color: 'var(--moss)', margin: '4px 0 10px' }}>↑ JUST UPLOADED</h3>
           {slots.recent.slice(0, 4).map(v => (
             <button key={v.id} onClick={() => onOpenVideo && onOpenVideo(v)}
               style={{ display: 'grid', gridTemplateColumns: '120px 1fr', gap: 10, padding: 6, background: 'transparent', border: 'none', cursor: 'pointer', textAlign: 'left', width: '100%', color: 'inherit', marginBottom: 8 }}>
@@ -489,15 +489,15 @@ function HomeRightSidebar({ onOpenVideo, onNav }) {
                 {(v.thumb_url || v.youtube_id) && <img src={v.thumb_url || ytThumb(v.youtube_id)} alt="" referrerPolicy="no-referrer" style={{ width: '100%', height: '100%', objectFit: 'cover' }}/>}
               </div>
               <div>
-                <div style={{ fontSize: 12, fontWeight: 600, lineHeight: 1.25, marginBottom: 4, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>{v.title}</div>
-                <div style={{ fontSize: 10, color: 'var(--parchment-dim)' }}>{v.published_at ? new Date(v.published_at).toLocaleDateString() : 'recent'}</div>
+                <div style={{ fontSize: 14, fontWeight: 600, lineHeight: 1.25, marginBottom: 4, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>{v.title}</div>
+                <div style={{ fontSize: 12, color: 'var(--parchment-dim)' }}>{v.published_at ? new Date(v.published_at).toLocaleDateString() : 'recent'}</div>
               </div>
             </button>
           ))}
         </section>
       )}
       <section>
-        <h3 className="mono" style={{ fontSize: 10, letterSpacing: '0.18em', color: 'var(--amber)', margin: '4px 0 10px' }}>★ HOT NOW</h3>
+        <h3 className="mono" style={{ fontSize: 12, letterSpacing: '0.18em', color: 'var(--amber)', margin: '4px 0 10px' }}>★ HOT NOW</h3>
         {slots.hot.map(v => (
           <button key={v.id} onClick={() => onOpenVideo && onOpenVideo(v)}
             style={{ display: 'grid', gridTemplateColumns: '120px 1fr', gap: 10, padding: 6, background: 'transparent', border: 'none', cursor: 'pointer', textAlign: 'left', width: '100%', color: 'inherit', marginBottom: 8 }}>
@@ -505,8 +505,8 @@ function HomeRightSidebar({ onOpenVideo, onNav }) {
               {(v.thumb_url || v.youtube_id) && <img src={v.thumb_url || ytThumb(v.youtube_id)} alt="" referrerPolicy="no-referrer" style={{ width: '100%', height: '100%', objectFit: 'cover' }}/>}
             </div>
             <div>
-              <div style={{ fontSize: 12, fontWeight: 600, lineHeight: 1.25, marginBottom: 4, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>{v.title}</div>
-              <div style={{ fontSize: 10, color: 'var(--parchment-dim)' }}>{fmtViews(v.views)} views</div>
+              <div style={{ fontSize: 14, fontWeight: 600, lineHeight: 1.25, marginBottom: 4, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>{v.title}</div>
+              <div style={{ fontSize: 12, color: 'var(--parchment-dim)' }}>{fmtViews(v.views)} views</div>
             </div>
           </button>
         ))}
@@ -540,14 +540,14 @@ export function LocationSheet({ loc, onOpenVideo, onClose }) {
             <div style={{ display: 'flex', gap: 20, alignItems: 'center', fontSize: 14, color: 'var(--parchment)' }}>
               <span><strong style={{ color: 'var(--bone)', fontFamily: 'var(--font-mono)', fontSize: 16 }}>{vids.length}</strong> clips</span>
               <span style={{ opacity: 0.5 }}>|</span>
-              <span className="chip" style={{ padding: '4px 10px', fontSize: 12 }}>
+              <span className="chip" style={{ padding: '4px 10px', fontSize: 14 }}>
                 <span className="chip-icon" style={{ display: 'inline-flex' }}>{CAT_ICONS[loc.category] && CAT_ICONS[loc.category](12)}</span>
                 {CATEGORIES.find(c => c.id === loc.category)?.label}
               </span>
             </div>
           </div>
           <div style={{ display: 'flex', gap: 10 }}>
-            <button className="btn secondary" style={{ fontSize: 13 }} data-placeholder="true">Follow this landmark</button>
+            <button className="btn secondary" style={{ fontSize: 14 }} data-placeholder="true">Follow this landmark</button>
             <button onClick={onClose} className="btn secondary" style={{ padding: '10px', width: 40, height: 40, justifyContent: 'center' }}>
               <Ic.close/>
             </button>
@@ -561,7 +561,7 @@ export function LocationSheet({ loc, onOpenVideo, onClose }) {
               <span style={{ color: 'var(--amber)', marginRight: 8 }}><Ic.crown/></span>
               Top 3 at {loc.name}
             </h3>
-            <span className="mono" style={{ fontSize: 11, color: 'var(--parchment-dim)', letterSpacing: '0.12em' }}>RANKED BY LAST 30 DAYS</span>
+            <span className="mono" style={{ fontSize: 12, color: 'var(--parchment-dim)', letterSpacing: '0.12em' }}>RANKED BY LAST 30 DAYS</span>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 20 }}>
             {topThree.map((v, i) => (
@@ -577,7 +577,7 @@ export function LocationSheet({ loc, onOpenVideo, onClose }) {
               <h3 style={{ fontSize: 18, letterSpacing: '-0.01em' }}>All footage ({rest.length})</h3>
               <div style={{ display: 'flex', gap: 4 }}>
                 {['Recent', 'Most viewed', 'Free only', '4K+'].map((opt, i) => (
-                  <button key={opt} className={'chip' + (i === 0 ? ' active' : '')} style={{ padding: '6px 12px', fontSize: 12 }} data-placeholder="true">{opt}</button>
+                  <button key={opt} className={'chip' + (i === 0 ? ' active' : '')} style={{ padding: '6px 12px', fontSize: 14 }} data-placeholder="true">{opt}</button>
                 ))}
               </div>
             </div>
@@ -599,7 +599,7 @@ function FeaturedRow({ title, eyebrow, videos, onOpenVideo, accent }) {
           <div className="eyebrow" style={{ color: accent || 'var(--amber)', marginBottom: 6 }}>{eyebrow}</div>
           <h2 style={{ fontSize: 30, letterSpacing: '-0.02em' }}>{title}</h2>
         </div>
-        <button className="btn secondary" style={{ fontSize: 13 }} data-placeholder="true">View all <Ic.chevron/></button>
+        <button className="btn secondary" style={{ fontSize: 14 }} data-placeholder="true">View all <Ic.chevron/></button>
       </div>
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 20 }}>
         {videos.slice(0, 8).map(v => <VideoCard key={v.id} video={v} onClick={onOpenVideo} showRank={!!v.rank} />)}
@@ -693,12 +693,12 @@ function HomeSidebar({ selected, onSelect, mapFilters, onToggleMapFilter, onClea
           onChange={e => onQuery?.(e.target.value)}
           placeholder="Search clips / landmarks…"
           style={{
-            width: '100%', padding: '8px 12px', fontSize: 12,
+            width: '100%', padding: '8px 12px', fontSize: 14,
             background: 'var(--forest-900)', border: '1px solid var(--line-strong)',
             color: 'var(--bone)', borderRadius: 999, outline: 'none',
           }}/>
       </div>
-      <div className="mono" style={{ fontSize: 9, letterSpacing: '0.18em', color: 'var(--parchment-dim)', padding: '6px 10px 8px' }}>BROWSE BY THEME</div>
+      <div className="mono" style={{ fontSize: 12, letterSpacing: '0.18em', color: 'var(--parchment-dim)', padding: '6px 10px 8px' }}>BROWSE BY THEME</div>
 
       <button
         onClick={() => onSelect(null)}
@@ -707,11 +707,11 @@ function HomeSidebar({ selected, onSelect, mapFilters, onToggleMapFilter, onClea
           width: '100%', padding: '8px 12px', marginBottom: 8,
           background: !selected ? 'var(--bone)' : 'transparent',
           color: !selected ? 'var(--ink)' : 'var(--parchment)',
-          border: 'none', borderRadius: 6, cursor: 'pointer', fontSize: 13, fontWeight: 600,
+          border: 'none', borderRadius: 6, cursor: 'pointer', fontSize: 14, fontWeight: 600,
           textAlign: 'left',
         }}>
         <span>All clips</span>
-        <span style={{ fontSize: 11, opacity: 0.7, fontVariantNumeric: 'tabular-nums' }}>{totals.total}</span>
+        <span style={{ fontSize: 12, opacity: 0.7, fontVariantNumeric: 'tabular-nums' }}>{totals.total}</span>
       </button>
 
       <nav style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
@@ -726,13 +726,13 @@ function HomeSidebar({ selected, onSelect, mapFilters, onToggleMapFilter, onClea
                 <button onClick={() => toggleGroup(group.id)} style={{
                   flex: '0 0 auto', width: 22, height: 26,
                   background: 'transparent', border: 'none', cursor: 'pointer',
-                  color: 'var(--parchment-dim)', fontSize: 11,
+                  color: 'var(--parchment-dim)', fontSize: 12,
                 }}>{open ? '▾' : '▸'}</button>
                 <button
                   onClick={() => onSelect({ type: 'group', id: group.id, fine: group.children.flatMap(c => c.fine || []) })}
                   style={{
                     flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-                    padding: '6px 10px', borderRadius: 6, fontSize: 12, fontWeight: 700,
+                    padding: '6px 10px', borderRadius: 6, fontSize: 14, fontWeight: 700,
                     background: isActive ? 'var(--bone)' : 'transparent',
                     color: isActive ? 'var(--ink)' : 'var(--parchment)',
                     border: 'none', cursor: 'pointer', textAlign: 'left',
@@ -742,7 +742,7 @@ function HomeSidebar({ selected, onSelect, mapFilters, onToggleMapFilter, onClea
                     {Ic[group.icon] && <span style={{ display: 'inline-flex' }}>{Ic[group.icon]()}</span>}
                     <span>{group.label}</span>
                   </span>
-                  <span style={{ fontSize: 11, opacity: 0.7, fontVariantNumeric: 'tabular-nums' }}>{groupCount}</span>
+                  <span style={{ fontSize: 12, opacity: 0.7, fontVariantNumeric: 'tabular-nums' }}>{groupCount}</span>
                 </button>
               </div>
               {open && (
@@ -757,13 +757,13 @@ function HomeSidebar({ selected, onSelect, mapFilters, onToggleMapFilter, onClea
                           onClick={() => onSelect({ type: 'child', id: child.id, groupId: group.id, fine: child.fine || [] })}
                           style={{
                             display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-                            width: '100%', padding: '5px 10px', borderRadius: 6, fontSize: 12,
+                            width: '100%', padding: '5px 10px', borderRadius: 6, fontSize: 14,
                             background: childActive ? 'var(--bone)' : 'transparent',
                             color: childActive ? 'var(--ink)' : 'var(--parchment)',
                             border: 'none', cursor: 'pointer', textAlign: 'left',
                           }}>
                           <span>{child.label}</span>
-                          <span style={{ fontSize: 11, opacity: 0.7, fontVariantNumeric: 'tabular-nums' }}>{cnt}</span>
+                          <span style={{ fontSize: 12, opacity: 0.7, fontVariantNumeric: 'tabular-nums' }}>{cnt}</span>
                         </button>
                       </li>
                     );
@@ -777,7 +777,7 @@ function HomeSidebar({ selected, onSelect, mapFilters, onToggleMapFilter, onClea
 
       {/* Map filters section */}
       <div style={{ marginTop: 24, paddingTop: 14, borderTop: '1px solid var(--line)' }}>
-        <div className="mono" style={{ fontSize: 9, letterSpacing: '0.18em', color: 'var(--parchment-dim)', padding: '0 10px 8px' }}>MAP FILTERS</div>
+        <div className="mono" style={{ fontSize: 12, letterSpacing: '0.18em', color: 'var(--parchment-dim)', padding: '0 10px 8px' }}>MAP FILTERS</div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 4, padding: '0 6px' }}>
           {[
             ['free', 'Free only'],
@@ -789,7 +789,7 @@ function HomeSidebar({ selected, onSelect, mapFilters, onToggleMapFilter, onClea
               display: 'flex', alignItems: 'center', gap: 8,
               padding: '6px 10px', borderRadius: 6, cursor: 'pointer',
               background: mapFilters[k] ? 'var(--forest-800)' : 'transparent',
-              fontSize: 12,
+              fontSize: 14,
             }}>
               <input
                 type="checkbox"
@@ -801,7 +801,7 @@ function HomeSidebar({ selected, onSelect, mapFilters, onToggleMapFilter, onClea
           ))}
           {activeFilterCount > 0 && (
             <button onClick={onClearMapFilters} style={{
-              padding: '6px 10px', fontSize: 11, color: 'var(--sunset)',
+              padding: '6px 10px', fontSize: 12, color: 'var(--sunset)',
               background: 'transparent', border: 'none', cursor: 'pointer',
               textAlign: 'left', letterSpacing: '0.08em', fontFamily: 'var(--font-mono)',
             }}>CLEAR FILTERS</button>
@@ -952,11 +952,11 @@ export function HomePage({ onOpenVideo, onNav }) {
                     }}>{CAT_ICONS[loc.category] && CAT_ICONS[loc.category](22)}</div>;
                   })()}
                   <div style={{ flex: 1, minWidth: 0 }}>
-                    <div className="mono" style={{ fontSize: 10, letterSpacing: '0.1em', color: 'var(--parchment-dim)', textTransform: 'uppercase', marginBottom: 2 }}>
+                    <div className="mono" style={{ fontSize: 12, letterSpacing: '0.1em', color: 'var(--parchment-dim)', textTransform: 'uppercase', marginBottom: 2 }}>
                       {loc.country}
                     </div>
                     <div style={{ fontWeight: 600, fontSize: 15, marginBottom: 4 }}>{loc.name}</div>
-                    <div style={{ fontSize: 12, color: 'var(--parchment-dim)' }}>
+                    <div style={{ fontSize: 14, color: 'var(--parchment-dim)' }}>
                       {loc.videos} clips · {CATEGORIES.find(c => c.id === loc.category)?.label}
                     </div>
                   </div>

@@ -26,13 +26,13 @@ export function SidebarEditor() {
   return (
     <div>
       <h2 style={{ fontSize: 22, marginTop: 0 }}>Home right sidebar — curated picks</h2>
-      <p style={{ color: 'var(--parchment-dim)', fontSize: 13, marginBottom: 16 }}>
+      <p style={{ color: 'var(--parchment-dim)', fontSize: 14, marginBottom: 16 }}>
         Curate which videos / ads / live streams appear in the home right rail.
         Empty list → site auto-fills with top-viewed videos.
       </p>
       <button onClick={() => setDraft({ kind: 'hot', sort_order: 100, active: true, payload: {} })}
         style={{ marginBottom: 16, padding: '8px 14px', background: 'var(--amber)', color: 'var(--ink)', border: 'none', borderRadius: 4, cursor: 'pointer', fontWeight: 600 }}>+ New pick</button>
-      <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13 }}>
+      <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 14 }}>
         <thead><tr style={{ borderBottom: '1px solid var(--line-strong)', color: 'var(--parchment-dim)', textAlign: 'left' }}>
           <th style={{ padding: '8px 6px' }}>Kind</th>
           <th>Ref ID / Payload</th>
@@ -43,8 +43,8 @@ export function SidebarEditor() {
         <tbody>
           {picks.map(p => (
             <tr key={p.id} style={{ borderBottom: '1px solid var(--line)' }}>
-              <td style={{ padding: '8px 6px' }}><span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--amber)' }}>{KIND_LABEL[p.kind] || p.kind}</span></td>
-              <td style={{ padding: '8px 6px', fontFamily: 'monospace', fontSize: 11, color: 'var(--parchment)' }}>
+              <td style={{ padding: '8px 6px' }}><span style={{ fontFamily: 'var(--font-mono)', fontSize: 12, color: 'var(--amber)' }}>{KIND_LABEL[p.kind] || p.kind}</span></td>
+              <td style={{ padding: '8px 6px', fontFamily: 'monospace', fontSize: 12, color: 'var(--parchment)' }}>
                 {p.ref_id || (p.payload?.title ? `[ad] ${p.payload.title}` : '—')}
               </td>
               <td style={{ padding: '8px 6px' }}>{p.sort_order}</td>
@@ -142,12 +142,12 @@ export function SuperChatsViewer() {
   return (
     <div>
       <h2 style={{ fontSize: 22, marginTop: 0 }}>Super Chats — ledger</h2>
-      <div style={{ display: 'flex', gap: 20, marginBottom: 16, fontSize: 13 }}>
+      <div style={{ display: 'flex', gap: 20, marginBottom: 16, fontSize: 14 }}>
         <div>Total: <strong>${total.toFixed(2)}</strong></div>
         <div style={{ color: 'var(--moss)' }}>Pilots 70%: <strong>${pilot.toFixed(2)}</strong></div>
         <div style={{ color: 'var(--amber)' }}>Platform 30%: <strong>${platform.toFixed(2)}</strong></div>
       </div>
-      <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 12 }}>
+      <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 14 }}>
         <thead><tr style={{ borderBottom: '1px solid var(--line-strong)', textAlign: 'left' }}>
           <th style={{ padding: '8px 6px' }}>When</th><th>Stream</th><th style={{ textAlign: 'right' }}>Amount</th><th style={{ textAlign: 'right' }}>Pilot</th><th style={{ textAlign: 'right' }}>Platform</th><th>Status</th>
         </tr></thead>
@@ -155,7 +155,7 @@ export function SuperChatsViewer() {
           {rows.map(r => (
             <tr key={r.id} style={{ borderBottom: '1px solid var(--line)' }}>
               <td style={{ padding: '6px' }}>{(r.created_at || '').slice(0,16).replace('T',' ')}</td>
-              <td style={{ padding: '6px', fontFamily: 'monospace', fontSize: 10 }}>{(r.stream_id || '').slice(0,8)}</td>
+              <td style={{ padding: '6px', fontFamily: 'monospace', fontSize: 12 }}>{(r.stream_id || '').slice(0,8)}</td>
               <td style={{ padding: '6px', textAlign: 'right' }}>${Number(r.amount_usd).toFixed(2)}</td>
               <td style={{ padding: '6px', textAlign: 'right', color: 'var(--moss)' }}>${Number(r.pilot_share_usd).toFixed(2)}</td>
               <td style={{ padding: '6px', textAlign: 'right', color: 'var(--amber)' }}>${Number(r.platform_fee_usd).toFixed(2)}</td>
@@ -181,7 +181,7 @@ function CrudTable({ title, listFn, upsertFn, deleteFn, columns, fields }) {
     <div>
       <h2 style={{ fontSize: 22, marginTop: 0 }}>{title}</h2>
       <button onClick={() => setDraft({ active: true })} style={{ marginBottom: 16, padding: '8px 14px', background: 'var(--amber)', color: 'var(--ink)', border: 'none', borderRadius: 4, cursor: 'pointer', fontWeight: 600 }}>+ New</button>
-      <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13 }}>
+      <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 14 }}>
         <thead><tr style={{ borderBottom: '1px solid var(--line-strong)', textAlign: 'left' }}>
           {columns.map(c => <th key={c[0]} style={{ padding: '8px 6px' }}>{c[1]}</th>)}
           <th></th>
@@ -226,11 +226,11 @@ function CrudTable({ title, listFn, upsertFn, deleteFn, columns, fields }) {
 
 function Field({ label, children }) {
   return <div style={{ marginBottom: 10 }}>
-    <label style={{ display: 'block', fontSize: 11, color: 'var(--parchment-dim)', marginBottom: 4 }}>{label}</label>
+    <label style={{ display: 'block', fontSize: 12, color: 'var(--parchment-dim)', marginBottom: 4 }}>{label}</label>
     {children}
   </div>;
 }
 const S = {
-  input: { width: '100%', padding: '8px 10px', background: 'var(--forest-900)', border: '1px solid var(--line-strong)', color: 'var(--bone)', borderRadius: 4, fontFamily: 'inherit', fontSize: 13 },
+  input: { width: '100%', padding: '8px 10px', background: 'var(--forest-900)', border: '1px solid var(--line-strong)', color: 'var(--bone)', borderRadius: 4, fontFamily: 'inherit', fontSize: 14 },
   btn:   { padding: '8px 14px', background: 'transparent', border: '1px solid var(--line-strong)', color: 'var(--bone)', borderRadius: 4, cursor: 'pointer', fontFamily: 'inherit' },
 };

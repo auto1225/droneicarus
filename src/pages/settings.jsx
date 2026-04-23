@@ -77,7 +77,7 @@ export function SettingsPage({ onNav }) {
 
   return (
     <div style={{ maxWidth: 1160, margin: '0 auto', padding: '40px 28px 80px' }}>
-      <div className="mono" style={{ fontSize: 11, letterSpacing: '0.18em', color: 'var(--parchment-dim)', marginBottom: 10 }}>SETTINGS</div>
+      <div className="mono" style={{ fontSize: 12, letterSpacing: '0.18em', color: 'var(--parchment-dim)', marginBottom: 10 }}>SETTINGS</div>
       <h1 style={{ fontSize: 36, marginBottom: 24 }}>Account</h1>
 
       <div style={{ display: 'grid', gridTemplateColumns: '240px 1fr', gap: 36 }}>
@@ -85,7 +85,7 @@ export function SettingsPage({ onNav }) {
           {sections.map(([k, label]) => (
             <button key={k} onClick={() => setSection(k)} style={{
               display: 'block', width: '100%', padding: '9px 14px', textAlign: 'left',
-              fontSize: 13, marginBottom: 2,
+              fontSize: 14, marginBottom: 2,
               color: section === k ? 'var(--bone)' : 'var(--parchment-dim)',
               background: section === k ? 'var(--forest-900)' : 'transparent',
               borderLeft: section === k ? '2px solid var(--amber)' : '2px solid transparent',
@@ -114,7 +114,7 @@ function Card({ title, subtitle, children, footer }) {
     <div style={{ border: '1px solid var(--line)', borderRadius: 4, marginBottom: 18 }}>
       <div style={{ padding: '18px 22px', borderBottom: '1px solid var(--line)' }}>
         <h3 style={{ fontSize: 16, marginBottom: subtitle ? 3 : 0 }}>{title}</h3>
-        {subtitle && <div style={{ fontSize: 12, color: 'var(--parchment-dim)' }}>{subtitle}</div>}
+        {subtitle && <div style={{ fontSize: 14, color: 'var(--parchment-dim)' }}>{subtitle}</div>}
       </div>
       <div style={{ padding: 22 }}>{children}</div>
       {footer && <div style={{ padding: '14px 22px', borderTop: '1px solid var(--line)', background: 'var(--forest-950)', display: 'flex', justifyContent: 'flex-end', gap: 8 }}>{footer}</div>}
@@ -126,27 +126,27 @@ function Row({ label, hint, children }) {
   return (
     <div style={{ display: 'grid', gridTemplateColumns: '180px 1fr', gap: 24, padding: '14px 0', borderBottom: '1px solid var(--line)', alignItems: 'flex-start' }}>
       <div>
-        <div style={{ fontSize: 13, fontWeight: 500 }}>{label}</div>
-        {hint && <div style={{ fontSize: 11, color: 'var(--parchment-dim)', marginTop: 3 }}>{hint}</div>}
+        <div style={{ fontSize: 14, fontWeight: 500 }}>{label}</div>
+        {hint && <div style={{ fontSize: 12, color: 'var(--parchment-dim)', marginTop: 3 }}>{hint}</div>}
       </div>
       <div>{children}</div>
     </div>
   );
 }
 
-const iS = { width: '100%', padding: '9px 12px', background: 'var(--forest-900)', border: '1px solid var(--line-strong)', color: 'var(--bone)', fontSize: 13, borderRadius: 3, outline: 'none', fontFamily: 'inherit' };
+const iS = { width: '100%', padding: '9px 12px', background: 'var(--forest-900)', border: '1px solid var(--line-strong)', color: 'var(--bone)', fontSize: 14, borderRadius: 3, outline: 'none', fontFamily: 'inherit' };
 
 function SProfile({ u, profile, draft, setDraft, onSave, saving, onAvatarPick, onAvatarRemove, avatarInputRef }) {
   return (
     <>
       <Card title="Public profile" subtitle="Shown on your creator page and next to your clips."
-        footer={<><button className="btn secondary" style={{ fontSize: 12, padding: '6px 14px' }} onClick={() => setDraft({display_name: u.name||'', handle: u.handle||'', location: u.location||'', bio: profile?.bio||''})}>Cancel</button><button className="btn" style={{ fontSize: 12, padding: '6px 14px' }} onClick={onSave} disabled={saving}>{saving ? 'Saving…' : 'Save changes'}</button></>}>
+        footer={<><button className="btn secondary" style={{ fontSize: 14, padding: '6px 14px' }} onClick={() => setDraft({display_name: u.name||'', handle: u.handle||'', location: u.location||'', bio: profile?.bio||''})}>Cancel</button><button className="btn" style={{ fontSize: 14, padding: '6px 14px' }} onClick={onSave} disabled={saving}>{saving ? 'Saving…' : 'Save changes'}</button></>}>
         <Row label="Avatar" hint="PNG or JPG, max 5MB">
           <div style={{ display: 'flex', gap: 14, alignItems: 'center' }}>
             <div style={{ width: 64, height: 64, borderRadius: '50%', background: 'var(--sunset)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 22, fontWeight: 700, color: '#faf6ec' }}>{u.initials}</div>
-            <button className="btn secondary" style={{ fontSize: 12 }} onClick={() => avatarInputRef.current?.click()}>Upload new</button>
+            <button className="btn secondary" style={{ fontSize: 14 }} onClick={() => avatarInputRef.current?.click()}>Upload new</button>
             <input ref={avatarInputRef} type="file" accept="image/*" style={{display:'none'}} onChange={e => { const f=e.target.files?.[0]; if (f) onAvatarPick(f); e.target.value=''; }} />
-            <button style={{ fontSize: 12, color: 'var(--parchment-dim)' }} onClick={onAvatarRemove}>Remove</button>
+            <button style={{ fontSize: 14, color: 'var(--parchment-dim)' }} onClick={onAvatarRemove}>Remove</button>
           </div>
         </Row>
         <Row label="Display name"><input defaultValue={u.name} style={iS}/></Row>
@@ -172,7 +172,7 @@ function SAccount({ u }) {
       <Card title="Email & password">
         <Row label="Email"><input defaultValue={u.email} style={iS}/></Row>
         <Row label="Password" hint="Last changed 3 months ago">
-          <button className="btn secondary" style={{ fontSize: 12 }} onClick={async () => {
+          <button className="btn secondary" style={{ fontSize: 14 }} onClick={async () => {
             if (!u.email) { toast?.('Email missing', '', 'error'); return; }
             try { const { error } = await supabase.auth.resetPasswordForEmail(u.email, { redirectTo: window.location.origin + '#signin' }); if (error) throw error; toast?.('Email sent', 'Check inbox for reset link'); }
             catch (e) { toast?.('Could not send', e.message, 'error'); }
@@ -182,15 +182,15 @@ function SAccount({ u }) {
       <Card title="Two-factor authentication" subtitle="Add a second layer of security for your flight log.">
         <Row label="Authenticator app" hint="Google Authenticator, 1Password, Authy">
           <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-            <span className="mono" style={{ fontSize: 11, color: 'var(--lichen)', letterSpacing: '0.12em' }}>● ENABLED · TOTP</span>
-            <button style={{ fontSize: 12, color: 'var(--sunset)' }} data-placeholder="true">Regenerate codes</button>
+            <span className="mono" style={{ fontSize: 12, color: 'var(--lichen)', letterSpacing: '0.12em' }}>● ENABLED · TOTP</span>
+            <button style={{ fontSize: 14, color: 'var(--sunset)' }} data-placeholder="true">Regenerate codes</button>
           </div>
         </Row>
         <Row label="SMS backup" hint="+82 10 •••• 4821">
           <Toggle defaultChecked={true}/>
         </Row>
         <Row label="Passkeys" hint="Sign in with Face ID / Touch ID">
-          <button className="btn secondary" style={{ fontSize: 12 }} data-placeholder="true">Add a passkey</button>
+          <button className="btn secondary" style={{ fontSize: 14 }} data-placeholder="true">Add a passkey</button>
         </Row>
       </Card>
       <Card title="Active sessions">
@@ -200,8 +200,8 @@ function SAccount({ u }) {
           ['iPad Air · Safari', 'Seoul, KR · 3d ago', false],
         ].map(([dev, meta, cur]) => (
           <Row key={dev} label={dev} hint={meta}>
-            {cur ? <span style={{ fontSize: 11, color: 'var(--lichen)', fontFamily: 'var(--font-mono)', letterSpacing: '0.1em' }}>● THIS DEVICE</span>
-                 : <button style={{ fontSize: 12, color: 'var(--sunset)' }} data-placeholder="true">Revoke</button>}
+            {cur ? <span style={{ fontSize: 12, color: 'var(--lichen)', fontFamily: 'var(--font-mono)', letterSpacing: '0.1em' }}>● THIS DEVICE</span>
+                 : <button style={{ fontSize: 14, color: 'var(--sunset)' }} data-placeholder="true">Revoke</button>}
           </Row>
         ))}
       </Card>
@@ -216,15 +216,15 @@ function SBilling() {
         <Row label="Default card">
           <div style={{ padding: 14, border: '1px solid var(--line-strong)', borderRadius: 3, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <div>
-              <div style={{ fontSize: 13, fontWeight: 600, fontFamily: 'var(--font-mono)' }}>Visa •• 4242</div>
-              <div style={{ fontSize: 11, color: 'var(--parchment-dim)' }}>Expires 04 / 29 · Hyunwoo Park</div>
+              <div style={{ fontSize: 14, fontWeight: 600, fontFamily: 'var(--font-mono)' }}>Visa •• 4242</div>
+              <div style={{ fontSize: 12, color: 'var(--parchment-dim)' }}>Expires 04 / 29 · Hyunwoo Park</div>
             </div>
-            <span className="mono" style={{ fontSize: 10, color: 'var(--amber)', letterSpacing: '0.14em' }}>DEFAULT</span>
+            <span className="mono" style={{ fontSize: 12, color: 'var(--amber)', letterSpacing: '0.14em' }}>DEFAULT</span>
           </div>
-          <button className="btn secondary" style={{ fontSize: 12, marginTop: 10 }} data-placeholder="true">+ Add payment method</button>
+          <button className="btn secondary" style={{ fontSize: 14, marginTop: 10 }} data-placeholder="true">+ Add payment method</button>
         </Row>
         <Row label="Billing address">
-          <div style={{ fontSize: 13, color: 'var(--parchment)' }}>
+          <div style={{ fontSize: 14, color: 'var(--parchment)' }}>
             Hyunwoo Park<br/>
             63 Yeouinaru-ro<br/>
             Yeongdeungpo-gu, Seoul 04539<br/>
@@ -237,8 +237,8 @@ function SBilling() {
       <Card title="Payout account" subtitle="Where your pilot earnings are deposited.">
         <Row label="Method">
           <div style={{ padding: 14, background: 'var(--forest-900)', border: '1px solid var(--line)', borderRadius: 3 }}>
-            <div style={{ fontSize: 13, fontWeight: 600, marginBottom: 3 }}>Stripe Connect · KEB Hana Bank</div>
-            <div style={{ fontSize: 11, fontFamily: 'var(--font-mono)', color: 'var(--parchment-dim)' }}>•• •• •• 4821 · SWIFT KOEXKRSE · verified 2024.03.14</div>
+            <div style={{ fontSize: 14, fontWeight: 600, marginBottom: 3 }}>Stripe Connect · KEB Hana Bank</div>
+            <div style={{ fontSize: 12, fontFamily: 'var(--font-mono)', color: 'var(--parchment-dim)' }}>•• •• •• 4821 · SWIFT KOEXKRSE · verified 2024.03.14</div>
           </div>
         </Row>
         <Row label="Minimum payout"><input defaultValue="$50.00" style={iS}/></Row>
@@ -302,7 +302,7 @@ function MonetizationCard() {
     <Card title="Live monetization · Super Chats" subtitle="Required to receive Super Chat tips on live broadcasts. Pilots keep 70%, platform 30%.">
       <div style={{ padding: 12, marginBottom: 14, background: ready ? 'rgba(95,154,67,0.08)' : 'rgba(217,112,69,0.08)', border: '1px solid ' + (ready ? 'var(--moss)' : 'var(--sunset)'), borderRadius: 3, display: 'flex', gap: 12, alignItems: 'center' }}>
         <span style={{ width: 10, height: 10, borderRadius: '50%', background: ready ? 'var(--moss)' : 'var(--sunset)' }}/>
-        <div style={{ flex: 1, fontSize: 13 }}>
+        <div style={{ flex: 1, fontSize: 14 }}>
           {ready ? <>Monetization-ready. Toggle "Super Chat" on when you Go Live.</> :
                    <>Monetization is <strong>disabled</strong>. Fill the fields below to enable Super Chat tips.</>}
         </div>
@@ -313,14 +313,14 @@ function MonetizationCard() {
       <Row label="Legal name *" hint="For tax records"><input value={payee} onChange={e => setPayee(e.target.value)} placeholder="Hong Gildong" style={iS}/></Row>
       <Row label="Country code *" hint="ISO-2 (KR / US / JP …)"><input value={country} onChange={e => setCountry(e.target.value.toUpperCase())} maxLength={2} placeholder="KR" style={iS}/></Row>
       <Row label="Terms" hint="Required to receive any payout">
-        <label style={{ display: 'flex', gap: 10, alignItems: 'flex-start', fontSize: 13, color: 'var(--parchment)' }}>
+        <label style={{ display: 'flex', gap: 10, alignItems: 'flex-start', fontSize: 14, color: 'var(--parchment)' }}>
           <input type="checkbox" checked={accepted} onChange={e => setAccepted(e.target.checked)} style={{ marginTop: 3 }}/>
           <span>I accept that droneicarus retains 30% per Super Chat as platform fee, payouts run monthly to my PayPal once balance ≥ $50, and tax responsibility lies with me.</span>
         </label>
       </Row>
-      {savedAt && <div style={{ fontSize: 11, color: 'var(--parchment-dim)', marginTop: 6 }}>Last saved {new Date(savedAt).toLocaleString()}</div>}
-      {err && <div style={{ color: 'var(--sunset)', fontSize: 12, marginTop: 8 }}>{err}</div>}
-      {ok && <div style={{ color: 'var(--moss)', fontSize: 12, marginTop: 8 }}>{ok}</div>}
+      {savedAt && <div style={{ fontSize: 12, color: 'var(--parchment-dim)', marginTop: 6 }}>Last saved {new Date(savedAt).toLocaleString()}</div>}
+      {err && <div style={{ color: 'var(--sunset)', fontSize: 14, marginTop: 8 }}>{err}</div>}
+      {ok && <div style={{ color: 'var(--moss)', fontSize: 14, marginTop: 8 }}>{ok}</div>}
       <button onClick={save} disabled={busy} style={{ marginTop: 14, padding: '8px 16px', background: 'var(--amber)', color: 'var(--ink)', border: 'none', borderRadius: 4, cursor: busy ? 'wait' : 'pointer', fontWeight: 600 }}>
         {busy ? 'Saving…' : 'Save monetization profile'}
       </button>
@@ -336,9 +336,9 @@ function SPilot({ onNav }) {
           <div style={{ width: 36, height: 36, borderRadius: '50%', background: 'var(--moss)', color: '#faf6ec', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><Ic.check/></div>
           <div style={{ flex: 1 }}>
             <div style={{ fontSize: 14, fontWeight: 600 }}>Verified commercial pilot</div>
-            <div style={{ fontSize: 12, color: 'var(--parchment-dim)' }}>Approved 2024.03.14 · valid through 2027.03.14</div>
+            <div style={{ fontSize: 14, color: 'var(--parchment-dim)' }}>Approved 2024.03.14 · valid through 2027.03.14</div>
           </div>
-          <span className="mono" style={{ fontSize: 10, color: 'var(--lichen)', letterSpacing: '0.14em' }}>● VERIFIED</span>
+          <span className="mono" style={{ fontSize: 12, color: 'var(--lichen)', letterSpacing: '0.14em' }}>● VERIFIED</span>
         </div>
       </Card>
       <Card title="Registered aircraft">
@@ -349,20 +349,20 @@ function SPilot({ onNav }) {
         ].map(([m, meta]) => (
           <Row key={m} label={m} hint={meta}>
             <div style={{ display: 'flex', gap: 6 }}>
-              <button style={{ fontSize: 12, color: 'var(--sunset)' }} data-placeholder="true">Edit</button>
-              <button style={{ fontSize: 12, color: 'var(--parchment-dim)' }} data-placeholder="true">Remove</button>
+              <button style={{ fontSize: 14, color: 'var(--sunset)' }} data-placeholder="true">Edit</button>
+              <button style={{ fontSize: 14, color: 'var(--parchment-dim)' }} data-placeholder="true">Remove</button>
             </div>
           </Row>
         ))}
         <div style={{ paddingTop: 14 }}>
-          <button className="btn secondary" style={{ fontSize: 12 }} data-placeholder="true">+ Register another drone</button>
+          <button className="btn secondary" style={{ fontSize: 14 }} data-placeholder="true">+ Register another drone</button>
         </div>
       </Card>
       <Card title="Certifications & insurance">
-        <Row label="KCAA Commercial License" hint="Korea Civil Aviation Authority · expires 2027.03"><span style={{ fontSize: 11, color: 'var(--lichen)', fontFamily: 'var(--font-mono)', letterSpacing: '0.12em' }}>● VERIFIED</span></Row>
-        <Row label="FAA Part 107" hint="US commercial operation · expires 2026.09"><span style={{ fontSize: 11, color: 'var(--lichen)', fontFamily: 'var(--font-mono)', letterSpacing: '0.12em' }}>● VERIFIED</span></Row>
-        <Row label="Liability insurance" hint="$1M coverage · Lloyd's of London"><span style={{ fontSize: 11, color: 'var(--lichen)', fontFamily: 'var(--font-mono)', letterSpacing: '0.12em' }}>● VERIFIED</span></Row>
-        <Row label="Expand coverage"><button className="btn secondary" style={{ fontSize: 12 }} onClick={() => onNav('pilot-onboarding')}>Add another region</button></Row>
+        <Row label="KCAA Commercial License" hint="Korea Civil Aviation Authority · expires 2027.03"><span style={{ fontSize: 12, color: 'var(--lichen)', fontFamily: 'var(--font-mono)', letterSpacing: '0.12em' }}>● VERIFIED</span></Row>
+        <Row label="FAA Part 107" hint="US commercial operation · expires 2026.09"><span style={{ fontSize: 12, color: 'var(--lichen)', fontFamily: 'var(--font-mono)', letterSpacing: '0.12em' }}>● VERIFIED</span></Row>
+        <Row label="Liability insurance" hint="$1M coverage · Lloyd's of London"><span style={{ fontSize: 12, color: 'var(--lichen)', fontFamily: 'var(--font-mono)', letterSpacing: '0.12em' }}>● VERIFIED</span></Row>
+        <Row label="Expand coverage"><button className="btn secondary" style={{ fontSize: 14 }} onClick={() => onNav('pilot-onboarding')}>Add another region</button></Row>
       </Card>
     </>
   );
@@ -396,8 +396,8 @@ function SPrivacy() {
         <Row label="Show flight metadata" hint="Altitude, aircraft, shot date on your clips"><Toggle defaultChecked/></Row>
       </Card>
       <Card title="Your data">
-        <Row label="Download my data" hint="All clips, metadata, licenses, messages · delivered as .zip within 48h"><button className="btn secondary" style={{ fontSize: 12 }} data-placeholder="true">Request export</button></Row>
-        <Row label="Cookies & tracking"><button style={{ fontSize: 12, color: 'var(--sunset)' }} data-placeholder="true">Manage preferences →</button></Row>
+        <Row label="Download my data" hint="All clips, metadata, licenses, messages · delivered as .zip within 48h"><button className="btn secondary" style={{ fontSize: 14 }} data-placeholder="true">Request export</button></Row>
+        <Row label="Cookies & tracking"><button style={{ fontSize: 14, color: 'var(--sunset)' }} data-placeholder="true">Manage preferences →</button></Row>
       </Card>
     </>
   );
@@ -418,10 +418,10 @@ function SAppearance() {
 function SDanger() {
   return (
     <Card title="Danger zone" subtitle="These actions are permanent.">
-      <Row label="Deactivate account" hint="Hide your profile and clips. Reversible for 30 days."><button className="btn secondary" style={{ fontSize: 12, color: 'var(--sunset)' }} data-placeholder="true">Deactivate</button></Row>
-      <Row label="Transfer clips to another pilot"><button className="btn secondary" style={{ fontSize: 12 }} data-placeholder="true">Start transfer</button></Row>
+      <Row label="Deactivate account" hint="Hide your profile and clips. Reversible for 30 days."><button className="btn secondary" style={{ fontSize: 14, color: 'var(--sunset)' }} data-placeholder="true">Deactivate</button></Row>
+      <Row label="Transfer clips to another pilot"><button className="btn secondary" style={{ fontSize: 14 }} data-placeholder="true">Start transfer</button></Row>
       <Row label="Delete account" hint="All clips, licenses issued, and earnings history are erased. This cannot be undone.">
-        <button style={{ padding: '8px 14px', fontSize: 12, background: 'transparent', border: '1px solid #c73e3e', color: '#c73e3e', borderRadius: 3 }} data-placeholder="true">Delete permanently</button>
+        <button style={{ padding: '8px 14px', fontSize: 14, background: 'transparent', border: '1px solid #c73e3e', color: '#c73e3e', borderRadius: 3 }} data-placeholder="true">Delete permanently</button>
       </Row>
     </Card>
   );
@@ -442,7 +442,7 @@ function Toggle({ defaultChecked, label }) {
           transition: 'left 0.15s',
         }}/>
       </button>
-      {label && <span style={{ fontSize: 13 }}>{label}</span>}
+      {label && <span style={{ fontSize: 14 }}>{label}</span>}
     </label>
   );
 }

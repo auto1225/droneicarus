@@ -59,7 +59,7 @@ export function ShotLibraryPage({ onNav, onOpenVideo }) {
               color: 'var(--bone)', borderRadius: 6, outline: 'none',
             }}/>
           {query && (
-            <div style={{ fontSize: 12, color: 'var(--parchment-dim)', marginTop: 8 }}>
+            <div style={{ fontSize: 14, color: 'var(--parchment-dim)', marginTop: 8 }}>
               {videos.length} result{videos.length === 1 ? '' : 's'} — <button onClick={() => setQuery('')} style={{ background: 'transparent', border: 'none', color: 'var(--amber)', cursor: 'pointer', textDecoration: 'underline', textUnderlineOffset: 3 }}>clear</button>
             </div>
           )}
@@ -71,10 +71,10 @@ export function ShotLibraryPage({ onNav, onOpenVideo }) {
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16 }}>
           {USE_CASES.map((u, i) => (
             <button key={u.id} data-placeholder="true" onClick={() => {}} style={{ textAlign: 'left', padding: 24, border: '1px solid var(--line)', borderRadius: 4, background: 'var(--forest-950)', position: 'relative' }}>
-              <div className="mono" style={{ fontSize: 10, letterSpacing: '0.16em', color: 'var(--amber)', marginBottom: 12, fontWeight: 600 }}>{u.tag}</div>
+              <div className="mono" style={{ fontSize: 12, letterSpacing: '0.16em', color: 'var(--amber)', marginBottom: 12, fontWeight: 600 }}>{u.tag}</div>
               <h3 style={{ fontSize: 22, letterSpacing: '-0.01em', marginBottom: 8, fontFamily: 'var(--font-display)', fontWeight: 600 }}>{u.name}</h3>
-              <p style={{ fontSize: 13, color: 'var(--parchment)', lineHeight: 1.55, marginBottom: 18, minHeight: 58 }}>{u.desc}</p>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: 14, borderTop: '1px solid var(--line)', fontSize: 12 }}>
+              <p style={{ fontSize: 14, color: 'var(--parchment)', lineHeight: 1.55, marginBottom: 18, minHeight: 58 }}>{u.desc}</p>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: 14, borderTop: '1px solid var(--line)', fontSize: 14 }}>
                 <span style={{ color: 'var(--parchment-dim)' }}>{u.clips.toLocaleString()} clips</span>
                 <span className="mono" style={{ color: 'var(--amber)' }}>from ${u.price}</span>
               </div>
@@ -87,7 +87,7 @@ export function ShotLibraryPage({ onNav, onOpenVideo }) {
       <section style={{ maxWidth: 1200, margin: '0 auto', padding: '40px 28px 80px' }}>
         <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', marginBottom: 20 }}>
           <h2 style={{ fontSize: 28 }}>Starter kits · curator-picked</h2>
-          <span style={{ fontSize: 12, color: 'var(--parchment-dim)' }}>Save 30% vs. buying individually</span>
+          <span style={{ fontSize: 14, color: 'var(--parchment-dim)' }}>Save 30% vs. buying individually</span>
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 22 }}>
           {[
@@ -104,16 +104,16 @@ export function ShotLibraryPage({ onNav, onOpenVideo }) {
               </div>
               <div style={{ padding: 20, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
                 <div>
-                  <div className="mono" style={{ fontSize: 10, letterSpacing: '0.14em', color: 'var(--amber)', marginBottom: 6 }}>{k.tag}</div>
+                  <div className="mono" style={{ fontSize: 12, letterSpacing: '0.14em', color: 'var(--amber)', marginBottom: 6 }}>{k.tag}</div>
                   <h3 style={{ fontSize: 16, marginBottom: 4 }}>{k.name}</h3>
-                  <div style={{ fontSize: 12, color: 'var(--parchment-dim)' }}>{k.count} clips · {k.curator}</div>
+                  <div style={{ fontSize: 14, color: 'var(--parchment-dim)' }}>{k.count} clips · {k.curator}</div>
                 </div>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginTop: 14 }}>
                   <div>
-                    <div className="mono" style={{ fontSize: 10, color: 'var(--lichen)', letterSpacing: '0.1em' }}>SAVE ${k.save}</div>
+                    <div className="mono" style={{ fontSize: 12, color: 'var(--lichen)', letterSpacing: '0.1em' }}>SAVE ${k.save}</div>
                     <div style={{ fontSize: 24, fontFamily: 'var(--font-display)', fontWeight: 600, color: 'var(--amber)' }}>${k.price}</div>
                   </div>
-                  <button className="btn" style={{ fontSize: 12 }} data-placeholder="true">License kit</button>
+                  <button className="btn" style={{ fontSize: 14 }} data-placeholder="true">License kit</button>
                 </div>
               </div>
             </div>

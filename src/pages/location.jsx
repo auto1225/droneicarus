@@ -20,7 +20,7 @@ export function LocationPage({ id, onOpenVideo, onNav }) {
         <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, rgba(13,20,16,0) 30%, rgba(13,20,16,0.9) 100%)' }}/>
 
         <div style={{ position: 'absolute', bottom: 40, left: '50%', transform: 'translateX(-50%)', width: '100%', maxWidth: 1200, padding: '0 28px', color: '#f5ede0' }}>
-          <div className="mono" style={{ fontSize: 11, letterSpacing: '0.2em', color: '#e8b04a', marginBottom: 12 }}>
+          <div className="mono" style={{ fontSize: 12, letterSpacing: '0.2em', color: '#e8b04a', marginBottom: 12 }}>
             {loc.country.toUpperCase()} · {loc.lat.toFixed(4)}° N · {loc.lon.toFixed(4)}° E
           </div>
           <h1 style={{ fontSize: 84, fontFamily: 'var(--font-display)', fontWeight: 600, letterSpacing: '-0.035em', lineHeight: 0.96, marginBottom: 14, color: '#f5ede0' }}>
@@ -32,7 +32,7 @@ export function LocationPage({ id, onOpenVideo, onNav }) {
         </div>
 
         <div style={{ position: 'absolute', top: 20, left: 28, display: 'flex', gap: 8 }}>
-          <button onClick={() => onNav('home')} style={{ padding: '6px 12px', background: 'var(--thumb-overlay)', color: '#f5ede0', fontSize: 11, fontFamily: 'var(--font-mono)', letterSpacing: '0.1em', borderRadius: 2 }}>← MAP</button>
+          <button onClick={() => onNav('home')} style={{ padding: '6px 12px', background: 'var(--thumb-overlay)', color: '#f5ede0', fontSize: 12, fontFamily: 'var(--font-mono)', letterSpacing: '0.1em', borderRadius: 2 }}>← MAP</button>
         </div>
       </header>
 
@@ -42,14 +42,14 @@ export function LocationPage({ id, onOpenVideo, onNav }) {
           <div style={{ display: 'flex', gap: 28 }}>
             {[['Clips', display.length], ['Pilots', new Set(display.map(v => v.creator.name)).size], ['Best time', 'Apr–Oct'], ['Permits', 'Required']].map(([k, v]) => (
               <div key={k} style={{ display: 'flex', gap: 8, alignItems: 'baseline' }}>
-                <span className="mono" style={{ fontSize: 10, color: 'var(--parchment-dim)', letterSpacing: '0.1em' }}>{k.toUpperCase()}</span>
+                <span className="mono" style={{ fontSize: 12, color: 'var(--parchment-dim)', letterSpacing: '0.1em' }}>{k.toUpperCase()}</span>
                 <span style={{ fontSize: 14, fontWeight: 600 }}>{v}</span>
               </div>
             ))}
           </div>
           <div style={{ display: 'flex', gap: 8 }}>
-            <button className="btn secondary" style={{ fontSize: 12 }} data-placeholder="true">Save location</button>
-            <button onClick={() => onNav('commission')} className="btn" style={{ fontSize: 12 }}>Commission a shot here</button>
+            <button className="btn secondary" style={{ fontSize: 14 }} data-placeholder="true">Save location</button>
+            <button onClick={() => onNav('commission')} className="btn" style={{ fontSize: 14 }}>Commission a shot here</button>
           </div>
         </div>
       </div>
@@ -76,7 +76,7 @@ export function LocationPage({ id, onOpenVideo, onNav }) {
               ['TYPICAL WIND', '8–14 km/h'],
             ].map(([k, v]) => (
               <div key={k} style={{ background: 'var(--ink)', padding: '16px 18px' }}>
-                <div className="mono" style={{ fontSize: 10, color: 'var(--parchment-dim)', letterSpacing: '0.14em', marginBottom: 6 }}>{k}</div>
+                <div className="mono" style={{ fontSize: 12, color: 'var(--parchment-dim)', letterSpacing: '0.14em', marginBottom: 6 }}>{k}</div>
                 <div style={{ fontSize: 14, fontWeight: 600 }}>{v}</div>
               </div>
             ))}
@@ -86,12 +86,12 @@ export function LocationPage({ id, onOpenVideo, onNav }) {
         <aside>
           <div className="eyebrow" style={{ marginBottom: 10 }}>ON THE GROUND</div>
           <div style={{ aspectRatio: '4/3', background: thumbGradient(loc.id.charCodeAt(1) + 3), borderRadius: 3, marginBottom: 10 }}/>
-          <div style={{ fontSize: 12, fontStyle: 'italic', color: 'var(--parchment-dim)', marginBottom: 22 }}>Approach road from the south side, as of last week.</div>
+          <div style={{ fontSize: 14, fontStyle: 'italic', color: 'var(--parchment-dim)', marginBottom: 22 }}>Approach road from the south side, as of last week.</div>
 
           <div className="eyebrow" style={{ marginBottom: 10 }}>FIRST-LIGHT · NEXT 7 DAYS</div>
           <div style={{ border: '1px solid var(--line)', borderRadius: 3 }}>
             {['Mon 21', 'Tue 22', 'Wed 23', 'Thu 24', 'Fri 25', 'Sat 26', 'Sun 27'].map((d, i) => (
-              <div key={d} style={{ display: 'grid', gridTemplateColumns: '60px 1fr 80px', padding: '9px 14px', borderTop: i > 0 ? '1px solid var(--line)' : 'none', fontSize: 12, alignItems: 'center' }}>
+              <div key={d} style={{ display: 'grid', gridTemplateColumns: '60px 1fr 80px', padding: '9px 14px', borderTop: i > 0 ? '1px solid var(--line)' : 'none', fontSize: 14, alignItems: 'center' }}>
                 <span className="mono">{d}</span>
                 <span style={{ color: 'var(--parchment-dim)' }}>{['Clear', 'Fog AM', 'Clear', 'Cloudy', 'Clear', 'Wind 18', 'Clear'][i]}</span>
                 <span className="mono" style={{ textAlign: 'right', color: 'var(--amber)' }}>{['5:41','5:40','5:39','5:38','5:38','5:37','5:36'][i]}</span>
@@ -110,11 +110,11 @@ export function LocationPage({ id, onOpenVideo, onNav }) {
               <h2 style={{ fontSize: 28 }}>{display.length} clips at this location</h2>
             </div>
             <div style={{ display: 'flex', gap: 6 }}>
-              <button className="chip active" style={{ fontSize: 11 }} data-placeholder="true">All</button>
-              <button className="chip" style={{ fontSize: 11 }} data-placeholder="true">Dawn</button>
-              <button className="chip" style={{ fontSize: 11 }} data-placeholder="true">Free</button>
-              <button className="chip" style={{ fontSize: 11 }} data-placeholder="true">4K+</button>
-              <button className="chip" style={{ fontSize: 11 }} data-placeholder="true">Commercial license</button>
+              <button className="chip active" style={{ fontSize: 12 }} data-placeholder="true">All</button>
+              <button className="chip" style={{ fontSize: 12 }} data-placeholder="true">Dawn</button>
+              <button className="chip" style={{ fontSize: 12 }} data-placeholder="true">Free</button>
+              <button className="chip" style={{ fontSize: 12 }} data-placeholder="true">4K+</button>
+              <button className="chip" style={{ fontSize: 12 }} data-placeholder="true">Commercial license</button>
             </div>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 22 }}>

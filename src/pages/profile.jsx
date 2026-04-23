@@ -92,8 +92,8 @@ export function ProfilePage({ handle, onOpenVideo, onNav }) {
         <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, rgba(13,20,16,0) 40%, rgba(13,20,16,0.9) 100%)' }}/>
 
         <div style={{ position: 'absolute', top: 22, left: 28, display: 'flex', gap: 10 }}>
-          <span className="mono" style={{ fontSize: 10, letterSpacing: '0.18em', color: '#f5ede0', padding: '5px 10px', background: 'var(--thumb-overlay)', borderRadius: 2 }}>● LIVE BROADCASTING</span>
-          <span className="mono" style={{ fontSize: 10, letterSpacing: '0.18em', color: 'var(--amber)', padding: '5px 10px', background: 'var(--thumb-overlay)', borderRadius: 2 }}>VERIFIED PILOT</span>
+          <span className="mono" style={{ fontSize: 12, letterSpacing: '0.18em', color: '#f5ede0', padding: '5px 10px', background: 'var(--thumb-overlay)', borderRadius: 2 }}>● LIVE BROADCASTING</span>
+          <span className="mono" style={{ fontSize: 12, letterSpacing: '0.18em', color: 'var(--amber)', padding: '5px 10px', background: 'var(--thumb-overlay)', borderRadius: 2 }}>VERIFIED PILOT</span>
         </div>
       </div>
 
@@ -109,14 +109,14 @@ export function ProfilePage({ handle, onOpenVideo, onNav }) {
           }}>{creator.name[0]}</div>
 
           <div style={{ flex: 1, paddingBottom: 12 }}>
-            <div className="mono" style={{ fontSize: 11, letterSpacing: '0.2em', color: 'var(--parchment-dim)', marginBottom: 6 }}>
+            <div className="mono" style={{ fontSize: 12, letterSpacing: '0.2em', color: 'var(--parchment-dim)', marginBottom: 6 }}>
               AERIAL PILOT · BASED IN {creator.country?.toUpperCase() || 'SEOUL, KR'}
             </div>
             <h1 style={{ fontSize: 48, letterSpacing: '-0.02em', marginBottom: 6, display: 'flex', alignItems: 'center', gap: 10 }}>
               {creator.name}
               <span style={{ color: 'var(--amber)' }}><Ic.check/></span>
             </h1>
-            <div style={{ display: 'flex', gap: 16, fontSize: 13, color: 'var(--parchment-dim)', alignItems: 'center' }}>
+            <div style={{ display: 'flex', gap: 16, fontSize: 14, color: 'var(--parchment-dim)', alignItems: 'center' }}>
               <span className="mono">{creator.handle}</span>
               <span>·</span>
               <span>Joined Mar 2023</span>
@@ -128,16 +128,16 @@ export function ProfilePage({ handle, onOpenVideo, onNav }) {
           </div>
 
           <div style={{ display: 'flex', gap: 8, paddingBottom: 12 }}>
-            <button className="btn secondary" style={{ fontSize: 13 }} data-placeholder="true">Message</button>
-            <button className="btn secondary" style={{ fontSize: 13 }} data-placeholder="true">Commission</button>
-            <FollowButton creatorId={p?.id || handle} creatorHandle={p?.handle || handle} className="btn" style={{ fontSize: 13 }} />
+            <button className="btn secondary" style={{ fontSize: 14 }} data-placeholder="true">Message</button>
+            <button className="btn secondary" style={{ fontSize: 14 }} data-placeholder="true">Commission</button>
+            <FollowButton creatorId={p?.id || handle} creatorHandle={p?.handle || handle} className="btn" style={{ fontSize: 14 }} />
           </div>
         </div>
 
         {/* Pull quote / bio — editorial */}
         <div style={{ display: 'grid', gridTemplateColumns: '1.4fr 1fr', gap: 40, marginBottom: 40, paddingBottom: 30, borderBottom: '1px solid var(--line)' }}>
           <div>
-            <div className="mono" style={{ fontSize: 10, letterSpacing: '0.24em', color: 'var(--amber)', marginBottom: 14 }}>ON THE RECORD</div>
+            <div className="mono" style={{ fontSize: 12, letterSpacing: '0.24em', color: 'var(--amber)', marginBottom: 14 }}>ON THE RECORD</div>
             <p style={{ fontSize: 22, fontFamily: 'var(--font-display)', fontStyle: 'italic', fontWeight: 500, lineHeight: 1.35, letterSpacing: '-0.01em', color: 'var(--bone)', marginBottom: 18 }}>
               "Shooting at 400 ft changes how you love a place. You stop seeing traffic and start seeing the way a river carved the valley over ten thousand years."
             </p>
@@ -146,7 +146,7 @@ export function ProfilePage({ handle, onOpenVideo, onNav }) {
             </p>
           </div>
           <div>
-            <div className="mono" style={{ fontSize: 10, letterSpacing: '0.18em', color: 'var(--parchment-dim)', marginBottom: 12 }}>KIT</div>
+            <div className="mono" style={{ fontSize: 12, letterSpacing: '0.18em', color: 'var(--parchment-dim)', marginBottom: 12 }}>KIT</div>
             {[
               ['Primary', 'DJI Mavic 3 Pro Cine'],
               ['Indoor / tight', 'DJI Avata 2'],
@@ -154,8 +154,8 @@ export function ProfilePage({ handle, onOpenVideo, onNav }) {
               ['Color science', 'D-Log M → Rec.709 via custom LUT'],
               ['Licenses', 'KCAA Commercial · FAA Part 107'],
             ].map(([k, v]) => (
-              <div key={k} style={{ display: 'grid', gridTemplateColumns: '110px 1fr', gap: 10, padding: '7px 0', fontSize: 12, borderBottom: '1px solid var(--line)' }}>
-                <span className="mono" style={{ color: 'var(--parchment-dim)', letterSpacing: '0.1em', fontSize: 10, textTransform: 'uppercase' }}>{k}</span>
+              <div key={k} style={{ display: 'grid', gridTemplateColumns: '110px 1fr', gap: 10, padding: '7px 0', fontSize: 14, borderBottom: '1px solid var(--line)' }}>
+                <span className="mono" style={{ color: 'var(--parchment-dim)', letterSpacing: '0.1em', fontSize: 12, textTransform: 'uppercase' }}>{k}</span>
                 <span>{v}</span>
               </div>
             ))}
@@ -171,7 +171,7 @@ export function ProfilePage({ handle, onOpenVideo, onNav }) {
             ['COUNTRIES FLOWN', stats.countries],
           ].map(([k, v], i) => (
             <div key={k} style={{ padding: '22px 28px', borderLeft: i > 0 ? '1px solid var(--line)' : 'none' }}>
-              <div className="mono" style={{ fontSize: 10, letterSpacing: '0.18em', color: 'var(--parchment-dim)', marginBottom: 8 }}>{k}</div>
+              <div className="mono" style={{ fontSize: 12, letterSpacing: '0.18em', color: 'var(--parchment-dim)', marginBottom: 8 }}>{k}</div>
               <div style={{ fontSize: 30, fontFamily: 'var(--font-display)', fontWeight: 600, letterSpacing: '-0.02em' }}>{v}</div>
             </div>
           ))}
@@ -210,16 +210,16 @@ export function ProfilePage({ handle, onOpenVideo, onNav }) {
                     <div style={{ background: thumbGradient(i * 3 + 2) }}/>
                   </div>
                   <div style={{ fontSize: 15, fontWeight: 600 }}>{name}</div>
-                  <div style={{ fontSize: 11, color: 'var(--parchment-dim)' }}>{8 + i * 3} clips · updated {i + 2}w ago</div>
+                  <div style={{ fontSize: 12, color: 'var(--parchment-dim)' }}>{8 + i * 3} clips · updated {i + 2}w ago</div>
                 </div>
               ))}
             </div>
           )}
           {tab === 'map' && (
             <div style={{ padding: 60, border: '1px solid var(--line)', borderRadius: 6, textAlign: 'center', background: 'var(--forest-900)' }}>
-              <div className="mono" style={{ fontSize: 10, letterSpacing: '0.2em', color: 'var(--parchment-dim)', marginBottom: 12 }}>FLIGHT MAP</div>
+              <div className="mono" style={{ fontSize: 12, letterSpacing: '0.2em', color: 'var(--parchment-dim)', marginBottom: 12 }}>FLIGHT MAP</div>
               <div style={{ fontSize: 18, fontFamily: 'var(--font-display)', marginBottom: 20 }}>Every place this pilot has flown, as a heat-map.</div>
-              <div style={{ fontSize: 12, color: 'var(--parchment-dim)' }}>Map loads Leaflet overlay with flight waypoints · scroll to zoom · filtered by year.</div>
+              <div style={{ fontSize: 14, color: 'var(--parchment-dim)' }}>Map loads Leaflet overlay with flight waypoints · scroll to zoom · filtered by year.</div>
             </div>
           )}
           {tab === 'about' && (
@@ -229,7 +229,7 @@ export function ProfilePage({ handle, onOpenVideo, onNav }) {
               <h3 style={{ fontSize: 20, marginBottom: 14, marginTop: 26, color: 'var(--bone)' }}>Published in</h3>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
                 {['Netflix · Our Seas', 'Apple TV+ · Earth at Night', 'Korean Film Council', 'Monocle Magazine', 'The Atlantic Photo', 'Vimeo Staff Picks'].map(p => (
-                  <span key={p} style={{ fontSize: 11, padding: '5px 10px', border: '1px solid var(--line)', borderRadius: 2, fontFamily: 'var(--font-mono)', letterSpacing: '0.06em' }}>{p}</span>
+                  <span key={p} style={{ fontSize: 12, padding: '5px 10px', border: '1px solid var(--line)', borderRadius: 2, fontFamily: 'var(--font-mono)', letterSpacing: '0.06em' }}>{p}</span>
                 ))}
               </div>
             </div>

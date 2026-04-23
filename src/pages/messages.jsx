@@ -20,7 +20,7 @@ export function MessagesPage({ onNav }) {
       <aside style={{ borderRight: '1px solid var(--line)', background: 'var(--forest-950)', overflow: 'auto' }}>
         <div style={{ padding: '20px 22px 14px', borderBottom: '1px solid var(--line)' }}>
           <div className="eyebrow" style={{ marginBottom: 10 }}>INBOX · 6</div>
-          <input placeholder="Search messages…" style={{ width: '100%', padding: '8px 12px', background: 'var(--forest-900)', border: '1px solid var(--line-strong)', color: 'var(--bone)', fontSize: 13, borderRadius: 3, outline: 'none' }}/>
+          <input placeholder="Search messages…" style={{ width: '100%', padding: '8px 12px', background: 'var(--forest-900)', border: '1px solid var(--line-strong)', color: 'var(--bone)', fontSize: 14, borderRadius: 3, outline: 'none' }}/>
         </div>
         {THREADS.map(t => (
           <button key={t.id} onClick={() => setActive(t)} style={{
@@ -35,12 +35,12 @@ export function MessagesPage({ onNav }) {
               </div>
               <div style={{ flex: 1, minWidth: 0 }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: 8 }}>
-                  <span style={{ fontSize: 13, fontWeight: 600, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{t.name}</span>
-                  <span className="mono" style={{ fontSize: 10, color: 'var(--parchment-dim)' }}>{t.time}</span>
+                  <span style={{ fontSize: 14, fontWeight: 600, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{t.name}</span>
+                  <span className="mono" style={{ fontSize: 12, color: 'var(--parchment-dim)' }}>{t.time}</span>
                 </div>
-                <div style={{ fontSize: 12, color: 'var(--parchment-dim)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', marginTop: 2 }}>{t.last}</div>
+                <div style={{ fontSize: 14, color: 'var(--parchment-dim)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', marginTop: 2 }}>{t.last}</div>
               </div>
-              {t.unread > 0 && <div style={{ width: 18, height: 18, borderRadius: '50%', background: 'var(--sunset)', color: '#faf6ec', fontSize: 10, fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center', alignSelf: 'center' }}>{t.unread}</div>}
+              {t.unread > 0 && <div style={{ width: 18, height: 18, borderRadius: '50%', background: 'var(--sunset)', color: '#faf6ec', fontSize: 12, fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center', alignSelf: 'center' }}>{t.unread}</div>}
             </div>
           </button>
         ))}
@@ -51,11 +51,11 @@ export function MessagesPage({ onNav }) {
         <div style={{ padding: '16px 28px', borderBottom: '1px solid var(--line)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <div>
             <div style={{ fontSize: 15, fontWeight: 600 }}>{active.name}</div>
-            <div style={{ fontSize: 11, color: active.online ? 'var(--lichen)' : 'var(--parchment-dim)' }}>{active.online ? '● Active now' : 'Last seen ' + active.time}</div>
+            <div style={{ fontSize: 12, color: active.online ? 'var(--lichen)' : 'var(--parchment-dim)' }}>{active.online ? '● Active now' : 'Last seen ' + active.time}</div>
           </div>
           <div style={{ display: 'flex', gap: 6 }}>
-            <button className="btn secondary" style={{ fontSize: 12 }} data-placeholder="true">View profile</button>
-            <button className="btn secondary" style={{ fontSize: 12 }} data-placeholder="true">Commission brief</button>
+            <button className="btn secondary" style={{ fontSize: 14 }} data-placeholder="true">View profile</button>
+            <button className="btn secondary" style={{ fontSize: 14 }} data-placeholder="true">Commission brief</button>
           </div>
         </div>
 
@@ -77,15 +77,15 @@ export function MessagesPage({ onNav }) {
               }}>{m.t}</div>
             </div>
           ))}
-          <div className="mono" style={{ fontSize: 10, color: 'var(--parchment-dim)', textAlign: 'center', letterSpacing: '0.1em', marginTop: 8 }}>11:42 · READ</div>
+          <div className="mono" style={{ fontSize: 12, color: 'var(--parchment-dim)', textAlign: 'center', letterSpacing: '0.1em', marginTop: 8 }}>11:42 · READ</div>
         </div>
 
         <div style={{ padding: '16px 28px', borderTop: '1px solid var(--line)' }}>
           <div style={{ display: 'flex', gap: 10, alignItems: 'flex-end' }}>
             <textarea placeholder="Write a reply…" style={{ flex: 1, minHeight: 56, padding: 12, background: 'var(--forest-900)', border: '1px solid var(--line-strong)', color: 'var(--bone)', fontSize: 14, borderRadius: 4, resize: 'none', outline: 'none', fontFamily: 'inherit' }}/>
-            <button className="btn" style={{ fontSize: 13 }} data-placeholder="true">Send</button>
+            <button className="btn" style={{ fontSize: 14 }} data-placeholder="true">Send</button>
           </div>
-          <div style={{ fontSize: 11, color: 'var(--parchment-dim)', marginTop: 8 }}>Attach a clip, send a preview link, or start a commission brief.</div>
+          <div style={{ fontSize: 12, color: 'var(--parchment-dim)', marginTop: 8 }}>Attach a clip, send a preview link, or start a commission brief.</div>
         </div>
       </main>
 
@@ -93,19 +93,19 @@ export function MessagesPage({ onNav }) {
       <aside style={{ borderLeft: '1px solid var(--line)', padding: 22, background: 'var(--forest-950)' }}>
         <div className="eyebrow" style={{ marginBottom: 14 }}>CLIP REFERENCED</div>
         <div style={{ aspectRatio: '16/9', background: thumbGradient(4), borderRadius: 3, marginBottom: 10 }}/>
-        <div style={{ fontSize: 13, fontWeight: 600 }}>Namsan Tower — Dawn Ascent</div>
-        <div style={{ fontSize: 11, color: 'var(--parchment-dim)', marginBottom: 16 }}>4K · $24 commercial · 0:42</div>
+        <div style={{ fontSize: 14, fontWeight: 600 }}>Namsan Tower — Dawn Ascent</div>
+        <div style={{ fontSize: 12, color: 'var(--parchment-dim)', marginBottom: 16 }}>4K · $24 commercial · 0:42</div>
 
         <div className="eyebrow" style={{ marginBottom: 10, marginTop: 24 }}>PINNED FILES</div>
         {['Commercial-license-v2.pdf', 'KCAA-permit-namsan.pdf', 'LUT-hyunwoo-rec709.cube'].map(f => (
-          <div key={f} style={{ padding: '8px 0', borderTop: '1px solid var(--line)', fontSize: 12, fontFamily: 'var(--font-mono)', display: 'flex', justifyContent: 'space-between' }}>
+          <div key={f} style={{ padding: '8px 0', borderTop: '1px solid var(--line)', fontSize: 14, fontFamily: 'var(--font-mono)', display: 'flex', justifyContent: 'space-between' }}>
             <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{f}</span>
-            <button style={{ fontSize: 11, color: 'var(--sunset)' }} data-placeholder="true">open</button>
+            <button style={{ fontSize: 12, color: 'var(--sunset)' }} data-placeholder="true">open</button>
           </div>
         ))}
 
         <div className="eyebrow" style={{ marginBottom: 10, marginTop: 24 }}>SHARED COLLECTIONS</div>
-        <div style={{ fontSize: 12, color: 'var(--parchment)', lineHeight: 1.6 }}>3 boards · 42 clips</div>
+        <div style={{ fontSize: 14, color: 'var(--parchment)', lineHeight: 1.6 }}>3 boards · 42 clips</div>
       </aside>
     </div>
   );

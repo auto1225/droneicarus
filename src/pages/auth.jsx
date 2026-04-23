@@ -95,7 +95,7 @@ function AuthBackdrop() {
       {/* Corner HUD */}
       <div style={{
         position: 'absolute', top: 20, right: 20,
-        fontFamily: 'var(--font-mono)', fontSize: 10, letterSpacing: '0.14em',
+        fontFamily: 'var(--font-mono)', fontSize: 12, letterSpacing: '0.14em',
         color: 'rgba(245,237,224,0.6)', textAlign: 'right',
       }}>
         <div>N 37°33'04" · E 126°58'18"</div>
@@ -114,8 +114,8 @@ function AuthField({ label, hint, error, children, success, onHintClick }) {
   return (
     <label style={{ display: 'block', marginBottom: 14 }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6 }}>
-        <span style={{ fontSize: 12, fontWeight: 500, color: 'var(--parchment)', letterSpacing: '0.01em' }}>{label}</span>
-        {hint && <button type="button" style={{ fontSize: 11, color: 'var(--sunset)' }}
+        <span style={{ fontSize: 14, fontWeight: 500, color: 'var(--parchment)', letterSpacing: '0.01em' }}>{label}</span>
+        {hint && <button type="button" style={{ fontSize: 12, color: 'var(--sunset)' }}
                          onClick={typeof hint === 'string' && hint.toLowerCase().startsWith('forgot') ? onHintClick : undefined}>{hint}</button>}
       </div>
       <div style={{ position: 'relative' }}>
@@ -127,7 +127,7 @@ function AuthField({ label, hint, error, children, success, onHintClick }) {
         )}
       </div>
       {error && (
-        <div style={{ marginTop: 6, fontSize: 11, color: '#c73e3e', display: 'flex', alignItems: 'center', gap: 4 }}>
+        <div style={{ marginTop: 6, fontSize: 12, color: '#c73e3e', display: 'flex', alignItems: 'center', gap: 4 }}>
           <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" strokeWidth="2"/><path d="M12 7v6M12 17v0.01" stroke="currentColor" strokeWidth="2" fill="none"/></svg>
           {error}
         </div>
@@ -267,12 +267,12 @@ export function AuthPage({ onNav }) {
                 <p style={{ fontSize: 14, color: '#faf6ec', lineHeight: 1.5, margin: 0, fontStyle: 'italic' }}>
                   "Licensed a sunrise shot of Mt. Fuji from Icarus, edited it into our documentary the same afternoon. Everything on here is cleared and ready to ship."
                 </p>
-                <div style={{ marginTop: 12, fontSize: 12, color: 'rgba(245,237,224,0.6)' }}>
+                <div style={{ marginTop: 12, fontSize: 14, color: 'rgba(245,237,224,0.6)' }}>
                   Kenji Mori · Director · NHK Mirai
                 </div>
               </div>
             </div>
-            <div style={{ display: 'flex', gap: 24, marginTop: 18, paddingTop: 14, borderTop: '1px solid rgba(245,237,224,0.12)', fontFamily: 'var(--font-mono)', fontSize: 10, letterSpacing: '0.14em', color: 'rgba(245,237,224,0.55)' }}>
+            <div style={{ display: 'flex', gap: 24, marginTop: 18, paddingTop: 14, borderTop: '1px solid rgba(245,237,224,0.12)', fontFamily: 'var(--font-mono)', fontSize: 12, letterSpacing: '0.14em', color: 'rgba(245,237,224,0.55)' }}>
               <span>NETFLIX</span><span>APPLE TV+</span><span>BBC</span><span>NHK</span><span>+1.2K STUDIOS</span>
             </div>
           </div>
@@ -287,7 +287,7 @@ export function AuthPage({ onNav }) {
             <div style={{ display: 'inline-flex', background: 'var(--forest-950)', border: '1px solid var(--line)', borderRadius: 999, padding: 3 }}>
               {['signin', 'signup'].map(m => (
                 <button key={m} onClick={() => { setMode(m); setStep(1); setErrors({}); }} style={{
-                  padding: '8px 20px', fontSize: 13, borderRadius: 999,
+                  padding: '8px 20px', fontSize: 14, borderRadius: 999,
                   background: mode === m ? 'var(--bone)' : 'transparent',
                   color: mode === m ? 'var(--ink)' : 'var(--parchment-dim)',
                   fontWeight: mode === m ? 600 : 500,
@@ -339,7 +339,7 @@ export function AuthPage({ onNav }) {
                   }}><Icon/></div>
                   <div style={{ flex: 1 }}>
                     <div style={{ fontSize: 15, fontWeight: 600, marginBottom: 4 }}>{label}</div>
-                    <div style={{ fontSize: 12, color: 'var(--parchment-dim)', lineHeight: 1.5 }}>{note}</div>
+                    <div style={{ fontSize: 14, color: 'var(--parchment-dim)', lineHeight: 1.5 }}>{note}</div>
                   </div>
                   <div style={{
                     width: 20, height: 20, borderRadius: '50%', flexShrink: 0,
@@ -370,10 +370,10 @@ export function AuthPage({ onNav }) {
                 {handle.length >= 3 && <span style={{ paddingRight: 14, color: 'var(--moss)' }}><Ic.check/></span>}
               </div>
             </AuthField>
-            <div style={{ padding: 14, background: 'var(--forest-950)', border: '1px solid var(--line)', borderRadius: 4, fontSize: 12, color: 'var(--parchment-dim)', lineHeight: 1.55, marginTop: 8 }}>
+            <div style={{ padding: 14, background: 'var(--forest-950)', border: '1px solid var(--line)', borderRadius: 4, fontSize: 14, color: 'var(--parchment-dim)', lineHeight: 1.55, marginTop: 8 }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6, color: 'var(--parchment)' }}>
                 <span style={{ color: 'var(--amber)' }}><Ic.check/></span>
-                <strong style={{ fontSize: 12 }}>What's next</strong>
+                <strong style={{ fontSize: 14 }}>What's next</strong>
               </div>
               {role === 'pilot'
                 ? 'After signup, we\'ll walk you through drone registration & cert verification to unlock monetization.'
@@ -400,7 +400,7 @@ export function AuthPage({ onNav }) {
               </div>
               <div style={{ flex: 1 }}>
                 <div style={{ fontSize: 14, fontWeight: 600, marginBottom: 4 }}>{txt('auth.reset.sent.banner', 'Reset link sent')}</div>
-                <div style={{ fontSize: 12, color: 'var(--parchment-dim)', lineHeight: 1.55 }}>
+                <div style={{ fontSize: 14, color: 'var(--parchment-dim)', lineHeight: 1.55 }}>
                   Didn't receive it? Check your spam folder, or{' '}
                   <button onClick={() => setMode('forgot')} style={{ color: 'var(--sunset)', textDecoration: 'underline' }}>try again</button>.
                 </div>
@@ -420,7 +420,7 @@ export function AuthPage({ onNav }) {
               style={{ width: '100%', padding: '12px 16px', justifyContent: 'center', marginTop: 8 }}>
               {loading ? '…' : txt('auth.reset.btn', 'Send reset link')}
             </button>
-            <button onClick={() => setMode('signin')} style={{ width: '100%', textAlign: 'center', marginTop: 18, fontSize: 12, color: 'var(--parchment-dim)' }}>
+            <button onClick={() => setMode('signin')} style={{ width: '100%', textAlign: 'center', marginTop: 18, fontSize: 14, color: 'var(--parchment-dim)' }}>
               ← {txt('auth.btn.back_to_signin', 'Back to sign in')}
             </button>
           </div>
@@ -429,7 +429,7 @@ export function AuthPage({ onNav }) {
           <div>
             {/* Social auth — Google only */}
             <div style={{ marginBottom: 20 }}>
-              <button className="btn secondary" style={{ width: '100%', justifyContent: 'center', padding: 14, fontSize: 13, gap: 10, display: 'flex', alignItems: 'center' }}
+              <button className="btn secondary" style={{ width: '100%', justifyContent: 'center', padding: 14, fontSize: 14, gap: 10, display: 'flex', alignItems: 'center' }}
                       onClick={async () => {
                         try { await auth.signInOAuth('google'); }
                         catch (e) { toast('Google sign-in unavailable', e.message || 'Enable Google provider in Supabase Auth', 'error'); }
@@ -440,7 +440,7 @@ export function AuthPage({ onNav }) {
             </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 20 }}>
               <div style={{ flex: 1, height: 1, background: 'var(--line)' }}/>
-              <span className="mono" style={{ fontSize: 10, color: 'var(--parchment-dim)', letterSpacing: '0.14em' }}>{txt('auth.divider.or', 'OR WITH EMAIL')}</span>
+              <span className="mono" style={{ fontSize: 12, color: 'var(--parchment-dim)', letterSpacing: '0.14em' }}>{txt('auth.divider.or', 'OR WITH EMAIL')}</span>
               <div style={{ flex: 1, height: 1, background: 'var(--line)' }}/>
             </div>
 
@@ -477,7 +477,7 @@ export function AuthPage({ onNav }) {
 
             {mode === 'signin' && (
               <div style={{ textAlign: 'right', marginTop: -8, marginBottom: 18 }}>
-                <button onClick={() => setMode('forgot')} style={{ fontSize: 12, color: 'var(--sunset)' }}>{txt('auth.btn.forgot', 'Forgot password?')}</button>
+                <button onClick={() => setMode('forgot')} style={{ fontSize: 14, color: 'var(--sunset)' }}>{txt('auth.btn.forgot', 'Forgot password?')}</button>
               </div>
             )}
 
@@ -493,9 +493,9 @@ export function AuthPage({ onNav }) {
                     }}/>
                   ))}
                 </div>
-                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 11 }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12 }}>
                   <span style={{ color: PW_COLORS[score] }}>{PW_LABELS[score]}</span>
-                  <span style={{ color: 'var(--parchment-dim)', fontFamily: 'var(--font-mono)', fontSize: 10 }}>
+                  <span style={{ color: 'var(--parchment-dim)', fontFamily: 'var(--font-mono)', fontSize: 12 }}>
                     {password.length >= 8 ? '✓ 8+ chars' : `${8-password.length} more chars`}
                   </span>
                 </div>
@@ -503,7 +503,7 @@ export function AuthPage({ onNav }) {
             )}
 
             {mode === 'signup' && (
-              <label style={{ display: 'flex', gap: 10, marginTop: 16, marginBottom: 4, fontSize: 12, color: 'var(--parchment-dim)', lineHeight: 1.6, cursor: 'pointer' }}>
+              <label style={{ display: 'flex', gap: 10, marginTop: 16, marginBottom: 4, fontSize: 14, color: 'var(--parchment-dim)', lineHeight: 1.6, cursor: 'pointer' }}>
                 <input type="checkbox" defaultChecked style={{ marginTop: 3 }}/>
                 <span>
                   I agree to the <a style={{ color: 'var(--sunset)', textDecoration: 'underline' }}>Terms</a> and{' '}
@@ -522,7 +522,7 @@ export function AuthPage({ onNav }) {
               ) : (mode === 'signin' ? txt('auth.btn.signin', 'Sign in to Icarus →') : '→')}
             </button>
 
-            <div style={{ textAlign: 'center', marginTop: 22, fontSize: 12, color: 'var(--parchment-dim)' }}>
+            <div style={{ textAlign: 'center', marginTop: 22, fontSize: 14, color: 'var(--parchment-dim)' }}>
               {mode === 'signin' ? txt('auth.footer.new', 'New to Drone Icarus? ') : txt('auth.footer.existing', 'Already have an account? ')}
               <button onClick={() => { setMode(mode === 'signin' ? 'signup' : 'signin'); setStep(1); setErrors({}); }} style={{ color: 'var(--sunset)', fontWeight: 600 }}>
                 {mode === 'signin' ? txt('auth.footer.create', 'Create a free account') : txt('auth.tab.signin', 'Sign in')}
@@ -531,7 +531,7 @@ export function AuthPage({ onNav }) {
           </div>
         )}
 
-        <div style={{ position: 'absolute', bottom: 28, left: 64, right: 64, fontSize: 11, color: 'var(--parchment-dim)', display: 'flex', justifyContent: 'space-between', fontFamily: 'var(--font-mono)', letterSpacing: '0.1em' }}>
+        <div style={{ position: 'absolute', bottom: 28, left: 64, right: 64, fontSize: 12, color: 'var(--parchment-dim)', display: 'flex', justifyContent: 'space-between', fontFamily: 'var(--font-mono)', letterSpacing: '0.1em' }}>
           <span>SECURED BY ICARUS</span>
           <span>v2.4.0</span>
         </div>

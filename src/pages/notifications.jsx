@@ -64,12 +64,12 @@ export function NotificationsPage({ onNav }) {
           <div className="eyebrow" style={{ marginBottom: 8 }}>INBOX</div>
           <h1 style={{ fontSize: 36 }}>Notifications</h1>
         </div>
-        <button onClick={onMarkAll} style={{ fontSize: 12, color: 'var(--sunset)' }}>Mark all as read</button>
+        <button onClick={onMarkAll} style={{ fontSize: 14, color: 'var(--sunset)' }}>Mark all as read</button>
       </div>
 
       <div style={{ display: 'flex', gap: 6, marginBottom: 20, flexWrap: 'wrap' }}>
         {[['all','All'],['unread','Unread · 2'],['license','Licenses'],['comment','Comments'],['follow','Followers'],['system','System'],['flight','Flight alerts']].map(([k, l]) => (
-          <button key={k} onClick={() => setFilter(k)} className={'chip' + (filter === k ? ' active' : '')} style={{ fontSize: 12 }}>{l}</button>
+          <button key={k} onClick={() => setFilter(k)} className={'chip' + (filter === k ? ' active' : '')} style={{ fontSize: 14 }}>{l}</button>
         ))}
       </div>
 
@@ -89,20 +89,20 @@ export function NotificationsPage({ onNav }) {
               flexShrink: 0,
             }}>{n.icon}</div>
             <div>
-              <div style={{ fontSize: 13, fontWeight: 600, marginBottom: 3 }}>
+              <div style={{ fontSize: 14, fontWeight: 600, marginBottom: 3 }}>
                 {n.title}
                 {n.unread && <span style={{ marginLeft: 8, width: 6, height: 6, borderRadius: '50%', background: 'var(--sunset)', display: 'inline-block', verticalAlign: 'middle' }}/>}
               </div>
-              <div style={{ fontSize: 12, color: 'var(--parchment-dim)', lineHeight: 1.5 }}>{n.body}</div>
+              <div style={{ fontSize: 14, color: 'var(--parchment-dim)', lineHeight: 1.5 }}>{n.body}</div>
             </div>
-            <div className="mono" style={{ fontSize: 10, color: 'var(--parchment-dim)', letterSpacing: '0.05em', whiteSpace: 'nowrap' }}>{n.time}</div>
+            <div className="mono" style={{ fontSize: 12, color: 'var(--parchment-dim)', letterSpacing: '0.05em', whiteSpace: 'nowrap' }}>{n.time}</div>
           </div>
         ))}
       </div>
 
       <div style={{ marginTop: 24, padding: 20, border: '1px dashed var(--line-strong)', borderRadius: 3, textAlign: 'center' }}>
-        <div style={{ fontSize: 12, color: 'var(--parchment-dim)', marginBottom: 6 }}>Reached the end · older notifications auto-archive after 90 days.</div>
-        <button onClick={() => onNav('settings')} style={{ fontSize: 12, color: 'var(--sunset)' }}>Manage notification preferences →</button>
+        <div style={{ fontSize: 14, color: 'var(--parchment-dim)', marginBottom: 6 }}>Reached the end · older notifications auto-archive after 90 days.</div>
+        <button onClick={() => onNav('settings')} style={{ fontSize: 14, color: 'var(--sunset)' }}>Manage notification preferences →</button>
       </div>
     </div>
   );

@@ -101,16 +101,16 @@ export function PricingPage({ onNav }) {
                       width: 28, height: 28, borderRadius: 14,
                       border: '1px solid ' + card.accent, color: card.accent,
                       display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      fontSize: 11, fontWeight: 600,
+                      fontSize: 12, fontWeight: 600,
                     }}>{i + 1}</span>
                     <div>
-                      <div style={{ fontSize: 13, fontWeight: 600, marginBottom: 3, color: 'var(--bone)' }}>{k}</div>
-                      <div style={{ fontSize: 12, color: 'var(--parchment)', lineHeight: 1.55 }}>{v}</div>
+                      <div style={{ fontSize: 14, fontWeight: 600, marginBottom: 3, color: 'var(--bone)' }}>{k}</div>
+                      <div style={{ fontSize: 14, color: 'var(--parchment)', lineHeight: 1.55 }}>{v}</div>
                     </div>
                   </li>
                 ))}
               </ol>
-              <button onClick={card.cta.action} className="btn secondary" style={{ alignSelf: 'flex-start', fontSize: 12 }}>{card.cta.label}</button>
+              <button onClick={card.cta.action} className="btn secondary" style={{ alignSelf: 'flex-start', fontSize: 14 }}>{card.cta.label}</button>
             </div>
           ))}
         </div>
@@ -122,15 +122,15 @@ export function PricingPage({ onNav }) {
         <h2 style={{ fontSize: 30, textAlign: 'center', marginBottom: 30 }}>Same split for clips and live tips.</h2>
         <div style={{ display: 'flex', borderRadius: 6, overflow: 'hidden', border: '1px solid var(--line-strong)', height: 96, marginBottom: 14 }}>
           <div style={{ flex: 70, background: 'var(--amber)', color: '#1a2820', padding: '20px 26px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-            <div className="mono" style={{ fontSize: 11, letterSpacing: '0.14em', opacity: 0.8 }}>PILOT EARNS</div>
+            <div className="mono" style={{ fontSize: 12, letterSpacing: '0.14em', opacity: 0.8 }}>PILOT EARNS</div>
             <div style={{ fontSize: 30, fontWeight: 700, fontFamily: 'var(--font-display)' }}>70%</div>
           </div>
           <div style={{ flex: 30, background: 'var(--forest-700)', padding: '20px 26px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-            <div className="mono" style={{ fontSize: 11, letterSpacing: '0.14em', color: 'var(--parchment-dim)' }}>PLATFORM FEE</div>
+            <div className="mono" style={{ fontSize: 12, letterSpacing: '0.14em', color: 'var(--parchment-dim)' }}>PLATFORM FEE</div>
             <div style={{ fontSize: 30, fontWeight: 700, fontFamily: 'var(--font-display)', color: 'var(--bone)' }}>30%</div>
           </div>
         </div>
-        <p style={{ fontSize: 13, color: 'var(--parchment-dim)', textAlign: 'center', maxWidth: 760, margin: '0 auto' }}>
+        <p style={{ fontSize: 14, color: 'var(--parchment-dim)', textAlign: 'center', maxWidth: 760, margin: '0 auto' }}>
           The 30% covers payment processing (~3%), storage &amp; CDN bandwidth, DMCA &amp; permit verification, fraud screening, customer support, and platform development. No hidden tiers, no volume cliffs, no "exclusive" carve-outs. Live broadcasts use the same split for Super Chat tips.
         </p>
       </section>
@@ -144,38 +144,38 @@ export function PricingPage({ onNav }) {
             <div>
               <div style={{ marginBottom: 28 }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8 }}>
-                  <label style={{ fontSize: 13, color: 'var(--parchment)' }}>Average license price</label>
+                  <label style={{ fontSize: 14, color: 'var(--parchment)' }}>Average license price</label>
                   <span className="mono" style={{ color: 'var(--amber)' }}>{fmt(price)}</span>
                 </div>
                 <input type="range" min={1} max={199} step={1} value={price}
                   onChange={e => setPrice(Number(e.target.value))} style={{ width: '100%', accentColor: '#e8b04a' }} />
-                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 10, color: 'var(--parchment-dim)', marginTop: 4 }} className="mono">
+                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12, color: 'var(--parchment-dim)', marginTop: 4 }} className="mono">
                   <span>$1 (Personal)</span><span>$199 (Extended)</span>
                 </div>
               </div>
               <div>
                 <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8 }}>
-                  <label style={{ fontSize: 13, color: 'var(--parchment)' }}>Licenses sold per month</label>
+                  <label style={{ fontSize: 14, color: 'var(--parchment)' }}>Licenses sold per month</label>
                   <span className="mono" style={{ color: 'var(--amber)' }}>{licensesPerMonth}</span>
                 </div>
                 <input type="range" min={1} max={200} step={1} value={licensesPerMonth}
                   onChange={e => setLicensesPerMonth(Number(e.target.value))} style={{ width: '100%', accentColor: '#e8b04a' }} />
-                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 10, color: 'var(--parchment-dim)', marginTop: 4 }} className="mono">
+                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12, color: 'var(--parchment-dim)', marginTop: 4 }} className="mono">
                   <span>1</span><span>200</span>
                 </div>
               </div>
             </div>
             <div style={{ background: 'var(--forest-800)', border: '1px solid var(--line-strong)', borderRadius: 6, padding: 26 }}>
-              <div className="mono" style={{ fontSize: 10, letterSpacing: '0.14em', color: 'var(--parchment-dim)', marginBottom: 4 }}>EVERY MONTH YOU EARN</div>
+              <div className="mono" style={{ fontSize: 12, letterSpacing: '0.14em', color: 'var(--parchment-dim)', marginBottom: 4 }}>EVERY MONTH YOU EARN</div>
               <div style={{ fontSize: 56, fontFamily: 'var(--font-display)', fontWeight: 600, color: 'var(--amber)', letterSpacing: '-0.02em', lineHeight: 1 }}>{fmt(marketplaceMonthlyEarn)}</div>
               <div style={{ height: 1, background: 'var(--line)', margin: '20px 0' }} />
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, fontSize: 12 }}>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, fontSize: 14 }}>
                 <Mini label="GROSS / MO"     value={fmt(marketplaceMonthlyGross)}/>
                 <Mini label="PLATFORM FEE"   value={fmt(marketplaceMonthlyFee)}/>
                 <Mini label="YEARLY EARNINGS" value={fmt(marketplaceAnnualEarn)}/>
                 <Mini label="PAYOUT THRESHOLD" value="$20"/>
               </div>
-              <div style={{ fontSize: 11, color: 'var(--parchment-dim)', marginTop: 16, lineHeight: 1.5 }}>
+              <div style={{ fontSize: 12, color: 'var(--parchment-dim)', marginTop: 16, lineHeight: 1.5 }}>
                 Estimates pre-tax. Actual earnings depend on demand, license-tier mix, and currency conversion.
               </div>
             </div>
@@ -193,15 +193,15 @@ export function PricingPage({ onNav }) {
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: 8, marginBottom: 18 }}>
           {SUPER_TIERS.map(t => (
             <div key={t.label} style={{ background: t.color, color: t.text, padding: '14px 10px', borderRadius: 4, textAlign: 'center' }}>
-              <div className="mono" style={{ fontSize: 9, letterSpacing: '0.14em', opacity: 0.85, marginBottom: 4 }}>{t.label.toUpperCase()}</div>
+              <div className="mono" style={{ fontSize: 12, letterSpacing: '0.14em', opacity: 0.85, marginBottom: 4 }}>{t.label.toUpperCase()}</div>
               <div style={{ fontSize: 18, fontWeight: 700, fontFamily: 'var(--font-display)' }}>{fmt(t.amount)}</div>
-              <div style={{ fontSize: 10, marginTop: 4, opacity: 0.85 }}>pin {t.pin}</div>
+              <div style={{ fontSize: 12, marginTop: 4, opacity: 0.85 }}>pin {t.pin}</div>
             </div>
           ))}
         </div>
-        <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', flexWrap: 'wrap', gap: 16, fontSize: 12, color: 'var(--parchment-dim)' }}>
+        <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', flexWrap: 'wrap', gap: 16, fontSize: 14, color: 'var(--parchment-dim)' }}>
           <div>Pilot keeps <strong style={{ color: 'var(--amber)' }}>70%</strong> · platform fee <strong>30%</strong> · payout monthly to PayPal once balance ≥ $50.</div>
-          <button onClick={() => onNav('livehelp')} className="btn secondary" style={{ fontSize: 12 }}>How live works →</button>
+          <button onClick={() => onNav('livehelp')} className="btn secondary" style={{ fontSize: 14 }}>How live works →</button>
         </div>
       </section>
 
@@ -217,16 +217,16 @@ export function PricingPage({ onNav }) {
               <Range label="Streams per month"          value={streamsPerMonth} min={1} max={30}  onChange={setStreamsPerMonth}/>
             </div>
             <div style={{ background: 'var(--forest-800)', border: '1px solid var(--line-strong)', borderRadius: 6, padding: 26 }}>
-              <div className="mono" style={{ fontSize: 10, letterSpacing: '0.14em', color: 'var(--parchment-dim)', marginBottom: 4 }}>EVERY MONTH YOU EARN</div>
+              <div className="mono" style={{ fontSize: 12, letterSpacing: '0.14em', color: 'var(--parchment-dim)', marginBottom: 4 }}>EVERY MONTH YOU EARN</div>
               <div style={{ fontSize: 56, fontFamily: 'var(--font-display)', fontWeight: 600, color: 'var(--sunset)', letterSpacing: '-0.02em', lineHeight: 1 }}>{fmt(liveMonthlyEarn)}</div>
               <div style={{ height: 1, background: 'var(--line)', margin: '20px 0' }} />
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, fontSize: 12 }}>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, fontSize: 14 }}>
                 <Mini label="GROSS / MO"      value={fmt(liveMonthlyGross)}/>
                 <Mini label="PLATFORM FEE"    value={fmt(liveMonthlyFee)}/>
                 <Mini label="YEARLY EARNINGS" value={fmt(liveAnnualEarn)}/>
                 <Mini label="PAYOUT THRESHOLD" value="$50"/>
               </div>
-              <div style={{ fontSize: 11, color: 'var(--parchment-dim)', marginTop: 16, lineHeight: 1.5 }}>
+              <div style={{ fontSize: 12, color: 'var(--parchment-dim)', marginTop: 16, lineHeight: 1.5 }}>
                 Live and marketplace earnings combine into one monthly payout. Big streams with multiple Red ($100) tippers can clear the threshold in a single broadcast.
               </div>
             </div>
@@ -244,7 +244,7 @@ export function PricingPage({ onNav }) {
         <div style={{ border: '1px solid var(--line)', borderRadius: 4, overflow: 'hidden' }}>
           <div style={{ display: 'grid', gridTemplateColumns: '1.4fr repeat(5, 1fr)', background: 'var(--forest-900)', borderBottom: '1px solid var(--line-strong)' }}>
             {['', 'Free · CC-BY', 'Personal', 'Commercial 1yr', 'Extended', 'Exclusive'].map((h, i) => (
-              <div key={i} className="mono" style={{ padding: '14px 12px', fontSize: 10, letterSpacing: '0.14em', color: i === 0 ? 'transparent' : (i === 5 ? 'var(--amber)' : 'var(--parchment-dim)'), fontWeight: 600 }}>{h}</div>
+              <div key={i} className="mono" style={{ padding: '14px 12px', fontSize: 12, letterSpacing: '0.14em', color: i === 0 ? 'transparent' : (i === 5 ? 'var(--amber)' : 'var(--parchment-dim)'), fontWeight: 600 }}>{h}</div>
             ))}
           </div>
           {[
@@ -260,7 +260,7 @@ export function PricingPage({ onNav }) {
           ].map((row, i) => (
             <div key={i} style={{ display: 'grid', gridTemplateColumns: '1.4fr repeat(5, 1fr)', borderTop: i === 0 ? 'none' : '1px solid var(--line)' }}>
               {row.map((cell, j) => (
-                <div key={j} style={{ padding: '14px 12px', fontSize: 13, color: j === 0 ? 'var(--parchment)' : 'var(--bone)', fontWeight: j === 0 ? 400 : 500 }}>
+                <div key={j} style={{ padding: '14px 12px', fontSize: 14, color: j === 0 ? 'var(--parchment)' : 'var(--bone)', fontWeight: j === 0 ? 400 : 500 }}>
                   {cell === true ? <span style={{ color: 'var(--lichen)' }}><Ic.check/></span>
                     : cell === false ? <span style={{ color: 'var(--parchment-dim)' }}>—</span>
                     : <span className={typeof cell === 'string' && cell.startsWith('$') ? 'mono' : ''} style={{ fontSize: typeof cell === 'string' && cell.startsWith('$') ? 12 : 13 }}>{cell}</span>}
@@ -284,9 +284,9 @@ export function PricingPage({ onNav }) {
               ['Fees we absorb', '0%', 'Payout transfer fees come out of our 30% — never the pilot\u2019s 70%.'],
             ].map(([k, big, sub]) => (
               <div key={k} style={{ padding: 20, border: '1px solid var(--line)', borderRadius: 4, background: 'var(--forest-800)' }}>
-                <div className="mono" style={{ fontSize: 10, letterSpacing: '0.14em', color: 'var(--parchment-dim)', marginBottom: 6 }}>{k.toUpperCase()}</div>
+                <div className="mono" style={{ fontSize: 12, letterSpacing: '0.14em', color: 'var(--parchment-dim)', marginBottom: 6 }}>{k.toUpperCase()}</div>
                 <div style={{ fontSize: 20, fontFamily: 'var(--font-display)', fontWeight: 600, color: 'var(--amber)', marginBottom: 8 }}>{big}</div>
-                <div style={{ fontSize: 12, color: 'var(--parchment)', lineHeight: 1.55 }}>{sub}</div>
+                <div style={{ fontSize: 14, color: 'var(--parchment)', lineHeight: 1.55 }}>{sub}</div>
               </div>
             ))}
           </div>
@@ -325,7 +325,7 @@ export function PricingPage({ onNav }) {
           ].map(([q, a]) => (
             <div key={q}>
               <h3 style={{ fontSize: 16, marginBottom: 8 }}>{q}</h3>
-              <p style={{ fontSize: 13, color: 'var(--parchment)', lineHeight: 1.65 }}>{a}</p>
+              <p style={{ fontSize: 14, color: 'var(--parchment)', lineHeight: 1.65 }}>{a}</p>
             </div>
           ))}
         </div>
@@ -337,7 +337,7 @@ export function PricingPage({ onNav }) {
 function Mini({ label, value }) {
   return (
     <div>
-      <div className="mono" style={{ color: 'var(--parchment-dim)', fontSize: 10, letterSpacing: '0.1em' }}>{label}</div>
+      <div className="mono" style={{ color: 'var(--parchment-dim)', fontSize: 12, letterSpacing: '0.1em' }}>{label}</div>
       <div style={{ fontSize: 16, color: 'var(--bone)', fontWeight: 600 }}>{value}</div>
     </div>
   );
@@ -347,13 +347,13 @@ function Range({ label, value, suffix = '', min, max, onChange }) {
   return (
     <div style={{ marginBottom: 22 }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8 }}>
-        <label style={{ fontSize: 13, color: 'var(--parchment)' }}>{label}</label>
+        <label style={{ fontSize: 14, color: 'var(--parchment)' }}>{label}</label>
         <span className="mono" style={{ color: 'var(--sunset)' }}>{value}{suffix}</span>
       </div>
       <input type="range" min={min} max={max} step={1} value={value}
         onChange={e => onChange(Number(e.target.value))}
         style={{ width: '100%', accentColor: '#d97045' }} />
-      <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 10, color: 'var(--parchment-dim)', marginTop: 4 }} className="mono">
+      <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12, color: 'var(--parchment-dim)', marginTop: 4 }} className="mono">
         <span>{min}</span><span>{max}</span>
       </div>
     </div>

@@ -11,7 +11,7 @@ export function CommissionPage({ onNav }) {
 
   return (
     <div style={{ maxWidth: 1040, margin: '0 auto', padding: '40px 28px 80px' }}>
-      <button onClick={() => onNav('home')} style={{ fontSize: 12, color: 'var(--parchment-dim)', marginBottom: 18 }}>← Cancel</button>
+      <button onClick={() => onNav('home')} style={{ fontSize: 14, color: 'var(--parchment-dim)', marginBottom: 18 }}>← Cancel</button>
 
       <div className="eyebrow" style={{ marginBottom: 10 }}>COMMISSION A SHOOT · STEP {step}/3</div>
       <h1 style={{ fontSize: 40, letterSpacing: '-0.02em', marginBottom: 8 }}>Brief a pilot directly.</h1>
@@ -27,7 +27,7 @@ export function CommissionPage({ onNav }) {
             background: step === i+1 ? 'var(--forest-800)' : 'var(--forest-950)',
             borderLeft: i > 0 ? '1px solid var(--line)' : 'none',
           }}>
-            <div className="mono" style={{ fontSize: 10, letterSpacing: '0.14em', color: 'var(--parchment-dim)' }}>{String(i+1).padStart(2,'0')}</div>
+            <div className="mono" style={{ fontSize: 12, letterSpacing: '0.14em', color: 'var(--parchment-dim)' }}>{String(i+1).padStart(2,'0')}</div>
             <div style={{ fontSize: 14, fontWeight: step === i+1 ? 600 : 400, color: step >= i+1 ? 'var(--bone)' : 'var(--parchment-dim)' }}>{s}</div>
           </div>
         ))}
@@ -43,14 +43,14 @@ export function CommissionPage({ onNav }) {
               </CF>
               <CF label="References (links or upload)">
                 <div style={{ padding: 22, border: '2px dashed var(--line-strong)', borderRadius: 3, textAlign: 'center', background: 'var(--forest-950)' }}>
-                  <div style={{ fontSize: 13, fontWeight: 600 }}>3 references pinned</div>
-                  <div className="mono" style={{ fontSize: 10, color: 'var(--parchment-dim)', letterSpacing: '0.12em', marginTop: 4 }}>2 Vimeo links · 1 still frame</div>
+                  <div style={{ fontSize: 14, fontWeight: 600 }}>3 references pinned</div>
+                  <div className="mono" style={{ fontSize: 12, color: 'var(--parchment-dim)', letterSpacing: '0.12em', marginTop: 4 }}>2 Vimeo links · 1 still frame</div>
                 </div>
               </CF>
               <CF label="Deliverables">
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
                   {['5.1K ProRes 422 HQ master', 'Graded mp4 (Rec.709)', 'RAW D-Log M source', 'Vertical 9:16 social crop'].map((o, i) => (
-                    <label key={o} style={{ display: 'flex', gap: 10, alignItems: 'center', padding: 10, border: '1px solid var(--line)', borderRadius: 3, fontSize: 13 }}>
+                    <label key={o} style={{ display: 'flex', gap: 10, alignItems: 'center', padding: 10, border: '1px solid var(--line)', borderRadius: 3, fontSize: 14 }}>
                       <input type="checkbox" defaultChecked={i < 2}/>
                       {o}
                     </label>
@@ -66,10 +66,10 @@ export function CommissionPage({ onNav }) {
                 <div style={{ padding: 14, border: '1px solid var(--line-strong)', borderRadius: 3, background: 'var(--forest-900)', display: 'flex', gap: 12, alignItems: 'center' }}>
                   <span style={{ color: 'var(--sunset)' }}><Ic.pin/></span>
                   <div style={{ flex: 1 }}>
-                    <div style={{ fontSize: 13, fontWeight: 600 }}>Namsan Tower, Seoul</div>
-                    <div className="mono" style={{ fontSize: 10, color: 'var(--parchment-dim)' }}>37.5512° N · 126.9882° E</div>
+                    <div style={{ fontSize: 14, fontWeight: 600 }}>Namsan Tower, Seoul</div>
+                    <div className="mono" style={{ fontSize: 12, color: 'var(--parchment-dim)' }}>37.5512° N · 126.9882° E</div>
                   </div>
-                  <button className="btn secondary" style={{ fontSize: 12 }} data-placeholder="true">Adjust on map</button>
+                  <button className="btn secondary" style={{ fontSize: 14 }} data-placeholder="true">Adjust on map</button>
                 </div>
               </CF>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
@@ -92,8 +92,8 @@ export function CommissionPage({ onNav }) {
                 <label style={{ display: 'flex', gap: 10, alignItems: 'center', padding: 12, border: '1px solid var(--moss)', background: 'rgba(107,142,78,0.08)', borderRadius: 3 }}>
                   <span style={{ color: 'var(--moss)' }}><Ic.check/></span>
                   <div style={{ flex: 1 }}>
-                    <div style={{ fontSize: 13, fontWeight: 600 }}>Pilot arranges all permits</div>
-                    <div style={{ fontSize: 11, color: 'var(--parchment-dim)' }}>KCAA operational approval, Yongsan district permit, Namsan park ranger sign-off.</div>
+                    <div style={{ fontSize: 14, fontWeight: 600 }}>Pilot arranges all permits</div>
+                    <div style={{ fontSize: 12, color: 'var(--parchment-dim)' }}>KCAA operational approval, Yongsan district permit, Namsan park ranger sign-off.</div>
                   </div>
                 </label>
               </CF>
@@ -106,10 +106,10 @@ export function CommissionPage({ onNav }) {
                 <div style={{ padding: 18, border: '1px solid var(--line)', borderRadius: 3 }}>
                   <div style={{ display: 'flex', alignItems: 'baseline', gap: 10, marginBottom: 14 }}>
                     <span style={{ fontSize: 38, fontFamily: 'var(--font-display)', fontWeight: 600, color: 'var(--amber)' }}>${budget.toLocaleString()}</span>
-                    <span style={{ fontSize: 12, color: 'var(--parchment-dim)' }}>+ 15% platform fee at settlement</span>
+                    <span style={{ fontSize: 14, color: 'var(--parchment-dim)' }}>+ 15% platform fee at settlement</span>
                   </div>
                   <input type="range" min="500" max="12000" step="100" value={budget} onChange={e => setBudget(+e.target.value)} style={{ width: '100%' }}/>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', fontFamily: 'var(--font-mono)', fontSize: 10, color: 'var(--parchment-dim)', letterSpacing: '0.1em', marginTop: 6 }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', fontFamily: 'var(--font-mono)', fontSize: 12, color: 'var(--parchment-dim)', letterSpacing: '0.1em', marginTop: 6 }}>
                     <span>$500</span><span>$3K</span><span>$6K</span><span>$9K</span><span>$12K+</span>
                   </div>
                 </div>
@@ -122,10 +122,10 @@ export function CommissionPage({ onNav }) {
                     ['Perpetual global · all media', '+$2,800'],
                     ['Buyout · exclusive', '+$6,500'],
                   ].map(([t, px], i) => (
-                    <label key={t} style={{ display: 'flex', gap: 10, alignItems: 'center', padding: 12, border: '1px solid ' + (i === 0 ? 'var(--amber)' : 'var(--line)'), borderRadius: 3, fontSize: 13 }}>
+                    <label key={t} style={{ display: 'flex', gap: 10, alignItems: 'center', padding: 12, border: '1px solid ' + (i === 0 ? 'var(--amber)' : 'var(--line)'), borderRadius: 3, fontSize: 14 }}>
                       <input type="radio" name="rights" defaultChecked={i === 0}/>
                       <span style={{ flex: 1 }}>{t}</span>
-                      <span className="mono" style={{ fontSize: 11, color: 'var(--amber)' }}>{px}</span>
+                      <span className="mono" style={{ fontSize: 12, color: 'var(--amber)' }}>{px}</span>
                     </label>
                   ))}
                 </div>
@@ -133,11 +133,11 @@ export function CommissionPage({ onNav }) {
               <CF label="Timeline">
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
                   <div style={{ padding: 12, border: '1px solid var(--line)', borderRadius: 3 }}>
-                    <div className="mono" style={{ fontSize: 10, color: 'var(--parchment-dim)', letterSpacing: '0.14em' }}>SHOOT BY</div>
+                    <div className="mono" style={{ fontSize: 12, color: 'var(--parchment-dim)', letterSpacing: '0.14em' }}>SHOOT BY</div>
                     <div style={{ fontSize: 14, fontWeight: 600 }}>May 02, 2026</div>
                   </div>
                   <div style={{ padding: 12, border: '1px solid var(--line)', borderRadius: 3 }}>
-                    <div className="mono" style={{ fontSize: 10, color: 'var(--parchment-dim)', letterSpacing: '0.14em' }}>FINAL DELIVERY</div>
+                    <div className="mono" style={{ fontSize: 12, color: 'var(--parchment-dim)', letterSpacing: '0.14em' }}>FINAL DELIVERY</div>
                     <div style={{ fontSize: 14, fontWeight: 600 }}>May 09, 2026</div>
                   </div>
                 </div>
@@ -159,10 +159,10 @@ export function CommissionPage({ onNav }) {
               <div style={{ width: 52, height: 52, borderRadius: '50%', background: 'var(--sunset)', color: '#faf6ec', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 700, fontSize: 18 }}>{creator.name[0]}</div>
               <div>
                 <div style={{ fontSize: 14, fontWeight: 600, display: 'flex', alignItems: 'center', gap: 4 }}>{creator.name} <span style={{ color: 'var(--amber)' }}><Ic.check/></span></div>
-                <div style={{ fontSize: 11, color: 'var(--parchment-dim)' }}>{creator.handle} · {creator.country}</div>
+                <div style={{ fontSize: 12, color: 'var(--parchment-dim)' }}>{creator.handle} · {creator.country}</div>
               </div>
             </div>
-            <div style={{ fontSize: 12, color: 'var(--parchment)', lineHeight: 1.6 }}>
+            <div style={{ fontSize: 14, color: 'var(--parchment)', lineHeight: 1.6 }}>
               <strong>98%</strong> response rate · avg <strong>6h</strong> first reply · <strong>214</strong> commissions completed · never cancelled.
             </div>
           </div>
@@ -176,16 +176,16 @@ export function CommissionPage({ onNav }) {
               ['Permits & insurance', 'incl.'],
               ['Platform fee (15%)', '$' + Math.round(budget * 0.15).toLocaleString()],
             ].map(([k, v], i) => (
-              <div key={k} style={{ display: 'flex', justifyContent: 'space-between', padding: '7px 0', borderTop: i > 0 ? '1px solid var(--line)' : 'none', fontSize: 12 }}>
+              <div key={k} style={{ display: 'flex', justifyContent: 'space-between', padding: '7px 0', borderTop: i > 0 ? '1px solid var(--line)' : 'none', fontSize: 14 }}>
                 <span style={{ color: 'var(--parchment-dim)' }}>{k}</span>
                 <span className="mono">{v}</span>
               </div>
             ))}
             <div style={{ display: 'flex', justifyContent: 'space-between', padding: '12px 0 0', marginTop: 6, borderTop: '1px solid var(--line-strong)' }}>
-              <span style={{ fontSize: 13, fontWeight: 600 }}>Estimated total</span>
+              <span style={{ fontSize: 14, fontWeight: 600 }}>Estimated total</span>
               <span className="mono" style={{ fontSize: 18, fontWeight: 700, color: 'var(--amber)' }}>${Math.round(budget * 1.15).toLocaleString()}</span>
             </div>
-            <div style={{ fontSize: 10, color: 'var(--parchment-dim)', marginTop: 10, lineHeight: 1.5 }}>
+            <div style={{ fontSize: 12, color: 'var(--parchment-dim)', marginTop: 10, lineHeight: 1.5 }}>
               Funds held in escrow. Released after delivery approval. 100% refund if pilot cancels.
             </div>
           </div>
@@ -198,9 +198,9 @@ export function CommissionPage({ onNav }) {
 function CF({ label, hint, children }) {
   return (
     <div style={{ marginBottom: 18 }}>
-      <div className="mono" style={{ fontSize: 10, letterSpacing: '0.18em', color: 'var(--parchment-dim)', textTransform: 'uppercase', marginBottom: 7 }}>{label}</div>
+      <div className="mono" style={{ fontSize: 12, letterSpacing: '0.18em', color: 'var(--parchment-dim)', textTransform: 'uppercase', marginBottom: 7 }}>{label}</div>
       {children}
-      {hint && <div style={{ fontSize: 11, color: 'var(--parchment-dim)', marginTop: 6 }}>{hint}</div>}
+      {hint && <div style={{ fontSize: 12, color: 'var(--parchment-dim)', marginTop: 6 }}>{hint}</div>}
     </div>
   );
 }

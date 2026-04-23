@@ -78,7 +78,7 @@ export function MyStreamsPage({ onNav }) {
         )}
       </section>
 
-      <div style={{ marginTop: 36, padding: 18, background: 'var(--forest-900)', border: '1px solid var(--line)', borderRadius: 4, fontSize: 12, color: 'var(--parchment-dim)' }}>
+      <div style={{ marginTop: 36, padding: 18, background: 'var(--forest-900)', border: '1px solid var(--line)', borderRadius: 4, fontSize: 14, color: 'var(--parchment-dim)' }}>
         Earnings settle to your PayPal monthly on the 28th once balance ≥ $50. Platform retains 30% (${platformFee.toFixed(2)} so far).
         <button onClick={() => onNav?.('settings')} style={{ marginLeft: 10, background: 'transparent', border: 'none', color: 'var(--amber)', cursor: 'pointer', textDecoration: 'underline' }}>Payout settings →</button>
       </div>
@@ -89,7 +89,7 @@ export function MyStreamsPage({ onNav }) {
 function Stat({ label, value, color = 'var(--bone)' }) {
   return (
     <div style={{ padding: 18, background: 'var(--forest-900)', border: '1px solid var(--line)', borderRadius: 4 }}>
-      <div className="mono" style={{ fontSize: 10, letterSpacing: '0.18em', color: 'var(--parchment-dim)', marginBottom: 6 }}>{label.toUpperCase()}</div>
+      <div className="mono" style={{ fontSize: 12, letterSpacing: '0.18em', color: 'var(--parchment-dim)', marginBottom: 6 }}>{label.toUpperCase()}</div>
       <div style={{ fontSize: 26, fontWeight: 700, color }}>{value}</div>
     </div>
   );
@@ -102,11 +102,11 @@ function StreamRow({ s, chats, onNav }) {
     <div style={{ display: 'grid', gridTemplateColumns: '120px 1fr auto', gap: 14, padding: 14, background: 'var(--forest-900)', border: '1px solid var(--line)', borderRadius: 4, alignItems: 'center' }}>
       <div style={{ width: 120, height: 68, background: 'var(--forest-950)', borderRadius: 3, overflow: 'hidden', position: 'relative' }}>
         {s.thumb_url && <img src={s.thumb_url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }}/>}
-        {s.status === 'live' && <span style={{ position: 'absolute', top: 4, left: 4, padding: '2px 5px', background: 'var(--sunset)', color: '#fff', fontSize: 9, fontFamily: 'var(--font-mono)', borderRadius: 2 }}>LIVE</span>}
+        {s.status === 'live' && <span style={{ position: 'absolute', top: 4, left: 4, padding: '2px 5px', background: 'var(--sunset)', color: '#fff', fontSize: 12, fontFamily: 'var(--font-mono)', borderRadius: 2 }}>LIVE</span>}
       </div>
       <div>
         <div style={{ fontSize: 14, fontWeight: 600, marginBottom: 4 }}>{s.title}</div>
-        <div style={{ fontSize: 11, color: 'var(--parchment-dim)', display: 'flex', gap: 12 }}>
+        <div style={{ fontSize: 12, color: 'var(--parchment-dim)', display: 'flex', gap: 12 }}>
           <span>{date}</span>
           <span>{s.embed_provider === 'youtube' ? 'YouTube mirror' : 'site'}</span>
           {s.monetization_enabled && <span style={{ color: 'var(--amber)' }}>$ Super Chat</span>}
@@ -115,7 +115,7 @@ function StreamRow({ s, chats, onNav }) {
       </div>
       <div style={{ textAlign: 'right' }}>
         {earned > 0 && <div style={{ fontSize: 16, fontWeight: 700, color: 'var(--moss)' }}>${earned.toFixed(2)}</div>}
-        <button onClick={() => onNav?.('live')} style={{ marginTop: 4, padding: '4px 10px', background: 'transparent', border: '1px solid var(--line-strong)', color: 'var(--bone)', borderRadius: 3, cursor: 'pointer', fontSize: 11 }}>View</button>
+        <button onClick={() => onNav?.('live')} style={{ marginTop: 4, padding: '4px 10px', background: 'transparent', border: '1px solid var(--line-strong)', color: 'var(--bone)', borderRadius: 3, cursor: 'pointer', fontSize: 12 }}>View</button>
       </div>
     </div>
   );

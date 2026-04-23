@@ -27,11 +27,11 @@ export function EarningsPage({ onNav }) {
           <div>
             <div className="eyebrow" style={{ marginBottom: 6 }}>EARNINGS</div>
             <h1 style={{ fontSize: 32, letterSpacing: '-0.02em' }}>You've earned ${lifetime.toLocaleString()} flying.</h1>
-            <p style={{ fontSize: 13, color: 'var(--parchment-dim)', marginTop: 6 }}>Payouts run on the 28th. Next deposit in 11 days · routing to <span className="mono" style={{ color: 'var(--bone)' }}>KEB Hana •• 4821</span></p>
+            <p style={{ fontSize: 14, color: 'var(--parchment-dim)', marginTop: 6 }}>Payouts run on the 28th. Next deposit in 11 days · routing to <span className="mono" style={{ color: 'var(--bone)' }}>KEB Hana •• 4821</span></p>
           </div>
           <div style={{ display: 'flex', gap: 6 }}>
             {['7d', '30d', '90d', '1y', 'all'].map(p => (
-              <button key={p} onClick={() => setPeriod(p)} className={'chip' + (period === p ? ' active' : '')} style={{ fontSize: 11, padding: '5px 10px', textTransform: 'uppercase' }}>{p}</button>
+              <button key={p} onClick={() => setPeriod(p)} className={'chip' + (period === p ? ' active' : '')} style={{ fontSize: 12, padding: '5px 10px', textTransform: 'uppercase' }}>{p}</button>
             ))}
           </div>
         </div>
@@ -45,9 +45,9 @@ export function EarningsPage({ onNav }) {
             ['Lifetime', `$${lifetime.toLocaleString()}`, 'Since 2023', 'var(--parchment-dim)'],
           ].map(([k, v, note, color], i) => (
             <div key={k} style={{ padding: 22, borderLeft: i > 0 ? '1px solid var(--line)' : 'none' }}>
-              <div className="mono" style={{ fontSize: 10, letterSpacing: '0.14em', color: 'var(--parchment-dim)', textTransform: 'uppercase', marginBottom: 10 }}>{k}</div>
+              <div className="mono" style={{ fontSize: 12, letterSpacing: '0.14em', color: 'var(--parchment-dim)', textTransform: 'uppercase', marginBottom: 10 }}>{k}</div>
               <div style={{ fontSize: 30, fontFamily: 'var(--font-display)', fontWeight: 600, marginBottom: 4 }}>{v}</div>
-              <div style={{ fontSize: 11, color, fontFamily: 'var(--font-mono)', letterSpacing: '0.05em' }}>{note}</div>
+              <div style={{ fontSize: 12, color, fontFamily: 'var(--font-mono)', letterSpacing: '0.05em' }}>{note}</div>
             </div>
           ))}
         </div>
@@ -56,7 +56,7 @@ export function EarningsPage({ onNav }) {
         <div style={{ padding: 24, background: 'var(--forest-900)', border: '1px solid var(--line)', borderRadius: 4, marginBottom: 22 }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 18 }}>
             <h3 style={{ fontSize: 18 }}>Revenue · by tier</h3>
-            <div style={{ display: 'flex', gap: 14, fontSize: 11, fontFamily: 'var(--font-mono)', letterSpacing: '0.1em' }}>
+            <div style={{ display: 'flex', gap: 14, fontSize: 12, fontFamily: 'var(--font-mono)', letterSpacing: '0.1em' }}>
               <span style={{ display: 'flex', alignItems: 'center', gap: 6 }}><span style={{ width: 10, height: 10, background: 'var(--sunset)' }}/>COMMERCIAL</span>
               <span style={{ display: 'flex', alignItems: 'center', gap: 6 }}><span style={{ width: 10, height: 10, background: 'var(--amber)' }}/>PERSONAL</span>
               <span style={{ display: 'flex', alignItems: 'center', gap: 6 }}><span style={{ width: 10, height: 10, background: 'var(--moss)' }}/>EXTENDED</span>
@@ -91,19 +91,19 @@ export function EarningsPage({ onNav }) {
           <div style={{ border: '1px solid var(--line)', borderRadius: 4 }}>
             <div style={{ padding: '16px 20px', borderBottom: '1px solid var(--line)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <h3 style={{ fontSize: 16 }}>Top earning clips</h3>
-              <button style={{ fontSize: 12, color: 'var(--sunset)' }} data-placeholder="true">View all →</button>
+              <button style={{ fontSize: 14, color: 'var(--sunset)' }} data-placeholder="true">View all →</button>
             </div>
             {myVids.map((v, i) => (
               <div key={v.id} style={{ display: 'grid', gridTemplateColumns: '30px 56px 1fr 90px 90px', gap: 12, padding: '12px 20px', borderTop: i === 0 ? 'none' : '1px solid var(--line)', alignItems: 'center' }}>
-                <span className="mono" style={{ fontSize: 12, color: 'var(--parchment-dim)' }}>#{i+1}</span>
+                <span className="mono" style={{ fontSize: 14, color: 'var(--parchment-dim)' }}>#{i+1}</span>
                 <div style={{ aspectRatio: '16/9', background: thumbGradient(parseInt(v.id.slice(1))), borderRadius: 2 }}/>
                 <div style={{ minWidth: 0 }}>
-                  <div style={{ fontSize: 13, fontWeight: 600, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{v.title}</div>
-                  <div style={{ fontSize: 11, color: 'var(--parchment-dim)' }}>{(v.views / 1000 | 0)} views · {Math.floor(v.likes / v.price * 0.3)} licenses</div>
+                  <div style={{ fontSize: 14, fontWeight: 600, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{v.title}</div>
+                  <div style={{ fontSize: 12, color: 'var(--parchment-dim)' }}>{(v.views / 1000 | 0)} views · {Math.floor(v.likes / v.price * 0.3)} licenses</div>
                 </div>
                 <div style={{ textAlign: 'right' }}>
                   <div className="mono" style={{ fontSize: 14, fontWeight: 600, color: 'var(--amber)' }}>${(v.price * 47 * 0.7).toFixed(0)}</div>
-                  <div style={{ fontSize: 10, color: 'var(--parchment-dim)' }}>take-home</div>
+                  <div style={{ fontSize: 12, color: 'var(--parchment-dim)' }}>take-home</div>
                 </div>
                 <div style={{ width: 80, height: 24 }}>
                   <svg viewBox="0 0 80 24" style={{ width: '100%', height: '100%' }}>
@@ -118,22 +118,22 @@ export function EarningsPage({ onNav }) {
           <div style={{ border: '1px solid var(--line)', borderRadius: 4 }}>
             <div style={{ padding: '16px 20px', borderBottom: '1px solid var(--line)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <h3 style={{ fontSize: 16 }}>Payout history</h3>
-              <span className="mono" style={{ fontSize: 10, color: 'var(--lichen)', letterSpacing: '0.14em' }}>● STRIPE CONNECT</span>
+              <span className="mono" style={{ fontSize: 12, color: 'var(--lichen)', letterSpacing: '0.14em' }}>● STRIPE CONNECT</span>
             </div>
             {payouts.map((p, i) => (
               <div key={p.id || i} style={{ padding: '12px 20px', borderTop: i === 0 ? 'none' : '1px solid var(--line)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <div>
-                  <div style={{ fontSize: 13, fontWeight: 600 }}>{p.period}</div>
-                  <div style={{ fontSize: 11, color: 'var(--parchment-dim)' }}>{p.method} · deposited {p.eta}</div>
+                  <div style={{ fontSize: 14, fontWeight: 600 }}>{p.period}</div>
+                  <div style={{ fontSize: 12, color: 'var(--parchment-dim)' }}>{p.method} · deposited {p.eta}</div>
                 </div>
                 <div style={{ textAlign: 'right' }}>
                   <div className="mono" style={{ fontSize: 14, fontWeight: 600 }}>${(p.net || 0).toFixed(2)}</div>
-                  <div style={{ fontSize: 10, color: p.status === 'paid' ? 'var(--lichen)' : 'var(--amber)', fontFamily: 'var(--font-mono)', letterSpacing: '0.1em' }}>● {p.status.toUpperCase()}</div>
+                  <div style={{ fontSize: 12, color: p.status === 'paid' ? 'var(--lichen)' : 'var(--amber)', fontFamily: 'var(--font-mono)', letterSpacing: '0.1em' }}>● {p.status.toUpperCase()}</div>
                 </div>
               </div>
             ))}
             <div style={{ padding: '14px 20px', borderTop: '1px solid var(--line)' }}>
-              <button className="btn secondary" style={{ width: '100%', justifyContent: 'center', fontSize: 12 }} data-placeholder="true">Download 1099 / tax reports</button>
+              <button className="btn secondary" style={{ width: '100%', justifyContent: 'center', fontSize: 14 }} data-placeholder="true">Download 1099 / tax reports</button>
             </div>
           </div>
         </div>
@@ -152,7 +152,7 @@ export function SidebarPilot({ active, onNav }) {
           <div style={{ width: 40, height: 40, borderRadius: '50%', background: 'var(--moss)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 700, border: '1px solid var(--line-strong)' }}>{u.initials}</div>
           <div>
             <div style={{ fontSize: 14, fontWeight: 600, display: 'flex', alignItems: 'center', gap: 4 }}>{u.name} <span style={{ color: 'var(--amber)' }}><Ic.check/></span></div>
-            <div style={{ fontSize: 11, color: 'var(--parchment-dim)' }}>{u.handle} · Verified</div>
+            <div style={{ fontSize: 12, color: 'var(--parchment-dim)' }}>{u.handle} · Verified</div>
           </div>
         </div>
       </div>

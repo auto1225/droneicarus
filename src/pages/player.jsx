@@ -77,7 +77,7 @@ function NoteSection({ section }) {
   return (
     <div style={{ marginBottom: 12 }}>
       {header && (
-        <div className="mono" style={{ fontSize: 10, letterSpacing: '0.14em', color: 'var(--parchment-dim)', marginBottom: 4, textTransform: 'uppercase' }}>
+        <div className="mono" style={{ fontSize: 12, letterSpacing: '0.14em', color: 'var(--parchment-dim)', marginBottom: 4, textTransform: 'uppercase' }}>
           {header}
         </div>
       )}
@@ -86,12 +86,12 @@ function NoteSection({ section }) {
           display: 'grid',
           gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))',
           gap: '4px 16px',
-          fontSize: 13, color: 'var(--parchment)', lineHeight: 1.45,
+          fontSize: 14, color: 'var(--parchment)', lineHeight: 1.45,
         }}>
           {lines.map((l, i) => <div key={i} style={{ minWidth: 0 }}>{l}</div>)}
         </div>
       ) : (
-        <p style={{ fontSize: 13, color: 'var(--parchment)', lineHeight: 1.55, margin: 0, whiteSpace: 'pre-wrap' }}>
+        <p style={{ fontSize: 14, color: 'var(--parchment)', lineHeight: 1.55, margin: 0, whiteSpace: 'pre-wrap' }}>
           {lines.join('\n')}
         </p>
       )}
@@ -107,13 +107,13 @@ function NoteLinks({ links }) {
   const hidden = links.length - visible.length;
   return (
     <div style={{ marginTop: 12 }}>
-      <div className="mono" style={{ fontSize: 10, letterSpacing: '0.14em', color: 'var(--parchment-dim)', marginBottom: 6 }}>LINKS</div>
+      <div className="mono" style={{ fontSize: 12, letterSpacing: '0.14em', color: 'var(--parchment-dim)', marginBottom: 6 }}>LINKS</div>
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
         {visible.map((l, i) => (
           <a key={i} href={l.url} target="_blank" rel="noopener noreferrer" style={{
             display: 'inline-block', padding: '3px 10px',
             background: 'var(--forest-800)', border: '1px solid var(--line)',
-            borderRadius: 999, fontSize: 11, color: 'var(--parchment)',
+            borderRadius: 999, fontSize: 12, color: 'var(--parchment)',
             textDecoration: 'none', lineHeight: 1.4,
           }}>
             <span style={{ color: 'var(--amber)' }}>{l.host}</span>
@@ -122,7 +122,7 @@ function NoteLinks({ links }) {
         ))}
         {hidden > 0 && (
           <button onClick={() => setExpanded(true)} style={{
-            padding: '3px 10px', fontSize: 11, color: 'var(--parchment-dim)',
+            padding: '3px 10px', fontSize: 12, color: 'var(--parchment-dim)',
             border: '1px dashed var(--line)', borderRadius: 999, background: 'transparent',
           }}>+{hidden} more</button>
         )}
@@ -264,7 +264,7 @@ export function PlayerPage({ video, onNav, onOpenVideo }) {
                     Watch preview again
                   </button>
                 </div>
-                <div className="mono" style={{ fontSize: 10, color: 'var(--parchment-dim)', marginTop: 20, letterSpacing: '0.14em' }}>
+                <div className="mono" style={{ fontSize: 12, color: 'var(--parchment-dim)', marginTop: 20, letterSpacing: '0.14em' }}>
                   ONE-TIME · NO SUBSCRIPTION · REFUND WITHIN 24H
                 </div>
               </div>
@@ -276,7 +276,7 @@ export function PlayerPage({ video, onNav, onOpenVideo }) {
               background: 'rgba(13,20,16,0.9)', border: '1px solid var(--sunset)',
               padding: '8px 14px', borderRadius: 2,
               display: 'flex', alignItems: 'center', gap: 10,
-              color: 'var(--sunset)', fontFamily: 'var(--font-mono)', fontSize: 12,
+              color: 'var(--sunset)', fontFamily: 'var(--font-mono)', fontSize: 14,
               letterSpacing: '0.12em',
             }}>
               <span style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--sunset)', animation: 'pin-pulse 1s infinite' }}/>
@@ -288,13 +288,13 @@ export function PlayerPage({ video, onNav, onOpenVideo }) {
         {/* Meta */}
         <div style={{ marginTop: 20 }}>
           <div style={{ display: 'flex', gap: 8, marginBottom: 12, flexWrap: 'wrap' }}>
-            <span className="chip" style={{ padding: '4px 10px', fontSize: 12 }}>
+            <span className="chip" style={{ padding: '4px 10px', fontSize: 14 }}>
               <span className="chip-icon" style={{ display: 'inline-flex' }}>{CAT_ICONS[video.category] && CAT_ICONS[video.category](12)}</span>
               {CATEGORIES.find(c => c.id === video.category)?.label}
             </span>
-            <span className="mono" style={{ fontSize: 11, padding: '4px 10px', border: '1px solid var(--line-strong)', borderRadius: 999, letterSpacing: '0.1em' }}>{video.resolution}</span>
-            <span className="mono" style={{ fontSize: 11, padding: '4px 10px', border: '1px solid var(--line-strong)', borderRadius: 999, letterSpacing: '0.1em' }}>24 FPS</span>
-            <span className="mono" style={{ fontSize: 11, padding: '4px 10px', border: '1px solid var(--line-strong)', borderRadius: 999, letterSpacing: '0.1em' }}>D-LOG</span>
+            <span className="mono" style={{ fontSize: 12, padding: '4px 10px', border: '1px solid var(--line-strong)', borderRadius: 999, letterSpacing: '0.1em' }}>{video.resolution}</span>
+            <span className="mono" style={{ fontSize: 12, padding: '4px 10px', border: '1px solid var(--line-strong)', borderRadius: 999, letterSpacing: '0.1em' }}>24 FPS</span>
+            <span className="mono" style={{ fontSize: 12, padding: '4px 10px', border: '1px solid var(--line-strong)', borderRadius: 999, letterSpacing: '0.1em' }}>D-LOG</span>
             {video.price === 0 ? <span className="tag-free" style={{ padding: '4px 10px' }}>FREE · CC-BY</span> : <span className="tag-paid" style={{ padding: '4px 10px' }}>LICENSED · ${video.price}</span>}
           </div>
           <h1 style={{ fontSize: 32, marginBottom: 12, letterSpacing: '-0.02em' }}>{video.title}</h1>
@@ -311,14 +311,14 @@ export function PlayerPage({ video, onNav, onOpenVideo }) {
                   {video.creator.name}
                   {video.creator.verified && <span style={{ color: 'var(--amber)' }}><Ic.check/></span>}
                 </div>
-                <div style={{ fontSize: 12, color: 'var(--parchment-dim)' }}>{video.creator.handle} · {formatViews(128000)} followers</div>
+                <div style={{ fontSize: 14, color: 'var(--parchment-dim)' }}>{video.creator.handle} · {formatViews(128000)} followers</div>
               </div>
-              <FollowButton creatorId={video.creator?.id || video.creator?.handle} creatorHandle={video.creator?.handle} className="btn" style={{ marginLeft: 12, padding: '8px 18px', fontSize: 13 }} />
+              <FollowButton creatorId={video.creator?.id || video.creator?.handle} creatorHandle={video.creator?.handle} className="btn" style={{ marginLeft: 12, padding: '8px 18px', fontSize: 14 }} />
             </div>
             <div style={{ display: 'flex', gap: 8 }}>
-              <button onClick={onToggleLike} className="btn secondary" style={{ fontSize: 13, color: liked ? 'var(--sunset)' : undefined }}><Ic.heart/> {formatViews(video.likes + (liked ? 1 : 0))}</button>
-              <button className="btn secondary" style={{ fontSize: 13 }} data-placeholder="true">↗ Share</button>
-              <button className="btn secondary" style={{ fontSize: 13 }} data-placeholder="true">⎙ Save</button>
+              <button onClick={onToggleLike} className="btn secondary" style={{ fontSize: 14, color: liked ? 'var(--sunset)' : undefined }}><Ic.heart/> {formatViews(video.likes + (liked ? 1 : 0))}</button>
+              <button className="btn secondary" style={{ fontSize: 14 }} data-placeholder="true">↗ Share</button>
+              <button className="btn secondary" style={{ fontSize: 14 }} data-placeholder="true">⎙ Save</button>
             </div>
           </div>
 
@@ -332,7 +332,7 @@ export function PlayerPage({ video, onNav, onOpenVideo }) {
               ['Coords', `${loc?.lat.toFixed(3)}°, ${loc?.lon.toFixed(3)}°`],
             ].map(([k, v], i) => (
               <div key={k} style={{ flex: 1, padding: '14px 18px', borderLeft: i > 0 ? '1px solid var(--line)' : 'none' }}>
-                <div className="mono" style={{ fontSize: 10, letterSpacing: '0.14em', color: 'var(--parchment-dim)', textTransform: 'uppercase', marginBottom: 4 }}>{k}</div>
+                <div className="mono" style={{ fontSize: 12, letterSpacing: '0.14em', color: 'var(--parchment-dim)', textTransform: 'uppercase', marginBottom: 4 }}>{k}</div>
                 <div style={{ fontSize: 14, fontWeight: 600 }}>{v}</div>
               </div>
             ))}
@@ -350,7 +350,7 @@ export function PlayerPage({ video, onNav, onOpenVideo }) {
                   {video.tags && video.tags.length > 0 && (
                     <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginTop: 14, paddingTop: 12, borderTop: '1px solid var(--line)' }}>
                       {video.tags.map(t => (
-                        <span key={t} className="mono" style={{ fontSize: 11, padding: '3px 8px', background: 'var(--forest-800)', border: '1px solid var(--line)', borderRadius: 2, color: 'var(--parchment)' }}>#{t}</span>
+                        <span key={t} className="mono" style={{ fontSize: 12, padding: '3px 8px', background: 'var(--forest-800)', border: '1px solid var(--line)', borderRadius: 2, color: 'var(--parchment)' }}>#{t}</span>
                       ))}
                     </div>
                   )}
@@ -365,9 +365,9 @@ export function PlayerPage({ video, onNav, onOpenVideo }) {
             <div style={{ padding: '14px 20px', background: 'var(--forest-900)', borderBottom: '1px solid var(--line)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <div>
                 <div className="eyebrow" style={{ color: 'var(--amber)' }}>WHAT YOU ACTUALLY DOWNLOAD</div>
-                <div style={{ fontSize: 12, color: 'var(--parchment-dim)', marginTop: 2 }}>Preview is watermarked 1280p · original is delivered the instant you license.</div>
+                <div style={{ fontSize: 14, color: 'var(--parchment-dim)', marginTop: 2 }}>Preview is watermarked 1280p · original is delivered the instant you license.</div>
               </div>
-              <span className="mono" style={{ fontSize: 10, padding: '4px 8px', border: '1px solid var(--lichen)', color: 'var(--lichen)', borderRadius: 2, letterSpacing: '0.1em' }}>VERIFIED</span>
+              <span className="mono" style={{ fontSize: 12, padding: '4px 8px', border: '1px solid var(--lichen)', color: 'var(--lichen)', borderRadius: 2, letterSpacing: '0.1em' }}>VERIFIED</span>
             </div>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 0 }}>
               {[
@@ -385,8 +385,8 @@ export function PlayerPage({ video, onNav, onOpenVideo }) {
                   borderTop: i >= 4 ? '1px solid var(--line)' : 'none',
                   borderLeft: i % 4 !== 0 ? '1px solid var(--line)' : 'none',
                 }}>
-                  <div className="mono" style={{ fontSize: 10, letterSpacing: '0.12em', color: 'var(--parchment-dim)', textTransform: 'uppercase', marginBottom: 4 }}>{k}</div>
-                  <div style={{ fontSize: 13, fontWeight: 500 }}>{v}</div>
+                  <div className="mono" style={{ fontSize: 12, letterSpacing: '0.12em', color: 'var(--parchment-dim)', textTransform: 'uppercase', marginBottom: 4 }}>{k}</div>
+                  <div style={{ fontSize: 14, fontWeight: 500 }}>{v}</div>
                 </div>
               ))}
             </div>
@@ -396,7 +396,7 @@ export function PlayerPage({ video, onNav, onOpenVideo }) {
           <div style={{ marginTop: 24 }}>
             <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', marginBottom: 10 }}>
               <div className="eyebrow">CHOOSE A LICENSE TIER</div>
-              <button style={{ fontSize: 12, color: 'var(--amber)', textDecoration: 'underline', textUnderlineOffset: 3 }} onClick={() => onNav('pricing')}>See full comparison →</button>
+              <button style={{ fontSize: 14, color: 'var(--amber)', textDecoration: 'underline', textUnderlineOffset: 3 }} onClick={() => onNav('pricing')}>See full comparison →</button>
             </div>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 12 }}>
               {[
@@ -426,14 +426,14 @@ export function PlayerPage({ video, onNav, onOpenVideo }) {
                   borderRadius: 4, background: t.popular ? 'rgba(232,176,74,0.04)' : 'var(--forest-900)',
                   position: 'relative', display: 'flex', flexDirection: 'column',
                 }}>
-                  {t.popular && <span style={{ position: 'absolute', top: -8, right: 12, padding: '2px 8px', background: 'var(--amber)', color: '#1a2820', fontSize: 9, fontWeight: 700, fontFamily: 'var(--font-mono)', letterSpacing: '0.1em', borderRadius: 2 }}>POPULAR</span>}
-                  <div className="mono" style={{ fontSize: 10, letterSpacing: '0.14em', color: t.popular ? 'var(--amber)' : 'var(--parchment-dim)', marginBottom: 6 }}>{t.name.toUpperCase()}</div>
+                  {t.popular && <span style={{ position: 'absolute', top: -8, right: 12, padding: '2px 8px', background: 'var(--amber)', color: '#1a2820', fontSize: 12, fontWeight: 700, fontFamily: 'var(--font-mono)', letterSpacing: '0.1em', borderRadius: 2 }}>POPULAR</span>}
+                  <div className="mono" style={{ fontSize: 12, letterSpacing: '0.14em', color: t.popular ? 'var(--amber)' : 'var(--parchment-dim)', marginBottom: 6 }}>{t.name.toUpperCase()}</div>
                   <div style={{ fontSize: 24, fontFamily: 'var(--font-display)', fontWeight: 600, letterSpacing: '-0.01em', marginBottom: 4 }}>{t.price}</div>
-                  <div style={{ fontSize: 11, color: 'var(--parchment-dim)', marginBottom: 12, minHeight: 28, lineHeight: 1.35 }}>{t.cover}<br/>{t.restrict}</div>
-                  <ul style={{ listStyle: 'none', fontSize: 12, color: 'var(--parchment)', display: 'flex', flexDirection: 'column', gap: 5, marginBottom: 14 }}>
+                  <div style={{ fontSize: 12, color: 'var(--parchment-dim)', marginBottom: 12, minHeight: 28, lineHeight: 1.35 }}>{t.cover}<br/>{t.restrict}</div>
+                  <ul style={{ listStyle: 'none', fontSize: 14, color: 'var(--parchment)', display: 'flex', flexDirection: 'column', gap: 5, marginBottom: 14 }}>
                     {t.items.map(i => <li key={i} style={{ display: 'flex', gap: 6 }}><span style={{ color: t.popular ? 'var(--amber)' : 'var(--lichen)', flexShrink: 0, marginTop: 1 }}><Ic.check/></span>{i}</li>)}
                   </ul>
-                  <button className={'btn ' + (t.popular ? '' : 'secondary')} style={{ fontSize: 11, marginTop: 'auto', padding: '8px 12px' }} onClick={() => onNav('checkout', video.id)}>
+                  <button className={'btn ' + (t.popular ? '' : 'secondary')} style={{ fontSize: 12, marginTop: 'auto', padding: '8px 12px' }} onClick={() => onNav('checkout', video.id)}>
                     {t.price === 'Free' ? 'Download free' : (t.price === 'By quote' ? 'Request quote' : 'License ' + t.price)}
                   </button>
                 </div>
@@ -451,10 +451,10 @@ export function PlayerPage({ video, onNav, onOpenVideo }) {
               </p>
               <div style={{ display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap' }}>
                 <a href={`https://www.youtube.com/watch?v=${video.youtubeId || video.ytId}`} target="_blank" rel="noopener noreferrer"
-                   className="btn" style={{ fontSize: 13, padding: '10px 18px', textDecoration: 'none' }}>
+                   className="btn" style={{ fontSize: 14, padding: '10px 18px', textDecoration: 'none' }}>
                   Watch on YouTube
                 </a>
-                <span className="mono" style={{ fontSize: 11, color: 'var(--parchment-dim)', letterSpacing: '0.08em' }}>
+                <span className="mono" style={{ fontSize: 12, color: 'var(--parchment-dim)', letterSpacing: '0.08em' }}>
                   CREDIT: {video.creator?.name || video.channel || 'YouTube creator'}
                 </span>
               </div>
@@ -479,8 +479,8 @@ export function PlayerPage({ video, onNav, onOpenVideo }) {
         }}>
           <span style={{ color: 'var(--amber)' }}><Ic.pin/></span>
           <div style={{ flex: 1 }}>
-            <div style={{ fontSize: 13, fontWeight: 600 }}>{loc?.name}</div>
-            <div style={{ fontSize: 11, color: 'var(--parchment-dim)' }}>{loc?.country} · Back to map</div>
+            <div style={{ fontSize: 14, fontWeight: 600 }}>{loc?.name}</div>
+            <div style={{ fontSize: 12, color: 'var(--parchment-dim)' }}>{loc?.country} · Back to map</div>
           </div>
           <span style={{ color: 'var(--parchment-dim)' }}><Ic.chevron/></span>
         </button>
@@ -493,13 +493,13 @@ export function PlayerPage({ video, onNav, onOpenVideo }) {
                 background: thumbGradient(parseInt(v.id.slice(1))),
                 borderRadius: 3, position: 'relative', border: '1px solid var(--line)',
               }}>
-                <div style={{ position: 'absolute', bottom: 4, right: 4, fontSize: 10, fontFamily: 'var(--font-mono)', padding: '1px 5px', background: 'rgba(13,20,16,0.85)', borderRadius: 2 }}>{v.duration}</div>
-                {v.price > 0 && <div style={{ position: 'absolute', top: 4, right: 4, fontSize: 10, padding: '1px 5px', background: 'var(--sunset)', color: 'var(--bone)', fontFamily: 'var(--font-mono)', borderRadius: 2 }}>${v.price}</div>}
+                <div style={{ position: 'absolute', bottom: 4, right: 4, fontSize: 12, fontFamily: 'var(--font-mono)', padding: '1px 5px', background: 'rgba(13,20,16,0.85)', borderRadius: 2 }}>{v.duration}</div>
+                {v.price > 0 && <div style={{ position: 'absolute', top: 4, right: 4, fontSize: 12, padding: '1px 5px', background: 'var(--sunset)', color: 'var(--bone)', fontFamily: 'var(--font-mono)', borderRadius: 2 }}>${v.price}</div>}
               </div>
               <div style={{ minWidth: 0 }}>
-                <div style={{ fontSize: 13, fontWeight: 600, lineHeight: 1.3, marginBottom: 4, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>{v.title}</div>
-                <div style={{ fontSize: 11, color: 'var(--parchment-dim)' }}>{v.creator.handle}</div>
-                <div style={{ fontSize: 11, color: 'var(--parchment-dim)' }}>{formatViews(v.views)} views · {formatDays(v.uploadedDaysAgo)}</div>
+                <div style={{ fontSize: 14, fontWeight: 600, lineHeight: 1.3, marginBottom: 4, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>{v.title}</div>
+                <div style={{ fontSize: 12, color: 'var(--parchment-dim)' }}>{v.creator.handle}</div>
+                <div style={{ fontSize: 12, color: 'var(--parchment-dim)' }}>{formatViews(v.views)} views · {formatDays(v.uploadedDaysAgo)}</div>
               </div>
             </div>
           ))}
@@ -567,7 +567,7 @@ function ReviewsSection({ video, onNav }) {
             value={role}
             onChange={e => setRole(e.target.value)}
             placeholder="Your role (e.g. Freelance filmmaker)"
-            style={{ flex: 1, marginLeft: 12, background: 'var(--ink)', border: '1px solid var(--line)', borderRadius: 3, padding: '6px 10px', fontSize: 12, color: 'var(--bone)' }}
+            style={{ flex: 1, marginLeft: 12, background: 'var(--ink)', border: '1px solid var(--line)', borderRadius: 3, padding: '6px 10px', fontSize: 14, color: 'var(--bone)' }}
           />
         </div>
         <textarea
@@ -575,10 +575,10 @@ function ReviewsSection({ video, onNav }) {
           onChange={e => setDraft(e.target.value)}
           placeholder="Did this clip deliver what the preview promised?"
           rows={3}
-          style={{ width: '100%', background: 'var(--ink)', border: '1px solid var(--line)', borderRadius: 3, padding: 10, fontSize: 13, color: 'var(--bone)', resize: 'vertical' }}
+          style={{ width: '100%', background: 'var(--ink)', border: '1px solid var(--line)', borderRadius: 3, padding: 10, fontSize: 14, color: 'var(--bone)', resize: 'vertical' }}
         />
         <div style={{ textAlign: 'right', marginTop: 8 }}>
-          <button onClick={submit} disabled={saving || !draft.trim()} className="btn" style={{ fontSize: 12, padding: '8px 14px', opacity: (saving || !draft.trim()) ? 0.5 : 1 }}>
+          <button onClick={submit} disabled={saving || !draft.trim()} className="btn" style={{ fontSize: 14, padding: '8px 14px', opacity: (saving || !draft.trim()) ? 0.5 : 1 }}>
             {saving ? 'Posting…' : 'Post review'}
           </button>
         </div>
@@ -589,15 +589,15 @@ function ReviewsSection({ video, onNav }) {
         {rows.map((r, i) => (
           <div key={i} style={{ padding: '16px 20px', border: '1px solid var(--line)', borderRadius: 4 }}>
             <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', marginBottom: 6 }}>
-              <div style={{ fontSize: 14, fontWeight: 600 }}>{r.author} <span style={{ color: 'var(--parchment-dim)', fontWeight: 400, fontSize: 12 }}>· {r.role}</span></div>
-              <div style={{ fontSize: 11, color: 'var(--parchment-dim)' }}>{r.date}</div>
+              <div style={{ fontSize: 14, fontWeight: 600 }}>{r.author} <span style={{ color: 'var(--parchment-dim)', fontWeight: 400, fontSize: 14 }}>· {r.role}</span></div>
+              <div style={{ fontSize: 12, color: 'var(--parchment-dim)' }}>{r.date}</div>
             </div>
             <div style={{ display: 'flex', gap: 2, marginBottom: 6 }}>
               {Array.from({ length: 5 }).map((_, idx) => (
                 <span key={idx} style={{ color: idx < r.rating ? 'var(--amber)' : 'var(--parchment-dim)', display: 'inline-flex' }}><Ic.star/></span>
               ))}
             </div>
-            <div style={{ fontSize: 13, lineHeight: 1.6 }}>{r.text}</div>
+            <div style={{ fontSize: 14, lineHeight: 1.6 }}>{r.text}</div>
           </div>
         ))}
       </div>

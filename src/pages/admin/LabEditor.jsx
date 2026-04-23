@@ -76,13 +76,13 @@ export function LabEditor() {
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 22 }}>
         <div>
           <h1 style={{ fontSize: 26, margin: 0 }}>Lab Content</h1>
-          <div style={{ fontSize: 12, color: 'var(--parchment-dim)', marginTop: 4 }}>
+          <div style={{ fontSize: 14, color: 'var(--parchment-dim)', marginTop: 4 }}>
             {rows.length} items · {filtered.length} shown
           </div>
         </div>
         <button onClick={() => setEditing({ subsection: 'research', type: 'paper', status: 'approved', tags: [] })}
                 className="btn"
-                style={{ padding: '10px 18px', fontSize: 13 }}>
+                style={{ padding: '10px 18px', fontSize: 14 }}>
           + New item
         </button>
       </div>
@@ -117,20 +117,20 @@ export function LabEditor() {
               border: '1px solid var(--line)', borderRadius: 6,
               background: 'var(--forest-900)',
             }}>
-              <span className="mono" style={{ fontSize: 10, letterSpacing: '0.1em', color: 'var(--parchment-dim)', textTransform: 'uppercase' }}>{item.subsection}</span>
-              <span className="mono" style={{ fontSize: 10, letterSpacing: '0.1em', color: 'var(--amber)', textTransform: 'uppercase' }}>{item.type}</span>
+              <span className="mono" style={{ fontSize: 12, letterSpacing: '0.1em', color: 'var(--parchment-dim)', textTransform: 'uppercase' }}>{item.subsection}</span>
+              <span className="mono" style={{ fontSize: 12, letterSpacing: '0.1em', color: 'var(--amber)', textTransform: 'uppercase' }}>{item.type}</span>
               <div style={{ minWidth: 0 }}>
-                <div style={{ fontSize: 13, fontWeight: 500, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item.title}</div>
-                <div style={{ fontSize: 11, color: 'var(--parchment-dim)', marginTop: 2 }}>{item.institution || '—'}</div>
+                <div style={{ fontSize: 14, fontWeight: 500, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item.title}</div>
+                <div style={{ fontSize: 12, color: 'var(--parchment-dim)', marginTop: 2 }}>{item.institution || '—'}</div>
               </div>
               <select value={item.status} onChange={e => handleStatus(item.id, e.target.value)}
-                      style={{ ...selStyle, padding: '4px 8px', fontSize: 11 }}>
+                      style={{ ...selStyle, padding: '4px 8px', fontSize: 12 }}>
                 {STATUSES.map(s => <option key={s} value={s}>{s}</option>)}
               </select>
               <div style={{ display: 'flex', gap: 6 }}>
-                <button onClick={() => setEditing(item)} className="btn secondary" style={{ padding: '6px 12px', fontSize: 11 }}>Edit</button>
+                <button onClick={() => setEditing(item)} className="btn secondary" style={{ padding: '6px 12px', fontSize: 12 }}>Edit</button>
                 <button onClick={() => handleDelete(item.id, item.title)} style={{
-                  padding: '6px 12px', fontSize: 11, background: 'transparent',
+                  padding: '6px 12px', fontSize: 12, background: 'transparent',
                   color: 'var(--sunset)', border: '1px solid var(--sunset)',
                   borderRadius: 3, cursor: 'pointer',
                 }}>Delete</button>
@@ -153,7 +153,7 @@ export function LabEditor() {
 }
 
 const selStyle = {
-  padding: '8px 12px', fontSize: 13,
+  padding: '8px 12px', fontSize: 14,
   background: 'var(--forest-900)', border: '1px solid var(--line-strong)',
   color: 'var(--bone)', borderRadius: 4, outline: 'none',
 };
@@ -318,14 +318,14 @@ function LabItemForm({ item, onCancel, onSave, saving }) {
 
         <Fld label="Specs (JSON object, hardware only)">
           <textarea value={form.spec} onChange={e => set('spec', e.target.value)} rows={4}
-                    style={{ ...selStyle, resize: 'vertical', fontFamily: 'var(--font-mono)', fontSize: 12 }}
+                    style={{ ...selStyle, resize: 'vertical', fontFamily: 'var(--font-mono)', fontSize: 14 }}
                     placeholder='{"MCU":"STM32F7","Weight":"8g"}'/>
         </Fld>
 
         <div style={{ display: 'flex', gap: 8, justifyContent: 'flex-end', marginTop: 20 }}>
-          <button onClick={onCancel} className="btn secondary" style={{ padding: '10px 18px', fontSize: 13 }}>Cancel</button>
+          <button onClick={onCancel} className="btn secondary" style={{ padding: '10px 18px', fontSize: 14 }}>Cancel</button>
           <button onClick={submit} disabled={saving} className="btn"
-                  style={{ padding: '10px 22px', fontSize: 13, opacity: saving ? 0.5 : 1 }}>
+                  style={{ padding: '10px 22px', fontSize: 14, opacity: saving ? 0.5 : 1 }}>
             {saving ? 'Saving…' : (form.id ? 'Save' : 'Create')}
           </button>
         </div>
@@ -337,7 +337,7 @@ function LabItemForm({ item, onCancel, onSave, saving }) {
 function Fld({ label, children }) {
   return (
     <div style={{ marginBottom: 12 }}>
-      <label className="mono" style={{ display: 'block', fontSize: 10, letterSpacing: '0.14em', color: 'var(--parchment-dim)', textTransform: 'uppercase', marginBottom: 6 }}>{label}</label>
+      <label className="mono" style={{ display: 'block', fontSize: 12, letterSpacing: '0.14em', color: 'var(--parchment-dim)', textTransform: 'uppercase', marginBottom: 6 }}>{label}</label>
       {children}
     </div>
   );

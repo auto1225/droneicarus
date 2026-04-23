@@ -85,7 +85,7 @@ export function AnalyticsPage() {
   return (
     <div>
       <h2 style={{ fontSize: 24, marginTop: 0, marginBottom: 6 }}>Visitor analytics</h2>
-      <p style={{ color: 'var(--parchment-dim)', fontSize: 13, marginBottom: 18 }}>
+      <p style={{ color: 'var(--parchment-dim)', fontSize: 14, marginBottom: 18 }}>
         Members, guests, country, browser, OS, device, language, top pages, referrers — across the selected period.
       </p>
 
@@ -93,7 +93,7 @@ export function AnalyticsPage() {
       <div style={{ display: 'flex', gap: 6, marginBottom: 18, flexWrap: 'wrap' }}>
         {RANGES.map(([k, l]) => (
           <button key={k} onClick={() => setRange(k)} style={{
-            padding: '8px 14px', borderRadius: 4, fontSize: 12, fontWeight: 600,
+            padding: '8px 14px', borderRadius: 4, fontSize: 14, fontWeight: 600,
             background: range === k ? 'var(--amber)' : 'transparent',
             color: range === k ? 'var(--ink)' : 'var(--bone)',
             border: '1px solid ' + (range === k ? 'var(--amber)' : 'var(--line-strong)'),
@@ -107,14 +107,14 @@ export function AnalyticsPage() {
         <Stat label="Active now (5min)" value={fmt(realtime.active_users)} accent="var(--moss)"/>
         <Stat label="Members live"      value={fmt(realtime.active_members)} accent="var(--amber)"/>
         <div>
-          <div className="mono" style={{ fontSize: 10, letterSpacing: '0.18em', color: 'var(--parchment-dim)', marginBottom: 4 }}>HOTTEST PATHS RIGHT NOW</div>
+          <div className="mono" style={{ fontSize: 12, letterSpacing: '0.18em', color: 'var(--parchment-dim)', marginBottom: 4 }}>HOTTEST PATHS RIGHT NOW</div>
           {(realtime.top_paths || []).map((t, i) => (
-            <div key={i} style={{ fontSize: 12, marginBottom: 2 }}>
+            <div key={i} style={{ fontSize: 14, marginBottom: 2 }}>
               <span className="mono" style={{ color: 'var(--amber)', marginRight: 8 }}>{t.hits}×</span>
               <span style={{ color: 'var(--parchment)' }}>{t.path}</span>
             </div>
           ))}
-          {!(realtime.top_paths || []).length && <div style={{ fontSize: 12, color: 'var(--parchment-dim)' }}>No active visitors right now.</div>}
+          {!(realtime.top_paths || []).length && <div style={{ fontSize: 14, color: 'var(--parchment-dim)' }}>No active visitors right now.</div>}
         </div>
       </div>
 
@@ -155,7 +155,7 @@ export function AnalyticsPage() {
 function Stat({ label, value, accent = 'var(--bone)' }) {
   return (
     <div style={{ padding: 14, background: 'var(--forest-900)', border: '1px solid var(--line)', borderRadius: 4 }}>
-      <div className="mono" style={{ fontSize: 10, letterSpacing: '0.18em', color: 'var(--parchment-dim)', marginBottom: 4 }}>{label.toUpperCase()}</div>
+      <div className="mono" style={{ fontSize: 12, letterSpacing: '0.18em', color: 'var(--parchment-dim)', marginBottom: 4 }}>{label.toUpperCase()}</div>
       <div style={{ fontSize: 22, fontWeight: 700, color: accent }}>{value || 0}</div>
     </div>
   );
@@ -171,9 +171,9 @@ function Card({ title, children }) {
 }
 
 function Tab({ cols, rows }) {
-  if (!rows || rows.length === 0) return <div style={{ fontSize: 12, color: 'var(--parchment-dim)', padding: 14, textAlign: 'center' }}>No data yet.</div>;
+  if (!rows || rows.length === 0) return <div style={{ fontSize: 14, color: 'var(--parchment-dim)', padding: 14, textAlign: 'center' }}>No data yet.</div>;
   return (
-    <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 12 }}>
+    <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 14 }}>
       <thead><tr style={{ borderBottom: '1px solid var(--line-strong)', color: 'var(--parchment-dim)', textAlign: 'left' }}>
         {cols.map((c, i) => <th key={i} style={{ padding: '6px 8px', fontWeight: 600 }}>{c}</th>)}
       </tr></thead>
@@ -189,7 +189,7 @@ function Tab({ cols, rows }) {
 }
 
 function Bars({ data }) {
-  if (!data || !data.length) return <div style={{ padding: 24, textAlign: 'center', color: 'var(--parchment-dim)', fontSize: 12 }}>No data yet.</div>;
+  if (!data || !data.length) return <div style={{ padding: 24, textAlign: 'center', color: 'var(--parchment-dim)', fontSize: 14 }}>No data yet.</div>;
   const max = Math.max(...data.map(d => Number(d.pageviews))) || 1;
   return (
     <div style={{ display: 'flex', alignItems: 'flex-end', gap: 4, height: 160, paddingTop: 14 }}>

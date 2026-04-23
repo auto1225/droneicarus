@@ -78,7 +78,7 @@ const FONT_PAIRS = {
 function RouteFallback() {
   return (
     <div style={{ padding: 80, textAlign: 'center', color: 'var(--parchment-dim)' }}>
-      <div className="mono" style={{ fontSize: 12, letterSpacing: '0.2em', textTransform: 'uppercase' }}>Loading…</div>
+      <div className="mono" style={{ fontSize: 14, letterSpacing: '0.2em', textTransform: 'uppercase' }}>Loading…</div>
     </div>
   );
 }
@@ -139,13 +139,13 @@ class ChunkErrorBoundary extends React.Component {
         <h2 style={{ fontSize: 24, marginBottom: 10 }}>
           {stale ? 'Updating to the latest version' : 'Something went wrong on this page'}
         </h2>
-        <p style={{ fontSize: 13, color: 'var(--parchment-dim)', marginBottom: 20, maxWidth: 560, margin: '0 auto 20px' }}>
+        <p style={{ fontSize: 14, color: 'var(--parchment-dim)', marginBottom: 20, maxWidth: 560, margin: '0 auto 20px' }}>
           {stale
             ? 'One moment — we just shipped a new release, refreshing now.'
             : 'You can try again or go back to the map. If it keeps happening, ask support to check the console.'}
         </p>
         {!stale && (
-          <pre style={{ maxWidth: 620, margin: '0 auto 20px', fontSize: 11, color: 'var(--parchment-dim)', background: 'var(--forest-900)', border: '1px solid var(--line)', borderRadius: 4, padding: 12, textAlign: 'left', whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}>{msg}</pre>
+          <pre style={{ maxWidth: 620, margin: '0 auto 20px', fontSize: 12, color: 'var(--parchment-dim)', background: 'var(--forest-900)', border: '1px solid var(--line)', borderRadius: 4, padding: 12, textAlign: 'left', whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}>{msg}</pre>
         )}
         <div style={{ display: 'flex', gap: 10, justifyContent: 'center' }}>
           <button onClick={this.retry} style={{ padding: '10px 18px', background: 'var(--amber)', color: '#1a2820', border: 'none', borderRadius: 4, cursor: 'pointer', fontWeight: 600 }}>Try again</button>
@@ -380,7 +380,7 @@ function TweaksPanel({ tweaks, update, onClose }) {
       <div style={{ padding: '14px 18px', borderBottom: '1px solid var(--line)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
           <span style={{ width: 8, height: 8, borderRadius: '50%', background: 'var(--amber)' }}/>
-          <strong style={{ fontSize: 13, letterSpacing: '0.04em' }}>Tweaks</strong>
+          <strong style={{ fontSize: 14, letterSpacing: '0.04em' }}>Tweaks</strong>
         </div>
         <button onClick={onClose} style={{ color: 'var(--parchment-dim)' }}><Ic.close/></button>
       </div>
@@ -420,7 +420,7 @@ function TweaksPanel({ tweaks, update, onClose }) {
 function TweakGroup({ label, children }) {
   return (
     <div>
-      <div className="mono" style={{ fontSize: 10, letterSpacing: '0.14em', color: 'var(--parchment-dim)', textTransform: 'uppercase', marginBottom: 8 }}>{label}</div>
+      <div className="mono" style={{ fontSize: 12, letterSpacing: '0.14em', color: 'var(--parchment-dim)', textTransform: 'uppercase', marginBottom: 8 }}>{label}</div>
       {children}
     </div>
   );
@@ -431,7 +431,7 @@ function TweakSeg({ opts, value, onChange }) {
     <div style={{ display: 'flex', gap: 4, background: 'var(--forest-900)', border: '1px solid var(--line)', borderRadius: 3, padding: 3 }}>
       {opts.map(([v, label]) => (
         <button key={String(v)} onClick={() => onChange(v)} style={{
-          flex: 1, padding: '6px 10px', fontSize: 12,
+          flex: 1, padding: '6px 10px', fontSize: 14,
           background: value === v ? 'var(--forest-700)' : 'transparent',
           color: value === v ? 'var(--bone)' : 'var(--parchment-dim)',
           borderRadius: 2,

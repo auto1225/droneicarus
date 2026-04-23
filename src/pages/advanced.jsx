@@ -39,11 +39,11 @@ export function AdvancedPage({ onOpenVideo, onNav }) {
 
   const FacetGroup = ({ title, options, selected, onToggle }) => (
     <div style={{ marginBottom: 22 }}>
-      <div className="mono" style={{ fontSize: 10, letterSpacing: '0.14em', color: 'var(--parchment-dim)', fontWeight: 600, textTransform: 'uppercase', marginBottom: 10 }}>{title}</div>
+      <div className="mono" style={{ fontSize: 12, letterSpacing: '0.14em', color: 'var(--parchment-dim)', fontWeight: 600, textTransform: 'uppercase', marginBottom: 10 }}>{title}</div>
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5 }}>
         {options.map(opt => (
           <button key={opt} onClick={() => onToggle(opt)} style={{
-            padding: '5px 10px', fontSize: 11,
+            padding: '5px 10px', fontSize: 12,
             border: '1px solid ' + (selected.includes(opt) ? 'var(--amber)' : 'var(--line)'),
             background: selected.includes(opt) ? 'rgba(232,176,74,0.12)' : 'transparent',
             color: selected.includes(opt) ? 'var(--amber)' : 'var(--parchment)',
@@ -60,16 +60,16 @@ export function AdvancedPage({ onOpenVideo, onNav }) {
       <aside style={{ padding: '28px 22px', borderRight: '1px solid var(--line)', position: 'sticky', top: 65, alignSelf: 'start', maxHeight: 'calc(100vh - 65px)', overflowY: 'auto' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 18 }}>
           <div className="eyebrow">FILTERS</div>
-          <button onClick={() => setFilters({ resolution:'4K+', fps:'any', license:'any', codec:[], time:[], weather:[], flight:[], drone:[], priceMax:200, durationMin:0, releaseModel:'any', verified:true })} style={{ fontSize: 11, color: 'var(--amber)', textDecoration: 'underline', textUnderlineOffset: 3 }}>Reset</button>
+          <button onClick={() => setFilters({ resolution:'4K+', fps:'any', license:'any', codec:[], time:[], weather:[], flight:[], drone:[], priceMax:200, durationMin:0, releaseModel:'any', verified:true })} style={{ fontSize: 12, color: 'var(--amber)', textDecoration: 'underline', textUnderlineOffset: 3 }}>Reset</button>
         </div>
 
         {/* Resolution */}
         <div style={{ marginBottom: 22 }}>
-          <div className="mono" style={{ fontSize: 10, letterSpacing: '0.14em', color: 'var(--parchment-dim)', fontWeight: 600, marginBottom: 10 }}>RESOLUTION</div>
+          <div className="mono" style={{ fontSize: 12, letterSpacing: '0.14em', color: 'var(--parchment-dim)', fontWeight: 600, marginBottom: 10 }}>RESOLUTION</div>
           <div style={{ display: 'flex', gap: 4 }}>
             {['HD','4K','4K+','5K+','8K'].map(r => (
               <button key={r} onClick={() => setFilters(f => ({...f, resolution: r}))} style={{
-                flex: 1, padding: '7px 0', fontSize: 11,
+                flex: 1, padding: '7px 0', fontSize: 12,
                 border: '1px solid ' + (filters.resolution === r ? 'var(--amber)' : 'var(--line)'),
                 background: filters.resolution === r ? 'rgba(232,176,74,0.12)' : 'transparent',
                 color: filters.resolution === r ? 'var(--amber)' : 'var(--parchment)',
@@ -81,11 +81,11 @@ export function AdvancedPage({ onOpenVideo, onNav }) {
 
         {/* FPS */}
         <div style={{ marginBottom: 22 }}>
-          <div className="mono" style={{ fontSize: 10, letterSpacing: '0.14em', color: 'var(--parchment-dim)', fontWeight: 600, marginBottom: 10 }}>FRAME RATE</div>
+          <div className="mono" style={{ fontSize: 12, letterSpacing: '0.14em', color: 'var(--parchment-dim)', fontWeight: 600, marginBottom: 10 }}>FRAME RATE</div>
           <div style={{ display: 'flex', gap: 4, flexWrap: 'wrap' }}>
             {['any','24','30','60','120','240'].map(r => (
               <button key={r} onClick={() => setFilters(f => ({...f, fps: r}))} style={{
-                padding: '6px 10px', fontSize: 11,
+                padding: '6px 10px', fontSize: 12,
                 border: '1px solid ' + (filters.fps === r ? 'var(--amber)' : 'var(--line)'),
                 background: filters.fps === r ? 'rgba(232,176,74,0.12)' : 'transparent',
                 color: filters.fps === r ? 'var(--amber)' : 'var(--parchment)',
@@ -97,7 +97,7 @@ export function AdvancedPage({ onOpenVideo, onNav }) {
 
         {/* License tier */}
         <div style={{ marginBottom: 22 }}>
-          <div className="mono" style={{ fontSize: 10, letterSpacing: '0.14em', color: 'var(--parchment-dim)', fontWeight: 600, marginBottom: 10 }}>LICENSE TIER</div>
+          <div className="mono" style={{ fontSize: 12, letterSpacing: '0.14em', color: 'var(--parchment-dim)', fontWeight: 600, marginBottom: 10 }}>LICENSE TIER</div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
             {[
               ['any','Any'],
@@ -108,7 +108,7 @@ export function AdvancedPage({ onOpenVideo, onNav }) {
               ['exclusive','Exclusive available'],
             ].map(([k,v]) => (
               <button key={k} onClick={() => setFilters(f => ({...f, license: k}))} style={{
-                textAlign: 'left', padding: '7px 10px', fontSize: 12,
+                textAlign: 'left', padding: '7px 10px', fontSize: 14,
                 border: '1px solid ' + (filters.license === k ? 'var(--amber)' : 'var(--line)'),
                 background: filters.license === k ? 'rgba(232,176,74,0.12)' : 'transparent',
                 color: filters.license === k ? 'var(--amber)' : 'var(--parchment)',
@@ -120,7 +120,7 @@ export function AdvancedPage({ onOpenVideo, onNav }) {
 
         {/* Price max */}
         <div style={{ marginBottom: 22 }}>
-          <div className="mono" style={{ fontSize: 10, letterSpacing: '0.14em', color: 'var(--parchment-dim)', fontWeight: 600, marginBottom: 10, display: 'flex', justifyContent: 'space-between' }}>
+          <div className="mono" style={{ fontSize: 12, letterSpacing: '0.14em', color: 'var(--parchment-dim)', fontWeight: 600, marginBottom: 10, display: 'flex', justifyContent: 'space-between' }}>
             <span>MAX PRICE</span>
             <span style={{ color: 'var(--amber)' }}>{filters.priceMax >= 200 ? '$200+' : '$' + filters.priceMax}</span>
           </div>
@@ -135,7 +135,7 @@ export function AdvancedPage({ onOpenVideo, onNav }) {
 
         {/* Release model */}
         <div style={{ marginBottom: 22 }}>
-          <div className="mono" style={{ fontSize: 10, letterSpacing: '0.14em', color: 'var(--parchment-dim)', fontWeight: 600, marginBottom: 10 }}>MODEL / PROPERTY RELEASE</div>
+          <div className="mono" style={{ fontSize: 12, letterSpacing: '0.14em', color: 'var(--parchment-dim)', fontWeight: 600, marginBottom: 10 }}>MODEL / PROPERTY RELEASE</div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
             {[
               ['any','Any'],
@@ -146,7 +146,7 @@ export function AdvancedPage({ onOpenVideo, onNav }) {
               ['both','Both releases'],
             ].map(([k,v]) => (
               <button key={k} onClick={() => setFilters(f => ({...f, releaseModel: k}))} style={{
-                textAlign: 'left', padding: '6px 10px', fontSize: 11,
+                textAlign: 'left', padding: '6px 10px', fontSize: 12,
                 border: '1px solid ' + (filters.releaseModel === k ? 'var(--amber)' : 'var(--line)'),
                 background: filters.releaseModel === k ? 'rgba(232,176,74,0.12)' : 'transparent',
                 color: filters.releaseModel === k ? 'var(--amber)' : 'var(--parchment)',
@@ -157,7 +157,7 @@ export function AdvancedPage({ onOpenVideo, onNav }) {
         </div>
 
         {/* Verified */}
-        <label style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 12, padding: '10px 12px', border: '1px solid var(--line)', borderRadius: 3, cursor: 'pointer' }}>
+        <label style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 14, padding: '10px 12px', border: '1px solid var(--line)', borderRadius: 3, cursor: 'pointer' }}>
           <input type="checkbox" checked={filters.verified} onChange={e => setFilters(f => ({...f, verified: e.target.checked}))} style={{ accentColor: 'var(--amber)' }}/>
           <span>Only flight-log verified clips</span>
         </label>
@@ -172,7 +172,7 @@ export function AdvancedPage({ onOpenVideo, onNav }) {
           </h1>
           <div style={{ display: 'flex', gap: 6 }}>
             {['Relevance','Newest','Price ↑','Price ↓','Best rated'].map((s, i) => (
-              <button key={s} className={'chip' + (i === 0 ? ' active' : '')} style={{ padding: '6px 12px', fontSize: 12 }} data-placeholder="true">{s}</button>
+              <button key={s} className={'chip' + (i === 0 ? ' active' : '')} style={{ padding: '6px 12px', fontSize: 14 }} data-placeholder="true">{s}</button>
             ))}
           </div>
         </div>
@@ -180,12 +180,12 @@ export function AdvancedPage({ onOpenVideo, onNav }) {
         {/* Active filter summary */}
         {(filters.codec.length + filters.time.length + filters.weather.length + filters.flight.length + filters.drone.length > 0 || filters.license !== 'any' || filters.fps !== 'any') && (
           <div style={{ padding: 12, background: 'var(--forest-900)', border: '1px solid var(--line)', borderRadius: 3, marginBottom: 20, display: 'flex', gap: 6, flexWrap: 'wrap', alignItems: 'center' }}>
-            <span className="mono" style={{ fontSize: 10, letterSpacing: '0.14em', color: 'var(--parchment-dim)', marginRight: 6 }}>ACTIVE:</span>
-            {filters.resolution !== 'any' && <span className="mono" style={{ fontSize: 11, padding: '3px 8px', background: 'var(--forest-800)', borderRadius: 2, border: '1px solid var(--line)' }}>{filters.resolution}</span>}
-            {filters.fps !== 'any' && <span className="mono" style={{ fontSize: 11, padding: '3px 8px', background: 'var(--forest-800)', borderRadius: 2, border: '1px solid var(--line)' }}>{filters.fps} fps</span>}
-            {filters.license !== 'any' && <span className="mono" style={{ fontSize: 11, padding: '3px 8px', background: 'var(--forest-800)', borderRadius: 2, border: '1px solid var(--line)' }}>{filters.license}</span>}
+            <span className="mono" style={{ fontSize: 12, letterSpacing: '0.14em', color: 'var(--parchment-dim)', marginRight: 6 }}>ACTIVE:</span>
+            {filters.resolution !== 'any' && <span className="mono" style={{ fontSize: 12, padding: '3px 8px', background: 'var(--forest-800)', borderRadius: 2, border: '1px solid var(--line)' }}>{filters.resolution}</span>}
+            {filters.fps !== 'any' && <span className="mono" style={{ fontSize: 12, padding: '3px 8px', background: 'var(--forest-800)', borderRadius: 2, border: '1px solid var(--line)' }}>{filters.fps} fps</span>}
+            {filters.license !== 'any' && <span className="mono" style={{ fontSize: 12, padding: '3px 8px', background: 'var(--forest-800)', borderRadius: 2, border: '1px solid var(--line)' }}>{filters.license}</span>}
             {[...filters.codec, ...filters.time, ...filters.weather, ...filters.flight, ...filters.drone].map(v => (
-              <span key={v} className="mono" style={{ fontSize: 11, padding: '3px 8px', background: 'var(--forest-800)', borderRadius: 2, border: '1px solid var(--line)' }}>{v}</span>
+              <span key={v} className="mono" style={{ fontSize: 12, padding: '3px 8px', background: 'var(--forest-800)', borderRadius: 2, border: '1px solid var(--line)' }}>{v}</span>
             ))}
           </div>
         )}

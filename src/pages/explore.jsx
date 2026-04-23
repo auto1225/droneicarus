@@ -229,7 +229,7 @@ export function ExplorePage({ onOpenVideo, onNav }) {
               onChange={e => setQuery(e.target.value)}
               placeholder="Search clips…"
               style={{
-                padding: '6px 12px', fontSize: 13,
+                padding: '6px 12px', fontSize: 14,
                 background: 'var(--forest-900)', border: '1px solid var(--line-strong)',
                 color: 'var(--bone)', borderRadius: 999, outline: 'none',
                 width: 200,
@@ -297,7 +297,7 @@ export function SearchPage({ query, onOpenVideo, onNav, onSelectLoc }) {
                 <span style={{ color: 'var(--amber)' }}><Ic.pin/></span>
                 <div style={{ flex: 1 }}>
                   <div style={{ fontSize: 14, fontWeight: 600 }}>{loc.name}</div>
-                  <div style={{ fontSize: 12, color: 'var(--parchment-dim)' }}>{loc.country} · {loc.videos} clips</div>
+                  <div style={{ fontSize: 14, color: 'var(--parchment-dim)' }}>{loc.country} · {loc.videos} clips</div>
                 </div>
                 <span style={{ color: 'var(--parchment-dim)' }}><Ic.chevron/></span>
               </button>
@@ -327,9 +327,9 @@ export function SearchPage({ query, onOpenVideo, onNav, onSelectLoc }) {
                     {c.name}
                     {c.verified && <span style={{ color: 'var(--amber)' }}><Ic.check/></span>}
                   </div>
-                  <div style={{ fontSize: 12, color: 'var(--parchment-dim)' }}>{c.handle} · {formatViews(c.followers)} followers</div>
+                  <div style={{ fontSize: 14, color: 'var(--parchment-dim)' }}>{c.handle} · {formatViews(c.followers)} followers</div>
                 </div>
-                <FollowButton creatorId={c.id || c.handle} creatorHandle={c.handle} className="btn secondary" style={{ fontSize: 12 }} />
+                <FollowButton creatorId={c.id || c.handle} creatorHandle={c.handle} className="btn secondary" style={{ fontSize: 14 }} />
               </div>
             ))}
           </div>

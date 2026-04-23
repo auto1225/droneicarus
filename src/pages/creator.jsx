@@ -19,7 +19,7 @@ export function CreatorDashboard({ onNav }) {
             <div style={{ width: 40, height: 40, borderRadius: '50%', background: 'var(--moss)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 700, border: '1px solid var(--line-strong)' }}>H</div>
             <div>
               <div style={{ fontSize: 14, fontWeight: 600, display: 'flex', alignItems: 'center', gap: 4 }}>Hyunwoo Park <span style={{ color: 'var(--amber)' }}><Ic.check/></span></div>
-              <div style={{ fontSize: 11, color: 'var(--parchment-dim)' }}>@hyunwoo · Verified</div>
+              <div style={{ fontSize: 12, color: 'var(--parchment-dim)' }}>@hyunwoo · Verified</div>
             </div>
           </div>
         </div>
@@ -64,9 +64,9 @@ export function CreatorDashboard({ onNav }) {
             ['Pending payout', '$1,120', 'Next: Apr 28', 'var(--parchment-dim)'],
           ].map(([k, v, delta, color]) => (
             <div key={k} style={{ padding: 20, background: 'var(--forest-900)', border: '1px solid var(--line)', borderRadius: 4 }}>
-              <div className="mono" style={{ fontSize: 10, letterSpacing: '0.14em', color: 'var(--parchment-dim)', textTransform: 'uppercase', marginBottom: 10 }}>{k}</div>
+              <div className="mono" style={{ fontSize: 12, letterSpacing: '0.14em', color: 'var(--parchment-dim)', textTransform: 'uppercase', marginBottom: 10 }}>{k}</div>
               <div style={{ fontSize: 30, fontFamily: 'var(--font-display)', fontWeight: 600, marginBottom: 4 }}>{v}</div>
-              <div style={{ fontSize: 12, color }}>{delta}</div>
+              <div style={{ fontSize: 14, color }}>{delta}</div>
             </div>
           ))}
         </div>
@@ -77,7 +77,7 @@ export function CreatorDashboard({ onNav }) {
             <h3 style={{ fontSize: 18 }}>Views over time</h3>
             <div style={{ display: 'flex', gap: 6 }}>
               {['7d', '30d', '90d', '1y'].map((p, i) => (
-                <button key={p} className={'chip' + (i === 1 ? ' active' : '')} style={{ padding: '4px 10px', fontSize: 11 }} data-placeholder="true">{p}</button>
+                <button key={p} className={'chip' + (i === 1 ? ' active' : '')} style={{ padding: '4px 10px', fontSize: 12 }} data-placeholder="true">{p}</button>
               ))}
             </div>
           </div>
@@ -98,9 +98,9 @@ export function CreatorDashboard({ onNav }) {
         <div style={{ border: '1px solid var(--line)', borderRadius: 4 }}>
           <div style={{ padding: '16px 20px', borderBottom: '1px solid var(--line)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <h3 style={{ fontSize: 18 }}>Recent uploads</h3>
-            <div style={{ fontSize: 12, color: 'var(--parchment-dim)' }}>Sorted by: Newest</div>
+            <div style={{ fontSize: 14, color: 'var(--parchment-dim)' }}>Sorted by: Newest</div>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: '60px 2fr 1fr 90px 90px 120px 100px', padding: '10px 20px', background: 'var(--forest-950)', fontSize: 10, fontFamily: 'var(--font-mono)', letterSpacing: '0.14em', color: 'var(--parchment-dim)', textTransform: 'uppercase' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '60px 2fr 1fr 90px 90px 120px 100px', padding: '10px 20px', background: 'var(--forest-950)', fontSize: 12, fontFamily: 'var(--font-mono)', letterSpacing: '0.14em', color: 'var(--parchment-dim)', textTransform: 'uppercase' }}>
             <span></span><span>CLIP</span><span>STATUS</span><span style={{ textAlign: 'right' }}>VIEWS</span><span style={{ textAlign: 'right' }}>LIKES</span><span style={{ textAlign: 'right' }}>EARNINGS</span><span style={{ textAlign: 'right' }}>PRICE</span>
           </div>
           {myVids.map(v => {
@@ -109,16 +109,16 @@ export function CreatorDashboard({ onNav }) {
               <div key={v.id} style={{ display: 'grid', gridTemplateColumns: '60px 2fr 1fr 90px 90px 120px 100px', padding: '12px 20px', borderTop: '1px solid var(--line)', alignItems: 'center' }}>
                 <div style={{ width: 44, aspectRatio: '16/9', background: thumbGradient(parseInt(v.id.slice(1))), borderRadius: 2, border: '1px solid var(--line)' }}/>
                 <div>
-                  <div style={{ fontSize: 13, fontWeight: 600, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{v.title}</div>
-                  <div style={{ fontSize: 11, color: 'var(--parchment-dim)' }}>{loc?.name}</div>
+                  <div style={{ fontSize: 14, fontWeight: 600, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{v.title}</div>
+                  <div style={{ fontSize: 12, color: 'var(--parchment-dim)' }}>{loc?.name}</div>
                 </div>
-                <span style={{ fontSize: 11, padding: '3px 8px', background: 'var(--moss)', color: 'var(--bone)', borderRadius: 2, fontFamily: 'var(--font-mono)', letterSpacing: '0.08em', justifySelf: 'start' }}>LIVE</span>
-                <span className="mono" style={{ textAlign: 'right', fontSize: 13 }}>{formatViews(v.views)}</span>
-                <span className="mono" style={{ textAlign: 'right', fontSize: 13 }}>{formatViews(v.likes)}</span>
-                <span className="mono" style={{ textAlign: 'right', fontSize: 13, color: v.price > 0 ? 'var(--amber)' : 'var(--parchment-dim)' }}>
+                <span style={{ fontSize: 12, padding: '3px 8px', background: 'var(--moss)', color: 'var(--bone)', borderRadius: 2, fontFamily: 'var(--font-mono)', letterSpacing: '0.08em', justifySelf: 'start' }}>LIVE</span>
+                <span className="mono" style={{ textAlign: 'right', fontSize: 14 }}>{formatViews(v.views)}</span>
+                <span className="mono" style={{ textAlign: 'right', fontSize: 14 }}>{formatViews(v.likes)}</span>
+                <span className="mono" style={{ textAlign: 'right', fontSize: 14, color: v.price > 0 ? 'var(--amber)' : 'var(--parchment-dim)' }}>
                   ${v.price > 0 ? (v.price * 47).toFixed(0) : '—'}
                 </span>
-                <span style={{ textAlign: 'right', fontSize: 12 }}>
+                <span style={{ textAlign: 'right', fontSize: 14 }}>
                   {v.price > 0
                     ? <span className="tag-paid">${v.price}</span>
                     : <span className="tag-free">FREE</span>}
@@ -140,7 +140,7 @@ function UploadFlow({ onDone }) {
 
   return (
     <div style={{ maxWidth: 1100, margin: '0 auto', padding: '40px 28px 80px' }}>
-      <button onClick={onDone} style={{ color: 'var(--parchment-dim)', fontSize: 13, marginBottom: 20, display: 'flex', alignItems: 'center', gap: 6 }}>
+      <button onClick={onDone} style={{ color: 'var(--parchment-dim)', fontSize: 14, marginBottom: 20, display: 'flex', alignItems: 'center', gap: 6 }}>
         <span style={{ transform: 'rotate(180deg)' }}><Ic.chevron/></span> Back to console
       </button>
       <div className="eyebrow" style={{ marginBottom: 10 }}>STEP 2 OF 3 — LICENSING & DETAILS</div>
@@ -161,11 +161,11 @@ function UploadFlow({ onDone }) {
           }}>
             <div style={{ width: 64, height: 64, borderRadius: '50%', border: '1.5px solid var(--amber)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--amber)' }}><Ic.upload/></div>
             <div style={{ fontSize: 18, fontWeight: 600 }}>ocean_sunrise_v3.mp4</div>
-            <div style={{ fontSize: 12, color: 'var(--parchment-dim)' }}>4K · H.265 · 2.4 GB · 6:21 duration</div>
+            <div style={{ fontSize: 14, color: 'var(--parchment-dim)' }}>4K · H.265 · 2.4 GB · 6:21 duration</div>
             <div style={{ width: '60%', height: 4, background: 'var(--forest-700)', borderRadius: 2, overflow: 'hidden' }}>
               <div style={{ width: '73%', height: '100%', background: 'var(--amber)' }}/>
             </div>
-            <div className="mono" style={{ fontSize: 11, color: 'var(--parchment-dim)', letterSpacing: '0.12em' }}>73% UPLOADED · 2 MIN REMAINING</div>
+            <div className="mono" style={{ fontSize: 12, color: 'var(--parchment-dim)', letterSpacing: '0.12em' }}>73% UPLOADED · 2 MIN REMAINING</div>
           </div>
 
           {/* Title */}
@@ -219,7 +219,7 @@ function UploadFlow({ onDone }) {
                     </div>
                     <strong style={{ fontSize: 14 }}>{opt.title}</strong>
                   </div>
-                  <div style={{ fontSize: 12, color: 'var(--parchment-dim)', paddingLeft: 26 }}>{opt.desc}</div>
+                  <div style={{ fontSize: 14, color: 'var(--parchment-dim)', paddingLeft: 26 }}>{opt.desc}</div>
                 </button>
               ))}
             </div>
@@ -231,11 +231,11 @@ function UploadFlow({ onDone }) {
                   <input type="range" min="1" max="99" step="1" value={Math.floor(price)} onChange={e => setPrice(+e.target.value)} style={{ flex: 1 }}/>
                   <div style={{ fontSize: 24, fontFamily: 'var(--font-display)', fontWeight: 600, color: 'var(--amber)', minWidth: 80, textAlign: 'right' }}>${price.toFixed(2)}</div>
                 </div>
-                <div style={{ fontSize: 11, color: 'var(--parchment-dim)', display: 'flex', justifyContent: 'space-between' }}>
+                <div style={{ fontSize: 12, color: 'var(--parchment-dim)', display: 'flex', justifyContent: 'space-between' }}>
                   <span>You earn: ${(price * 0.7).toFixed(2)} per license</span>
                   <span>Icarus fee: 30%</span>
                 </div>
-                <div style={{ marginTop: 14, padding: 10, background: 'var(--forest-950)', borderRadius: 2, fontSize: 12, color: 'var(--parchment)' }}>
+                <div style={{ marginTop: 14, padding: 10, background: 'var(--forest-950)', borderRadius: 2, fontSize: 14, color: 'var(--parchment)' }}>
                   <strong>Projected monthly earnings:</strong> ${(price * 0.7 * 42).toFixed(0)} — based on similar clips in this category.
                 </div>
               </div>
@@ -245,7 +245,7 @@ function UploadFlow({ onDone }) {
           <button className="btn primary" style={{ width: '100%', padding: 14, fontSize: 14, marginTop: 16, justifyContent: 'center' }} data-placeholder="true">
             Continue to review →
           </button>
-          <button className="btn secondary" style={{ width: '100%', padding: 12, fontSize: 13, marginTop: 8, justifyContent: 'center' }}
+          <button className="btn secondary" style={{ width: '100%', padding: 12, fontSize: 14, marginTop: 8, justifyContent: 'center' }}
             onClick={onDone}>Save as draft</button>
         </div>
       </div>

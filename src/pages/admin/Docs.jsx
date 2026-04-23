@@ -868,7 +868,7 @@ function renderMarkdown(md) {
       i++;
       out.push(<pre key={key++} style={{
         background: 'var(--forest-900)', padding: '12px 16px', borderRadius: 4,
-        border: '1px solid var(--line)', overflowX: 'auto', fontSize: 12,
+        border: '1px solid var(--line)', overflowX: 'auto', fontSize: 14,
         fontFamily: 'var(--font-mono)', color: 'var(--bone)', lineHeight: 1.5,
         margin: '12px 0',
       }}><code>{code.join('\n')}</code></pre>);
@@ -886,7 +886,7 @@ function renderMarkdown(md) {
       }
       out.push(
         <div key={key++} style={{ overflowX: 'auto', margin: '14px 0' }}>
-          <table style={{ borderCollapse: 'collapse', width: '100%', fontSize: 13 }}>
+          <table style={{ borderCollapse: 'collapse', width: '100%', fontSize: 14 }}>
             <thead>
               <tr style={{ background: 'var(--forest-900)' }}>
                 {headers.map((h, j) => (
@@ -986,13 +986,13 @@ export function AdminDocs() {
         border: '1px solid var(--line)', maxHeight: 'calc(100vh - 110px)',
         overflowY: 'auto',
       }}>
-        <div className="mono" style={{ fontSize: 9, letterSpacing: '0.18em', color: 'var(--parchment-dim)', padding: '6px 10px 10px' }}>OPERATIONS DOCS</div>
+        <div className="mono" style={{ fontSize: 12, letterSpacing: '0.18em', color: 'var(--parchment-dim)', padding: '6px 10px 10px' }}>OPERATIONS DOCS</div>
         {TOPICS.map(t => {
           const active = t.id === topicId;
           return (
             <button key={t.id} onClick={() => setTopicId(t.id)} style={{
               display: 'flex', alignItems: 'center', gap: 8, width: '100%',
-              padding: '7px 10px', borderRadius: 4, fontSize: 12,
+              padding: '7px 10px', borderRadius: 4, fontSize: 14,
               background: active ? 'var(--bone)' : 'transparent',
               color: active ? 'var(--ink)' : 'var(--parchment)',
               border: 'none', cursor: 'pointer', textAlign: 'left',
@@ -1011,7 +1011,7 @@ export function AdminDocs() {
         border: '1px solid var(--line)', maxWidth: 980,
       }}>
         {rendered}
-        <div style={{ marginTop: 40, paddingTop: 16, borderTop: '1px solid var(--line)', fontSize: 11, color: 'var(--parchment-dim)' }}>
+        <div style={{ marginTop: 40, paddingTop: 16, borderTop: '1px solid var(--line)', fontSize: 12, color: 'var(--parchment-dim)' }}>
           Documentation generated 2026-04-22 · Edit content in <code style={{ background: 'var(--forest-800)', padding: '1px 6px', borderRadius: 3 }}>src/pages/admin/Docs.jsx</code> · Push to main to update.
         </div>
       </article>

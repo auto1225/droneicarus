@@ -355,17 +355,17 @@ export function UploadPage({ onNav }) {
         {/* Top row */}
         <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 24, marginBottom: 20 }}>
           <div style={{ flex: 1, minWidth: 0 }}>
-            <div className="mono" style={{ fontSize: 10, letterSpacing: '0.18em', color: 'var(--parchment-dim)', marginBottom: 8 }}>NEW UPLOAD · {new Date().toISOString().slice(0,10).replace(/-/g,'.')}</div>
+            <div className="mono" style={{ fontSize: 12, letterSpacing: '0.18em', color: 'var(--parchment-dim)', marginBottom: 8 }}>NEW UPLOAD · {new Date().toISOString().slice(0,10).replace(/-/g,'.')}</div>
             <h1 style={{ fontSize: 26, lineHeight: 1.2, marginBottom: 6, maxWidth: 720 }}>{title || 'Untitled footage'}</h1>
-            <div style={{ fontSize: 13, color: 'var(--parchment-dim)' }}>
+            <div style={{ fontSize: 14, color: 'var(--parchment-dim)' }}>
               {file?.name} · {humanSize(file?.size)} · {humanDuration(meta?.duration)} · {meta?.resolution || '—'}
             </div>
           </div>
           <div style={{ display: 'flex', gap: 8 }}>
-            <button className="btn secondary" onClick={() => publish({ draft: true })} disabled={publishing} style={{ padding: '10px 16px', fontSize: 13 }}>Save draft</button>
+            <button className="btn secondary" onClick={() => publish({ draft: true })} disabled={publishing} style={{ padding: '10px 16px', fontSize: 14 }}>Save draft</button>
             <button className="btn" disabled={!canPublish || publishing}
               onClick={() => publish({ draft: false })}
-              style={{ padding: '10px 18px', fontSize: 13, opacity: (canPublish && !publishing) ? 1 : 0.45 }}>
+              style={{ padding: '10px 18px', fontSize: 14, opacity: (canPublish && !publishing) ? 1 : 0.45 }}>
               {publishing ? 'Publishing…' : 'Publish'}
             </button>
           </div>
@@ -378,8 +378,8 @@ export function UploadPage({ onNav }) {
             background: 'var(--forest-900)', border: '1px solid var(--sunset)',
             display: 'flex', gap: 16, alignItems: 'center', flexWrap: 'wrap',
           }}>
-            <span className="mono" style={{ fontSize: 10, letterSpacing: '0.14em', color: 'var(--sunset)', textTransform: 'uppercase' }}>REQUIRED · {missing.length} missing</span>
-            <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', fontSize: 12 }}>
+            <span className="mono" style={{ fontSize: 12, letterSpacing: '0.14em', color: 'var(--sunset)', textTransform: 'uppercase' }}>REQUIRED · {missing.length} missing</span>
+            <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', fontSize: 14 }}>
               {missing.map(m => <span key={m} style={{ color: 'var(--parchment)' }}>· {m}</span>)}
             </div>
           </div>
@@ -392,7 +392,7 @@ export function UploadPage({ onNav }) {
           background: 'var(--forest-950)',
           display: 'flex', alignItems: 'center', gap: 14,
         }}>
-          <span className="mono" style={{ fontSize: 11, letterSpacing: '0.16em', color: uploadErr ? 'var(--sunset)' : uploadDone ? 'var(--moss)' : 'var(--amber)' }}>
+          <span className="mono" style={{ fontSize: 12, letterSpacing: '0.16em', color: uploadErr ? 'var(--sunset)' : uploadDone ? 'var(--moss)' : 'var(--amber)' }}>
             {uploadErr ? `FAILED · ${uploadErr}` : uploadDone ? '● UPLOADED' : `● UPLOADING ${uploadPct.toFixed(1)}%`}
           </span>
           {!uploadDone && !uploadErr && (
@@ -400,20 +400,20 @@ export function UploadPage({ onNav }) {
               <div style={{ flex: 1, height: 6, background: 'var(--forest-800)', borderRadius: 3, overflow: 'hidden' }}>
                 <div style={{ width: `${uploadPct}%`, height: '100%', background: 'var(--sunset)', transition: 'width 0.15s' }}/>
               </div>
-              <span className="mono" style={{ fontSize: 11, color: 'var(--parchment-dim)' }}>
+              <span className="mono" style={{ fontSize: 12, color: 'var(--parchment-dim)' }}>
                 {humanSize(uploadBytes)} / {humanSize(file?.size)} · {humanSize(uploadSpeed)}/s{etaSec != null ? ` · ETA ${etaSec}s` : ''}
               </span>
-              <button onClick={cancelUpload} className="btn secondary" style={{ fontSize: 11, padding: '4px 10px' }}>Cancel</button>
+              <button onClick={cancelUpload} className="btn secondary" style={{ fontSize: 12, padding: '4px 10px' }}>Cancel</button>
             </>
           )}
-          {uploadDone && <span style={{ flex: 1, fontSize: 12, color: 'var(--parchment-dim)' }}>Ready to publish. You can still edit details below.</span>}
+          {uploadDone && <span style={{ flex: 1, fontSize: 14, color: 'var(--parchment-dim)' }}>Ready to publish. You can still edit details below.</span>}
         </div>
 
         {/* Tabs */}
         <div style={{ display: 'flex', gap: 2, borderBottom: '1px solid var(--line)', marginBottom: 28 }}>
           {['details', 'thumbnail', 'video', 'pricing', 'visibility'].map(t => (
             <button key={t} onClick={() => setTab(t)} style={{
-              padding: '12px 18px', fontSize: 13, textTransform: 'capitalize',
+              padding: '12px 18px', fontSize: 14, textTransform: 'capitalize',
               color: tab === t ? 'var(--bone)' : 'var(--parchment-dim)',
               borderBottom: tab === t ? '2px solid var(--sunset)' : '2px solid transparent',
               marginBottom: -1,
@@ -440,7 +440,7 @@ export function UploadPage({ onNav }) {
                       const on = category === c.id;
                       return (
                         <button key={c.id} onClick={() => setCategory(c.id)} style={{
-                          padding: '12px 10px', fontSize: 12, borderRadius: 4,
+                          padding: '12px 10px', fontSize: 14, borderRadius: 4,
                           background: on ? 'var(--forest-900)' : 'transparent',
                           border: on ? '1px solid var(--sunset)' : '1px solid var(--line)',
                           color: on ? 'var(--bone)' : 'var(--parchment-dim)',
@@ -457,7 +457,7 @@ export function UploadPage({ onNav }) {
                   <div style={{ display: 'flex', gap: 4, marginBottom: 10, padding: 3, background: 'var(--forest-900)', border: '1px solid var(--line)', borderRadius: 999, width: 'fit-content' }}>
                     {[['landmark','Pick a landmark'],['coords','Enter coordinates'],['map','Drop on map']].map(([k, l]) => (
                       <button key={k} onClick={() => setLocMode(k)} style={{
-                        padding: '6px 14px', fontSize: 12, borderRadius: 999,
+                        padding: '6px 14px', fontSize: 14, borderRadius: 999,
                         background: locMode === k ? 'var(--bone)' : 'transparent',
                         color: locMode === k ? 'var(--ink)' : 'var(--parchment)',
                         border: 'none', cursor: 'pointer',
@@ -471,17 +471,17 @@ export function UploadPage({ onNav }) {
                       <div style={{ marginTop: 8, display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 6, maxHeight: 220, overflow: 'auto' }}>
                         {locationMatches.map(l => (
                           <button key={l.id} onClick={() => { setLocationId(l.id); setLocationQuery(''); }} style={{
-                            padding: '8px 12px', textAlign: 'left', fontSize: 12, borderRadius: 3,
+                            padding: '8px 12px', textAlign: 'left', fontSize: 14, borderRadius: 3,
                             background: locationId === l.id ? 'var(--forest-900)' : 'transparent',
                             border: locationId === l.id ? '1px solid var(--sunset)' : '1px solid var(--line)',
                             color: 'var(--bone)',
                           }}>
-                            <div style={{ fontSize: 13 }}>{l.name}</div>
-                            <div style={{ fontSize: 10, color: 'var(--parchment-dim)' }}>{l.country} · {l.lat.toFixed(2)}, {l.lon.toFixed(2)}</div>
+                            <div style={{ fontSize: 14 }}>{l.name}</div>
+                            <div style={{ fontSize: 12, color: 'var(--parchment-dim)' }}>{l.country} · {l.lat.toFixed(2)}, {l.lon.toFixed(2)}</div>
                           </button>
                         ))}
                         {locationMatches.length === 0 && locationQuery && (
-                          <div style={{ gridColumn: '1 / -1', padding: 20, textAlign: 'center', fontSize: 12, color: 'var(--parchment-dim)' }}>
+                          <div style={{ gridColumn: '1 / -1', padding: 20, textAlign: 'center', fontSize: 14, color: 'var(--parchment-dim)' }}>
                             No match. Try "Enter coordinates" instead.
                           </div>
                         )}
@@ -492,20 +492,20 @@ export function UploadPage({ onNav }) {
                   {locMode === 'coords' && (
                     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
                       <div>
-                        <label className="mono" style={{ fontSize: 10, letterSpacing: '0.14em', color: 'var(--parchment-dim)', textTransform: 'uppercase' }}>Latitude (−90 to 90)</label>
+                        <label className="mono" style={{ fontSize: 12, letterSpacing: '0.14em', color: 'var(--parchment-dim)', textTransform: 'uppercase' }}>Latitude (−90 to 90)</label>
                         <input type="number" step="0.000001" min="-90" max="90" value={shotLat} onChange={e => setShotLat(e.target.value)}
                           placeholder="e.g. 37.5512" style={{...fieldStyle, marginTop: 4,
                             borderColor: shotLat === '' ? 'var(--line-strong)' :
                               (coordsValid ? 'var(--lichen)' : 'var(--sunset)')}}/>
                       </div>
                       <div>
-                        <label className="mono" style={{ fontSize: 10, letterSpacing: '0.14em', color: 'var(--parchment-dim)', textTransform: 'uppercase' }}>Longitude (−180 to 180)</label>
+                        <label className="mono" style={{ fontSize: 12, letterSpacing: '0.14em', color: 'var(--parchment-dim)', textTransform: 'uppercase' }}>Longitude (−180 to 180)</label>
                         <input type="number" step="0.000001" min="-180" max="180" value={shotLon} onChange={e => setShotLon(e.target.value)}
                           placeholder="e.g. 126.9882" style={{...fieldStyle, marginTop: 4,
                             borderColor: shotLon === '' ? 'var(--line-strong)' :
                               (coordsValid ? 'var(--lichen)' : 'var(--sunset)')}}/>
                       </div>
-                      <div style={{ gridColumn: '1 / -1', fontSize: 11, color: 'var(--parchment-dim)', marginTop: 4 }}>
+                      <div style={{ gridColumn: '1 / -1', fontSize: 12, color: 'var(--parchment-dim)', marginTop: 4 }}>
                         Tip: Most drones embed GPS in the file EXIF. Check your flight log app, or look up the spot on Google Maps (right-click → copy coordinates).
                       </div>
                     </div>
@@ -522,7 +522,7 @@ export function UploadPage({ onNav }) {
                 <Field label="Tags">
                   <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 8 }}>
                     {tags.map((t, i) => (
-                      <span key={i} style={{ padding: '4px 10px', background: 'var(--forest-900)', border: '1px solid var(--line)', borderRadius: 999, fontSize: 12 }}>
+                      <span key={i} style={{ padding: '4px 10px', background: 'var(--forest-900)', border: '1px solid var(--line)', borderRadius: 999, fontSize: 14 }}>
                         {t} <button onClick={() => setTags(tags.filter((_, j) => j !== i))} style={{ marginLeft: 4, color: 'var(--parchment-dim)' }}>×</button>
                       </span>
                     ))}
@@ -560,20 +560,20 @@ export function UploadPage({ onNav }) {
                       onMouseUp={() => file && regenThumb(file, thumbTime)}
                       onTouchEnd={() => file && regenThumb(file, thumbTime)}
                       style={{ width: '100%' }}/>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 11, color: 'var(--parchment-dim)' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12, color: 'var(--parchment-dim)' }}>
                       <span>0:00</span>
                       <span>{humanDuration(meta?.duration)}</span>
                     </div>
                   </div>
                   <div style={{ display: 'flex', gap: 8 }}>
                     {[0.1, 0.25, 0.5, 0.75, 0.9].map(frac => (
-                      <button key={frac} className="btn secondary" style={{ fontSize: 11, padding: '6px 10px' }}
+                      <button key={frac} className="btn secondary" style={{ fontSize: 12, padding: '6px 10px' }}
                         onClick={() => { const t = (meta?.duration || 1) * frac; setThumbTime(t); if (file) regenThumb(file, t); }}>
                         {Math.round(frac * 100)}%
                       </button>
                     ))}
                     {file && (
-                      <button className="btn" style={{ fontSize: 11, padding: '6px 12px' }}
+                      <button className="btn" style={{ fontSize: 12, padding: '6px 12px' }}
                         onClick={() => file && regenThumb(file, thumbTime)}>
                         Regenerate
                       </button>
@@ -595,7 +595,7 @@ export function UploadPage({ onNav }) {
                 </div>
                 <div style={{ padding: 14, border: '1px solid var(--line)', borderRadius: 4 }}>
                   <div className="eyebrow" style={{ marginBottom: 8 }}>DETECTED METADATA</div>
-                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 8, fontSize: 12 }}>
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 8, fontSize: 14 }}>
                     <MetaRow k="Duration" v={humanDuration(meta?.duration)} />
                     <MetaRow k="Pixel size" v={meta?.width ? `${meta.width}×${meta.height}` : '—'} />
                     <MetaRow k="File size" v={humanSize(file?.size)} />
@@ -615,19 +615,19 @@ export function UploadPage({ onNav }) {
                       ['exclusive', 'Exclusive', 'Higher fee, one buyer only'],
                     ].map(([k, label, sub]) => (
                       <button key={k} onClick={() => setLicenseTier(k)} style={{
-                        padding: 14, textAlign: 'left', fontSize: 12, borderRadius: 4,
+                        padding: 14, textAlign: 'left', fontSize: 14, borderRadius: 4,
                         background: licenseTier === k ? 'var(--forest-900)' : 'transparent',
                         border: licenseTier === k ? '1px solid var(--sunset)' : '1px solid var(--line)',
                       }}>
-                        <div style={{ fontSize: 13, fontWeight: 600, marginBottom: 4 }}>{label}</div>
-                        <div style={{ fontSize: 11, color: 'var(--parchment-dim)' }}>{sub}</div>
+                        <div style={{ fontSize: 14, fontWeight: 600, marginBottom: 4 }}>{label}</div>
+                        <div style={{ fontSize: 12, color: 'var(--parchment-dim)' }}>{sub}</div>
                       </button>
                     ))}
                   </div>
                 </Field>
                 <Field label="Base price (USD)">
                   <input type="number" min="0" step="0.01" value={price} onChange={e => setPrice(parseFloat(e.target.value) || 0)} style={fieldStyle}/>
-                  <div style={{ marginTop: 6, fontSize: 12, color: 'var(--parchment-dim)' }}>
+                  <div style={{ marginTop: 6, fontSize: 14, color: 'var(--parchment-dim)' }}>
                     You earn <strong style={{ color: 'var(--amber)' }}>${(price * 0.7).toFixed(2)}</strong> per sale · platform keeps 30%.
                   </div>
                 </Field>
@@ -638,7 +638,7 @@ export function UploadPage({ onNav }) {
                     ['Commercial', Math.round(price * 1.8 * 100) / 100, 0.7],
                     ['Extended', Math.round(price * 3.5 * 100) / 100, 0.7],
                   ].map(([t, p, share]) => (
-                    <div key={t} style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12, padding: '6px 0', borderBottom: '1px solid var(--line)' }}>
+                    <div key={t} style={{ display: 'flex', justifyContent: 'space-between', fontSize: 14, padding: '6px 0', borderBottom: '1px solid var(--line)' }}>
                       <span>{t}</span>
                       <span style={{ color: 'var(--parchment-dim)' }}>${p.toFixed(2)} → you get ${(p * share).toFixed(2)}</span>
                     </div>
@@ -656,12 +656,12 @@ export function UploadPage({ onNav }) {
                     ['private', 'Private (draft)', 'Only you can see this clip.'],
                   ].map(([k, label, sub]) => (
                     <button key={k} onClick={() => setVisibility(k)} style={{
-                      padding: 14, textAlign: 'left', fontSize: 12, borderRadius: 4, marginBottom: 8, display: 'block', width: '100%',
+                      padding: 14, textAlign: 'left', fontSize: 14, borderRadius: 4, marginBottom: 8, display: 'block', width: '100%',
                       background: visibility === k ? 'var(--forest-900)' : 'transparent',
                       border: visibility === k ? '1px solid var(--sunset)' : '1px solid var(--line)',
                     }}>
-                      <div style={{ fontSize: 13, fontWeight: 600 }}>{label}</div>
-                      <div style={{ fontSize: 11, color: 'var(--parchment-dim)' }}>{sub}</div>
+                      <div style={{ fontSize: 14, fontWeight: 600 }}>{label}</div>
+                      <div style={{ fontSize: 12, color: 'var(--parchment-dim)' }}>{sub}</div>
                     </button>
                   ))}
                 </Field>
@@ -679,7 +679,7 @@ export function UploadPage({ onNav }) {
               marginBottom: 14,
             }}>
               {thumbUrl ? <img src={thumbUrl} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }}/>
-                : <span style={{ color: 'var(--parchment-dim)', fontSize: 12 }}>No thumbnail yet</span>}
+                : <span style={{ color: 'var(--parchment-dim)', fontSize: 14 }}>No thumbnail yet</span>}
             </div>
             <div style={{ marginBottom: 14, padding: 14, border: '1px solid var(--line)', borderRadius: 4 }}>
               <div className="eyebrow" style={{ marginBottom: 10 }}>CHECKLIST</div>
@@ -690,24 +690,24 @@ export function UploadPage({ onNav }) {
                 ['Location selected', !!loc, loc?.name],
                 ['Category selected', !!category, category],
               ].map(([k, ok, v], i) => (
-                <div key={i} style={{ display: 'flex', gap: 10, padding: '6px 0', fontSize: 12 }}>
+                <div key={i} style={{ display: 'flex', gap: 10, padding: '6px 0', fontSize: 14 }}>
                   <span style={{ color: ok ? 'var(--moss)' : 'var(--parchment-dim)', display: 'inline-flex', width: 14, height: 14, alignItems: 'center', justifyContent: 'center' }}>
                     {ok ? <Ic.check/> : <span style={{ width: 8, height: 8, borderRadius: '50%', border: '1.5px solid currentColor' }}/>}
                   </span>
                   <div style={{ flex: 1 }}>
                     <div>{k}</div>
-                    <div style={{ fontSize: 11, color: 'var(--parchment-dim)' }}>{v}</div>
+                    <div style={{ fontSize: 12, color: 'var(--parchment-dim)' }}>{v}</div>
                   </div>
                 </div>
               ))}
             </div>
             <div style={{ padding: 14, border: '1px solid var(--line)', borderRadius: 4 }}>
               <div className="eyebrow" style={{ marginBottom: 10 }}>DETECTED</div>
-              <div style={{ fontSize: 13, fontWeight: 600, marginBottom: 4 }}>{loc?.name || '—'}</div>
-              <div style={{ fontSize: 11, fontFamily: 'var(--font-mono)', color: 'var(--parchment-dim)' }}>
+              <div style={{ fontSize: 14, fontWeight: 600, marginBottom: 4 }}>{loc?.name || '—'}</div>
+              <div style={{ fontSize: 12, fontFamily: 'var(--font-mono)', color: 'var(--parchment-dim)' }}>
                 {loc ? `${loc.lat?.toFixed(4)}°, ${loc.lon?.toFixed(4)}°` : '—'} · {altitude} m AGL
               </div>
-              <div style={{ marginTop: 10, fontSize: 12, color: 'var(--parchment-dim)' }}>
+              <div style={{ marginTop: 10, fontSize: 14, color: 'var(--parchment-dim)' }}>
                 Duration {humanDuration(meta?.duration)} · {meta?.resolution || '—'}{meta?.width ? ` · ${meta.width}×${meta.height}` : ''}
               </div>
             </div>
@@ -757,7 +757,7 @@ function UploadDropZone({ onPick, onLink, onCancel }) {
       display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
       minHeight: 'calc(100vh - 62px)', padding: 40, textAlign: 'center',
     }}>
-      <div className="mono" style={{ fontSize: 11, letterSpacing: '0.2em', color: 'var(--parchment-dim)', marginBottom: 10 }}>NEW UPLOAD</div>
+      <div className="mono" style={{ fontSize: 12, letterSpacing: '0.2em', color: 'var(--parchment-dim)', marginBottom: 10 }}>NEW UPLOAD</div>
       <h1 style={{ fontSize: 42, marginBottom: 10 }}>Bring your footage home.</h1>
       <p style={{ fontSize: 15, color: 'var(--parchment-dim)', maxWidth: 560, marginBottom: 32 }}>
         Either upload the master directly, or paste a link to your hosted file (Dropbox, Vimeo, Google Drive, Frame.io, WeTransfer).
@@ -767,7 +767,7 @@ function UploadDropZone({ onPick, onLink, onCancel }) {
       <div style={{ display: 'flex', gap: 4, marginBottom: 24, padding: 3, background: 'var(--forest-900)', border: '1px solid var(--line)', borderRadius: 999 }}>
         {[['file','Upload file'],['link','Link external host']].map(([k, l]) => (
           <button key={k} onClick={() => setMode(k)} style={{
-            padding: '8px 20px', fontSize: 13, borderRadius: 999,
+            padding: '8px 20px', fontSize: 14, borderRadius: 999,
             background: mode === k ? 'var(--bone)' : 'transparent',
             color: mode === k ? 'var(--ink)' : 'var(--parchment)',
             border: 'none', cursor: 'pointer', fontWeight: 600,
@@ -800,7 +800,7 @@ function UploadDropZone({ onPick, onLink, onCancel }) {
             <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M12 3v14M6 9l6-6 6 6M4 21h16"/></svg>
           </div>
           <div style={{ fontSize: 16, fontWeight: 600, marginBottom: 4 }}>{dragOver ? 'Drop it!' : 'Drop a file or click to browse'}</div>
-          <div style={{ fontSize: 12, color: 'var(--parchment-dim)' }}>MP4 · MOV · MKV · WebM · up to 50 GB</div>
+          <div style={{ fontSize: 14, color: 'var(--parchment-dim)' }}>MP4 · MOV · MKV · WebM · up to 50 GB</div>
         </div>
       )}
 
@@ -810,7 +810,7 @@ function UploadDropZone({ onPick, onLink, onCancel }) {
           background: 'var(--forest-900)', border: '1px solid var(--line-strong)',
           borderRadius: 6, padding: 28, textAlign: 'left',
         }}>
-          <div className="mono" style={{ fontSize: 10, letterSpacing: '0.18em', color: 'var(--parchment-dim)', textTransform: 'uppercase', marginBottom: 8 }}>
+          <div className="mono" style={{ fontSize: 12, letterSpacing: '0.18em', color: 'var(--parchment-dim)', textTransform: 'uppercase', marginBottom: 8 }}>
             EXTERNAL HOSTING URL
           </div>
           <input
@@ -826,7 +826,7 @@ function UploadDropZone({ onPick, onLink, onCancel }) {
           <div style={{ display: 'flex', gap: 8, marginBottom: 12 }}>
             <button onClick={verifyLink} disabled={!linkInput}
               style={{
-                padding: '8px 16px', fontSize: 13,
+                padding: '8px 16px', fontSize: 14,
                 background: 'var(--forest-800)', border: '1px solid var(--line-strong)',
                 color: 'var(--bone)', borderRadius: 4, cursor: linkInput ? 'pointer' : 'not-allowed',
                 opacity: linkInput ? 1 : 0.5,
@@ -834,27 +834,27 @@ function UploadDropZone({ onPick, onLink, onCancel }) {
             <button onClick={submitLink} disabled={!linkStatus || linkStatus === 'broken'}
               className="btn"
               style={{
-                padding: '8px 20px', fontSize: 13,
+                padding: '8px 20px', fontSize: 14,
                 opacity: (linkStatus === 'ok' ? 1 : 0.5),
                 cursor: (linkStatus === 'ok') ? 'pointer' : 'not-allowed',
               }}>Continue →</button>
           </div>
           {linkCheckMsg && (
-            <div style={{ fontSize: 12, color: linkStatus === 'broken' ? 'var(--sunset)' : 'var(--lichen)', marginBottom: 12 }}>
+            <div style={{ fontSize: 14, color: linkStatus === 'broken' ? 'var(--sunset)' : 'var(--lichen)', marginBottom: 12 }}>
               {linkCheckMsg}
             </div>
           )}
-          <div style={{ fontSize: 11, color: 'var(--parchment-dim)', lineHeight: 1.6, borderTop: '1px solid var(--line)', paddingTop: 12 }}>
+          <div style={{ fontSize: 12, color: 'var(--parchment-dim)', lineHeight: 1.6, borderTop: '1px solid var(--line)', paddingTop: 12 }}>
             <strong style={{ color: 'var(--parchment)' }}>Supported hosts:</strong> Dropbox · Vimeo · Google Drive · Frame.io · WeTransfer<br/>
             <strong style={{ color: 'var(--parchment)' }}>Required:</strong> Link must stay accessible for at least 30 days OR until the first purchase (whichever comes first). After purchase we cache the file so link breakage afterwards doesn't affect buyers.
           </div>
         </div>
       )}
 
-      <div style={{ marginTop: 28, display: 'flex', gap: 16, fontSize: 12, color: 'var(--parchment-dim)' }}>
+      <div style={{ marginTop: 28, display: 'flex', gap: 16, fontSize: 14, color: 'var(--parchment-dim)' }}>
         <span>By uploading, you agree to our <span style={{ color: 'var(--sunset)', textDecoration: 'underline' }}>Pilot Terms</span> &amp; <span style={{ color: 'var(--sunset)', textDecoration: 'underline' }}>content policy</span>.</span>
       </div>
-      <button onClick={onCancel} style={{ marginTop: 18, fontSize: 12, color: 'var(--parchment-dim)', background: 'transparent', border: 'none', cursor: 'pointer' }}>← Cancel</button>
+      <button onClick={onCancel} style={{ marginTop: 18, fontSize: 14, color: 'var(--parchment-dim)', background: 'transparent', border: 'none', cursor: 'pointer' }}>← Cancel</button>
     </div>
   );
 }
@@ -900,7 +900,7 @@ function UploadMapPicker({ lat, lon, onPick }) {
         width: '100%', height: 280, borderRadius: 4,
         border: '1px solid var(--line-strong)', background: 'var(--forest-900)',
       }}/>
-      <div style={{ marginTop: 6, fontSize: 11, color: 'var(--parchment-dim)' }}>
+      <div style={{ marginTop: 6, fontSize: 12, color: 'var(--parchment-dim)' }}>
         Click the map to drop a pin. {lat != null && lon != null ? (
           <span style={{ color: 'var(--lichen)' }}>· Picked: {lat.toFixed(4)}, {lon.toFixed(4)}</span>
         ) : 'No location picked yet.'}
@@ -913,8 +913,8 @@ function Field({ label, hint, children }) {
   return (
     <div>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 8 }}>
-        <label className="mono" style={{ fontSize: 10, letterSpacing: '0.18em', color: 'var(--parchment-dim)', textTransform: 'uppercase' }}>{label}</label>
-        {hint && <span className="mono" style={{ fontSize: 10, color: 'var(--parchment-dim)' }}>{hint}</span>}
+        <label className="mono" style={{ fontSize: 12, letterSpacing: '0.18em', color: 'var(--parchment-dim)', textTransform: 'uppercase' }}>{label}</label>
+        {hint && <span className="mono" style={{ fontSize: 12, color: 'var(--parchment-dim)' }}>{hint}</span>}
       </div>
       {children}
     </div>
@@ -941,7 +941,7 @@ function Toggle({ label, on, onChange }) {
           background: '#faf6ec', transition: 'left 0.15s',
         }}/>
       </button>
-      <span style={{ fontSize: 13, color: 'var(--bone)' }}>{label}</span>
+      <span style={{ fontSize: 14, color: 'var(--bone)' }}>{label}</span>
     </label>
   );
 }
@@ -949,8 +949,8 @@ function Toggle({ label, on, onChange }) {
 function MetaRow({ k, v }) {
   return (
     <div>
-      <div className="mono" style={{ fontSize: 9, letterSpacing: '0.14em', color: 'var(--parchment-dim)', textTransform: 'uppercase' }}>{k}</div>
-      <div style={{ fontSize: 12 }}>{v}</div>
+      <div className="mono" style={{ fontSize: 12, letterSpacing: '0.14em', color: 'var(--parchment-dim)', textTransform: 'uppercase' }}>{k}</div>
+      <div style={{ fontSize: 14 }}>{v}</div>
     </div>
   );
 }

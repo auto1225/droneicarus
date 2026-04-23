@@ -280,7 +280,7 @@ export function ContentEditor() {
   return (
     <div style={{ display: 'grid', gridTemplateColumns: '220px 1fr', gap: 0, height: 'calc(100vh - 120px)', minHeight: 600 }}>
       <aside style={{ borderRight: '1px solid var(--line)', padding: '16px 12px', overflowY: 'auto', background: 'var(--forest-950)' }}>
-        <div className="mono" style={{ fontSize: 10, letterSpacing: '0.12em', color: 'var(--parchment-dim)', padding: '4px 8px 10px' }}>CATEGORIES</div>
+        <div className="mono" style={{ fontSize: 12, letterSpacing: '0.12em', color: 'var(--parchment-dim)', padding: '4px 8px 10px' }}>CATEGORIES</div>
         <CategoryBtn label={`All (${rows.length})`} active={activeCategory === '__all__'} onClick={() => setActiveCategory('__all__')} />
         {categories.map(([cat, n]) => (
           <CategoryBtn key={cat} label={`${cat} · ${n}`} active={activeCategory === cat} onClick={() => setActiveCategory(cat)} />
@@ -342,12 +342,12 @@ export function ContentEditor() {
       {showNew && <NewKeyModal onClose={() => setShowNew(false)} onCreate={createKey} categories={categories.map(c => c[0])} />}
       {showImport && (
         <Modal onClose={() => setShowImport(false)} title="Import content JSON">
-          <p style={{ fontSize: 12, color: 'var(--parchment-dim)', marginBottom: 10 }}>
+          <p style={{ fontSize: 14, color: 'var(--parchment-dim)', marginBottom: 10 }}>
             Paste a JSON array of <code>{'{ key, category, type, value, description }'}</code>. Existing keys are upserted.
           </p>
           <textarea data-qa="content-import-text" value={importText} onChange={e => setImportText(e.target.value)} rows={14}
             placeholder='[{"key":"header.logo","category":"header","type":"text","value":"DroneIcarus"}]'
-            style={{ width: '100%', padding: 10, border: '1px solid var(--line-strong)', borderRadius: 4, background: 'var(--forest-900)', color: 'var(--bone)', fontFamily: 'var(--font-mono)', fontSize: 12 }} />
+            style={{ width: '100%', padding: 10, border: '1px solid var(--line-strong)', borderRadius: 4, background: 'var(--forest-900)', color: 'var(--bone)', fontFamily: 'var(--font-mono)', fontSize: 14 }} />
           <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 10, marginTop: 14 }}>
             <button className="btn secondary" onClick={() => setShowImport(false)}>Cancel</button>
             <button data-qa="content-import-run" className="btn primary" disabled={busy || !importText.trim()} onClick={doImport}>Import</button>
@@ -360,7 +360,7 @@ export function ContentEditor() {
           position: 'fixed', bottom: 24, right: 24, zIndex: 2000,
           padding: '12px 18px', borderRadius: 4,
           background: toast.type === 'error' ? '#c73e3e' : 'var(--moss)',
-          color: '#faf6ec', fontSize: 13, boxShadow: 'var(--shadow-lg)',
+          color: '#faf6ec', fontSize: 14, boxShadow: 'var(--shadow-lg)',
         }}>{toast.msg}</div>
       )}
     </div>
@@ -371,7 +371,7 @@ function CategoryBtn({ label, active, onClick }) {
   return (
     <button data-qa="content-category" onClick={onClick} style={{
       display: 'block', width: '100%', textAlign: 'left',
-      padding: '8px 10px', borderRadius: 4, fontSize: 13,
+      padding: '8px 10px', borderRadius: 4, fontSize: 14,
       background: active ? 'var(--forest-800)' : 'transparent',
       color: active ? 'var(--bone)' : 'var(--parchment)',
       marginBottom: 2,
@@ -392,28 +392,28 @@ function ContentRow({ row, draft, selected, onSelect, onChange, onCancel, onSave
         <input type="checkbox" checked={selected} onChange={e => onSelect(e.target.checked)} style={{ marginTop: 5 }}/>
         <div style={{ flex: 1 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 4 }}>
-            <code style={{ fontSize: 12, color: 'var(--amber)', fontFamily: 'var(--font-mono)', fontWeight: 600 }}>{row.key}</code>
+            <code style={{ fontSize: 14, color: 'var(--amber)', fontFamily: 'var(--font-mono)', fontWeight: 600 }}>{row.key}</code>
             <select value={type} onChange={e => onChange({ type: e.target.value })}
-              style={{ fontSize: 11, padding: '2px 6px', border: '1px solid var(--line)', borderRadius: 3, background: 'var(--forest-900)', color: 'var(--parchment-dim)' }}>
+              style={{ fontSize: 12, padding: '2px 6px', border: '1px solid var(--line)', borderRadius: 3, background: 'var(--forest-900)', color: 'var(--parchment-dim)' }}>
               {TYPES.map(t => <option key={t} value={t}>{t}</option>)}
             </select>
             <input value={cur('category')} onChange={e => onChange({ category: e.target.value })}
-              style={{ fontSize: 11, padding: '2px 8px', border: '1px solid var(--line)', borderRadius: 3, background: 'var(--forest-900)', color: 'var(--parchment-dim)', width: 100 }} />
+              style={{ fontSize: 12, padding: '2px 8px', border: '1px solid var(--line)', borderRadius: 3, background: 'var(--forest-900)', color: 'var(--parchment-dim)', width: 100 }} />
             <span style={{ flex: 1 }}/>
-            <button onClick={onRename} style={{ fontSize: 11, color: 'var(--parchment-dim)', padding: '2px 6px' }}>rename</button>
+            <button onClick={onRename} style={{ fontSize: 12, color: 'var(--parchment-dim)', padding: '2px 6px' }}>rename</button>
             {dirty && <>
-              <button onClick={onCancel} style={{ fontSize: 11, color: 'var(--parchment-dim)', padding: '2px 6px' }}>cancel</button>
-              <button data-qa="content-row-save" onClick={onSave} disabled={busy} className="btn primary" style={{ fontSize: 11, padding: '4px 10px' }}>Save</button>
+              <button onClick={onCancel} style={{ fontSize: 12, color: 'var(--parchment-dim)', padding: '2px 6px' }}>cancel</button>
+              <button data-qa="content-row-save" onClick={onSave} disabled={busy} className="btn primary" style={{ fontSize: 12, padding: '4px 10px' }}>Save</button>
             </>}
           </div>
           {row.description && (
-            <div style={{ fontSize: 11, color: 'var(--parchment-dim)', marginBottom: 8, fontStyle: 'italic' }}>{row.description}</div>
+            <div style={{ fontSize: 12, color: 'var(--parchment-dim)', marginBottom: 8, fontStyle: 'italic' }}>{row.description}</div>
           )}
           <ValueEditor type={type} value={cur('value') || ''} onChange={v => onChange({ value: v })} />
           <div style={{ display: 'flex', gap: 10, marginTop: 8 }}>
             <input value={cur('description') || ''} onChange={e => onChange({ description: e.target.value })}
               placeholder="Admin helper text…"
-              style={{ flex: 1, fontSize: 11, padding: '4px 8px', border: '1px solid var(--line)', borderRadius: 3, background: 'var(--forest-900)', color: 'var(--parchment-dim)' }}/>
+              style={{ flex: 1, fontSize: 12, padding: '4px 8px', border: '1px solid var(--line)', borderRadius: 3, background: 'var(--forest-900)', color: 'var(--parchment-dim)' }}/>
           </div>
         </div>
       </div>
@@ -492,5 +492,5 @@ function Modal({ onClose, title, children }) {
   );
 }
 
-const lbl = { display: 'block', fontSize: 12, color: 'var(--parchment-dim)', marginBottom: 12 };
+const lbl = { display: 'block', fontSize: 14, color: 'var(--parchment-dim)', marginBottom: 12 };
 const inp = { display: 'block', width: '100%', marginTop: 4, padding: '8px 12px', border: '1px solid var(--line-strong)', borderRadius: 4, background: 'var(--forest-900)', color: 'var(--bone)' };

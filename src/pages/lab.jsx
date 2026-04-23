@@ -83,9 +83,9 @@ export function LabHubPage({ onNav }) {
               <span style={{ color: 'var(--amber)', display: 'inline-flex' }}>{Ic[s.icon] && Ic[s.icon]()}</span>
               <span>
                 <span style={{ display: 'block' }}>{s.label}</span>
-                <span style={{ display: 'block', fontSize: 11, color: 'var(--parchment-dim)' }}>{s.tagline}</span>
+                <span style={{ display: 'block', fontSize: 12, color: 'var(--parchment-dim)' }}>{s.tagline}</span>
               </span>
-              <span className="mono" style={{ fontSize: 10, color: 'var(--parchment-dim)' }}>{counts[s.id] ?? '—'}</span>
+              <span className="mono" style={{ fontSize: 12, color: 'var(--parchment-dim)' }}>{counts[s.id] ?? '—'}</span>
             </button>
           ))}
         </nav>
@@ -114,7 +114,7 @@ export function LabHubPage({ onNav }) {
         <div style={{ marginBottom: 48 }}>
           <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', marginBottom: 14 }}>
             <h2 style={{ fontSize: 20, margin: 0 }}>Search results <span style={{ color: 'var(--parchment-dim)', fontWeight: 400, fontSize: 14 }}>· {searchResults.length} match{searchResults.length === 1 ? '' : 'es'}</span></h2>
-            <button onClick={() => setQuery('')} style={{ fontSize: 12, color: 'var(--amber)', background: 'transparent', border: 'none', cursor: 'pointer', textDecoration: 'underline', textUnderlineOffset: 3 }}>Clear</button>
+            <button onClick={() => setQuery('')} style={{ fontSize: 14, color: 'var(--amber)', background: 'transparent', border: 'none', cursor: 'pointer', textDecoration: 'underline', textUnderlineOffset: 3 }}>Clear</button>
           </div>
           {searchResults.length === 0 ? (
             <div style={{ padding: 40, textAlign: 'center', color: 'var(--parchment-dim)', border: '1px dashed var(--line)', borderRadius: 6 }}>
@@ -138,7 +138,7 @@ export function LabHubPage({ onNav }) {
             <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', marginBottom: 16 }}>
               <h2 style={{ fontSize: 22, margin: 0 }}>{s.label}</h2>
               <button onClick={() => onNav('lab', s.id)} style={{
-                fontSize: 12, color: 'var(--amber)', background: 'transparent', border: 'none',
+                fontSize: 14, color: 'var(--amber)', background: 'transparent', border: 'none',
                 cursor: 'pointer', textDecoration: 'underline', textUnderlineOffset: 3,
               }}>See all →</button>
             </div>
@@ -210,7 +210,7 @@ export function LabSubsectionPage({ subsection, onNav }) {
         maxHeight: 'calc(100vh - 100px)', overflowY: 'auto',
         padding: '0 4px',
       }}>
-        <div className="mono" style={{ fontSize: 10, letterSpacing: '0.18em', color: 'var(--parchment-dim)', padding: '4px 10px 10px' }}>SECTIONS</div>
+        <div className="mono" style={{ fontSize: 12, letterSpacing: '0.18em', color: 'var(--parchment-dim)', padding: '4px 10px 10px' }}>SECTIONS</div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 2, marginBottom: 24 }}>
           <button onClick={() => onNav('lab')} style={rowStyle(false)}>
             <span style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
@@ -230,11 +230,11 @@ export function LabSubsectionPage({ subsection, onNav }) {
 
         {sidebarTags.length > 0 && (
           <>
-            <div className="mono" style={{ fontSize: 10, letterSpacing: '0.18em', color: 'var(--parchment-dim)', padding: '4px 10px 10px' }}>TAGS</div>
+            <div className="mono" style={{ fontSize: 12, letterSpacing: '0.18em', color: 'var(--parchment-dim)', padding: '4px 10px 10px' }}>TAGS</div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
               <button onClick={() => setSelectedTag(null)} style={rowStyle(!selectedTag, true)}>
                 <span>All</span>
-                <span style={{ fontSize: 11, opacity: 0.6 }}>{items.length}</span>
+                <span style={{ fontSize: 12, opacity: 0.6 }}>{items.length}</span>
               </button>
               {sidebarTags.map(t => {
                 const active = selectedTag === t.slug;
@@ -243,7 +243,7 @@ export function LabSubsectionPage({ subsection, onNav }) {
                 return (
                   <button key={t.slug} onClick={() => setSelectedTag(t.slug)} style={rowStyle(active, true)}>
                     <span>{t.label_en}</span>
-                    <span style={{ fontSize: 11, opacity: 0.6 }}>{count}</span>
+                    <span style={{ fontSize: 12, opacity: 0.6 }}>{count}</span>
                   </button>
                 );
               })}
@@ -263,14 +263,14 @@ export function LabSubsectionPage({ subsection, onNav }) {
             onChange={e => setQuery(e.target.value)}
             placeholder={`Search ${current.label.toLowerCase()}…`}
             style={{
-              flex: 1, minWidth: 240, padding: '8px 14px', fontSize: 13,
+              flex: 1, minWidth: 240, padding: '8px 14px', fontSize: 14,
               background: 'var(--forest-900)', border: '1px solid var(--line-strong)',
               color: 'var(--bone)', borderRadius: 4, outline: 'none',
             }}/>
           <div style={{ display: 'flex', gap: 4 }}>
             {[['latest','Latest'],['upvoted','Most upvoted'],['newest','Newest']].map(([k,l]) => (
               <button key={k} onClick={() => setSort(k)} style={{
-                padding: '6px 12px', fontSize: 12, borderRadius: 999,
+                padding: '6px 12px', fontSize: 14, borderRadius: 999,
                 background: sort === k ? 'var(--bone)' : 'transparent',
                 color: sort === k ? 'var(--ink)' : 'var(--parchment)',
                 border: '1px solid ' + (sort === k ? 'var(--bone)' : 'var(--line-strong)'),
@@ -285,7 +285,7 @@ export function LabSubsectionPage({ subsection, onNav }) {
         ) : filtered.length === 0 ? (
           <div style={{ padding: 60, textAlign: 'center', color: 'var(--parchment-dim)', border: '1px dashed var(--line)', borderRadius: 6 }}>
             <div style={{ fontSize: 15, marginBottom: 4 }}>No items found</div>
-            <div style={{ fontSize: 12 }}>{selectedTag ? 'Try clearing the tag filter' : 'No items match your filters yet.'}</div>
+            <div style={{ fontSize: 14 }}>{selectedTag ? 'Try clearing the tag filter' : 'No items match your filters yet.'}</div>
           </div>
         ) : (
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 14 }}>
@@ -304,7 +304,7 @@ function rowStyle(active, indented = false) {
     paddingLeft: indented ? 16 : 10,
     background: active ? 'var(--bone)' : 'transparent',
     color: active ? 'var(--ink)' : 'var(--parchment)',
-    border: 'none', borderRadius: 6, cursor: 'pointer', fontSize: 12,
+    border: 'none', borderRadius: 6, cursor: 'pointer', fontSize: 14,
     textAlign: 'left', fontWeight: active ? 600 : 400,
   };
 }
@@ -323,29 +323,29 @@ function PatentsGoogleSearch({ defaultQuery }) {
   ];
   return (
     <div style={{ marginBottom: 28, padding: 18, background: 'linear-gradient(135deg, #3a1f3a, #1a0f1f)', border: '1px solid var(--line-strong)', borderRadius: 6 }}>
-      <div className="mono" style={{ fontSize: 10, letterSpacing: '0.18em', color: '#b97a4d', marginBottom: 10 }}>SEARCH GOOGLE PATENTS · GLOBAL</div>
+      <div className="mono" style={{ fontSize: 12, letterSpacing: '0.18em', color: '#b97a4d', marginBottom: 10 }}>SEARCH GOOGLE PATENTS · GLOBAL</div>
       <div style={{ display: 'flex', gap: 8, marginBottom: 12 }}>
         <input
           value={q}
           onChange={e => setQ(e.target.value)}
           onKeyDown={e => e.key === 'Enter' && open(q)}
           placeholder="Search any drone-related patent topic worldwide…"
-          style={{ flex: 1, padding: '10px 14px', fontSize: 13, background: 'rgba(13,20,16,0.6)', border: '1px solid #5a3a5a', color: 'var(--bone)', borderRadius: 4, outline: 'none' }}/>
-        <button onClick={() => open(q)} style={{ padding: '10px 18px', background: '#b97a4d', color: 'var(--ink)', border: 'none', borderRadius: 4, cursor: 'pointer', fontWeight: 600, fontSize: 13 }}>
+          style={{ flex: 1, padding: '10px 14px', fontSize: 14, background: 'rgba(13,20,16,0.6)', border: '1px solid #5a3a5a', color: 'var(--bone)', borderRadius: 4, outline: 'none' }}/>
+        <button onClick={() => open(q)} style={{ padding: '10px 18px', background: '#b97a4d', color: 'var(--ink)', border: 'none', borderRadius: 4, cursor: 'pointer', fontWeight: 600, fontSize: 14 }}>
           Search →
         </button>
       </div>
       <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
-        <span style={{ fontSize: 11, color: '#d1c8b5', opacity: 0.7, padding: '4px 0', marginRight: 4 }}>Popular:</span>
+        <span style={{ fontSize: 12, color: '#d1c8b5', opacity: 0.7, padding: '4px 0', marginRight: 4 }}>Popular:</span>
         {presets.map(t => (
           <button key={t} onClick={() => open(t)} style={{
-            padding: '4px 10px', fontSize: 11, borderRadius: 999,
+            padding: '4px 10px', fontSize: 12, borderRadius: 999,
             background: 'rgba(13,20,16,0.4)', color: '#f5ede0',
             border: '1px solid #5a3a5a', cursor: 'pointer',
           }}>{t}</button>
         ))}
       </div>
-      <div style={{ fontSize: 11, color: '#d1c8b5', opacity: 0.6, marginTop: 10 }}>
+      <div style={{ fontSize: 12, color: '#d1c8b5', opacity: 0.6, marginTop: 10 }}>
         Results open at patents.google.com — every patent listed below also has its full PDF viewable inside the lab.
       </div>
     </div>
@@ -378,14 +378,14 @@ export function LabItemPage({ itemId, onNav }) {
 
   return (
     <div style={{ maxWidth: 920, margin: '0 auto', padding: '32px 28px 80px' }}>
-      <button onClick={() => onNav('lab', item.subsection)} style={{ background: 'transparent', border: 'none', color: 'var(--parchment-dim)', fontSize: 12, marginBottom: 18, cursor: 'pointer' }}>
+      <button onClick={() => onNav('lab', item.subsection)} style={{ background: 'transparent', border: 'none', color: 'var(--parchment-dim)', fontSize: 14, marginBottom: 18, cursor: 'pointer' }}>
         ← {subsection.label}
       </button>
 
       <div className="eyebrow" style={{ color: 'var(--amber)', marginBottom: 8 }}>{item.type && item.type.toLowerCase() !== item.subsection ? `${item.type.toUpperCase()} · ${subsection.label.toUpperCase()}` : subsection.label.toUpperCase()}</div>
       <h1 style={{ fontSize: 32, lineHeight: 1.15, marginBottom: 14, letterSpacing: '-0.01em' }}>{item.title}</h1>
 
-      <div style={{ display: 'flex', gap: 10, fontSize: 13, color: 'var(--parchment-dim)', marginBottom: 22, flexWrap: 'wrap' }}>
+      <div style={{ display: 'flex', gap: 10, fontSize: 14, color: 'var(--parchment-dim)', marginBottom: 22, flexWrap: 'wrap' }}>
         {item.institution && <span>{item.institution}</span>}
         {item.authors && item.authors.length > 0 && <span>· {item.authors.slice(0, 3).join(', ')}{item.authors.length > 3 ? ' et al.' : ''}</span>}
         {published && <span>· {published}</span>}
@@ -415,7 +415,7 @@ export function LabItemPage({ itemId, onNav }) {
       {(item.tags && item.tags.length > 0) && (
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 22 }}>
           {item.tags.map(t => (
-            <span key={t} className="mono" style={{ padding: '3px 8px', background: 'var(--forest-800)', border: '1px solid var(--line)', borderRadius: 999, fontSize: 11, color: 'var(--parchment)' }}>#{t}</span>
+            <span key={t} className="mono" style={{ padding: '3px 8px', background: 'var(--forest-800)', border: '1px solid var(--line)', borderRadius: 999, fontSize: 12, color: 'var(--parchment)' }}>#{t}</span>
           ))}
         </div>
       )}
@@ -423,11 +423,11 @@ export function LabItemPage({ itemId, onNav }) {
       {item.spec && Object.keys(item.spec).length > 0 && (
         <div style={{ marginBottom: 22, padding: 14, border: '1px solid var(--line)', borderRadius: 6, background: 'var(--forest-900)' }}>
           <div className="eyebrow" style={{ marginBottom: 8, color: 'var(--parchment-dim)' }}>SPECIFICATIONS</div>
-          <table style={{ width: '100%', fontSize: 13, borderCollapse: 'collapse' }}>
+          <table style={{ width: '100%', fontSize: 14, borderCollapse: 'collapse' }}>
             <tbody>
               {Object.entries(item.spec).map(([k, v]) => (
                 <tr key={k} style={{ borderBottom: '1px solid var(--line)' }}>
-                  <td style={{ padding: '5px 8px 5px 0', fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--parchment-dim)', textTransform: 'uppercase', width: 200 }}>{k}</td>
+                  <td style={{ padding: '5px 8px 5px 0', fontFamily: 'var(--font-mono)', fontSize: 12, color: 'var(--parchment-dim)', textTransform: 'uppercase', width: 200 }}>{k}</td>
                   <td style={{ padding: '5px 0' }}>{String(v)}</td>
                 </tr>
               ))}
@@ -515,7 +515,7 @@ function DocumentViewer({ documentUrl, externalUrl, documentType }) {
             <iframe src={best.embed} title="PDF document" style={{ width: '100%', height: '100%', border: 'none' }}/>
           </object>
         </div>
-        <div style={{ marginTop: 8, display: 'flex', gap: 12, fontSize: 12 }}>
+        <div style={{ marginTop: 8, display: 'flex', gap: 12, fontSize: 14 }}>
           <a href={best.embed} target="_blank" rel="noopener noreferrer" download
              style={{ color: 'var(--amber)', textDecoration: 'none' }}>
             Download PDF ↓
@@ -534,8 +534,8 @@ function DocumentViewer({ documentUrl, externalUrl, documentType }) {
   if (best.type === 'docx') {
     return (
       <div style={{ margin: '16px 0 22px', padding: 20, border: '1px solid var(--line)', borderRadius: 6, textAlign: 'center', background: 'var(--forest-900)' }}>
-        <div style={{ marginBottom: 10, fontSize: 13 }}>Word document</div>
-        <a href={best.embed} target="_blank" rel="noopener noreferrer" download className="btn" style={{ padding: '8px 16px', fontSize: 13 }}>Download DOCX ↓</a>
+        <div style={{ marginBottom: 10, fontSize: 14 }}>Word document</div>
+        <a href={best.embed} target="_blank" rel="noopener noreferrer" download className="btn" style={{ padding: '8px 16px', fontSize: 14 }}>Download DOCX ↓</a>
       </div>
     );
   }
@@ -569,17 +569,17 @@ function LabItemCard({ item, onNav }) {
     }}>
       <LabPagePreview item={item} fallback={item.cover_image_url}/>
       <div style={{ padding: 14, flex: 1, display: 'flex', flexDirection: 'column' }}>
-        <div className="mono" style={{ fontSize: 9, letterSpacing: '0.14em', color: 'var(--parchment-dim)', marginBottom: 6 }}>
+        <div className="mono" style={{ fontSize: 12, letterSpacing: '0.14em', color: 'var(--parchment-dim)', marginBottom: 6 }}>
           {item.type?.toUpperCase()}{item.institution ? ` · ${item.institution}` : ''}
         </div>
         <div style={{ fontSize: 14, fontWeight: 600, lineHeight: 1.35, marginBottom: 8 }}>{cleanLabTitle(item)}</div>
         {item.summary && (
-          <div style={{ fontSize: 12, color: 'var(--parchment-dim)', lineHeight: 1.5, marginBottom: 10, display: '-webkit-box', WebkitLineClamp: 4, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
+          <div style={{ fontSize: 14, color: 'var(--parchment-dim)', lineHeight: 1.5, marginBottom: 10, display: '-webkit-box', WebkitLineClamp: 4, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
             {cleanLabSummary(item)}
           </div>
         )}
         {(item.price_min_usd != null || item.price_max_usd != null || item.brand) && (
-          <div style={{ display: 'flex', gap: 6, alignItems: 'center', marginBottom: 8, fontSize: 11, color: 'var(--amber)', fontFamily: 'var(--font-mono)' }}>
+          <div style={{ display: 'flex', gap: 6, alignItems: 'center', marginBottom: 8, fontSize: 12, color: 'var(--amber)', fontFamily: 'var(--font-mono)' }}>
             {item.price_min_usd != null && (
               <span style={{ padding: '2px 8px', background: 'rgba(198,136,32,0.1)', border: '1px solid var(--amber)', borderRadius: 3 }}>
                 ${item.price_min_usd}{item.price_max_usd != null && item.price_max_usd !== item.price_min_usd ? `–$${item.price_max_usd}` : ''}
@@ -591,7 +591,7 @@ function LabItemCard({ item, onNav }) {
         {(item.tags && item.tags.length > 0) && (
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4, marginTop: 'auto' }}>
             {item.tags.slice(0, 3).map(t => (
-              <span key={t} className="mono" style={{ padding: '2px 6px', background: 'var(--forest-800)', borderRadius: 999, fontSize: 10, color: 'var(--parchment-dim)' }}>#{t}</span>
+              <span key={t} className="mono" style={{ padding: '2px 6px', background: 'var(--forest-800)', borderRadius: 999, fontSize: 12, color: 'var(--parchment-dim)' }}>#{t}</span>
             ))}
           </div>
         )}

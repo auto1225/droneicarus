@@ -63,7 +63,7 @@ export function MyPage({ onOpenVideo, onNav }) {
             ))}
           </g>
         </svg>
-        <div className="mono" style={{ position: 'absolute', top: 20, right: 24, fontSize: 10, letterSpacing: '0.18em', color: 'rgba(245,237,224,0.7)' }}>
+        <div className="mono" style={{ position: 'absolute', top: 20, right: 24, fontSize: 12, letterSpacing: '0.18em', color: 'rgba(245,237,224,0.7)' }}>
           MEMBER SINCE {u.joined.toUpperCase()} · {u.location.toUpperCase()}
         </div>
       </div>
@@ -90,8 +90,8 @@ export function MyPage({ onOpenVideo, onNav }) {
               <h1 style={{ fontSize: 28, margin: 0 }}>{u.name}</h1>
               {u.pilotVerified && <span style={{ color: 'var(--amber)' }}><Ic.check/></span>}
             </div>
-            <div style={{ fontSize: 13, color: 'var(--parchment-dim)', marginBottom: 8 }}>{u.handle} · {u.email}</div>
-            <div style={{ display: 'flex', gap: 22, fontSize: 13, flexWrap: 'wrap' }}>
+            <div style={{ fontSize: 14, color: 'var(--parchment-dim)', marginBottom: 8 }}>{u.handle} · {u.email}</div>
+            <div style={{ display: 'flex', gap: 22, fontSize: 14, flexWrap: 'wrap' }}>
               <span><strong>{u.collections}</strong> <span style={{ color: 'var(--parchment-dim)' }}>boards</span></span>
               <span><strong>{formatViews(u.followers)}</strong> <span style={{ color: 'var(--parchment-dim)' }}>followers</span></span>
               <span><strong>{u.following}</strong> <span style={{ color: 'var(--parchment-dim)' }}>following</span></span>
@@ -129,8 +129,8 @@ export function MyPage({ onOpenVideo, onNav }) {
         {tab === 'collections' && (
           <div>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 18 }}>
-              <div className="mono" style={{ fontSize: 11, letterSpacing: '0.14em', color: 'var(--parchment-dim)' }}>SORTED BY LAST UPDATED</div>
-              <button className="btn secondary" style={{ fontSize: 12 }} data-placeholder="true">+ New board</button>
+              <div className="mono" style={{ fontSize: 12, letterSpacing: '0.14em', color: 'var(--parchment-dim)' }}>SORTED BY LAST UPDATED</div>
+              <button className="btn secondary" style={{ fontSize: 14 }} data-placeholder="true">+ New board</button>
             </div>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 20, marginBottom: 60 }}>
               {cols.map(c => <BoardCard key={c.id} col={c} onClick={() => setSelectedCol(c)} />)}
@@ -150,15 +150,15 @@ export function MyPage({ onOpenVideo, onNav }) {
                   background: thumbGradient(i + 7),
                   borderRadius: 6, overflow: 'hidden', position: 'relative',
                 }}>
-                  <div style={{ position: 'absolute', top: 8, right: 8, background: 'var(--thumb-overlay)', color: '#f5ede0', fontSize: 10, padding: '3px 7px', borderRadius: 2, fontFamily: 'var(--font-mono)' }}>{v.duration}</div>
+                  <div style={{ position: 'absolute', top: 8, right: 8, background: 'var(--thumb-overlay)', color: '#f5ede0', fontSize: 12, padding: '3px 7px', borderRadius: 2, fontFamily: 'var(--font-mono)' }}>{v.duration}</div>
                   <div style={{
                     position: 'absolute', bottom: 0, left: 0, right: 0,
                     padding: '20px 12px 10px',
                     background: 'linear-gradient(to top, rgba(13,20,16,0.85), transparent)',
                     color: '#f5ede0',
                   }}>
-                    <div style={{ fontSize: 12, fontWeight: 600, marginBottom: 2 }}>{v.title}</div>
-                    <div style={{ fontSize: 10, opacity: 0.75 }}>{v.creator.handle}</div>
+                    <div style={{ fontSize: 14, fontWeight: 600, marginBottom: 2 }}>{v.title}</div>
+                    <div style={{ fontSize: 12, opacity: 0.75 }}>{v.creator.handle}</div>
                   </div>
                 </div>
               </div>
@@ -175,12 +175,12 @@ export function MyPage({ onOpenVideo, onNav }) {
                   <div style={{ fontSize: 14, fontWeight: 600, display: 'flex', alignItems: 'center', gap: 4 }}>
                     {c.name} {c.verified && <span style={{ color: 'var(--amber)' }}><Ic.check/></span>}
                   </div>
-                  <div style={{ fontSize: 12, color: 'var(--parchment-dim)', marginBottom: 6 }}>{c.handle} · {c.region}</div>
-                  <div style={{ fontSize: 11, fontFamily: 'var(--font-mono)', color: 'var(--parchment-dim)', letterSpacing: '0.1em' }}>
+                  <div style={{ fontSize: 14, color: 'var(--parchment-dim)', marginBottom: 6 }}>{c.handle} · {c.region}</div>
+                  <div style={{ fontSize: 12, fontFamily: 'var(--font-mono)', color: 'var(--parchment-dim)', letterSpacing: '0.1em' }}>
                     {formatViews(c.followers)} FOLLOWERS · {c.videos} CLIPS
                   </div>
                 </div>
-                <button className="btn secondary" style={{ fontSize: 12, alignSelf: 'flex-start' }} data-placeholder="true">Following</button>
+                <button className="btn secondary" style={{ fontSize: 14, alignSelf: 'flex-start' }} data-placeholder="true">Following</button>
               </div>
             ))}
           </div>
@@ -188,7 +188,7 @@ export function MyPage({ onOpenVideo, onNav }) {
 
         {tab === 'activity' && (
           <div style={{ marginBottom: 60 }}>
-            <div className="mono" style={{ fontSize: 11, letterSpacing: '0.14em', color: 'var(--parchment-dim)', marginBottom: 12 }}>LAST 30 DAYS</div>
+            <div className="mono" style={{ fontSize: 12, letterSpacing: '0.14em', color: 'var(--parchment-dim)', marginBottom: 12 }}>LAST 30 DAYS</div>
             {[
               ['Mar 14, 2026 · 09:42', 'Saved to collection', 'Golden Hour Ascent — Director\u2019s Edit', 'Dawn & Gold'],
               ['Mar 12, 2026 · 18:31', 'Purchased · Commercial', 'Cinematic Flight 4K — Aerial Study', '$17.98'],
@@ -198,12 +198,12 @@ export function MyPage({ onOpenVideo, onNav }) {
               ['Mar 01, 2026 · 14:22', 'Created board', 'Coastal Vertical', null],
             ].map(([ts, kind, title, extra], i) => (
               <div key={i} style={{ display: 'flex', gap: 14, padding: '14px 0', borderBottom: '1px solid var(--line)' }}>
-                <div className="mono" style={{ fontSize: 10, color: 'var(--parchment-dim)', letterSpacing: '0.1em', width: 160, flexShrink: 0, paddingTop: 2 }}>{ts}</div>
+                <div className="mono" style={{ fontSize: 12, color: 'var(--parchment-dim)', letterSpacing: '0.1em', width: 160, flexShrink: 0, paddingTop: 2 }}>{ts}</div>
                 <div style={{ flex: 1 }}>
-                  <div style={{ fontSize: 12, color: 'var(--parchment-dim)', marginBottom: 3 }}>{kind}</div>
+                  <div style={{ fontSize: 14, color: 'var(--parchment-dim)', marginBottom: 3 }}>{kind}</div>
                   <div style={{ fontSize: 14, fontWeight: 600 }}>{title}</div>
                 </div>
-                {extra && <div style={{ alignSelf: 'center', fontSize: 12, fontFamily: 'var(--font-mono)', color: 'var(--amber)' }}>→ {extra}</div>}
+                {extra && <div style={{ alignSelf: 'center', fontSize: 14, fontFamily: 'var(--font-mono)', color: 'var(--amber)' }}>→ {extra}</div>}
               </div>
             ))}
           </div>
@@ -234,9 +234,9 @@ function BoardCard({ col, onClick }) {
         <div>
           <div style={{ fontSize: 15, fontWeight: 600, display: 'flex', alignItems: 'center', gap: 6 }}>
             {col.name}
-            {col.private && <span className="mono" style={{ fontSize: 9, letterSpacing: '0.14em', color: 'var(--parchment-dim)', border: '1px solid var(--line)', padding: '1px 5px', borderRadius: 2 }}>PRIVATE</span>}
+            {col.private && <span className="mono" style={{ fontSize: 12, letterSpacing: '0.14em', color: 'var(--parchment-dim)', border: '1px solid var(--line)', padding: '1px 5px', borderRadius: 2 }}>PRIVATE</span>}
           </div>
-          <div style={{ fontSize: 12, color: 'var(--parchment-dim)', marginTop: 2 }}>{col.count} clips · Updated {col.updated}</div>
+          <div style={{ fontSize: 14, color: 'var(--parchment-dim)', marginTop: 2 }}>{col.count} clips · Updated {col.updated}</div>
         </div>
       </div>
     </button>
@@ -248,18 +248,18 @@ function CollectionDetail({ col, onBack, onOpenVideo }) {
   const vids = VIDEOS.slice(0, col.count);
   return (
     <div style={{ maxWidth: 1400, margin: '0 auto', padding: '40px 28px 80px' }}>
-      <button onClick={onBack} style={{ fontSize: 12, color: 'var(--parchment-dim)', marginBottom: 18 }}>← Back to collections</button>
+      <button onClick={onBack} style={{ fontSize: 14, color: 'var(--parchment-dim)', marginBottom: 18 }}>← Back to collections</button>
       <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', marginBottom: 28, borderBottom: '1px solid var(--line)', paddingBottom: 20 }}>
         <div>
-          <div className="mono" style={{ fontSize: 11, letterSpacing: '0.18em', color: 'var(--parchment-dim)', marginBottom: 8 }}>
+          <div className="mono" style={{ fontSize: 12, letterSpacing: '0.18em', color: 'var(--parchment-dim)', marginBottom: 8 }}>
             COLLECTION · {col.count} CLIPS · UPDATED {col.updated.toUpperCase()}
           </div>
           <h1 style={{ fontSize: 44, lineHeight: 1.05 }}>{col.name}</h1>
         </div>
         <div style={{ display: 'flex', gap: 8 }}>
-          <button className="btn secondary" style={{ fontSize: 12 }} data-placeholder="true">Edit board</button>
-          <button className="btn secondary" style={{ fontSize: 12 }} data-placeholder="true">Share</button>
-          <button className="btn" style={{ fontSize: 12 }} data-placeholder="true">+ Add clips</button>
+          <button className="btn secondary" style={{ fontSize: 14 }} data-placeholder="true">Edit board</button>
+          <button className="btn secondary" style={{ fontSize: 14 }} data-placeholder="true">Share</button>
+          <button className="btn" style={{ fontSize: 14 }} data-placeholder="true">+ Add clips</button>
         </div>
       </div>
       <div style={{ columnCount: 4, columnGap: 14 }}>
@@ -273,12 +273,12 @@ function CollectionDetail({ col, onBack, onOpenVideo }) {
                 background: thumbGradient(i),
                 borderRadius: 6, position: 'relative', overflow: 'hidden',
               }}>
-                <div style={{ position: 'absolute', top: 8, right: 8, background: 'var(--thumb-overlay)', color: '#f5ede0', fontSize: 10, padding: '3px 7px', borderRadius: 2, fontFamily: 'var(--font-mono)' }}>{v.duration}</div>
-                {v.price > 0 && <div style={{ position: 'absolute', top: 8, left: 8, background: 'var(--sunset)', color: '#faf6ec', fontSize: 10, padding: '3px 7px', borderRadius: 2, fontFamily: 'var(--font-mono)', fontWeight: 700 }}>${v.price}</div>}
+                <div style={{ position: 'absolute', top: 8, right: 8, background: 'var(--thumb-overlay)', color: '#f5ede0', fontSize: 12, padding: '3px 7px', borderRadius: 2, fontFamily: 'var(--font-mono)' }}>{v.duration}</div>
+                {v.price > 0 && <div style={{ position: 'absolute', top: 8, left: 8, background: 'var(--sunset)', color: '#faf6ec', fontSize: 12, padding: '3px 7px', borderRadius: 2, fontFamily: 'var(--font-mono)', fontWeight: 700 }}>${v.price}</div>}
               </div>
               <div style={{ padding: '8px 2px 2px' }}>
-                <div style={{ fontSize: 13, fontWeight: 600, lineHeight: 1.35 }}>{v.title}</div>
-                <div style={{ fontSize: 11, color: 'var(--parchment-dim)', marginTop: 2 }}>{v.creator.handle} · {formatViews(v.views)} views</div>
+                <div style={{ fontSize: 14, fontWeight: 600, lineHeight: 1.35 }}>{v.title}</div>
+                <div style={{ fontSize: 12, color: 'var(--parchment-dim)', marginTop: 2 }}>{v.creator.handle} · {formatViews(v.views)} views</div>
               </div>
             </div>
           );
@@ -300,7 +300,7 @@ function PurchasesPanel({ orders, loading, onOpenVideo }) {
     return (
       <div style={{ padding: 60, textAlign: 'center' }}>
         <div style={{ fontSize: 16, color: 'var(--parchment)', marginBottom: 6 }}>No purchases yet</div>
-        <div style={{ fontSize: 13, color: 'var(--parchment-dim)' }}>Licensed clips will appear here with a 7-day download window.</div>
+        <div style={{ fontSize: 14, color: 'var(--parchment-dim)' }}>Licensed clips will appear here with a 7-day download window.</div>
       </div>
     );
   }
@@ -374,10 +374,10 @@ function PurchaseRow({ order, onOpenVideo }) {
         <div style={{ fontSize: 14, fontWeight: 600, marginBottom: 4, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
           {v.title || 'Untitled'}
         </div>
-        <div style={{ fontSize: 12, color: 'var(--parchment-dim)', marginBottom: 6 }}>
+        <div style={{ fontSize: 14, color: 'var(--parchment-dim)', marginBottom: 6 }}>
           {order.license} license · {order.card} · {order.date}
         </div>
-        <div style={{ display: 'flex', gap: 10, fontSize: 11, alignItems: 'center' }}>
+        <div style={{ display: 'flex', gap: 10, fontSize: 12, alignItems: 'center' }}>
           <span className="mono" style={{ padding: '2px 8px', borderRadius: 999,
             background: expired ? 'rgba(139,58,31,0.15)' : (cached ? 'rgba(139,154,91,0.15)' : 'rgba(198,136,32,0.15)'),
             color: expired ? 'var(--rust)' : (cached ? 'var(--lichen)' : 'var(--amber)'),
@@ -398,7 +398,7 @@ function PurchaseRow({ order, onOpenVideo }) {
           disabled={!cached || downloading}
           className="btn"
           style={{
-            padding: '10px 18px', fontSize: 13,
+            padding: '10px 18px', fontSize: 14,
             opacity: (!cached || downloading) ? 0.45 : 1,
             cursor: (!cached || downloading) ? 'not-allowed' : 'pointer',
             minWidth: 120,

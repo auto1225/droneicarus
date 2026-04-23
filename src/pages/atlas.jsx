@@ -53,7 +53,7 @@ export function AtlasPage({ onNav }) {
               ['Avg. days to first submission', '21'],
               ['Median bounty', '$2,600'],
             ].map(([k, v], i) => (
-              <div key={k} style={{ display: 'flex', justifyContent: 'space-between', padding: '9px 0', borderTop: i === 0 ? 'none' : '1px solid var(--line)', fontSize: 13 }}>
+              <div key={k} style={{ display: 'flex', justifyContent: 'space-between', padding: '9px 0', borderTop: i === 0 ? 'none' : '1px solid var(--line)', fontSize: 14 }}>
                 <span style={{ color: 'var(--parchment-dim)' }}>{k}</span>
                 <span className="mono" style={{ fontWeight: 600 }}>{v}</span>
               </div>
@@ -66,10 +66,10 @@ export function AtlasPage({ onNav }) {
       <div style={{ maxWidth: 1200, margin: '0 auto', padding: '30px 28px 10px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <div style={{ display: 'flex', gap: 6 }}>
           {[['all','All · 184'],['easy','Easy'],['moderate','Moderate'],['extreme','Extreme'],['wildlife','Wildlife'],['arctic','Arctic']].map(([k, l]) => (
-            <button key={k} onClick={() => setFilter(k)} className={'chip' + (filter === k ? ' active' : '')} style={{ fontSize: 12 }}>{l}</button>
+            <button key={k} onClick={() => setFilter(k)} className={'chip' + (filter === k ? ' active' : '')} style={{ fontSize: 14 }}>{l}</button>
           ))}
         </div>
-        <select onChange={e => setSort(e.target.value)} value={sort} style={{ background: 'var(--forest-900)', border: '1px solid var(--line-strong)', color: 'var(--bone)', padding: '6px 12px', fontSize: 12, borderRadius: 3 }}>
+        <select onChange={e => setSort(e.target.value)} value={sort} style={{ background: 'var(--forest-900)', border: '1px solid var(--line-strong)', color: 'var(--bone)', padding: '6px 12px', fontSize: 14, borderRadius: 3 }}>
           <option value="votes">Most voted</option>
           <option value="bounty">Highest bounty</option>
         </select>
@@ -87,26 +87,26 @@ export function AtlasPage({ onNav }) {
               display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2,
             }} data-placeholder="true">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--sunset)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 4 L4 14 L10 14 L10 20 L14 20 L14 14 L20 14 Z"/></svg>
-              <span className="mono" style={{ fontSize: 12, fontWeight: 700 }}>{(b.votes/1000).toFixed(1)}K</span>
+              <span className="mono" style={{ fontSize: 14, fontWeight: 700 }}>{(b.votes/1000).toFixed(1)}K</span>
             </button>
             <div>
-              <div className="mono" style={{ fontSize: 10, letterSpacing: '0.14em', color: 'var(--parchment-dim)', marginBottom: 6 }}>
+              <div className="mono" style={{ fontSize: 12, letterSpacing: '0.14em', color: 'var(--parchment-dim)', marginBottom: 6 }}>
                 {b.country.toUpperCase()} · DIFFICULTY <span style={{ color: DIFFICULTY_COLOR[b.difficulty] }}>● {b.difficulty.toUpperCase()}</span>
               </div>
               <h3 style={{ fontSize: 24, letterSpacing: '-0.01em', marginBottom: 8, fontFamily: 'var(--font-display)' }}>{b.place}</h3>
-              <p style={{ fontSize: 13, color: 'var(--parchment)', lineHeight: 1.55, marginBottom: 10, maxWidth: 600 }}>{b.brief}</p>
+              <p style={{ fontSize: 14, color: 'var(--parchment)', lineHeight: 1.55, marginBottom: 10, maxWidth: 600 }}>{b.brief}</p>
               <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
-                {b.tags.map(t => <span key={t} style={{ fontSize: 10, padding: '3px 8px', border: '1px solid var(--line)', borderRadius: 2, fontFamily: 'var(--font-mono)', letterSpacing: '0.06em', color: 'var(--parchment-dim)' }}>{t}</span>)}
+                {b.tags.map(t => <span key={t} style={{ fontSize: 12, padding: '3px 8px', border: '1px solid var(--line)', borderRadius: 2, fontFamily: 'var(--font-mono)', letterSpacing: '0.06em', color: 'var(--parchment-dim)' }}>{t}</span>)}
               </div>
             </div>
             <div>
-              <div className="mono" style={{ fontSize: 10, letterSpacing: '0.14em', color: 'var(--parchment-dim)', marginBottom: 4 }}>BOUNTY PURSE</div>
+              <div className="mono" style={{ fontSize: 12, letterSpacing: '0.14em', color: 'var(--parchment-dim)', marginBottom: 4 }}>BOUNTY PURSE</div>
               <div style={{ fontSize: 32, fontFamily: 'var(--font-display)', fontWeight: 600, color: 'var(--amber)', letterSpacing: '-0.02em' }}>${b.bounty.toLocaleString()}</div>
-              <div style={{ fontSize: 11, color: 'var(--parchment-dim)' }}>Deadline · {b.deadline}, 2026</div>
+              <div style={{ fontSize: 12, color: 'var(--parchment-dim)' }}>Deadline · {b.deadline}, 2026</div>
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-              <button className="btn" style={{ fontSize: 12 }} data-placeholder="true">Claim this</button>
-              <button className="btn secondary" style={{ fontSize: 12 }} data-placeholder="true">Add to purse</button>
+              <button className="btn" style={{ fontSize: 14 }} data-placeholder="true">Claim this</button>
+              <button className="btn secondary" style={{ fontSize: 14 }} data-placeholder="true">Add to purse</button>
             </div>
           </article>
         ))}

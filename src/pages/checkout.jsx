@@ -158,10 +158,10 @@ export function CheckoutPage({ videoId, licenseType = 'Commercial', onNav }) {
       <div style={{ maxWidth: 1200, margin: '0 auto', padding: '32px 28px 60px', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 72 }}>
         {/* Left: order summary */}
         <div>
-          <button onClick={() => onNav('watch', v.id)} style={{ fontSize: 12, color: 'var(--parchment-dim)', marginBottom: 22 }}>← Back to clip</button>
-          <div className="mono" style={{ fontSize: 11, letterSpacing: '0.18em', color: 'var(--parchment-dim)', marginBottom: 10 }}>LICENSE CHECKOUT</div>
+          <button onClick={() => onNav('watch', v.id)} style={{ fontSize: 14, color: 'var(--parchment-dim)', marginBottom: 22 }}>← Back to clip</button>
+          <div className="mono" style={{ fontSize: 12, letterSpacing: '0.18em', color: 'var(--parchment-dim)', marginBottom: 10 }}>LICENSE CHECKOUT</div>
           <h1 style={{ fontSize: 34, lineHeight: 1.1, marginBottom: 8 }}>{v.title}</h1>
-          <div style={{ fontSize: 13, color: 'var(--parchment-dim)', marginBottom: 22 }}>
+          <div style={{ fontSize: 14, color: 'var(--parchment-dim)', marginBottom: 22 }}>
             {v.creator.handle} · {loc?.name}, {loc?.country}
           </div>
 
@@ -169,12 +169,12 @@ export function CheckoutPage({ videoId, licenseType = 'Commercial', onNav }) {
             aspectRatio: '16/9', borderRadius: 6, background: thumbGradient(v.id.charCodeAt(1) || 5),
             position: 'relative', marginBottom: 24, border: '1px solid var(--line-strong)',
           }}>
-            <div style={{ position: 'absolute', top: 10, left: 10, background: 'var(--thumb-overlay)', color: '#f5ede0', fontSize: 10, padding: '3px 7px', borderRadius: 2, fontFamily: 'var(--font-mono)', letterSpacing: '0.1em' }}>{v.resolution}</div>
-            <div style={{ position: 'absolute', bottom: 10, right: 10, background: 'var(--thumb-overlay)', color: '#f5ede0', fontSize: 10, padding: '3px 7px', borderRadius: 2, fontFamily: 'var(--font-mono)' }}>{v.duration}</div>
+            <div style={{ position: 'absolute', top: 10, left: 10, background: 'var(--thumb-overlay)', color: '#f5ede0', fontSize: 12, padding: '3px 7px', borderRadius: 2, fontFamily: 'var(--font-mono)', letterSpacing: '0.1em' }}>{v.resolution}</div>
+            <div style={{ position: 'absolute', bottom: 10, right: 10, background: 'var(--thumb-overlay)', color: '#f5ede0', fontSize: 12, padding: '3px 7px', borderRadius: 2, fontFamily: 'var(--font-mono)' }}>{v.duration}</div>
           </div>
 
           {/* License tiers */}
-          <div className="mono" style={{ fontSize: 11, letterSpacing: '0.18em', color: 'var(--parchment-dim)', marginBottom: 10 }}>LICENSE TIER</div>
+          <div className="mono" style={{ fontSize: 12, letterSpacing: '0.18em', color: 'var(--parchment-dim)', marginBottom: 10 }}>LICENSE TIER</div>
           <div style={{ border: '1px solid var(--line-strong)', borderRadius: 4, marginBottom: 22 }}>
             {[
               ['Personal', 'Edits, social reels, non-commercial', v.price],
@@ -191,7 +191,7 @@ export function CheckoutPage({ videoId, licenseType = 'Commercial', onNav }) {
                   <input type="radio" checked={on} onChange={() => setTier(k)}/>
                   <div>
                     <div style={{ fontSize: 14, fontWeight: 600 }}>{k}</div>
-                    <div style={{ fontSize: 11, color: 'var(--parchment-dim)' }}>{note}</div>
+                    <div style={{ fontSize: 12, color: 'var(--parchment-dim)' }}>{note}</div>
                   </div>
                   <div style={{ fontSize: 18, fontFamily: 'var(--font-display)', fontWeight: 600, textAlign: 'right' }}>${p}</div>
                 </label>
@@ -207,7 +207,7 @@ export function CheckoutPage({ videoId, licenseType = 'Commercial', onNav }) {
             <TotalRow k="Total" v={`$${total}`} bold/>
           </div>
 
-          <div style={{ fontSize: 11, fontFamily: 'var(--font-mono)', color: 'var(--parchment-dim)', marginTop: 14, letterSpacing: '0.1em', lineHeight: 1.6 }}>
+          <div style={{ fontSize: 12, fontFamily: 'var(--font-mono)', color: 'var(--parchment-dim)', marginTop: 14, letterSpacing: '0.1em', lineHeight: 1.6 }}>
             INCLUDES: {v.resolution} MASTER (MP4 H.264) · 4K PRORES 422 HQ · LUT (.CUBE) · SIGNED LICENSE PDF · UPDATES FOR 12 MONTHS
           </div>
         </div>
@@ -215,8 +215,8 @@ export function CheckoutPage({ videoId, licenseType = 'Commercial', onNav }) {
         {/* Right: payment form */}
         <div>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 22 }}>
-            <div className="mono" style={{ fontSize: 11, letterSpacing: '0.18em', color: 'var(--parchment-dim)' }}>SECURE PAYMENT · 256-bit TLS</div>
-            <div style={{ fontSize: 11, fontFamily: 'var(--font-mono)', color: 'var(--parchment-dim)' }}>POWERED BY PAYPAL</div>
+            <div className="mono" style={{ fontSize: 12, letterSpacing: '0.18em', color: 'var(--parchment-dim)' }}>SECURE PAYMENT · 256-bit TLS</div>
+            <div style={{ fontSize: 12, fontFamily: 'var(--font-mono)', color: 'var(--parchment-dim)' }}>POWERED BY PAYPAL</div>
           </div>
 
           {/* REQUIRED — single-download agreement (legal evidence for delivery terms) */}
@@ -227,7 +227,7 @@ export function CheckoutPage({ videoId, licenseType = 'Commercial', onNav }) {
             borderRadius: 4,
           }}>
             <div className="mono" style={{
-              fontSize: 10, letterSpacing: '0.14em',
+              fontSize: 12, letterSpacing: '0.14em',
               color: singleDownloadAgreed ? 'var(--lichen)' : 'var(--sunset)',
               marginBottom: 8, textTransform: 'uppercase',
             }}>DELIVERY POLICY · REQUIRED</div>
@@ -238,7 +238,7 @@ export function CheckoutPage({ videoId, licenseType = 'Commercial', onNav }) {
                 onChange={e => setSingleDownloadAgreed(e.target.checked)}
                 style={{ marginTop: 3, flexShrink: 0, width: 16, height: 16, accentColor: 'var(--lichen)' }}
               />
-              <div style={{ fontSize: 13, color: 'var(--parchment)', lineHeight: 1.55 }}>
+              <div style={{ fontSize: 14, color: 'var(--parchment)', lineHeight: 1.55 }}>
                 <strong style={{ color: 'var(--bone)' }}>I understand this is a one-time download.</strong>{' '}
                 I have 7 days from purchase to download the master file. droneicarus does
                 not keep a copy after that window &mdash; I am responsible for backing up the file
@@ -251,7 +251,7 @@ export function CheckoutPage({ videoId, licenseType = 'Commercial', onNav }) {
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, marginBottom: 22 }}>
             {[['card', 'Card'], ['paypal', 'PayPal']].map(([k, label]) => (
               <button key={k} onClick={() => setPayMethod(k)} style={{
-                padding: '12px 14px', fontSize: 13,
+                padding: '12px 14px', fontSize: 14,
                 border: payMethod === k ? '2px solid var(--sunset)' : '1px solid var(--line-strong)',
                 background: payMethod === k ? 'var(--forest-900)' : 'transparent',
                 borderRadius: 4, fontWeight: 600,
@@ -269,7 +269,7 @@ export function CheckoutPage({ videoId, licenseType = 'Commercial', onNav }) {
                 <div style={{ border: '1px solid var(--line-strong)', borderRadius: '4px 4px 0 0', background: 'var(--forest-900)' }}>
                   <div style={{ padding: '10px 14px', display: 'flex', alignItems: 'center', gap: 10, borderBottom: '1px solid var(--line)' }}>
                     <input value={card} onChange={e => setCard(e.target.value)} style={{ flex: 1, background: 'transparent', border: 'none', outline: 'none', color: 'var(--bone)', fontSize: 14, fontFamily: 'var(--font-mono)' }}/>
-                    <span style={{ fontSize: 10, fontFamily: 'var(--font-mono)', color: 'var(--parchment-dim)', letterSpacing: '0.1em' }}>VISA</span>
+                    <span style={{ fontSize: 12, fontFamily: 'var(--font-mono)', color: 'var(--parchment-dim)', letterSpacing: '0.1em' }}>VISA</span>
                   </div>
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr' }}>
                     <input value={exp} onChange={e => setExp(e.target.value)} placeholder="MM / YY" style={{ padding: '10px 14px', background: 'transparent', border: 'none', outline: 'none', color: 'var(--bone)', fontSize: 14, fontFamily: 'var(--font-mono)', borderRight: '1px solid var(--line)' }}/>
@@ -290,7 +290,7 @@ export function CheckoutPage({ videoId, licenseType = 'Commercial', onNav }) {
                   <input value={zip} onChange={e => setZip(e.target.value)} placeholder="Postal code" style={fstyle}/>
                 </div>
               </Fld>
-              <label style={{ display: 'flex', gap: 10, marginTop: 16, fontSize: 12, color: 'var(--parchment-dim)' }}>
+              <label style={{ display: 'flex', gap: 10, marginTop: 16, fontSize: 14, color: 'var(--parchment-dim)' }}>
                 <input type="checkbox" defaultChecked style={{ marginTop: 3 }}/>
                 Save card for future purchases. Charges appear as <span className="mono" style={{ color: 'var(--bone)' }}>ICARUS.FLY</span> on your statement.
               </label>
@@ -300,16 +300,16 @@ export function CheckoutPage({ videoId, licenseType = 'Commercial', onNav }) {
               <div style={{ fontSize: 22, fontWeight: 700, color: '#003087', marginBottom: 4, letterSpacing: '-0.02em', textAlign: 'center' }}>
                 Pay<span style={{ color: '#0070ba' }}>Pal</span>
               </div>
-              <div style={{ fontSize: 12, color: 'var(--parchment-dim)', marginBottom: 18, textAlign: 'center' }}>Click below to pay <strong style={{ color: 'var(--bone)' }}>${total}</strong> — you'll approve in a PayPal popup.</div>
+              <div style={{ fontSize: 14, color: 'var(--parchment-dim)', marginBottom: 18, textAlign: 'center' }}>Click below to pay <strong style={{ color: 'var(--bone)' }}>${total}</strong> — you'll approve in a PayPal popup.</div>
               <div style={{ position: 'relative' }}>
                 <div ref={paypalContainerRef} style={{ minHeight: 50, pointerEvents: singleDownloadAgreed ? 'auto' : 'none', opacity: singleDownloadAgreed ? 1 : 0.35 }} />
                 {!singleDownloadAgreed && (
-                  <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, color: 'var(--sunset)', pointerEvents: 'none' }}>
+                  <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14, color: 'var(--sunset)', pointerEvents: 'none' }}>
                     Check the delivery policy agreement to enable PayPal
                   </div>
                 )}
               </div>
-              <div className="mono" style={{ fontSize: 9, color: 'var(--parchment-dim)', letterSpacing: '0.14em', textAlign: 'center', marginTop: 12 }}>
+              <div className="mono" style={{ fontSize: 12, color: 'var(--parchment-dim)', letterSpacing: '0.14em', textAlign: 'center', marginTop: 12 }}>
                 {PAYPAL_CLIENT_ID === 'sb' ? '⚠ SANDBOX MODE — set VITE_PAYPAL_CLIENT_ID for live' : '● LIVE PAYMENTS'}
               </div>
             </div>
@@ -328,10 +328,10 @@ export function CheckoutPage({ videoId, licenseType = 'Commercial', onNav }) {
             </button>
           )}
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginTop: 16, fontSize: 11, color: 'var(--parchment-dim)' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginTop: 16, fontSize: 12, color: 'var(--parchment-dim)' }}>
             <Ic.lock/> Encrypted · 3-D Secure · SCA compliant · PCI-DSS L1
           </div>
-          <div style={{ marginTop: 18, fontSize: 11, color: 'var(--parchment-dim)', lineHeight: 1.6 }}>
+          <div style={{ marginTop: 18, fontSize: 12, color: 'var(--parchment-dim)', lineHeight: 1.6 }}>
             By paying, you agree to the <span style={{ color: 'var(--sunset)' }}>Drone Icarus license agreement</span> for the {tier} tier above.
             A signed PDF and the master files will be available in your <span style={{ color: 'var(--sunset)', cursor: 'pointer' }} onClick={() => onNav('orders')}>Orders locker</span> within 30 seconds.
           </div>
@@ -361,7 +361,7 @@ export function SuccessPage({ onNav }) {
         }}>
           <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><path d="M4 12l6 6L20 6"/></svg>
         </div>
-        <div className="mono" style={{ fontSize: 11, letterSpacing: '0.24em', color: 'var(--parchment-dim)', marginBottom: 8 }}>PAYMENT CONFIRMED · {new Date().toISOString().slice(0,10).replace(/-/g,'.')}</div>
+        <div className="mono" style={{ fontSize: 12, letterSpacing: '0.24em', color: 'var(--parchment-dim)', marginBottom: 8 }}>PAYMENT CONFIRMED · {new Date().toISOString().slice(0,10).replace(/-/g,'.')}</div>
         <h1 style={{ fontSize: 36, marginBottom: 8 }}>License issued.</h1>
         <p style={{ fontSize: 14, color: 'var(--parchment-dim)' }}>
           Order <span className="mono" style={{ color: 'var(--bone)' }}>{order.id}</span> · Paid with {order.method} · Emailed to hyunwoo@icarus.fly
@@ -371,12 +371,12 @@ export function SuccessPage({ onNav }) {
       <div style={{ border: '1px solid var(--line-strong)', borderRadius: 6, overflow: 'hidden', marginBottom: 22 }}>
         <div style={{ display: 'grid', gridTemplateColumns: '200px 1fr', gap: 0 }}>
           <div style={{ aspectRatio: '16/9', background: thumbGradient(v.id.charCodeAt(1) || 2), position: 'relative' }}>
-            <div style={{ position: 'absolute', bottom: 6, right: 6, background: 'var(--thumb-overlay)', color: '#f5ede0', fontSize: 10, padding: '2px 6px', fontFamily: 'var(--font-mono)', borderRadius: 2 }}>{v.duration}</div>
+            <div style={{ position: 'absolute', bottom: 6, right: 6, background: 'var(--thumb-overlay)', color: '#f5ede0', fontSize: 12, padding: '2px 6px', fontFamily: 'var(--font-mono)', borderRadius: 2 }}>{v.duration}</div>
           </div>
           <div style={{ padding: '16px 20px' }}>
             <div style={{ fontSize: 15, fontWeight: 600, marginBottom: 4 }}>{v.title}</div>
-            <div style={{ fontSize: 12, color: 'var(--parchment-dim)', marginBottom: 10 }}>{v.creator.handle} · {v.resolution} · {v.duration}</div>
-            <div className="mono" style={{ fontSize: 11, letterSpacing: '0.14em', color: 'var(--amber)', textTransform: 'uppercase' }}>{order.tier} LICENSE · PERPETUAL · WORLDWIDE</div>
+            <div style={{ fontSize: 14, color: 'var(--parchment-dim)', marginBottom: 10 }}>{v.creator.handle} · {v.resolution} · {v.duration}</div>
+            <div className="mono" style={{ fontSize: 12, letterSpacing: '0.14em', color: 'var(--amber)', textTransform: 'uppercase' }}>{order.tier} LICENSE · PERPETUAL · WORLDWIDE</div>
           </div>
         </div>
 
@@ -393,9 +393,9 @@ export function SuccessPage({ onNav }) {
               ['License.pdf', 'Signed', '84 KB'],
             ].map(([fmt, q, size], i) => (
               <div key={fmt} style={{ border: '1px solid var(--line)', padding: 12, borderRadius: 4, textAlign: 'center' }}>
-                <div style={{ fontSize: 12, fontWeight: 600, marginBottom: 3 }}>{fmt}</div>
-                <div style={{ fontSize: 10, color: 'var(--parchment-dim)', marginBottom: 8, fontFamily: 'var(--font-mono)', letterSpacing: '0.1em' }}>{q} · {size}</div>
-                <button className="btn secondary" style={{ fontSize: 11, padding: '6px 10px', width: '100%', justifyContent: 'center' }}
+                <div style={{ fontSize: 14, fontWeight: 600, marginBottom: 3 }}>{fmt}</div>
+                <div style={{ fontSize: 12, color: 'var(--parchment-dim)', marginBottom: 8, fontFamily: 'var(--font-mono)', letterSpacing: '0.1em' }}>{q} · {size}</div>
+                <button className="btn secondary" style={{ fontSize: 12, padding: '6px 10px', width: '100%', justifyContent: 'center' }}
                         onClick={() => {
                           const path = v.storagePath || v.storage_path;
                           if (path) downloadSigned(path, `${v.slug || v.id}-${fmt.replace(/\s+/g,'_')}.mp4`);
@@ -416,8 +416,8 @@ export function SuccessPage({ onNav }) {
       <div style={{ marginTop: 40, padding: '18px 20px', background: 'var(--forest-900)', border: '1px solid var(--line)', borderRadius: 4, display: 'flex', gap: 14, alignItems: 'center' }}>
         <div style={{ width: 36, height: 36, borderRadius: '50%', background: 'var(--moss)', color: '#faf6ec', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 700 }}>{v.creator.name[0]}</div>
         <div style={{ flex: 1 }}>
-          <div style={{ fontSize: 13, fontWeight: 600 }}>Pilot was paid ${(order.total * 0.7).toFixed(2)}</div>
-          <div style={{ fontSize: 11, color: 'var(--parchment-dim)' }}>{v.creator.name} ({v.creator.handle}) receives 70% of every license, paid out monthly. Thanks for supporting pilots directly.</div>
+          <div style={{ fontSize: 14, fontWeight: 600 }}>Pilot was paid ${(order.total * 0.7).toFixed(2)}</div>
+          <div style={{ fontSize: 12, color: 'var(--parchment-dim)' }}>{v.creator.name} ({v.creator.handle}) receives 70% of every license, paid out monthly. Thanks for supporting pilots directly.</div>
         </div>
       </div>
     </div>
@@ -436,7 +436,7 @@ export function OrdersPage({ onNav }) {
   const lifetime = data.reduce((s, o) => s + o.total, 0);
   return (
     <div style={{ maxWidth: 1200, margin: '0 auto', padding: '40px 28px 80px' }}>
-      <div className="mono" style={{ fontSize: 11, letterSpacing: '0.18em', color: 'var(--parchment-dim)', marginBottom: 10 }}>LICENSE LOCKER</div>
+      <div className="mono" style={{ fontSize: 12, letterSpacing: '0.18em', color: 'var(--parchment-dim)', marginBottom: 10 }}>LICENSE LOCKER</div>
       <h1 style={{ fontSize: 36, marginBottom: 6 }}>Orders & licenses</h1>
       <p style={{ fontSize: 14, color: 'var(--parchment-dim)', marginBottom: 24 }}>Every clip you've licensed, ready to re-download. Master files are held for you for 12 months after purchase.</p>
 
@@ -448,7 +448,7 @@ export function OrdersPage({ onNav }) {
           ['Storage in locker', '287 GB'],
         ].map(([k, v], i) => (
           <div key={k} style={{ padding: '18px 22px', borderLeft: i > 0 ? '1px solid var(--line)' : 'none' }}>
-            <div className="mono" style={{ fontSize: 10, letterSpacing: '0.14em', color: 'var(--parchment-dim)', textTransform: 'uppercase', marginBottom: 4 }}>{k}</div>
+            <div className="mono" style={{ fontSize: 12, letterSpacing: '0.14em', color: 'var(--parchment-dim)', textTransform: 'uppercase', marginBottom: 4 }}>{k}</div>
             <div style={{ fontSize: 24, fontFamily: 'var(--font-display)', fontWeight: 600 }}>{v}</div>
           </div>
         ))}
@@ -462,7 +462,7 @@ export function OrdersPage({ onNav }) {
               style={{ textTransform: 'capitalize' }}>{f}</button>
           ))}
         </div>
-        <div style={{ display: 'flex', gap: 10, fontSize: 12, color: 'var(--parchment-dim)' }}>
+        <div style={{ display: 'flex', gap: 10, fontSize: 14, color: 'var(--parchment-dim)' }}>
           <button data-placeholder="true">Export CSV</button>
           <span>·</span>
           <button data-placeholder="true">Download all receipts</button>
@@ -471,7 +471,7 @@ export function OrdersPage({ onNav }) {
 
       {/* Order rows */}
       <div style={{ border: '1px solid var(--line)', borderRadius: 4 }}>
-        <div style={{ display: 'grid', gridTemplateColumns: '140px 2fr 1fr 1fr 110px 130px', gap: 14, padding: '12px 18px', borderBottom: '1px solid var(--line)', fontSize: 10, fontFamily: 'var(--font-mono)', letterSpacing: '0.14em', color: 'var(--parchment-dim)', textTransform: 'uppercase' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '140px 2fr 1fr 1fr 110px 130px', gap: 14, padding: '12px 18px', borderBottom: '1px solid var(--line)', fontSize: 12, fontFamily: 'var(--font-mono)', letterSpacing: '0.14em', color: 'var(--parchment-dim)', textTransform: 'uppercase' }}>
           <div>ORDER</div><div>CLIP</div><div>LICENSE</div><div>FILE</div><div style={{ textAlign: 'right' }}>TOTAL</div><div></div>
         </div>
         {rows.map((o, i) => {
@@ -479,28 +479,28 @@ export function OrdersPage({ onNav }) {
           return (
             <div key={o.id} style={{ display: 'grid', gridTemplateColumns: '140px 2fr 1fr 1fr 110px 130px', gap: 14, padding: '16px 18px', alignItems: 'center', borderBottom: i < rows.length - 1 ? '1px solid var(--line)' : 'none' }}>
               <div>
-                <div style={{ fontSize: 12, fontFamily: 'var(--font-mono)' }}>{o.id}</div>
-                <div style={{ fontSize: 10, color: 'var(--parchment-dim)', marginTop: 2 }}>{o.date}</div>
+                <div style={{ fontSize: 14, fontFamily: 'var(--font-mono)' }}>{o.id}</div>
+                <div style={{ fontSize: 12, color: 'var(--parchment-dim)', marginTop: 2 }}>{o.date}</div>
               </div>
               <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
                 <div style={{ width: 56, height: 32, borderRadius: 2, background: thumbGradient(i + 2), flexShrink: 0 }}/>
                 <div style={{ minWidth: 0 }}>
-                  <div style={{ fontSize: 13, fontWeight: 600, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{v?.title}</div>
-                  <div style={{ fontSize: 11, color: 'var(--parchment-dim)' }}>{v?.creator.handle}</div>
+                  <div style={{ fontSize: 14, fontWeight: 600, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{v?.title}</div>
+                  <div style={{ fontSize: 12, color: 'var(--parchment-dim)' }}>{v?.creator.handle}</div>
                 </div>
               </div>
               <div>
-                <div style={{ fontSize: 12, fontWeight: 600 }}>{o.license}</div>
-                <div style={{ fontSize: 10, color: 'var(--parchment-dim)' }}>Non-exclusive</div>
+                <div style={{ fontSize: 14, fontWeight: 600 }}>{o.license}</div>
+                <div style={{ fontSize: 12, color: 'var(--parchment-dim)' }}>Non-exclusive</div>
               </div>
               <div>
-                <div style={{ fontSize: 12, fontFamily: 'var(--font-mono)' }}>{o.fileFormat}</div>
-                <div style={{ fontSize: 10, color: 'var(--parchment-dim)' }}>{o.fileSize}</div>
+                <div style={{ fontSize: 14, fontFamily: 'var(--font-mono)' }}>{o.fileFormat}</div>
+                <div style={{ fontSize: 12, color: 'var(--parchment-dim)' }}>{o.fileSize}</div>
               </div>
               <div style={{ textAlign: 'right', fontSize: 14, fontFamily: 'var(--font-display)', fontWeight: 600 }}>${o.total}</div>
               <div style={{ display: 'flex', gap: 6, justifyContent: 'flex-end' }}>
-                <button className="btn secondary" style={{ fontSize: 11, padding: '6px 10px' }} onClick={() => onNav('license', o.id)}>View</button>
-                <button className="btn secondary" style={{ fontSize: 11, padding: '6px 10px' }} data-placeholder="true">↓</button>
+                <button className="btn secondary" style={{ fontSize: 12, padding: '6px 10px' }} onClick={() => onNav('license', o.id)}>View</button>
+                <button className="btn secondary" style={{ fontSize: 12, padding: '6px 10px' }} data-placeholder="true">↓</button>
               </div>
             </div>
           );
@@ -516,7 +516,7 @@ export function LicenseDetailPage({ orderId, onNav }) {
   const loc = LOCATIONS.find(l => l.id === v?.locationId);
   return (
     <div style={{ maxWidth: 920, margin: '0 auto', padding: '40px 28px 80px' }}>
-      <button onClick={() => onNav('orders')} style={{ fontSize: 12, color: 'var(--parchment-dim)', marginBottom: 20 }}>← Back to locker</button>
+      <button onClick={() => onNav('orders')} style={{ fontSize: 14, color: 'var(--parchment-dim)', marginBottom: 20 }}>← Back to locker</button>
 
       {/* Certificate */}
       <div style={{ border: '1px solid var(--line-strong)', borderRadius: 8, overflow: 'hidden', background: 'var(--forest-950)', boxShadow: 'var(--shadow-lg)' }}>
@@ -527,15 +527,15 @@ export function LicenseDetailPage({ orderId, onNav }) {
                 <span style={{ color: 'var(--amber)' }}><Ic.drone/></span>
                 <span style={{ fontFamily: 'var(--font-display)', fontSize: 18, fontWeight: 600 }}>Drone<span style={{ color: 'var(--sunset)' }}>Icarus</span></span>
               </div>
-              <div className="mono" style={{ fontSize: 10, letterSpacing: '0.2em', color: 'var(--parchment-dim)' }}>LICENSE CERTIFICATE · v1.2</div>
+              <div className="mono" style={{ fontSize: 12, letterSpacing: '0.2em', color: 'var(--parchment-dim)' }}>LICENSE CERTIFICATE · v1.2</div>
             </div>
             <div style={{ textAlign: 'right' }}>
-              <div className="mono" style={{ fontSize: 10, letterSpacing: '0.18em', color: 'var(--parchment-dim)', marginBottom: 4 }}>CERTIFICATE NO.</div>
+              <div className="mono" style={{ fontSize: 12, letterSpacing: '0.18em', color: 'var(--parchment-dim)', marginBottom: 4 }}>CERTIFICATE NO.</div>
               <div style={{ fontSize: 16, fontFamily: 'var(--font-mono)', fontWeight: 600 }}>{o.id}</div>
             </div>
           </div>
           <h1 style={{ fontSize: 30, lineHeight: 1.1, marginBottom: 6 }}>{o.license} · Non-exclusive perpetual worldwide license</h1>
-          <p style={{ fontSize: 13, color: 'var(--parchment-dim)' }}>
+          <p style={{ fontSize: 14, color: 'var(--parchment-dim)' }}>
             Issued {o.date} · Grants the below licensee the rights described in §3 to the aerial footage described in §1.
           </p>
         </div>
@@ -546,8 +546,8 @@ export function LicenseDetailPage({ orderId, onNav }) {
             <div style={{ display: 'flex', gap: 12, marginBottom: 14 }}>
               <div style={{ width: 80, height: 50, background: thumbGradient(5), borderRadius: 2, flexShrink: 0 }}/>
               <div>
-                <div style={{ fontSize: 13, fontWeight: 600 }}>{v?.title}</div>
-                <div style={{ fontSize: 11, color: 'var(--parchment-dim)' }}>{v?.resolution} · {v?.duration} · ID {v?.id}</div>
+                <div style={{ fontSize: 14, fontWeight: 600 }}>{v?.title}</div>
+                <div style={{ fontSize: 12, color: 'var(--parchment-dim)' }}>{v?.resolution} · {v?.duration} · ID {v?.id}</div>
               </div>
             </div>
             <Kv k="Location" v={`${loc?.name}, ${loc?.country}`}/>
@@ -571,7 +571,7 @@ export function LicenseDetailPage({ orderId, onNav }) {
 
         <div style={{ padding: '32px 48px', borderTop: '1px solid var(--line)' }}>
           <div className="eyebrow" style={{ marginBottom: 12 }}>§3 · GRANT OF RIGHTS</div>
-          <p style={{ fontSize: 12, color: 'var(--parchment)', lineHeight: 1.7, marginBottom: 10 }}>
+          <p style={{ fontSize: 14, color: 'var(--parchment)', lineHeight: 1.7, marginBottom: 10 }}>
             Licensor grants Licensee a perpetual, worldwide, non-transferable, non-exclusive license to reproduce, distribute, publicly perform, and create derivative works based on the Work, subject to the {o.license} tier rights below. Credit line "<span className="mono">{v?.creator.handle} · Drone Icarus</span>" is required for the Personal tier only.
           </p>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 10, marginTop: 14 }}>
@@ -584,8 +584,8 @@ export function LicenseDetailPage({ orderId, onNav }) {
               ['Social / client edits', 'ALLOWED'],
             ].map(([k, v]) => (
               <div key={k} style={{ border: '1px solid var(--line)', padding: '10px 12px', borderRadius: 3 }}>
-                <div className="mono" style={{ fontSize: 10, letterSpacing: '0.14em', color: 'var(--parchment-dim)', textTransform: 'uppercase', marginBottom: 3 }}>{k}</div>
-                <div style={{ fontSize: 12, fontWeight: 600, color: v === 'ALLOWED' ? 'var(--moss)' : 'var(--parchment-dim)' }}>{v}</div>
+                <div className="mono" style={{ fontSize: 12, letterSpacing: '0.14em', color: 'var(--parchment-dim)', textTransform: 'uppercase', marginBottom: 3 }}>{k}</div>
+                <div style={{ fontSize: 14, fontWeight: 600, color: v === 'ALLOWED' ? 'var(--moss)' : 'var(--parchment-dim)' }}>{v}</div>
               </div>
             ))}
           </div>
@@ -593,14 +593,14 @@ export function LicenseDetailPage({ orderId, onNav }) {
 
         <div style={{ padding: '24px 48px 32px', borderTop: '1px solid var(--line)', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end' }}>
           <div>
-            <div className="mono" style={{ fontSize: 10, letterSpacing: '0.18em', color: 'var(--parchment-dim)', marginBottom: 4 }}>DIGITAL SIGNATURE · SHA-256</div>
-            <div style={{ fontSize: 11, fontFamily: 'var(--font-mono)', color: 'var(--parchment)', wordBreak: 'break-all', maxWidth: 560 }}>
+            <div className="mono" style={{ fontSize: 12, letterSpacing: '0.18em', color: 'var(--parchment-dim)', marginBottom: 4 }}>DIGITAL SIGNATURE · SHA-256</div>
+            <div style={{ fontSize: 12, fontFamily: 'var(--font-mono)', color: 'var(--parchment)', wordBreak: 'break-all', maxWidth: 560 }}>
               a7f3 c841 29b5 ee07 · d4a9 3f18 6b2c 9e54 · {o.id.replace(/-/g, '').toLowerCase()} · signed by icarus.fly · rfc3161
             </div>
           </div>
           <div style={{ textAlign: 'right' }}>
             <div style={{ fontFamily: 'var(--font-display)', fontSize: 22, fontStyle: 'italic', fontWeight: 500, color: 'var(--bone)' }}>icarus.fly</div>
-            <div className="mono" style={{ fontSize: 10, letterSpacing: '0.14em', color: 'var(--parchment-dim)', marginTop: 4 }}>AUTHORIZED SIGNATORY</div>
+            <div className="mono" style={{ fontSize: 12, letterSpacing: '0.14em', color: 'var(--parchment-dim)', marginTop: 4 }}>AUTHORIZED SIGNATORY</div>
           </div>
         </div>
       </div>
@@ -626,7 +626,7 @@ function TotalRow({ k, v, bold }) {
 function Fld({ label, children }) {
   return (
     <div>
-      <div className="mono" style={{ fontSize: 10, letterSpacing: '0.18em', color: 'var(--parchment-dim)', textTransform: 'uppercase', marginBottom: 8 }}>{label}</div>
+      <div className="mono" style={{ fontSize: 12, letterSpacing: '0.18em', color: 'var(--parchment-dim)', textTransform: 'uppercase', marginBottom: 8 }}>{label}</div>
       {children}
     </div>
   );
@@ -634,8 +634,8 @@ function Fld({ label, children }) {
 
 function Kv({ k, v, bold }) {
   return (
-    <div style={{ display: 'flex', justifyContent: 'space-between', padding: '6px 0', borderBottom: '1px solid var(--line)', fontSize: 12 }}>
-      <span style={{ color: 'var(--parchment-dim)', textTransform: 'uppercase', fontFamily: 'var(--font-mono)', letterSpacing: '0.1em', fontSize: 10 }}>{k}</span>
+    <div style={{ display: 'flex', justifyContent: 'space-between', padding: '6px 0', borderBottom: '1px solid var(--line)', fontSize: 14 }}>
+      <span style={{ color: 'var(--parchment-dim)', textTransform: 'uppercase', fontFamily: 'var(--font-mono)', letterSpacing: '0.1em', fontSize: 12 }}>{k}</span>
       <span style={{ fontWeight: bold ? 700 : 500, color: 'var(--bone)' }}>{v}</span>
     </div>
   );

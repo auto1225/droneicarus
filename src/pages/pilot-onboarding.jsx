@@ -25,8 +25,8 @@ export function PilotOnboardingPage({ onNav }) {
           </g>
         </svg>
         <div style={{ position: 'relative' }}>
-          <button onClick={() => onNav('home')} style={{ fontSize: 12, color: 'var(--parchment-dim)', marginBottom: 36 }}>← Back</button>
-          <div className="mono" style={{ fontSize: 11, letterSpacing: '0.2em', color: 'var(--amber)', marginBottom: 18 }}>BECOME A VERIFIED PILOT</div>
+          <button onClick={() => onNav('home')} style={{ fontSize: 14, color: 'var(--parchment-dim)', marginBottom: 36 }}>← Back</button>
+          <div className="mono" style={{ fontSize: 12, letterSpacing: '0.2em', color: 'var(--amber)', marginBottom: 18 }}>BECOME A VERIFIED PILOT</div>
           <h1 style={{ fontSize: 38, lineHeight: 1.05, marginBottom: 18, fontFamily: 'var(--font-display)', letterSpacing: '-0.02em' }}>
             Fly legally.<br/>
             <span style={{ fontStyle: 'italic', fontWeight: 400, color: 'var(--parchment)' }}>Get paid directly.</span>
@@ -37,7 +37,7 @@ export function PilotOnboardingPage({ onNav }) {
         </div>
 
         <div style={{ position: 'relative' }}>
-          <div className="mono" style={{ fontSize: 10, letterSpacing: '0.18em', color: 'var(--parchment-dim)', marginBottom: 14 }}>{String(step+1).padStart(2,'0')} / {String(steps.length).padStart(2,'0')}</div>
+          <div className="mono" style={{ fontSize: 12, letterSpacing: '0.18em', color: 'var(--parchment-dim)', marginBottom: 14 }}>{String(step+1).padStart(2,'0')} / {String(steps.length).padStart(2,'0')}</div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
             {steps.map((s, i) => (
               <div key={s} style={{ display: 'flex', gap: 14, alignItems: 'center', opacity: i > step ? 0.4 : 1 }}>
@@ -47,13 +47,13 @@ export function PilotOnboardingPage({ onNav }) {
                   border: '1px solid ' + (i < step ? 'var(--moss)' : i === step ? 'var(--amber)' : 'var(--line-strong)'),
                   color: i <= step ? '#faf6ec' : 'var(--parchment-dim)',
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  fontSize: 11, fontWeight: 700, fontFamily: 'var(--font-mono)',
+                  fontSize: 12, fontWeight: 700, fontFamily: 'var(--font-mono)',
                 }}>{i < step ? '✓' : i + 1}</div>
                 <div style={{ fontSize: 14, fontWeight: i === step ? 600 : 400, color: i === step ? 'var(--bone)' : 'var(--parchment)' }}>{s}</div>
               </div>
             ))}
           </div>
-          <div style={{ marginTop: 32, padding: 14, background: 'rgba(232, 176, 74, 0.08)', border: '1px solid rgba(232, 176, 74, 0.2)', borderRadius: 3, fontSize: 11, color: 'var(--parchment)', lineHeight: 1.5 }}>
+          <div style={{ marginTop: 32, padding: 14, background: 'rgba(232, 176, 74, 0.08)', border: '1px solid rgba(232, 176, 74, 0.2)', borderRadius: 3, fontSize: 12, color: 'var(--parchment)', lineHeight: 1.5 }}>
             <strong style={{ color: 'var(--amber)' }}>TAKES ~8 MIN.</strong> Typical review: 24h. We verify with KCAA, FAA, CAA, EASA and DGAC registries directly.
           </div>
         </div>
@@ -69,7 +69,7 @@ export function PilotOnboardingPage({ onNav }) {
         {step === 5 && <PReview go={() => onNav('settings')}/>}
 
         {step > 0 && step < 5 && (
-          <button onClick={() => setStep(step - 1)} style={{ marginTop: 20, fontSize: 12, color: 'var(--parchment-dim)' }}>← Previous step</button>
+          <button onClick={() => setStep(step - 1)} style={{ marginTop: 20, fontSize: 14, color: 'var(--parchment-dim)' }}>← Previous step</button>
         )}
       </main>
     </div>
@@ -94,7 +94,7 @@ function PWelcome({ go }) {
             <div style={{ color: 'var(--amber)', lineHeight: 1, paddingTop: 2 }}><Icon size={24}/></div>
             <div>
               <div style={{ fontSize: 14, fontWeight: 600, marginBottom: 3 }}>{t}</div>
-              <div style={{ fontSize: 12, color: 'var(--parchment-dim)', lineHeight: 1.6 }}>{d}</div>
+              <div style={{ fontSize: 14, color: 'var(--parchment-dim)', lineHeight: 1.6 }}>{d}</div>
             </div>
           </div>
         ))}
@@ -130,8 +130,8 @@ function PAbout({ go }) {
           background: 'var(--forest-950)',
         }}>
           <div style={{ color: 'var(--amber)', marginBottom: 8 }}><Ic.idCard size={28}/></div>
-          <div style={{ fontSize: 13, fontWeight: 600, marginBottom: 3 }}>passport_hp.pdf</div>
-          <div className="mono" style={{ fontSize: 10, color: 'var(--lichen)', letterSpacing: '0.14em' }}>● ENCRYPTED · 2.1 MB · OCR PASSED</div>
+          <div style={{ fontSize: 14, fontWeight: 600, marginBottom: 3 }}>passport_hp.pdf</div>
+          <div className="mono" style={{ fontSize: 12, color: 'var(--lichen)', letterSpacing: '0.14em' }}>● ENCRYPTED · 2.1 MB · OCR PASSED</div>
         </div>
       </OField>
       <button onClick={go} className="btn" style={{ marginTop: 20, padding: '12px 22px', fontSize: 14 }}>Continue →</button>
@@ -147,7 +147,7 @@ function PDrone({ go }) {
   return (
     <>
       <h2 style={{ fontSize: 26, marginBottom: 10 }}>Register your aircraft</h2>
-      <p style={{ fontSize: 13, color: 'var(--parchment-dim)', marginBottom: 24 }}>Every drone you fly commercially. You can add more later in settings.</p>
+      <p style={{ fontSize: 14, color: 'var(--parchment-dim)', marginBottom: 24 }}>Every drone you fly commercially. You can add more later in settings.</p>
 
       {drones.slice(0, n).map((_, i) => (
         <div key={i} style={{ border: '1px solid var(--line)', borderRadius: 4, padding: 22, marginBottom: 14 }}>
@@ -169,12 +169,12 @@ function PDrone({ go }) {
           </div>
           <div style={{ padding: 12, background: 'rgba(107, 142, 78, 0.1)', border: '1px solid var(--moss)', borderRadius: 3, display: 'flex', gap: 10, alignItems: 'center' }}>
             <span style={{ color: 'var(--moss)' }}><Ic.check/></span>
-            <div style={{ fontSize: 12, color: 'var(--parchment)' }}>Verified with <span className="mono">KCAA.go.kr</span> · operator: Hyunwoo Park · in good standing.</div>
+            <div style={{ fontSize: 14, color: 'var(--parchment)' }}>Verified with <span className="mono">KCAA.go.kr</span> · operator: Hyunwoo Park · in good standing.</div>
           </div>
         </div>
       ))}
 
-      <button onClick={() => setN(n + 1)} style={{ display: 'block', width: '100%', padding: 14, border: '1px dashed var(--line-strong)', borderRadius: 3, color: 'var(--parchment-dim)', fontSize: 13 }}>+ Register another drone</button>
+      <button onClick={() => setN(n + 1)} style={{ display: 'block', width: '100%', padding: 14, border: '1px dashed var(--line-strong)', borderRadius: 3, color: 'var(--parchment-dim)', fontSize: 14 }}>+ Register another drone</button>
 
       <button onClick={go} className="btn" style={{ marginTop: 20, padding: '12px 22px', fontSize: 14 }}>Continue →</button>
     </>
@@ -185,7 +185,7 @@ function PCert({ go }) {
   return (
     <>
       <h2 style={{ fontSize: 26, marginBottom: 10 }}>Certifications <span style={{ fontSize: 14, color: 'var(--parchment-dim)', fontWeight: 400 }}>(recommended)</span></h2>
-      <p style={{ fontSize: 13, color: 'var(--parchment-dim)', marginBottom: 24 }}>Verified pilots with commercial certification get the <span style={{ color: 'var(--amber)' }}>VERIFIED badge</span>, which earns buyer trust and unlocks paid commission invites.</p>
+      <p style={{ fontSize: 14, color: 'var(--parchment-dim)', marginBottom: 24 }}>Verified pilots with commercial certification get the <span style={{ color: 'var(--amber)' }}>VERIFIED badge</span>, which earns buyer trust and unlocks paid commission invites.</p>
 
       <div style={{ display: 'grid', gap: 10 }}>
         {[
@@ -199,12 +199,12 @@ function PCert({ go }) {
           return (
             <div key={name} style={{ padding: 16, border: '1px solid var(--line)', borderRadius: 3, display: 'grid', gridTemplateColumns: '1fr 1fr 120px', alignItems: 'center', gap: 14 }}>
               <div>
-                <div style={{ fontSize: 13, fontWeight: 600, marginBottom: 2 }}>{name}</div>
-                <div style={{ fontSize: 11, color: 'var(--parchment-dim)' }}>{reg}</div>
+                <div style={{ fontSize: 14, fontWeight: 600, marginBottom: 2 }}>{name}</div>
+                <div style={{ fontSize: 12, color: 'var(--parchment-dim)' }}>{reg}</div>
               </div>
-              <div className="mono" style={{ fontSize: 11, letterSpacing: '0.12em', color }}>{added && '● '}{status.toUpperCase()}</div>
+              <div className="mono" style={{ fontSize: 12, letterSpacing: '0.12em', color }}>{added && '● '}{status.toUpperCase()}</div>
               <button style={{
-                fontSize: 12, padding: '6px 12px', borderRadius: 3,
+                fontSize: 14, padding: '6px 12px', borderRadius: 3,
                 background: added ? 'transparent' : 'var(--forest-900)',
                 border: '1px solid ' + (added ? 'var(--line)' : 'var(--line-strong)'),
                 color: added ? 'var(--parchment-dim)' : 'var(--bone)',
@@ -215,7 +215,7 @@ function PCert({ go }) {
       </div>
 
       <button onClick={go} className="btn" style={{ marginTop: 24, padding: '12px 22px', fontSize: 14 }}>Continue →</button>
-      <button onClick={go} style={{ marginTop: 12, marginLeft: 14, fontSize: 13, color: 'var(--parchment-dim)' }}>Skip — I'll add these later</button>
+      <button onClick={go} style={{ marginTop: 12, marginLeft: 14, fontSize: 14, color: 'var(--parchment-dim)' }}>Skip — I'll add these later</button>
     </>
   );
 }
@@ -225,7 +225,7 @@ function PLiab({ go }) {
   return (
     <>
       <h2 style={{ fontSize: 26, marginBottom: 10 }}>Liability insurance</h2>
-      <p style={{ fontSize: 13, color: 'var(--parchment-dim)', marginBottom: 24 }}>Required only if you plan to sell <strong style={{ color: 'var(--amber)' }}>Extended licenses</strong> — broadcast, agency, resale ($500+ per clip).</p>
+      <p style={{ fontSize: 14, color: 'var(--parchment-dim)', marginBottom: 24 }}>Required only if you plan to sell <strong style={{ color: 'var(--amber)' }}>Extended licenses</strong> — broadcast, agency, resale ($500+ per clip).</p>
 
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 18 }}>
         {[
@@ -247,7 +247,7 @@ function PLiab({ go }) {
                 </div>
                 <strong style={{ fontSize: 14 }}>{t}</strong>
               </div>
-              <div style={{ fontSize: 12, color: 'var(--parchment-dim)', paddingLeft: 24, lineHeight: 1.5 }}>{d}</div>
+              <div style={{ fontSize: 14, color: 'var(--parchment-dim)', paddingLeft: 24, lineHeight: 1.5 }}>{d}</div>
             </button>
           );
         })}
@@ -262,8 +262,8 @@ function PLiab({ go }) {
           </div>
           <OField label="Certificate of insurance (PDF)">
             <div style={{ padding: 18, border: '2px dashed var(--line-strong)', borderRadius: 3, textAlign: 'center', background: 'var(--forest-950)' }}>
-              <div style={{ fontSize: 13, fontWeight: 600 }}>certificate_2026.pdf</div>
-              <div className="mono" style={{ fontSize: 10, color: 'var(--lichen)', letterSpacing: '0.14em', marginTop: 4 }}>● 412 KB · VERIFIED</div>
+              <div style={{ fontSize: 14, fontWeight: 600 }}>certificate_2026.pdf</div>
+              <div className="mono" style={{ fontSize: 12, color: 'var(--lichen)', letterSpacing: '0.14em', marginTop: 4 }}>● 412 KB · VERIFIED</div>
             </div>
           </OField>
         </div>
@@ -278,7 +278,7 @@ function PReview({ go }) {
   return (
     <>
       <h2 style={{ fontSize: 26, marginBottom: 10 }}>Review & submit</h2>
-      <p style={{ fontSize: 13, color: 'var(--parchment-dim)', marginBottom: 24 }}>Double-check, then we'll begin verification. Typical review: under 24h. You'll get an email when you're approved.</p>
+      <p style={{ fontSize: 14, color: 'var(--parchment-dim)', marginBottom: 24 }}>Double-check, then we'll begin verification. Typical review: under 24h. You'll get an email when you're approved.</p>
 
       <div style={{ border: '1px solid var(--line)', borderRadius: 4 }}>
         {[
@@ -289,16 +289,16 @@ function PReview({ go }) {
           ['Payout', 'Stripe Connect · KEB Hana Bank •• 4821'],
         ].map(([k, v], i) => (
           <div key={k} style={{ display: 'grid', gridTemplateColumns: '160px 1fr 80px', gap: 14, padding: '16px 22px', borderTop: i > 0 ? '1px solid var(--line)' : 'none', alignItems: 'center' }}>
-            <div className="mono" style={{ fontSize: 11, letterSpacing: '0.14em', color: 'var(--parchment-dim)', textTransform: 'uppercase' }}>{k}</div>
-            <div style={{ fontSize: 13 }}>{v}</div>
-            <button style={{ fontSize: 11, color: 'var(--sunset)', textAlign: 'right' }} data-placeholder="true">Edit</button>
+            <div className="mono" style={{ fontSize: 12, letterSpacing: '0.14em', color: 'var(--parchment-dim)', textTransform: 'uppercase' }}>{k}</div>
+            <div style={{ fontSize: 14 }}>{v}</div>
+            <button style={{ fontSize: 12, color: 'var(--sunset)', textAlign: 'right' }} data-placeholder="true">Edit</button>
           </div>
         ))}
       </div>
 
       <label style={{ display: 'flex', gap: 12, marginTop: 22, alignItems: 'flex-start' }}>
         <input type="checkbox" defaultChecked style={{ marginTop: 3 }}/>
-        <div style={{ fontSize: 12, color: 'var(--parchment)', lineHeight: 1.6 }}>
+        <div style={{ fontSize: 14, color: 'var(--parchment)', lineHeight: 1.6 }}>
           I confirm all information above is accurate and I have read the <span style={{ color: 'var(--sunset)' }}>Pilot Agreement v4.2</span> and the <span style={{ color: 'var(--sunset)' }}>Code of Aerial Conduct</span>. False information may result in immediate permanent ban and legal notice to the issuing authority.
         </div>
       </label>
@@ -311,9 +311,9 @@ function PReview({ go }) {
 function OField({ label, hint, children }) {
   return (
     <div style={{ marginBottom: 14 }}>
-      <div className="mono" style={{ fontSize: 10, letterSpacing: '0.18em', color: 'var(--parchment-dim)', textTransform: 'uppercase', marginBottom: 6 }}>{label}</div>
+      <div className="mono" style={{ fontSize: 12, letterSpacing: '0.18em', color: 'var(--parchment-dim)', textTransform: 'uppercase', marginBottom: 6 }}>{label}</div>
       {children}
-      {hint && <div style={{ fontSize: 11, color: 'var(--parchment-dim)', marginTop: 5 }}>{hint}</div>}
+      {hint && <div style={{ fontSize: 12, color: 'var(--parchment-dim)', marginTop: 5 }}>{hint}</div>}
     </div>
   );
 }

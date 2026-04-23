@@ -45,7 +45,7 @@ function paginate(rows, page, size = DEFAULT_PAGE_SIZE) {
 
 function Pagination({ page, pages, total, onPage, size = DEFAULT_PAGE_SIZE }) {
   if (pages <= 1) return (
-    <div className="mono" style={{ fontSize: 11, color: 'var(--parchment-dim)', padding: '10px 0' }}>
+    <div className="mono" style={{ fontSize: 12, color: 'var(--parchment-dim)', padding: '10px 0' }}>
       {total} item{total === 1 ? '' : 's'}
     </div>
   );
@@ -56,7 +56,7 @@ function Pagination({ page, pages, total, onPage, size = DEFAULT_PAGE_SIZE }) {
   const from = (page - 1) * size + 1;
   const to = Math.min(page * size, total);
   const btn = {
-    padding: '5px 10px', fontSize: 12, borderRadius: 3,
+    padding: '5px 10px', fontSize: 14, borderRadius: 3,
     border: '1px solid var(--line)', background: 'var(--forest-900)',
     color: 'var(--parchment)', cursor: 'pointer',
   };
@@ -72,7 +72,7 @@ function Pagination({ page, pages, total, onPage, size = DEFAULT_PAGE_SIZE }) {
       <button style={page === pages ? dim : btn} disabled={page === pages} onClick={() => onPage(page + 1)} title="Next">›</button>
       <button style={page === pages ? dim : btn} disabled={page === pages} onClick={() => onPage(pages)} title="Last">»</button>
       <span style={{ flex: 1 }}/>
-      <span className="mono" style={{ fontSize: 11, color: 'var(--parchment-dim)' }}>
+      <span className="mono" style={{ fontSize: 12, color: 'var(--parchment-dim)' }}>
         {from}–{to} / {total}
       </span>
     </div>
@@ -151,13 +151,13 @@ export function AdminShell({ section = 'dashboard', onNav }) {
         maxHeight: 'calc(100vh - 62px)', overflowY: 'auto',
       }}>
         <div style={{ padding: '6px 10px 14px' }}>
-          <div className="mono" style={{ fontSize: 10, letterSpacing: '0.2em', color: 'var(--amber)' }}>ADMIN · CMS</div>
-          <div style={{ fontSize: 13, color: 'var(--bone)', marginTop: 4 }}>{profile?.display_name || profile?.handle || 'Operator'}</div>
-          <div style={{ fontSize: 11, color: 'var(--parchment-dim)' }}>{profile?.email}</div>
+          <div className="mono" style={{ fontSize: 12, letterSpacing: '0.2em', color: 'var(--amber)' }}>ADMIN · CMS</div>
+          <div style={{ fontSize: 14, color: 'var(--bone)', marginTop: 4 }}>{profile?.display_name || profile?.handle || 'Operator'}</div>
+          <div style={{ fontSize: 12, color: 'var(--parchment-dim)' }}>{profile?.email}</div>
         </div>
         {SIDEBAR.map(group => (
           <div key={group.group} style={{ marginBottom: 14 }}>
-            <div className="mono" style={{ fontSize: 9, letterSpacing: '0.2em', color: 'var(--parchment-dim)', padding: '8px 12px' }}>{group.group.toUpperCase()}</div>
+            <div className="mono" style={{ fontSize: 12, letterSpacing: '0.2em', color: 'var(--parchment-dim)', padding: '8px 12px' }}>{group.group.toUpperCase()}</div>
             {group.items.map(it => {
               const active = section === it.id;
               return (
@@ -165,7 +165,7 @@ export function AdminShell({ section = 'dashboard', onNav }) {
                         onClick={() => onNav('admin', it.id)}
                         style={{
                           display: 'flex', alignItems: 'center', gap: 10, width: '100%',
-                          padding: '8px 12px', borderRadius: 4, fontSize: 13,
+                          padding: '8px 12px', borderRadius: 4, fontSize: 14,
                           background: active ? 'var(--forest-800)' : 'transparent',
                           color: active ? 'var(--amber)' : 'var(--parchment)',
                           border: 'none', cursor: 'pointer', textAlign: 'left',
@@ -179,10 +179,10 @@ export function AdminShell({ section = 'dashboard', onNav }) {
         ))}
         <div style={{ borderTop: '1px solid var(--line)', marginTop: 14, paddingTop: 14 }}>
           <button onClick={() => onNav('home')} style={{
-            display: 'block', width: '100%', padding: '8px 12px', borderRadius: 4, fontSize: 12, color: 'var(--parchment-dim)', textAlign: 'left',
+            display: 'block', width: '100%', padding: '8px 12px', borderRadius: 4, fontSize: 14, color: 'var(--parchment-dim)', textAlign: 'left',
           }}>← Back to site</button>
           <button onClick={async () => { await signOut(); onNav('home'); }} style={{
-            display: 'block', width: '100%', padding: '8px 12px', borderRadius: 4, fontSize: 12, color: 'var(--sunset)', textAlign: 'left',
+            display: 'block', width: '100%', padding: '8px 12px', borderRadius: 4, fontSize: 14, color: 'var(--sunset)', textAlign: 'left',
           }}>Sign out</button>
         </div>
       </aside>
@@ -271,7 +271,7 @@ function Dashboard() {
           <div key={label} style={{
             padding: 22, background: 'var(--forest-900)', border: '1px solid var(--line)', borderRadius: 6,
           }}>
-            <div className="mono" style={{ fontSize: 10, letterSpacing: '0.14em', color: 'var(--parchment-dim)' }}>{label.toUpperCase()}</div>
+            <div className="mono" style={{ fontSize: 12, letterSpacing: '0.14em', color: 'var(--parchment-dim)' }}>{label.toUpperCase()}</div>
             <div style={{ fontSize: 32, fontFamily: 'var(--font-display)', fontWeight: 600, color, marginTop: 6 }}>{value}</div>
           </div>
         ))}
@@ -289,12 +289,12 @@ function Dashboard() {
             {top.length === 0 && <Empty>등록된 파일럿이 없습니다.</Empty>}
             {top.map((c, i) => (
               <div key={c.id} style={{ display: 'flex', gap: 10, alignItems: 'center', padding: '8px 14px', borderBottom: '1px solid var(--line)' }}>
-                <span className="mono" style={{ width: 24, color: 'var(--parchment-dim)', fontSize: 11 }}>#{i+1}</span>
+                <span className="mono" style={{ width: 24, color: 'var(--parchment-dim)', fontSize: 12 }}>#{i+1}</span>
                 <div style={{ flex: 1 }}>
-                  <div style={{ fontSize: 13, fontWeight: 600 }}>{c.display_name || c.handle}</div>
-                  <div style={{ fontSize: 11, color: 'var(--parchment-dim)' }}>{c.handle}</div>
+                  <div style={{ fontSize: 14, fontWeight: 600 }}>{c.display_name || c.handle}</div>
+                  <div style={{ fontSize: 12, color: 'var(--parchment-dim)' }}>{c.handle}</div>
                 </div>
-                <span className="mono" style={{ fontSize: 11, color: 'var(--amber)' }}>{(c.followers_count || 0).toLocaleString()} followers</span>
+                <span className="mono" style={{ fontSize: 12, color: 'var(--amber)' }}>{(c.followers_count || 0).toLocaleString()} followers</span>
               </div>
             ))}
           </div>
@@ -304,7 +304,7 @@ function Dashboard() {
           <div style={{ border: '1px solid var(--line)', borderRadius: 4 }}>
             {recent.length === 0 && <Empty>활동 기록이 없습니다.</Empty>}
             {recent.map(r => (
-              <div key={r.id} style={{ padding: '10px 14px', borderBottom: '1px solid var(--line)', fontSize: 12, display: 'grid', gridTemplateColumns: '160px 1fr 140px', gap: 8 }}>
+              <div key={r.id} style={{ padding: '10px 14px', borderBottom: '1px solid var(--line)', fontSize: 14, display: 'grid', gridTemplateColumns: '160px 1fr 140px', gap: 8 }}>
                 <span className="mono" style={{ color: 'var(--parchment-dim)' }}>{new Date(r.created_at).toLocaleString()}</span>
                 <span style={{ color: 'var(--bone)' }}>{r.action} <span style={{ color: 'var(--parchment-dim)' }}>→ {r.target_type}</span></span>
                 <span style={{ color: 'var(--parchment-dim)' }}>{r.admin?.display_name || r.admin?.handle || ''}</span>
@@ -325,11 +325,11 @@ function ChartCard({ title, values, max, accent }) {
         <div style={{ display: 'flex', alignItems: 'flex-end', gap: 10, height: 140 }}>
           {values.map((v, i) => (
             <div key={i} style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4 }}>
-              <div style={{ fontSize: 10, color: 'var(--parchment-dim)' }}>{v.display}</div>
+              <div style={{ fontSize: 12, color: 'var(--parchment-dim)' }}>{v.display}</div>
               <div style={{ width: '100%', flex: 1, display: 'flex', alignItems: 'flex-end' }}>
                 <div style={{ width: '100%', height: Math.max(4, (v.value / max) * 120), background: accent, borderRadius: 2 }}/>
               </div>
-              <div className="mono" style={{ fontSize: 10, color: 'var(--parchment-dim)' }}>{v.label.slice(5)}</div>
+              <div className="mono" style={{ fontSize: 12, color: 'var(--parchment-dim)' }}>{v.label.slice(5)}</div>
             </div>
           ))}
         </div>
@@ -375,7 +375,7 @@ function AuditLog() {
       <div style={{ border: '1px solid var(--line)', borderRadius: 4 }}>
         {auditPage.total === 0 && <Empty>기록이 없습니다.</Empty>}
         {auditPage.slice.map(r => (
-          <div key={r.id} style={{ padding: '10px 16px', borderBottom: '1px solid var(--line)', fontSize: 12, display: 'grid', gridTemplateColumns: '180px 140px 180px 1fr 180px', gap: 10 }}>
+          <div key={r.id} style={{ padding: '10px 16px', borderBottom: '1px solid var(--line)', fontSize: 14, display: 'grid', gridTemplateColumns: '180px 140px 180px 1fr 180px', gap: 10 }}>
             <span className="mono" style={{ color: 'var(--parchment-dim)' }}>{new Date(r.created_at).toLocaleString()}</span>
             <span style={{ color: 'var(--amber)' }}>{r.action}</span>
             <span style={{ color: 'var(--parchment-dim)' }}>{r.target_type}:{(r.target_id || '').slice(0,14)}</span>
@@ -470,7 +470,7 @@ function Users({ onNav }) {
       }/>
       {selected.size > 0 && (
         <div style={{ padding: '10px 14px', background: 'var(--forest-900)', border: '1px solid var(--amber)', borderRadius: 4, marginBottom: 14, display: 'flex', gap: 10, alignItems: 'center' }}>
-          <strong style={{ fontSize: 13, color: 'var(--amber)' }}>{selected.size}명 선택됨</strong>
+          <strong style={{ fontSize: 14, color: 'var(--amber)' }}>{selected.size}명 선택됨</strong>
           <select onChange={bulkRole} style={{ ...selectStyle, width: 160 }} defaultValue="">
             <option value="">Bulk role →</option>
             {['viewer','pilot','studio','admin'].map(o=><option key={o}>{o}</option>)}
@@ -491,7 +491,7 @@ function Users({ onNav }) {
             <td style={tdStyle}><input type="checkbox" checked={selected.has(r.id)} onChange={e=>toggleSel(r.id, e.target.checked)}/></td>
             <td style={tdStyle}>
               <div style={{ fontWeight: 600 }}>{r.display_name || r.handle}</div>
-              <div style={{ fontSize: 11, color: 'var(--parchment-dim)' }}>{r.handle}</div>
+              <div style={{ fontSize: 12, color: 'var(--parchment-dim)' }}>{r.handle}</div>
             </td>
             <td style={tdStyle}>{r.email}</td>
             <td style={tdStyle}>
@@ -500,14 +500,14 @@ function Users({ onNav }) {
               </select>
             </td>
             <td style={tdStyle}>
-              <button onClick={()=>update(r.id, { pilot_verified: !r.pilot_verified }, 'Verified toggled')} className="btn secondary" style={{ fontSize: 11 }}>
+              <button onClick={()=>update(r.id, { pilot_verified: !r.pilot_verified }, 'Verified toggled')} className="btn secondary" style={{ fontSize: 12 }}>
                 {r.pilot_verified ? '✓ Verified' : '—'}
               </button>
             </td>
             <td style={tdStyle}>{new Date(r.created_at).toISOString().slice(0,10)}</td>
             <td style={tdStyle}>
-              <button onClick={()=>onNav('profile', r.handle.replace(/^@/,''))} className="btn secondary" style={{ fontSize: 11, marginRight: 6 }}>View</button>
-              <button onClick={()=>remove(r.id)} style={{ fontSize: 11, color: 'var(--sunset)' }}>Delete</button>
+              <button onClick={()=>onNav('profile', r.handle.replace(/^@/,''))} className="btn secondary" style={{ fontSize: 12, marginRight: 6 }}>View</button>
+              <button onClick={()=>remove(r.id)} style={{ fontSize: 12, color: 'var(--sunset)' }}>Delete</button>
             </td>
           </tr>
         ))}
@@ -558,7 +558,7 @@ function Videos({ onNav }) {
       }/>
       {selected.size > 0 && (
         <div style={{ padding: '10px 14px', background: 'var(--forest-900)', border: '1px solid var(--amber)', borderRadius: 4, marginBottom: 14, display: 'flex', gap: 10, alignItems: 'center' }}>
-          <strong style={{ fontSize: 13, color: 'var(--amber)' }}>{selected.size}개 선택됨</strong>
+          <strong style={{ fontSize: 14, color: 'var(--amber)' }}>{selected.size}개 선택됨</strong>
           <button className="btn" onClick={()=>bulkSet('published')}>Approve all</button>
           <button className="btn secondary" onClick={()=>bulkSet('rejected')}>Reject all</button>
           <button className="btn secondary" onClick={()=>bulkSet('removed')}>Remove</button>
@@ -578,23 +578,23 @@ function Videos({ onNav }) {
               {thumbUrl(r.thumb_path) ? (
                 <img src={thumbUrl(r.thumb_path)} alt="" style={{ width: 64, height: 40, objectFit: 'cover', borderRadius: 3, border: '1px solid var(--line)' }}/>
               ) : (
-                <div style={{ width: 64, height: 40, background: 'var(--forest-900)', border: '1px dashed var(--line)', borderRadius: 3, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 10, color: 'var(--parchment-dim)' }}>no thumb</div>
+                <div style={{ width: 64, height: 40, background: 'var(--forest-900)', border: '1px dashed var(--line)', borderRadius: 3, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, color: 'var(--parchment-dim)' }}>no thumb</div>
               )}
             </td>
             <td style={tdStyle}>
               <div style={{ fontWeight: 600, maxWidth: 280, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{r.title}</div>
-              <div style={{ fontSize: 11, color: 'var(--parchment-dim)' }}>{r.id?.slice(0,12)}…</div>
+              <div style={{ fontSize: 12, color: 'var(--parchment-dim)' }}>{r.id?.slice(0,12)}…</div>
             </td>
             <td style={tdStyle}>{r.owner?.handle}</td>
             <td style={tdStyle}>{r.category}</td>
-            <td style={tdStyle}><span className="mono" style={{ fontSize: 10, padding: '2px 8px', border: '1px solid var(--line)', borderRadius: 2, color: statusColor(r.status) }}>{r.status}</span></td>
+            <td style={tdStyle}><span className="mono" style={{ fontSize: 12, padding: '2px 8px', border: '1px solid var(--line)', borderRadius: 2, color: statusColor(r.status) }}>{r.status}</span></td>
             <td style={tdStyle}>${r.price_usd}</td>
             <td style={tdStyle}>{(r.views||0).toLocaleString()}</td>
             <td style={tdStyle}>
-              {r.status !== 'published' && <button onClick={()=>setS(r.id,'published')} className="btn" style={{ fontSize: 11, marginRight: 4 }}>Approve</button>}
-              {r.status !== 'rejected' && <button onClick={()=>setS(r.id,'rejected')} className="btn secondary" style={{ fontSize: 11, marginRight: 4 }}>Reject</button>}
-              <button onClick={()=>onNav('watch', r.id)} style={{ fontSize: 11, marginRight: 4 }}>View</button>
-              <button onClick={()=>del(r.id)} style={{ fontSize: 11, color: 'var(--sunset)' }}>Delete</button>
+              {r.status !== 'published' && <button onClick={()=>setS(r.id,'published')} className="btn" style={{ fontSize: 12, marginRight: 4 }}>Approve</button>}
+              {r.status !== 'rejected' && <button onClick={()=>setS(r.id,'rejected')} className="btn secondary" style={{ fontSize: 12, marginRight: 4 }}>Reject</button>}
+              <button onClick={()=>onNav('watch', r.id)} style={{ fontSize: 12, marginRight: 4 }}>View</button>
+              <button onClick={()=>del(r.id)} style={{ fontSize: 12, color: 'var(--sunset)' }}>Delete</button>
             </td>
           </tr>
         ))}
@@ -668,7 +668,7 @@ function Orders() {
             <td style={tdStyle}>${r.total}</td>
             <td style={tdStyle}><span className="mono" style={{ color: statusColor(r.status) }}>{r.status}</span></td>
             <td style={tdStyle}>{new Date(r.created_at).toLocaleDateString()}</td>
-            <td style={tdStyle}>{r.status !== 'refunded' && <button onClick={()=>refund(r.id)} className="btn secondary" style={{ fontSize: 11 }}>Refund</button>}</td>
+            <td style={tdStyle}>{r.status !== 'refunded' && <button onClick={()=>refund(r.id)} className="btn secondary" style={{ fontSize: 12 }}>Refund</button>}</td>
           </tr>
         ))}
         </tbody>
@@ -705,13 +705,13 @@ function Payouts() {
         {payPage.slice.map(r => (
           <tr key={r.id} style={trStyle}>
             <td style={tdStyle} className="mono">{r.id}</td>
-            <td style={tdStyle}>{r.pilot?.handle}<br/><span style={{ fontSize: 10, color: 'var(--parchment-dim)' }}>{r.pilot?.email}</span></td>
+            <td style={tdStyle}>{r.pilot?.handle}<br/><span style={{ fontSize: 12, color: 'var(--parchment-dim)' }}>{r.pilot?.email}</span></td>
             <td style={tdStyle}>{r.period}</td>
             <td style={tdStyle}>${r.gross}</td>
             <td style={tdStyle}>${r.net}</td>
             <td style={tdStyle}><span className="mono" style={{ color: statusColor(r.status) }}>{r.status}</span></td>
             <td style={tdStyle}>{r.eta}</td>
-            <td style={tdStyle}>{r.status === 'scheduled' && <button onClick={()=>pay(r.id)} className="btn" style={{ fontSize: 11 }}>Mark paid</button>}</td>
+            <td style={tdStyle}>{r.status === 'scheduled' && <button onClick={()=>pay(r.id)} className="btn" style={{ fontSize: 12 }}>Mark paid</button>}</td>
           </tr>
         ))}
         </tbody>
@@ -756,8 +756,8 @@ function LocationsEditor() {
             <td style={tdStyle}>{r.category}</td>
             <td style={tdStyle}>{r.featured ? '★' : ''}</td>
             <td style={tdStyle}>
-              <button onClick={()=>setEdit({...r})} className="btn secondary" style={{ fontSize: 11, marginRight: 4 }}>Edit</button>
-              <button onClick={()=>remove(r.id)} style={{ fontSize: 11, color: 'var(--sunset)' }}>Delete</button>
+              <button onClick={()=>setEdit({...r})} className="btn secondary" style={{ fontSize: 12, marginRight: 4 }}>Edit</button>
+              <button onClick={()=>remove(r.id)} style={{ fontSize: 12, color: 'var(--sunset)' }}>Delete</button>
             </td>
           </tr>
         ))}
@@ -784,7 +784,7 @@ function SettingsEditor({ k, title, fields }) {
       <div style={{ display: 'flex', flexDirection: 'column', gap: 14, maxWidth: 720 }}>
         {fields.map(([key, label, multiline]) => (
           <label key={key}>
-            <div className="mono" style={{ fontSize: 10, letterSpacing: '0.14em', color: 'var(--parchment-dim)', marginBottom: 4 }}>{label.toUpperCase()}</div>
+            <div className="mono" style={{ fontSize: 12, letterSpacing: '0.14em', color: 'var(--parchment-dim)', marginBottom: 4 }}>{label.toUpperCase()}</div>
             {multiline
               ? <textarea value={val[key] ?? ''} onChange={e=>setVal({...val, [key]: e.target.value})} style={{...inputStyle, minHeight: 80}}/>
               : typeof val[key] === 'boolean'
@@ -795,8 +795,8 @@ function SettingsEditor({ k, title, fields }) {
         <div style={{ display: 'flex', gap: 10 }}>
           <button onClick={save} className="btn">Save</button>
           <div style={{ flex: 1 }}/>
-          <details><summary style={{ fontSize: 11, color: 'var(--parchment-dim)', cursor: 'pointer' }}>Raw JSON</summary>
-            <pre style={{ fontSize: 11, background: 'var(--forest-900)', padding: 10, borderRadius: 4, overflow: 'auto', maxHeight: 300 }}>{JSON.stringify(val, null, 2)}</pre>
+          <details><summary style={{ fontSize: 12, color: 'var(--parchment-dim)', cursor: 'pointer' }}>Raw JSON</summary>
+            <pre style={{ fontSize: 12, background: 'var(--forest-900)', padding: 10, borderRadius: 4, overflow: 'auto', maxHeight: 300 }}>{JSON.stringify(val, null, 2)}</pre>
           </details>
         </div>
       </div>
@@ -853,8 +853,8 @@ function ArrayEditor({ k, title, fields }) {
           <tr key={r.__originalIndex} style={trStyle}>
             {fields.slice(0,3).map(([fk]) => <td key={fk} style={tdStyle}>{String(r[fk] ?? '').slice(0, 80)}</td>)}
             <td style={tdStyle}>
-              <button onClick={()=>setEdit({...r, __index: r.__originalIndex})} className="btn secondary" style={{ fontSize: 11, marginRight: 4 }}>Edit</button>
-              <button onClick={()=>del(r.__originalIndex)} style={{ fontSize: 11, color: 'var(--sunset)' }}>Delete</button>
+              <button onClick={()=>setEdit({...r, __index: r.__originalIndex})} className="btn secondary" style={{ fontSize: 12, marginRight: 4 }}>Edit</button>
+              <button onClick={()=>del(r.__originalIndex)} style={{ fontSize: 12, color: 'var(--sunset)' }}>Delete</button>
             </td>
           </tr>
         ))}
@@ -887,11 +887,11 @@ function FeaturedEditor() {
       <Header title="Featured picks" sub="Editor's Picks · Top 3 / 위치 슬러그 / 비디오 UUID"/>
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20, maxWidth: 900 }}>
         <div>
-          <div className="mono" style={{ fontSize: 10, color: 'var(--parchment-dim)', marginBottom: 6 }}>LOCATIONS (쉼표 구분 slug)</div>
+          <div className="mono" style={{ fontSize: 12, color: 'var(--parchment-dim)', marginBottom: 6 }}>LOCATIONS (쉼표 구분 slug)</div>
           <textarea value={(val.locations || []).join(', ')} onChange={e=>setVal({...val, locations: e.target.value.split(',').map(s=>s.trim()).filter(Boolean)})} style={{...inputStyle, minHeight: 120}}/>
         </div>
         <div>
-          <div className="mono" style={{ fontSize: 10, color: 'var(--parchment-dim)', marginBottom: 6 }}>VIDEOS (쉼표 구분 UUID)</div>
+          <div className="mono" style={{ fontSize: 12, color: 'var(--parchment-dim)', marginBottom: 6 }}>VIDEOS (쉼표 구분 UUID)</div>
           <textarea value={(val.videos || []).join(', ')} onChange={e=>setVal({...val, videos: e.target.value.split(',').map(s=>s.trim()).filter(Boolean)})} style={{...inputStyle, minHeight: 120}}/>
         </div>
       </div>
@@ -907,7 +907,7 @@ function RowEditor({ row, onChange, onSave, onCancel, fields }) {
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 12 }}>
         {fields.map(([fk, label, multiline]) => (
           <label key={fk} style={{ gridColumn: multiline ? 'span 2' : undefined }}>
-            <div className="mono" style={{ fontSize: 10, color: 'var(--parchment-dim)', marginBottom: 4 }}>{label.toUpperCase()}</div>
+            <div className="mono" style={{ fontSize: 12, color: 'var(--parchment-dim)', marginBottom: 4 }}>{label.toUpperCase()}</div>
             {typeof row[fk] === 'boolean' || /\?$/.test(label)
               ? <Toggle on={!!row[fk]} onChange={v=>onChange({...row, [fk]: v})}/>
               : multiline
@@ -935,24 +935,24 @@ function Header({ title, sub, right }) {
     <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', marginBottom: 24, borderBottom: '1px solid var(--line)', paddingBottom: 14 }}>
       <div>
         <h1 style={{ fontSize: 26, fontFamily: 'var(--font-display)', fontWeight: 600, marginBottom: 4 }}>{title}</h1>
-        {sub && <div style={{ fontSize: 12, color: 'var(--parchment-dim)' }}>{sub}</div>}
+        {sub && <div style={{ fontSize: 14, color: 'var(--parchment-dim)' }}>{sub}</div>}
       </div>
       {right}
     </div>
   );
 }
-function Th({ children }) { return <th style={{ textAlign: 'left', padding: '10px 12px', borderBottom: '1px solid var(--line-strong)', fontSize: 10, fontFamily: 'var(--font-mono)', color: 'var(--parchment-dim)', letterSpacing: '0.14em', textTransform: 'uppercase' }}>{children}</th>; }
+function Th({ children }) { return <th style={{ textAlign: 'left', padding: '10px 12px', borderBottom: '1px solid var(--line-strong)', fontSize: 12, fontFamily: 'var(--font-mono)', color: 'var(--parchment-dim)', letterSpacing: '0.14em', textTransform: 'uppercase' }}>{children}</th>; }
 function Toggle({ on, onChange }) {
   return <button onClick={() => onChange(!on)} style={{
     width: 40, height: 22, borderRadius: 11, padding: 2, background: on ? 'var(--amber)' : 'var(--forest-700)',
     border: 'none', display: 'flex', alignItems: 'center', justifyContent: on ? 'flex-end' : 'flex-start', cursor: 'pointer',
   }}><span style={{ width: 18, height: 18, borderRadius: '50%', background: '#faf6ec' }}/></button>;
 }
-function Empty({ children }) { return <div style={{ padding: 40, textAlign: 'center', color: 'var(--parchment-dim)', fontSize: 13 }}>{children}</div>; }
+function Empty({ children }) { return <div style={{ padding: 40, textAlign: 'center', color: 'var(--parchment-dim)', fontSize: 14 }}>{children}</div>; }
 function Loading() { return <div style={{ padding: 40, color: 'var(--parchment-dim)' }}>Loading…</div>; }
 
-const tableStyle = { width: '100%', borderCollapse: 'collapse', fontSize: 13 };
+const tableStyle = { width: '100%', borderCollapse: 'collapse', fontSize: 14 };
 const trStyle = { background: 'var(--forest-900)' };
 const tdStyle = { padding: '10px 12px', borderBottom: '1px solid var(--line)', color: 'var(--bone)' };
-const inputStyle = { width: '100%', padding: '10px 12px', fontSize: 13, background: 'var(--forest-900)', border: '1px solid var(--line-strong)', color: 'var(--bone)', borderRadius: 4, fontFamily: 'inherit', outline: 'none' };
+const inputStyle = { width: '100%', padding: '10px 12px', fontSize: 14, background: 'var(--forest-900)', border: '1px solid var(--line-strong)', color: 'var(--bone)', borderRadius: 4, fontFamily: 'inherit', outline: 'none' };
 const selectStyle = { ...inputStyle, width: 'auto' };

@@ -51,8 +51,8 @@ export function LiveHelpPage({ onNav }) {
            a={txt('livehelp.faq.a6', 'Monthly, on the 28th, to your registered PayPal email — once your balance is at least $50. Sub-$50 carries over.')}/>
 
       <div style={{ marginTop: 40, padding: 22, background: 'var(--forest-900)', border: '1px solid var(--amber)', borderRadius: 6 }}>
-        <div style={{ fontSize: 13, color: 'var(--amber)', fontWeight: 600, marginBottom: 8 }}>Ready to go live?</div>
-        <p style={{ fontSize: 13, color: 'var(--parchment)', marginBottom: 12 }}>Make sure you've started your YouTube live stream first.</p>
+        <div style={{ fontSize: 14, color: 'var(--amber)', fontWeight: 600, marginBottom: 8 }}>Ready to go live?</div>
+        <p style={{ fontSize: 14, color: 'var(--parchment)', marginBottom: 12 }}>Make sure you've started your YouTube live stream first.</p>
         <button onClick={() => onNav?.('live')} style={{ padding: '10px 18px', background: 'var(--sunset)', color: '#fff', border: 'none', borderRadius: 4, cursor: 'pointer', fontWeight: 700 }}>Go to Live page →</button>
       </div>
     </div>
@@ -75,7 +75,7 @@ function Faq({ q, a }) {
   return (
     <div style={{ marginBottom: 18, padding: '14px 18px', background: 'var(--forest-900)', border: '1px solid var(--line)', borderRadius: 4 }}>
       <div style={{ fontSize: 14, fontWeight: 600, marginBottom: 6 }}>{q}</div>
-      <div style={{ fontSize: 13, color: 'var(--parchment)', lineHeight: 1.6 }}>{a}</div>
+      <div style={{ fontSize: 14, color: 'var(--parchment)', lineHeight: 1.6 }}>{a}</div>
     </div>
   );
 }

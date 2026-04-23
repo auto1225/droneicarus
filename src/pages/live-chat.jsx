@@ -83,19 +83,19 @@ export function LiveChatPanel({ streamId }) {
     <div style={{ display: 'flex', flexDirection: 'column', height: '100%', minHeight: 360 }}>
       <div className="eyebrow" style={{ marginBottom: 8 }}>LIVE CHAT</div>
       <div ref={listRef} style={{ flex: 1, overflow: 'auto', display: 'flex', flexDirection: 'column', gap: 6, marginBottom: 8 }}>
-        {messages.length === 0 && <div style={{ color: 'var(--parchment-dim)', fontSize: 12, padding: 14, textAlign: 'center' }}>Chat is quiet — say hello.</div>}
+        {messages.length === 0 && <div style={{ color: 'var(--parchment-dim)', fontSize: 14, padding: 14, textAlign: 'center' }}>Chat is quiet — say hello.</div>}
         {messages.map(m => {
           if (m.is_super) {
             const t = tierFor(Number(m.super_amount_usd));
             return (
               <div key={m.id} style={{ background: t.color, color: t.text, padding: '8px 10px', borderRadius: 6 }}>
-                <div style={{ fontSize: 11, fontFamily: 'var(--font-mono)', marginBottom: 2, opacity: 0.85 }}>@{m.username || 'guest'} · ${Number(m.super_amount_usd).toFixed(2)}</div>
-                <div style={{ fontSize: 13, fontWeight: 600 }}>{m.body}</div>
+                <div style={{ fontSize: 12, fontFamily: 'var(--font-mono)', marginBottom: 2, opacity: 0.85 }}>@{m.username || 'guest'} · ${Number(m.super_amount_usd).toFixed(2)}</div>
+                <div style={{ fontSize: 14, fontWeight: 600 }}>{m.body}</div>
               </div>
             );
           }
           return (
-            <div key={m.id} style={{ fontSize: 12, lineHeight: 1.45 }}>
+            <div key={m.id} style={{ fontSize: 14, lineHeight: 1.45 }}>
               <span style={{ color: 'var(--amber)', fontFamily: 'var(--font-mono)', marginRight: 6 }}>@{m.username || 'guest'}</span>
               <span style={{ color: 'var(--parchment)' }}>{m.body}</span>
             </div>
@@ -105,11 +105,11 @@ export function LiveChatPanel({ streamId }) {
       <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
         <input value={input} onChange={e => setInput(e.target.value)} onKeyDown={e => e.key === 'Enter' && send()}
           placeholder={user ? 'Say something…' : 'Sign in to chat'} disabled={!user || busy}
-          style={{ flex: 1, padding: 9, background: 'var(--forest-900)', border: '1px solid var(--line-strong)', color: 'var(--bone)', fontSize: 12, borderRadius: 3 }}/>
+          style={{ flex: 1, padding: 9, background: 'var(--forest-900)', border: '1px solid var(--line-strong)', color: 'var(--bone)', fontSize: 14, borderRadius: 3 }}/>
         {monetized && (
           <button onClick={() => setShowSuper(true)} disabled={!user}
             title="Send a Super Chat — pinned, color-highlighted, supports the pilot 70%"
-            style={{ padding: '8px 10px', background: 'var(--amber)', color: 'var(--ink)', border: 'none', borderRadius: 3, cursor: user ? 'pointer' : 'not-allowed', fontWeight: 700, fontSize: 12 }}>
+            style={{ padding: '8px 10px', background: 'var(--amber)', color: 'var(--ink)', border: 'none', borderRadius: 3, cursor: user ? 'pointer' : 'not-allowed', fontWeight: 700, fontSize: 14 }}>
             $
           </button>
         )}
@@ -193,7 +193,7 @@ export function SuperChatModal({ streamId, onClose }) {
   return (
     <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.7)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 200 }} onClick={onClose}>
       <div onClick={e => e.stopPropagation()} style={{ background: 'var(--ink)', padding: 24, borderRadius: 8, maxWidth: 420, width: '90%', border: '1px solid var(--line-strong)' }}>
-        <div style={{ fontSize: 11, color: 'var(--amber)', fontFamily: 'var(--font-mono)', letterSpacing: '0.18em', marginBottom: 6 }}>SUPER CHAT</div>
+        <div style={{ fontSize: 12, color: 'var(--amber)', fontFamily: 'var(--font-mono)', letterSpacing: '0.18em', marginBottom: 6 }}>SUPER CHAT</div>
         <h3 style={{ marginTop: 0, marginBottom: 14 }}>Send a Super Chat</h3>
 
         <div style={{ display: 'flex', gap: 6, marginBottom: 12, flexWrap: 'wrap' }}>
@@ -210,15 +210,15 @@ export function SuperChatModal({ streamId, onClose }) {
 
         {/* Live preview */}
         <div style={{ background: tier.color, color: tier.text, padding: '12px 14px', borderRadius: 6, marginBottom: 14 }}>
-          <div style={{ fontSize: 11, fontFamily: 'var(--font-mono)', marginBottom: 4, opacity: 0.85 }}>@{profile?.handle || 'you'} · ${Number(amount || 0).toFixed(2)}</div>
+          <div style={{ fontSize: 12, fontFamily: 'var(--font-mono)', marginBottom: 4, opacity: 0.85 }}>@{profile?.handle || 'you'} · ${Number(amount || 0).toFixed(2)}</div>
           <div style={{ fontSize: 14, fontWeight: 600 }}>{body || `Your ${tier.label} message preview`}</div>
         </div>
 
         <textarea value={body} onChange={e => setBody(e.target.value)} placeholder="Optional message (max 500 chars)" rows={2}
           maxLength={500}
-          style={{ width: '100%', padding: '8px 10px', background: 'var(--forest-900)', border: '1px solid var(--line-strong)', color: 'var(--bone)', borderRadius: 4, marginBottom: 12, fontFamily: 'inherit', fontSize: 13 }}/>
+          style={{ width: '100%', padding: '8px 10px', background: 'var(--forest-900)', border: '1px solid var(--line-strong)', color: 'var(--bone)', borderRadius: 4, marginBottom: 12, fontFamily: 'inherit', fontSize: 14 }}/>
 
-        <div style={{ fontSize: 11, color: 'var(--parchment-dim)', marginBottom: 14 }}>
+        <div style={{ fontSize: 12, color: 'var(--parchment-dim)', marginBottom: 14 }}>
           70% goes directly to the pilot. 30% supports the platform.
           {tier.pinSec > 0 && <> Pinned for {tier.pinSec >= 60 ? Math.round(tier.pinSec/60) + ' min' : tier.pinSec + ' s'}.</>}
         </div>

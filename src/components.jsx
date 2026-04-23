@@ -110,7 +110,7 @@ export function SearchDropdown({ query, onNav, onSelect, onClose }) {
             <div key={r} className="search-dd-item" onClick={() => { onNav('search'); onClose(); }}>
               <span className="icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></span>
               <span style={{ flex: 1 }}>{r}</span>
-              <span className="mono" style={{ fontSize: 10, color: 'var(--parchment-dim)' }}>→</span>
+              <span className="mono" style={{ fontSize: 12, color: 'var(--parchment-dim)' }}>→</span>
             </div>
           ))}
           <div className="search-dd-section" style={{ marginTop: 8 }}>Trending</div>
@@ -119,7 +119,7 @@ export function SearchDropdown({ query, onNav, onSelect, onClose }) {
               <span className="icon" style={{ color: 'var(--sunset)' }}><Ic.fire/></span>
               <div style={{ flex: 1 }}>
                 <div>{t.label}</div>
-                <div style={{ fontSize: 11, color: 'var(--parchment-dim)' }}>{t.count}</div>
+                <div style={{ fontSize: 12, color: 'var(--parchment-dim)' }}>{t.count}</div>
               </div>
             </div>
           ))}
@@ -128,8 +128,8 @@ export function SearchDropdown({ query, onNav, onSelect, onClose }) {
 
       {q && !hasResults && (
         <div style={{ padding: '40px 20px', textAlign: 'center', color: 'var(--parchment-dim)' }}>
-          <div style={{ fontSize: 13, marginBottom: 4 }}>No matches for "{query}"</div>
-          <div style={{ fontSize: 11 }}>Try a place name, creator handle, or keyword like "sunset" or "coastline"</div>
+          <div style={{ fontSize: 14, marginBottom: 4 }}>No matches for "{query}"</div>
+          <div style={{ fontSize: 12 }}>Try a place name, creator handle, or keyword like "sunset" or "coastline"</div>
         </div>
       )}
 
@@ -141,7 +141,7 @@ export function SearchDropdown({ query, onNav, onSelect, onClose }) {
               <span className="icon" style={{ color: 'var(--amber)' }}><Ic.pin/></span>
               <div style={{ flex: 1 }}>
                 <div>{l.name}</div>
-                <div style={{ fontSize: 11, color: 'var(--parchment-dim)' }}>{l.country}{l.videos != null ? ` · ${l.videos} clips` : ''}</div>
+                <div style={{ fontSize: 12, color: 'var(--parchment-dim)' }}>{l.country}{l.videos != null ? ` · ${l.videos} clips` : ''}</div>
               </div>
               <span className="kbd">↵</span>
             </div>
@@ -160,7 +160,7 @@ export function SearchDropdown({ query, onNav, onSelect, onClose }) {
                   {c.name}
                   {c.verified && <span style={{ color: 'var(--amber)' }}><Ic.check/></span>}
                 </div>
-                <div style={{ fontSize: 11, color: 'var(--parchment-dim)' }}>{c.handle}</div>
+                <div style={{ fontSize: 12, color: 'var(--parchment-dim)' }}>{c.handle}</div>
               </div>
             </div>
           ))}
@@ -177,14 +177,14 @@ export function SearchDropdown({ query, onNav, onSelect, onClose }) {
               </span>
               <div style={{ flex: 1, minWidth: 0 }}>
                 <div style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{v.title}</div>
-                <div style={{ fontSize: 11, color: 'var(--parchment-dim)' }}>{v.creator?.handle || v.channel || '—'} · {v.duration} · {v.resolution}</div>
+                <div style={{ fontSize: 12, color: 'var(--parchment-dim)' }}>{v.creator?.handle || v.channel || '—'} · {v.duration} · {v.resolution}</div>
               </div>
             </div>
           ))}
         </>
       )}
 
-      <div style={{ borderTop: '1px solid var(--line)', padding: '10px 16px', display: 'flex', justifyContent: 'space-between', fontSize: 11, color: 'var(--parchment-dim)' }}>
+      <div style={{ borderTop: '1px solid var(--line)', padding: '10px 16px', display: 'flex', justifyContent: 'space-between', fontSize: 12, color: 'var(--parchment-dim)' }}>
         <div style={{ display: 'flex', gap: 12 }}>
           <span><span className="kbd">↑↓</span> navigate</span>
           <span><span className="kbd">↵</span> open</span>
@@ -265,7 +265,7 @@ export function Header({ route, onNav, query, setQuery }) {
           <span style={{ fontFamily: 'var(--font-display)', fontSize: 20, fontWeight: 600, letterSpacing: '-0.02em' }}>
             {(() => { const logo = txt('header.logo', 'DroneIcarus'); const m = logo.match(/^[A-Z][a-z]+/); const mid = m ? m[0].length : Math.ceil(logo.length / 2); return (<><span>{logo.slice(0, mid)}</span><span style={{ color: 'var(--sunset)' }}>{logo.slice(mid)}</span></>); })()}
           </span>
-          <span className="mono" style={{ fontSize: 9, color: 'var(--parchment-dim)', marginLeft: 4, border: '1px solid var(--line)', padding: '2px 5px', borderRadius: 2 }}>{txt('header.badge', 'BETA')}</span>
+          <span className="mono" style={{ fontSize: 12, color: 'var(--parchment-dim)', marginLeft: 4, border: '1px solid var(--line)', padding: '2px 5px', borderRadius: 2 }}>{txt('header.badge', 'BETA')}</span>
         </button>
 
         <nav style={{ display: 'flex', gap: 4, marginLeft: 12 }}>
@@ -335,9 +335,9 @@ export function Header({ route, onNav, query, setQuery }) {
         </button>
 
         {profile?.role === 'admin' && (
-          <button onClick={() => onNav('admin')} className="btn" style={{ fontSize: 13, background: 'var(--amber)', color: '#1a2820', fontWeight: 700, letterSpacing: '0.08em' }}>{txt('header.btn.cms', 'CMS')}</button>
+          <button onClick={() => onNav('admin')} className="btn" style={{ fontSize: 14, background: 'var(--amber)', color: '#1a2820', fontWeight: 700, letterSpacing: '0.08em' }}>{txt('header.btn.cms', 'CMS')}</button>
         )}
-        <button className="btn secondary" onClick={() => onNav('upload')} style={{ fontSize: 13 }}>
+        <button className="btn secondary" onClick={() => onNav('upload')} style={{ fontSize: 14 }}>
           <Ic.upload/> {txt('header.btn.upload', 'Upload')}
         </button>
 
@@ -346,7 +346,7 @@ export function Header({ route, onNav, query, setQuery }) {
             width: 34, height: 34, borderRadius: '50%',
             background: 'var(--sunset)',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
-            fontSize: 13, fontWeight: 700, color: '#faf6ec',
+            fontSize: 14, fontWeight: 700, color: '#faf6ec',
             border: '1px solid var(--line-strong)',
           }}>{u.initials}</button>
           {menuOpen && (
@@ -367,11 +367,11 @@ export function Header({ route, onNav, query, setQuery }) {
                   fontSize: 14, fontWeight: 700, color: '#faf6ec',
                 }}>{u.initials}</div>
                 <div>
-                  <div style={{ fontSize: 13, fontWeight: 600, display: 'flex', alignItems: 'center', gap: 4 }}>
+                  <div style={{ fontSize: 14, fontWeight: 600, display: 'flex', alignItems: 'center', gap: 4 }}>
                     {u.name}
                     {u.pilotVerified && <span style={{ color: 'var(--amber)' }}><Ic.check/></span>}
                   </div>
-                  <div style={{ fontSize: 11, color: 'var(--parchment-dim)' }}>{u.handle} · View profile</div>
+                  <div style={{ fontSize: 12, color: 'var(--parchment-dim)' }}>{u.handle} · View profile</div>
                 </div>
               </button>
               {(isGuest ? [
@@ -395,7 +395,7 @@ export function Header({ route, onNav, query, setQuery }) {
               ]).map(([id, label]) => (
                 <button key={id} onClick={() => { setMenuOpen(false); onNav(id); }} style={{
                   display: 'block', width: '100%', padding: '10px 16px', textAlign: 'left',
-                  fontSize: 13, color: 'var(--bone)',
+                  fontSize: 14, color: 'var(--bone)',
                 }}
                   onMouseEnter={e => e.currentTarget.style.background = 'var(--forest-900)'}
                   onMouseLeave={e => e.currentTarget.style.background = 'transparent'}>
@@ -405,14 +405,14 @@ export function Header({ route, onNav, query, setQuery }) {
               {!isGuest && (
                 <button onClick={async () => { setMenuOpen(false); await signOut(); onNav('home'); }} style={{
                   display: 'block', width: '100%', padding: '10px 16px', textAlign: 'left',
-                  fontSize: 13, color: 'var(--sunset)', borderTop: '1px solid var(--line)',
+                  fontSize: 14, color: 'var(--sunset)', borderTop: '1px solid var(--line)',
                 }}
                   onMouseEnter={e => e.currentTarget.style.background = 'var(--forest-900)'}
                   onMouseLeave={e => e.currentTarget.style.background = 'transparent'}>
                   Sign out
                 </button>
               )}
-              <div style={{ borderTop: '1px solid var(--line)', padding: '10px 16px', fontSize: 11, fontFamily: 'var(--font-mono)', color: 'var(--parchment-dim)', display: 'flex', justifyContent: 'space-between' }}>
+              <div style={{ borderTop: '1px solid var(--line)', padding: '10px 16px', fontSize: 12, fontFamily: 'var(--font-mono)', color: 'var(--parchment-dim)', display: 'flex', justifyContent: 'space-between' }}>
                 <span>ID · {u.id}</span>
                 <span>KR · ko</span>
               </div>
@@ -509,7 +509,7 @@ export function VideoCard({ video, onClick, size = 'md', showRank = false }) {
         {video.source === 'youtube' && (
           <div style={{
             position: 'absolute', top: 10, left: 10, zIndex: 2,
-            fontSize: 9, fontFamily: 'var(--font-mono)', letterSpacing: '0.1em',
+            fontSize: 12, fontFamily: 'var(--font-mono)', letterSpacing: '0.1em',
             color: '#fff', background: 'rgba(204,0,0,0.92)',
             padding: '3px 7px', borderRadius: 2, fontWeight: 700,
           }}>▶ YOUTUBE</div>
@@ -522,7 +522,7 @@ export function VideoCard({ video, onClick, size = 'md', showRank = false }) {
             background: 'var(--thumb-overlay)',
             border: '1px solid var(--sunset)',
             padding: '4px 8px', borderRadius: 2,
-            fontSize: 12, fontFamily: 'var(--font-mono)', color: 'var(--sunset)',
+            fontSize: 14, fontFamily: 'var(--font-mono)', color: 'var(--sunset)',
           }}><Ic.lock/> ${video.price}</div>
         )}
         {video.price === 0 && (
@@ -535,12 +535,12 @@ export function VideoCard({ video, onClick, size = 'md', showRank = false }) {
           position: 'absolute', bottom: 10, right: 10,
           background: 'var(--thumb-overlay)',
           padding: '3px 7px', borderRadius: 2,
-          fontSize: 11, fontFamily: 'var(--font-mono)', color: '#f5ede0',
+          fontSize: 12, fontFamily: 'var(--font-mono)', color: '#f5ede0',
         }}>{video.duration}</div>
 
         <div style={{
           position: 'absolute', top: 10, left: 10,
-          fontSize: 10, fontFamily: 'var(--font-mono)', letterSpacing: '0.1em',
+          fontSize: 12, fontFamily: 'var(--font-mono)', letterSpacing: '0.1em',
           color: '#f5ede0', background: 'var(--thumb-overlay)',
           padding: '3px 6px', border: '1px solid var(--line-strong)', borderRadius: 2,
         }}>{video.resolution}</div>
@@ -552,7 +552,7 @@ export function VideoCard({ video, onClick, size = 'md', showRank = false }) {
             color: 'var(--amber)', textShadow: '0 2px 8px rgba(0,0,0,0.8)',
             display: 'flex', alignItems: 'baseline', gap: 2,
           }}>
-            <span style={{ fontSize: 11, opacity: 0.7 }}>#</span>{video.rank}
+            <span style={{ fontSize: 12, opacity: 0.7 }}>#</span>{video.rank}
           </div>
         )}
 
@@ -580,7 +580,7 @@ export function VideoCard({ video, onClick, size = 'md', showRank = false }) {
             width: 30, height: 30, borderRadius: '50%', flexShrink: 0,
             background: 'var(--moss)',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
-            fontSize: 11, fontWeight: 700, color: 'var(--bone)',
+            fontSize: 12, fontWeight: 700, color: 'var(--bone)',
             border: '1px solid var(--line)',
           }}>{(video.creator?.name || video.channel || 'Y')[0]}</div>
           <div style={{ flex: 1, minWidth: 0 }}>
@@ -589,11 +589,11 @@ export function VideoCard({ video, onClick, size = 'md', showRank = false }) {
               overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical',
               lineHeight: 1.35, fontFamily: 'var(--font-ui)', letterSpacing: '-0.01em',
             }}>{video.title}</h4>
-            <div style={{ fontSize: 12, color: 'var(--parchment-dim)', display: 'flex', alignItems: 'center', gap: 6 }}>
+            <div style={{ fontSize: 14, color: 'var(--parchment-dim)', display: 'flex', alignItems: 'center', gap: 6 }}>
               <span>{video.creator?.handle || video.channel || ''}</span>
               {video.creator?.verified && <span style={{ color: 'var(--amber)' }}><Ic.check/></span>}
             </div>
-            <div style={{ fontSize: 12, color: 'var(--parchment-dim)', display: 'flex', alignItems: 'center', gap: 6, marginTop: 2 }}>
+            <div style={{ fontSize: 14, color: 'var(--parchment-dim)', display: 'flex', alignItems: 'center', gap: 6, marginTop: 2 }}>
               <span style={{ color: 'var(--lichen)' }}><Ic.pin/></span>
               <span>{loc?.name || ''}</span>
               {loc?.name && <span>·</span>}
@@ -659,19 +659,19 @@ export function Footer({ onNav }) {
               <span>{logo.slice(0, mid)}</span><span style={{ color: 'var(--sunset)' }}>{logo.slice(mid)}</span>
             </span>
           </div>
-          <p style={{ fontSize: 13, color: 'var(--parchment-dim)', maxWidth: 360, lineHeight: 1.6 }}>
+          <p style={{ fontSize: 14, color: 'var(--parchment-dim)', maxWidth: 360, lineHeight: 1.6 }}>
             {txt('footer.tagline', 'The atlas of aerial footage.')}
           </p>
           <div style={{ marginTop: 16, display: 'flex', gap: 8 }}>
-            <span className="mono" style={{ fontSize: 10, padding: '4px 8px', border: '1px solid var(--line)', borderRadius: 2, color: 'var(--parchment-dim)' }}>EST. 2026</span>
-            <span className="mono" style={{ fontSize: 10, padding: '4px 8px', border: '1px solid var(--line)', borderRadius: 2, color: 'var(--parchment-dim)' }}>{STATS.projected.countries} COUNTRIES</span>
+            <span className="mono" style={{ fontSize: 12, padding: '4px 8px', border: '1px solid var(--line)', borderRadius: 2, color: 'var(--parchment-dim)' }}>EST. 2026</span>
+            <span className="mono" style={{ fontSize: 12, padding: '4px 8px', border: '1px solid var(--line)', borderRadius: 2, color: 'var(--parchment-dim)' }}>{STATS.projected.countries} COUNTRIES</span>
           </div>
         </div>
         {cols.map((col, idx) => (
           <div key={idx}>
             <div className="eyebrow" style={{ marginBottom: 14 }}>{col.heading}</div>
             {(Array.isArray(col.links) ? col.links : []).map((l, i) => (
-              <button key={i} onClick={() => onNav?.(l.route || 'home')} style={{ display: 'block', background: 'none', border: 'none', padding: 0, fontSize: 13, color: 'var(--parchment)', marginBottom: 8, cursor: 'pointer', textAlign: 'left', fontFamily: 'inherit' }}>{l.label}</button>
+              <button key={i} onClick={() => onNav?.(l.route || 'home')} style={{ display: 'block', background: 'none', border: 'none', padding: 0, fontSize: 14, color: 'var(--parchment)', marginBottom: 8, cursor: 'pointer', textAlign: 'left', fontFamily: 'inherit' }}>{l.label}</button>
             ))}
           </div>
         ))}
@@ -680,7 +680,7 @@ export function Footer({ onNav }) {
         maxWidth: 1760, margin: '30px auto 0', paddingTop: 20,
         borderTop: '1px solid var(--line)',
         display: 'flex', justifyContent: 'space-between',
-        fontSize: 11, fontFamily: 'var(--font-mono)', color: 'var(--parchment-dim)',
+        fontSize: 12, fontFamily: 'var(--font-mono)', color: 'var(--parchment-dim)',
       }}>
         <span>{copyright}</span>
         <span className="mono">

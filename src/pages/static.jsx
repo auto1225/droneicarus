@@ -5,7 +5,7 @@ import { useContent } from '../content/ContentContext';
 export function GuidelinesPage({ onNav }) {
   return (
     <div style={{ maxWidth: 900, margin: '0 auto', padding: '60px 28px 80px' }}>
-      <button onClick={() => onNav('home')} style={{ fontSize: 12, color: 'var(--parchment-dim)', marginBottom: 18 }}>← Back to map</button>
+      <button onClick={() => onNav('home')} style={{ fontSize: 14, color: 'var(--parchment-dim)', marginBottom: 18 }}>← Back to map</button>
       <div className="eyebrow" style={{ marginBottom: 10 }}>CODE OF AERIAL CONDUCT · V4.2</div>
       <h1 style={{ fontSize: 52, letterSpacing: '-0.02em', marginBottom: 12, fontFamily: 'var(--font-display)' }}>Fly with care.</h1>
       <p style={{ fontSize: 18, color: 'var(--parchment)', lineHeight: 1.5, marginBottom: 40, maxWidth: 720 }}>
@@ -34,7 +34,7 @@ export function GuidelinesPage({ onNav }) {
       <div style={{ marginTop: 40, padding: 24, border: '1px solid var(--amber)', borderRadius: 4, background: 'rgba(232,176,74,0.06)' }}>
         <div className="eyebrow" style={{ marginBottom: 10, color: 'var(--amber)' }}>REPORT A VIOLATION</div>
         <p style={{ fontSize: 14, color: 'var(--parchment)', marginBottom: 14 }}>Saw a clip that breaks these rules? Flagged clips are reviewed within 12 hours by our trust team — a real human, not a classifier.</p>
-        <button className="btn" style={{ fontSize: 13 }} data-placeholder="true">Open a report</button>
+        <button className="btn" style={{ fontSize: 14 }} data-placeholder="true">Open a report</button>
       </div>
     </div>
   );
@@ -55,7 +55,7 @@ export function NotFoundPage({ onNav }) {
         </g>
       </svg>
       <div style={{ textAlign: 'center', maxWidth: 560, position: 'relative' }}>
-        <div className="mono" style={{ fontSize: 11, letterSpacing: '0.24em', color: 'var(--amber)', marginBottom: 18 }}>{useContent('static.404.eyebrow', '● SIGNAL LOST · 404')}</div>
+        <div className="mono" style={{ fontSize: 12, letterSpacing: '0.24em', color: 'var(--amber)', marginBottom: 18 }}>{useContent('static.404.eyebrow', '● SIGNAL LOST · 404')}</div>
         <h1 style={{ fontSize: 88, fontFamily: 'var(--font-display)', fontWeight: 600, letterSpacing: '-0.04em', lineHeight: 1, marginBottom: 14 }}>
           {useContent('static.404.title', 'Off the map.')}
         </h1>
@@ -66,7 +66,7 @@ export function NotFoundPage({ onNav }) {
           <button onClick={() => onNav('home')} className="btn">{useContent('static.404.btn.home', 'Return to map')}</button>
           <button onClick={() => onNav('explore')} className="btn secondary">{useContent('static.404.btn.shots', 'Browse trending')}</button>
         </div>
-        <div className="mono" style={{ fontSize: 10, color: 'var(--parchment-dim)', letterSpacing: '0.14em', marginTop: 40 }}>
+        <div className="mono" style={{ fontSize: 12, color: 'var(--parchment-dim)', letterSpacing: '0.14em', marginTop: 40 }}>
           LAST KNOWN WAYPOINT · 00°00′00″ N · 000°00′00″ E
         </div>
       </div>
@@ -77,13 +77,13 @@ export function NotFoundPage({ onNav }) {
 export function LegalPage({ onNav }) {
   return (
     <div style={{ maxWidth: 820, margin: '0 auto', padding: '60px 28px 80px' }}>
-      <button onClick={() => onNav('home')} style={{ fontSize: 12, color: 'var(--parchment-dim)', marginBottom: 18 }}>← Back</button>
+      <button onClick={() => onNav('home')} style={{ fontSize: 14, color: 'var(--parchment-dim)', marginBottom: 18 }}>← Back</button>
       <div className="eyebrow" style={{ marginBottom: 10 }}>LEGAL · LAST UPDATED APR 10, 2026</div>
       <h1 style={{ fontSize: 40, marginBottom: 24 }}>Terms & Licensing</h1>
       <div style={{ display: 'grid', gridTemplateColumns: '200px 1fr', gap: 32 }}>
         <nav style={{ position: 'sticky', top: 82, alignSelf: 'start' }}>
           {['Overview', 'Licenses explained', 'Revenue split', 'Takedowns', 'Data & privacy', 'Contact'].map((s, i) => (
-            <a key={s} style={{ display: 'block', padding: '7px 0', fontSize: 13, color: i === 0 ? 'var(--bone)' : 'var(--parchment-dim)' }}>{s}</a>
+            <a key={s} style={{ display: 'block', padding: '7px 0', fontSize: 14, color: i === 0 ? 'var(--bone)' : 'var(--parchment-dim)' }}>{s}</a>
           ))}
         </nav>
         <article style={{ fontSize: 14, lineHeight: 1.75, color: 'var(--parchment)' }}>
@@ -100,9 +100,9 @@ export function LegalPage({ onNav }) {
               ['Exclusive', 'One buyer. Clip is removed from catalog.', 'By quote'],
             ].map(([n, d, p], i) => (
               <div key={n} style={{ display: 'grid', gridTemplateColumns: '160px 1fr 100px', gap: 14, padding: '13px 18px', borderTop: i > 0 ? '1px solid var(--line)' : 'none', alignItems: 'center' }}>
-                <strong style={{ fontSize: 13 }}>{n}</strong>
-                <span style={{ fontSize: 13, color: 'var(--parchment)' }}>{d}</span>
-                <span className="mono" style={{ fontSize: 12, textAlign: 'right', color: 'var(--amber)' }}>{p}</span>
+                <strong style={{ fontSize: 14 }}>{n}</strong>
+                <span style={{ fontSize: 14, color: 'var(--parchment)' }}>{d}</span>
+                <span className="mono" style={{ fontSize: 14, textAlign: 'right', color: 'var(--amber)' }}>{p}</span>
               </div>
             ))}
           </div>
