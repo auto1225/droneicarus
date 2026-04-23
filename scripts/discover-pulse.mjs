@@ -6,21 +6,13 @@ const SUPA_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
 if (!SUPA_URL || !SUPA_KEY) { console.error('missing env'); process.exit(1); }
 
 const FEEDS = [
-  // Drone-focused news
-  { url: 'https://dronedj.com/feed/',                                 source: 'DroneDJ',          tags: ['news'] },
-  { url: 'https://www.suasnews.com/feed/',                            source: 'sUAS News',        tags: ['news','regulation'] },
-  { url: 'https://dronelife.com/feed/',                               source: 'DroneLife',        tags: ['news'] },
-  { url: 'https://www.unmannedsystemstechnology.com/feed/',           source: 'UST News',         tags: ['news','industry'] },
-  { url: 'https://www.unmannedairspace.info/feed/',                   source: 'Unmanned Airspace',tags: ['news','regulation'] },
-  { url: 'https://www.faa.gov/newsroom/rss/news-stories.xml',         source: 'FAA',              tags: ['regulation','usa'] },
-  // Aviation / drone tech
-  { url: 'https://feeds.arstechnica.com/arstechnica/index',           source: 'Ars Technica',     tags: ['news','tech'] },
-  // Reddit drone subs (rss appended via .rss)
-  { url: 'https://www.reddit.com/r/drones/.rss?limit=30',             source: 'r/drones',         tags: ['community']},
-  { url: 'https://www.reddit.com/r/Multicopter/.rss?limit=30',        source: 'r/Multicopter',    tags: ['fpv','community']},
-  { url: 'https://www.reddit.com/r/fpv/.rss?limit=30',                source: 'r/fpv',            tags: ['fpv','community']},
-  { url: 'https://www.reddit.com/r/diydrones/.rss?limit=30',          source: 'r/diydrones',      tags: ['diy','community']},
-  { url: 'https://www.reddit.com/r/UAVmapping/.rss?limit=30',         source: 'r/UAVmapping',     tags: ['mapping','community']},
+  // Quality drone-focused news only (no Reddit — feeds were leaking raw HTML)
+  { url: 'https://dronedj.com/feed/',                       source: 'DroneDJ',           tags: ['news'] },
+  { url: 'https://www.suasnews.com/feed/',                  source: 'sUAS News',         tags: ['news','regulation'] },
+  { url: 'https://dronelife.com/feed/',                     source: 'DroneLife',         tags: ['news'] },
+  { url: 'https://www.unmannedsystemstechnology.com/feed/', source: 'UST News',          tags: ['news','industry'] },
+  { url: 'https://www.unmannedairspace.info/feed/',         source: 'Unmanned Airspace', tags: ['news','regulation'] },
+  { url: 'https://www.faa.gov/newsroom/rss/news-stories.xml',source: 'FAA',              tags: ['regulation','usa'] },
 ];
 
 async function sb(path, opts = {}) {
@@ -43,10 +35,16 @@ async function fetchExistingSlugs() {
 
 function decode(s) {
   return String(s || '')
-    .replace(/<!\[CDATA\[([\s\S]*?)\]\]>/g, '$1')
-    .replace(/<[^>]+>/g, ' ')
+    .replace(/<!\[CDATA\[([\s\S]*?)\]\]>/g, '$1')   // unwrap CDATA
+    .replace(/<!--[\s\S]*?-->/g, ' ')                    // strip HTML comments (incl. Reddit's <!-- SC_OFF -->)
+    .replace(/<style[\s\S]*?<\/style>/gi, ' ')          // strip <style>
+    .replace(/<script[\s\S]*?<\/script>/gi, ' ')        // strip <script>
+    .replace(/<[^>]+>/g, ' ')                              // strip all remaining tags
+    .replace(/&nbsp;/g, ' ')
     .replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>')
     .replace(/&quot;/g, '"').replace(/&apos;/g, "'").replace(/&#x?\d+;/g, ' ')
+    .replace(/submitted by[\s\S]*$/i, '')                // drop Reddit "submitted by ..." trailer
+    .replace(/\[link\][\s\S]*$/i, '')                   // drop Reddit "[link] [comments]" trailer
     .replace(/\s+/g, ' ').trim();
 }
 
