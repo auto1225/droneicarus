@@ -1,107 +1,309 @@
-// src/pages/gear.jsx — Drone product catalog
-// Layout: left 220px category sidebar · main grid · right 280px ad sidebar
+// src/pages/gear.jsx — Drone product catalog with multi-axis faceted filters
 import React, { useState, useEffect, useMemo } from 'react';
 import { fetchDroneProducts, fetchDroneProduct, fetchGearAds } from '../db/gear';
 import { Ic } from '../components';
 
+// ─────────────────────────────────────────────────────────────
+// Classification axes
+// ─────────────────────────────────────────────────────────────
 const CATEGORIES = [
-  { id: 'all',            label: 'All Drones',    icon: 'drone' },
-  { id: 'consumer',       label: 'Consumer',      icon: 'drone' },
-  { id: 'photography',    label: 'Photography',   icon: 'eye' },
-  { id: 'fpv-racing',     label: 'FPV Racing',    icon: 'action' },
-  { id: 'fpv-freestyle',  label: 'FPV Freestyle', icon: 'fire' },
-  { id: 'cinewhoop',      label: 'Cinewhoop',     icon: 'play' },
-  { id: 'long-range',     label: 'Long Range',    icon: 'sky' },
-  { id: 'enterprise',     label: 'Enterprise',    icon: 'industry' },
-  { id: 'agricultural',   label: 'Agricultural',  icon: 'agriculture' },
-  { id: 'delivery',       label: 'Delivery',      icon: 'upload' },
-  { id: 'military',       label: 'Military',      icon: 'warfare' },
-  { id: 'public-safety',  label: 'Public Safety', icon: 'shield' },
-  { id: 'vtol',           label: 'VTOL / Wing',   icon: 'print3d' },
+  { id: 'all',            label: 'All Drones' },
+  { id: 'consumer',       label: 'Consumer' },
+  { id: 'photography',    label: 'Photography' },
+  { id: 'fpv-racing',     label: 'FPV Racing' },
+  { id: 'fpv-freestyle',  label: 'FPV Freestyle' },
+  { id: 'cinewhoop',      label: 'Cinewhoop' },
+  { id: 'long-range',     label: 'Long Range' },
+  { id: 'enterprise',     label: 'Enterprise' },
+  { id: 'agricultural',   label: 'Agricultural' },
+  { id: 'delivery',       label: 'Delivery' },
+  { id: 'military',       label: 'Military' },
+  { id: 'public-safety',  label: 'Public Safety' },
+  { id: 'vtol',           label: 'VTOL / Wing' },
 ];
 
+const PRICE_BUCKETS = [
+  { id: 'under-500',    label: 'Under $500',       min: 0,       max: 500 },
+  { id: '500-1500',     label: '$500 – $1,500',    min: 500,     max: 1500 },
+  { id: '1500-5000',    label: '$1,500 – $5,000',  min: 1500,    max: 5000 },
+  { id: '5000-20000',   label: '$5,000 – $20,000', min: 5000,    max: 20000 },
+  { id: 'enterprise',   label: '$20,000 – $100,000', min: 20000, max: 100000 },
+  { id: 'defense',      label: '$100,000+',        min: 100000,  max: Infinity },
+];
+
+const YEAR_BUCKETS = [
+  { id: '2024plus',  label: '2024 and newer', min: 2024 },
+  { id: '2022-2023', label: '2022–2023',      min: 2022, max: 2023 },
+  { id: '2020-2021', label: '2020–2021',      min: 2020, max: 2021 },
+  { id: 'pre-2020',  label: 'Before 2020',    max: 2019 },
+];
+
+// Feature detectors — derive from specs/tags/description
+const FEATURES = [
+  { id: '4k',             label: '4K video', match: p => /4k/i.test(p.specs?.video_resolution || '') },
+  { id: '8k',             label: '8K video', match: p => /8k/i.test(p.specs?.video_resolution || '') },
+  { id: 'thermal',        label: 'Thermal imaging',  match: p => /thermal|flir|boson/i.test((p.specs?.camera_sensor || '') + ' ' + (p.description || '') + ' ' + (p.tags || []).join(' ')) },
+  { id: 'obstacle',       label: 'Obstacle sensing', match: p => !!p.specs?.obstacle_sensing && p.specs.obstacle_sensing !== 'None' },
+  { id: 'sub250g',        label: 'Sub-250g',         match: p => (p.specs?.weight_g || 99999) <= 250 },
+  { id: 'rtk',            label: 'RTK positioning',  match: p => /rtk/i.test((p.name + ' ' + (p.description || '') + ' ' + (p.tags || []).join(' '))) },
+  { id: 'hd-digital',     label: 'HD digital FPV',   match: p => /dji.*o3|walksnail|hdzero|digital/i.test((p.description || '') + ' ' + (p.tags || []).join(' ')) },
+  { id: 'ndaa',           label: 'NDAA / Blue sUAS', match: p => /ndaa|blue sUAS|blue-suas|blue_suas/i.test((p.description || '') + ' ' + (p.tags || []).join(' ')) },
+  { id: 'vtol',           label: 'VTOL',             match: p => p.category === 'vtol' || /vtol/i.test((p.description || '') + ' ' + (p.subcategory || '')) },
+  { id: 'loitering',      label: 'Loitering munition', match: p => /loitering/i.test((p.subcategory || '') + ' ' + (p.description || '')) },
+  { id: 'long-range20k+', label: 'Long range (20km+)', match: p => (p.specs?.max_range_km || 0) >= 20 },
+  { id: 'autonomous',     label: 'Autonomous AI',    match: p => /autonomous|lattice|hivemind|skydio/i.test((p.description || '') + ' ' + (p.tags || []).join(' ')) },
+];
+
+function priceBucketOf(p) {
+  const min = p.price_usd_min || 0;
+  return PRICE_BUCKETS.find(b => min >= b.min && min < b.max)?.id || null;
+}
+function yearBucketOf(p) {
+  const y = p.release_year || 0;
+  return YEAR_BUCKETS.find(b => (b.min === undefined || y >= b.min) && (b.max === undefined || y <= b.max))?.id || null;
+}
+
+// Derive an airframe type from subcategory + tags
+function airframeTypeOf(p) {
+  const sub = (p.subcategory || '').toLowerCase();
+  const tags = (p.tags || []).join(' ').toLowerCase();
+  const desc = (p.description || '').toLowerCase();
+  const haystack = sub + ' ' + tags + ' ' + desc;
+  if (/hexa|matrice 350|yuneec h/i.test(haystack)) return 'hexacopter';
+  if (/fixed.?wing|wingtra|trinity|puma|global.?hawk|reaper|shahed|harop/i.test(haystack)) return 'fixed-wing';
+  if (/vtol|wingtraone|trinity|wingcopter/i.test(haystack)) return 'vtol';
+  if (/loitering|kamikaze|switchblade|phoenix.ghost|ghost-x|lancet|harop|shahed/i.test(haystack)) return 'loitering-munition';
+  if (/hand.launch|puma|raven/i.test(haystack)) return 'hand-launched';
+  return 'quadcopter';
+}
+
+const AIRFRAME_TYPES = [
+  { id: 'quadcopter', label: 'Quadcopter' },
+  { id: 'hexacopter', label: 'Hexacopter' },
+  { id: 'fixed-wing', label: 'Fixed-wing' },
+  { id: 'vtol', label: 'VTOL / Hybrid' },
+  { id: 'loitering-munition', label: 'Loitering munition' },
+  { id: 'hand-launched', label: 'Hand-launched' },
+];
+
+// ─────────────────────────────────────────────────────────────
+// Generate branded SVG fallback for missing/broken images
+// ─────────────────────────────────────────────────────────────
+function svgPlaceholder(p) {
+  const name = (p.name || '').slice(0, 40);
+  const manu = (p.manufacturer || '').slice(0, 30);
+  const colorSeed = (p.slug || name).split('').reduce((a, c) => a + c.charCodeAt(0), 0);
+  const hue = colorSeed % 360;
+  const bg1 = `hsl(${hue},35%,15%)`;
+  const bg2 = `hsl(${(hue + 40) % 360},35%,22%)`;
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 480">
+    <defs><linearGradient id="g" x1="0" y1="0" x2="640" y2="480" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="${bg1}"/><stop offset="1" stop-color="${bg2}"/>
+    </linearGradient></defs>
+    <rect width="640" height="480" fill="url(#g)"/>
+    <text x="40" y="80" font-family="monospace" font-size="14" letter-spacing="3" fill="#d97045">${manu.toUpperCase()}</text>
+    <text x="40" y="220" font-family="Georgia,serif" font-size="40" font-weight="700" fill="#faf6ec">${name}</text>
+    <g transform="translate(40,300)" stroke="#d97045" stroke-width="2" fill="none">
+      <circle cx="20" cy="20" r="14"/><circle cx="80" cy="20" r="14"/>
+      <circle cx="20" cy="80" r="14"/><circle cx="80" cy="80" r="14"/>
+      <path d="M34 34L66 66M66 34L34 66" stroke-width="1.5"/>
+      <rect x="40" y="40" width="20" height="20" rx="2"/>
+    </g>
+    <text x="40" y="430" font-family="monospace" font-size="11" letter-spacing="2" fill="#9ba39c">DRONEICARUS · GEAR</text>
+  </svg>`;
+  return 'data:image/svg+xml;base64,' + btoa(unescape(encodeURIComponent(svg)));
+}
+
+// ─────────────────────────────────────────────────────────────
+// Drone card (with fallback image on error)
+// ─────────────────────────────────────────────────────────────
+function DroneCard({ product, onOpen }) {
+  const [imgError, setImgError] = useState(false);
+  const priceLabel = product.price_usd_min
+    ? (product.price_usd_max && product.price_usd_max !== product.price_usd_min
+        ? `$${product.price_usd_min.toLocaleString()} – $${product.price_usd_max.toLocaleString()}`
+        : `$${product.price_usd_min.toLocaleString()}`)
+    : 'Contact';
+  const imgSrc = (imgError || !product.image_url) ? svgPlaceholder(product) : product.image_url;
+  return (
+    <article className="drone-card" onClick={onOpen} role="button" tabIndex={0}
+             onKeyDown={e => { if (e.key === 'Enter') onOpen(); }}>
+      <div className="drone-card-img-wrap">
+        <img src={imgSrc} alt={product.name} onError={() => setImgError(true)} referrerPolicy="no-referrer"/>
+        {product.featured && <span className="drone-card-featured">FEATURED</span>}
+      </div>
+      <div className="drone-card-body">
+        <div className="drone-card-manu">{product.manufacturer}</div>
+        <div className="drone-card-name">{product.name}</div>
+        <div className="drone-card-meta">
+          {product.specs?.weight_g && <span>{product.specs.weight_g.toLocaleString()}g</span>}
+          {product.specs?.flight_time_min && <span>· {product.specs.flight_time_min}min</span>}
+          {product.specs?.max_range_km && <span>· {product.specs.max_range_km}km</span>}
+        </div>
+        <div className="drone-card-price">{priceLabel}</div>
+      </div>
+    </article>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────
+// Gear page — main catalog with multi-axis filters
+// ─────────────────────────────────────────────────────────────
 export function GearPage({ onNav }) {
   const [products, setProducts] = useState([]);
   const [ads, setAds] = useState([]);
-  const [category, setCategory] = useState('all');
+  const [loading, setLoading] = useState(true);
   const [query, setQuery] = useState('');
   const [sort, setSort] = useState('featured');
-  const [loading, setLoading] = useState(true);
+
+  // Filter state
+  const [category, setCategory] = useState('all');
+  const [manufacturers, setManufacturers] = useState(new Set());
+  const [airframeTypes, setAirframeTypes] = useState(new Set());
+  const [priceBuckets, setPriceBuckets] = useState(new Set());
+  const [yearBuckets, setYearBuckets] = useState(new Set());
+  const [features, setFeatures] = useState(new Set());
 
   useEffect(() => {
     setLoading(true);
-    fetchDroneProducts({ category: category === 'all' ? undefined : category })
+    fetchDroneProducts()
       .then(r => { setProducts(r || []); setLoading(false); });
     fetchGearAds().then(r => setAds(r || []));
-  }, [category]);
+  }, []);
 
+  // Toggle helper for Sets
+  const toggle = (set, setter) => (id) => {
+    const next = new Set(set);
+    if (next.has(id)) next.delete(id); else next.add(id);
+    setter(next);
+  };
+
+  // Per-axis counts (shown next to each option). Computed on current products,
+  // so each count tells you "how many match if I add this filter to what I have."
+  // Simpler: show total count per option (unfiltered) for predictability.
+  const counts = useMemo(() => {
+    const cat = {}, manu = {}, type = {}, price = {}, year = {}, feat = {};
+    products.forEach(p => {
+      cat[p.category] = (cat[p.category] || 0) + 1;
+      manu[p.manufacturer] = (manu[p.manufacturer] || 0) + 1;
+      const t = airframeTypeOf(p); type[t] = (type[t] || 0) + 1;
+      const pb = priceBucketOf(p); if (pb) price[pb] = (price[pb] || 0) + 1;
+      const yb = yearBucketOf(p); if (yb) year[yb] = (year[yb] || 0) + 1;
+      FEATURES.forEach(f => { if (f.match(p)) feat[f.id] = (feat[f.id] || 0) + 1; });
+    });
+    return { cat, manu, type, price, year, feat };
+  }, [products]);
+
+  // Apply filters
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
-    let rows = products;
-    if (q) rows = rows.filter(p =>
-      p.name.toLowerCase().includes(q) ||
-      p.manufacturer.toLowerCase().includes(q) ||
-      (p.tags || []).some(t => String(t).toLowerCase().includes(q))
-    );
-    if (sort === 'price-low') rows = [...rows].sort((a, b) => (a.price_usd_min || 0) - (b.price_usd_min || 0));
+    let rows = products.filter(p => {
+      if (category !== 'all' && p.category !== category) return false;
+      if (manufacturers.size && !manufacturers.has(p.manufacturer)) return false;
+      if (airframeTypes.size && !airframeTypes.has(airframeTypeOf(p))) return false;
+      if (priceBuckets.size && !priceBuckets.has(priceBucketOf(p))) return false;
+      if (yearBuckets.size && !yearBuckets.has(yearBucketOf(p))) return false;
+      if (features.size) {
+        for (const fid of features) {
+          const f = FEATURES.find(x => x.id === fid);
+          if (f && !f.match(p)) return false;
+        }
+      }
+      if (q) {
+        const hay = (p.name + ' ' + p.manufacturer + ' ' + (p.description || '') + ' ' + (p.tags || []).join(' ')).toLowerCase();
+        if (!hay.includes(q)) return false;
+      }
+      return true;
+    });
+    if (sort === 'price-low')  rows = [...rows].sort((a, b) => (a.price_usd_min || 0) - (b.price_usd_min || 0));
     else if (sort === 'price-high') rows = [...rows].sort((a, b) => (b.price_usd_max || 0) - (a.price_usd_max || 0));
     else if (sort === 'newest') rows = [...rows].sort((a, b) => (b.release_year || 0) - (a.release_year || 0));
+    else rows = [...rows].sort((a, b) => (b.featured === a.featured ? a.name.localeCompare(b.name) : (b.featured ? 1 : -1)));
     return rows;
-  }, [products, query, sort]);
+  }, [products, category, manufacturers, airframeTypes, priceBuckets, yearBuckets, features, query, sort]);
 
-  // Per-category counts (from unfiltered)
-  const allRowsByCat = useMemo(() => {
-    const m = {};
-    products.forEach(p => { m[p.category] = (m[p.category] || 0) + 1; });
-    return m;
-  }, [products]);
+  const hasActiveFilters = category !== 'all' || manufacturers.size || airframeTypes.size || priceBuckets.size || yearBuckets.size || features.size || query;
+  const clearAll = () => {
+    setCategory('all'); setManufacturers(new Set()); setAirframeTypes(new Set());
+    setPriceBuckets(new Set()); setYearBuckets(new Set()); setFeatures(new Set()); setQuery('');
+  };
+
+  const manuList = useMemo(() => Object.entries(counts.manu).sort((a, b) => b[1] - a[1]).map(([k, v]) => ({ id: k, label: k, count: v })), [counts.manu]);
 
   return (
     <div className="gear-layout">
-      {/* LEFT SIDEBAR — categories */}
+      {/* LEFT SIDEBAR — multi-axis filters */}
       <aside className="gear-sidebar">
-        <div className="mono gear-label">CATEGORIES</div>
-        <nav>
+
+        <FilterGroup label="CATEGORIES">
           {CATEGORIES.map(c => {
-            const active = category === c.id;
-            const count = c.id === 'all' ? products.length : (allRowsByCat[c.id] || 0);
+            const n = c.id === 'all' ? products.length : (counts.cat[c.id] || 0);
             return (
-              <button key={c.id} className={`gear-cat ${active ? 'active' : ''}`} onClick={() => setCategory(c.id)}>
-                <span className="icon">{Ic[c.icon] ? Ic[c.icon]() : null}</span>
+              <button key={c.id} className={`gear-cat ${category === c.id ? 'active' : ''}`}
+                      onClick={() => setCategory(c.id)}>
                 <span className="label">{c.label}</span>
-                <span className="count">{count}</span>
+                <span className="count">{n}</span>
               </button>
             );
           })}
-        </nav>
-        <div className="mono gear-label" style={{ marginTop: 28 }}>MANUFACTURERS</div>
-        <div className="gear-manu">
-          {Array.from(new Set(products.map(p => p.manufacturer))).slice(0, 20).map(m => (
-            <button key={m} className="gear-manu-btn" onClick={() => setQuery(m)}>{m}</button>
+        </FilterGroup>
+
+        <FilterGroup label={`MANUFACTURERS (${manuList.length})`}>
+          {manuList.map(m => (
+            <CheckboxRow key={m.id} label={m.label} count={m.count}
+                         checked={manufacturers.has(m.id)} onChange={() => toggle(manufacturers, setManufacturers)(m.id)} />
           ))}
-        </div>
+        </FilterGroup>
+
+        <FilterGroup label="AIRFRAME TYPE">
+          {AIRFRAME_TYPES.map(t => (
+            <CheckboxRow key={t.id} label={t.label} count={counts.type[t.id] || 0}
+                         checked={airframeTypes.has(t.id)} onChange={() => toggle(airframeTypes, setAirframeTypes)(t.id)} />
+          ))}
+        </FilterGroup>
+
+        <FilterGroup label="FEATURES">
+          {FEATURES.map(f => (
+            <CheckboxRow key={f.id} label={f.label} count={counts.feat[f.id] || 0}
+                         checked={features.has(f.id)} onChange={() => toggle(features, setFeatures)(f.id)} />
+          ))}
+        </FilterGroup>
+
+        <FilterGroup label="PRICE">
+          {PRICE_BUCKETS.map(b => (
+            <CheckboxRow key={b.id} label={b.label} count={counts.price[b.id] || 0}
+                         checked={priceBuckets.has(b.id)} onChange={() => toggle(priceBuckets, setPriceBuckets)(b.id)} />
+          ))}
+        </FilterGroup>
+
+        <FilterGroup label="RELEASE YEAR">
+          {YEAR_BUCKETS.map(b => (
+            <CheckboxRow key={b.id} label={b.label} count={counts.year[b.id] || 0}
+                         checked={yearBuckets.has(b.id)} onChange={() => toggle(yearBuckets, setYearBuckets)(b.id)} />
+          ))}
+        </FilterGroup>
+
+        {hasActiveFilters && (
+          <button className="gear-clear-all" onClick={clearAll}>Clear all filters</button>
+        )}
       </aside>
 
-      {/* CENTER — product grid */}
+      {/* MAIN GRID */}
       <main className="gear-main">
         <div className="gear-header">
-          <div>
-            <div className="eyebrow">DRONES CATALOG</div>
-            <h1>Drones for every mission</h1>
-            <p className="gear-sub">
-              Browse drones from 30+ manufacturers — consumer camera drones, FPV racers,
-              enterprise platforms, military-grade UAVs, and everything in between.
-            </p>
-          </div>
+          <div className="eyebrow">DRONES CATALOG</div>
+          <h1>Drones for every mission</h1>
+          <p className="gear-sub">
+            {products.length} drones from {manuList.length} manufacturers — consumer,
+            cinema, FPV, enterprise, agricultural, and defense systems.
+            Filter by category, manufacturer, type, feature, price, or year.
+          </p>
         </div>
 
         <div className="gear-toolbar">
-          <input
-            className="gear-search"
-            value={query}
-            onChange={e => setQuery(e.target.value)}
-            placeholder="Search drones, brands, specs…"
-          />
+          <input className="gear-search" value={query}
+                 onChange={e => setQuery(e.target.value)}
+                 placeholder="Search drones, manufacturers, specs…"/>
           <select className="gear-sort" value={sort} onChange={e => setSort(e.target.value)}>
             <option value="featured">Featured</option>
             <option value="newest">Newest first</option>
@@ -115,10 +317,10 @@ export function GearPage({ onNav }) {
           <div className="gear-loading">Loading catalog…</div>
         ) : filtered.length === 0 ? (
           <div className="gear-empty">
-            <div>No drones match these filters yet.</div>
-            <div style={{ fontSize: 14, color: 'var(--parchment-dim)', marginTop: 4 }}>
-              Try a different category or clear the search.
-            </div>
+            <div>No drones match these filters.</div>
+            {hasActiveFilters && (
+              <button onClick={clearAll} className="btn secondary" style={{ marginTop: 16 }}>Clear all filters</button>
+            )}
           </div>
         ) : (
           <div className="gear-grid">
@@ -139,7 +341,7 @@ export function GearPage({ onNav }) {
               Reach pilots, cinematographers, and buyers actively researching drones.
               4 premium placements, CMS-managed rotation, direct click-out to your store.
             </div>
-            <a href="mailto:sales@droneicarus.com?subject=Gear%20sidebar%20ad%20inquiry"
+            <a href="mailto:sales@droneicarus.com?subject=Gear%20sidebar%20ad"
                className="gear-ad-cta">Contact sales →</a>
           </div>
         )}
@@ -156,7 +358,7 @@ export function GearPage({ onNav }) {
         <div className="mono gear-label" style={{ marginTop: 24 }}>ADVERTISE WITH US</div>
         <div className="gear-ads-empty" style={{ marginTop: 6 }}>
           <div style={{ fontSize: 12, color: 'var(--parchment-dim)', lineHeight: 1.55 }}>
-            From $199/month per placement. Monthly and annual packages available.
+            From $199/month per placement.
             <a href="mailto:sales@droneicarus.com" style={{ color: 'var(--amber)', display: 'block', marginTop: 8 }}>
               sales@droneicarus.com
             </a>
@@ -167,32 +369,26 @@ export function GearPage({ onNav }) {
   );
 }
 
-function DroneCard({ product, onOpen }) {
-  const priceLabel = product.price_usd_min
-    ? (product.price_usd_max && product.price_usd_max !== product.price_usd_min
-        ? `$${product.price_usd_min.toLocaleString()} – $${product.price_usd_max.toLocaleString()}`
-        : `$${product.price_usd_min.toLocaleString()}`)
-    : '—';
+// Sidebar primitives
+function FilterGroup({ label, children }) {
+  const [open, setOpen] = useState(true);
   return (
-    <article className="drone-card" onClick={onOpen} role="button" tabIndex={0}
-             onKeyDown={e => { if (e.key === 'Enter') onOpen(); }}>
-      <div className="drone-card-img"
-           style={{ backgroundImage: product.image_url ? `url('${product.image_url}')` : 'linear-gradient(135deg, var(--forest-800), var(--forest-900))' }}>
-        {product.featured && <span className="drone-card-featured">FEATURED</span>}
-      </div>
-      <div className="drone-card-body">
-        <div className="drone-card-manu">{product.manufacturer}</div>
-        <div className="drone-card-name">{product.name}</div>
-        <div className="drone-card-meta">
-          <span>{(product.specs?.weight_g || '—')}{product.specs?.weight_g ? 'g' : ''}</span>
-          <span>·</span>
-          <span>{product.specs?.flight_time_min ? `${product.specs.flight_time_min}min` : '—'}</span>
-          <span>·</span>
-          <span>{product.specs?.max_range_km ? `${product.specs.max_range_km}km` : '—'}</span>
-        </div>
-        <div className="drone-card-price">{priceLabel}</div>
-      </div>
-    </article>
+    <section className="gear-filter-group">
+      <button className="gear-filter-h" onClick={() => setOpen(!open)}>
+        <span>{label}</span><span>{open ? '−' : '+'}</span>
+      </button>
+      {open && <div className="gear-filter-body">{children}</div>}
+    </section>
+  );
+}
+function CheckboxRow({ label, count, checked, onChange }) {
+  if (!count) return null;
+  return (
+    <label className={`gear-check ${checked ? 'on' : ''}`}>
+      <input type="checkbox" checked={checked} onChange={onChange}/>
+      <span className="gear-check-label">{label}</span>
+      <span className="gear-check-count">{count}</span>
+    </label>
   );
 }
 
@@ -203,13 +399,14 @@ export function GearItemPage({ slug, onNav }) {
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [related, setRelated] = useState([]);
+  const [imgError, setImgError] = useState(false);
 
   useEffect(() => {
-    setLoading(true);
+    setLoading(true); setImgError(false);
     fetchDroneProduct(slug).then(p => {
       setProduct(p); setLoading(false);
-      if (p) fetchDroneProducts({ category: p.category }).then(rs => {
-        setRelated((rs || []).filter(r => r.id !== p.id).slice(0, 6));
+      if (p) fetchDroneProducts().then(rs => {
+        setRelated((rs || []).filter(r => r.id !== p.id && r.category === p.category).slice(0, 6));
       });
     });
   }, [slug]);
@@ -231,6 +428,7 @@ export function GearItemPage({ slug, onNav }) {
         ? `$${product.price_usd_min.toLocaleString()} – $${product.price_usd_max.toLocaleString()}`
         : `$${product.price_usd_min.toLocaleString()}`)
     : 'Contact for pricing';
+  const heroImg = (imgError || !product.image_url) ? svgPlaceholder(product) : product.image_url;
 
   return (
     <div className="gear-detail">
@@ -238,13 +436,14 @@ export function GearItemPage({ slug, onNav }) {
         <button onClick={() => onNav('gear')} className="btn secondary">← All drones</button>
       </div>
 
-      <div className="gear-detail-hero"
-           style={{ backgroundImage: product.image_url ? `url('${product.image_url}')` : undefined }}>
+      <div className="gear-detail-hero">
+        <img src={heroImg} alt={product.name} onError={() => setImgError(true)} referrerPolicy="no-referrer"
+             style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}/>
       </div>
 
       <div className="gear-detail-grid">
         <div className="gear-detail-main">
-          <div className="eyebrow">{product.manufacturer} · {product.category.toUpperCase()}</div>
+          <div className="eyebrow">{product.manufacturer} · {product.category.toUpperCase()}{product.subcategory ? ` · ${product.subcategory.toUpperCase()}` : ''}</div>
           <h1>{product.name}</h1>
           {product.release_year && (
             <div className="gear-detail-release">
@@ -266,14 +465,14 @@ export function GearItemPage({ slug, onNav }) {
           <h3>Full specifications</h3>
           <table className="gear-spec-table">
             <tbody>
-              {specRow('Weight', specs.weight_g, 'g')}
+              {specRow('Weight', specs.weight_g?.toLocaleString?.() || specs.weight_g, 'g')}
               {specRow('Max flight time', specs.flight_time_min, ' min')}
               {specRow('Max speed', specs.max_speed_kmh, ' km/h')}
               {specRow('Max range', specs.max_range_km, ' km')}
-              {specRow('Max altitude', specs.max_altitude_m, ' m')}
+              {specRow('Max altitude', specs.max_altitude_m?.toLocaleString?.() || specs.max_altitude_m, ' m')}
               {specRow('Transmission', specs.transmission)}
               {specRow('Wheelbase', specs.wheelbase_mm, ' mm')}
-              {specRow('Wingspan', specs.wingspan_mm, ' mm')}
+              {specRow('Wingspan', specs.wingspan_mm?.toLocaleString?.() || specs.wingspan_mm, ' mm')}
               {specRow('Video resolution', specs.video_resolution)}
               {specRow('Camera sensor', specs.camera_sensor)}
               {specRow('Gimbal', specs.gimbal)}

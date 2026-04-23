@@ -1,0 +1,1627 @@
+[
+{
+"slug": "dji-mavic-3-classic",
+"name": "DJI Mavic 3 Classic",
+"manufacturer": "DJI",
+"category": "photography",
+"subcategory": "4/3-sensor",
+"image_url": null,
+"official_url": "https://www.dji.com/mavic-3-classic",
+"price_usd_min": 1599,
+"price_usd_max": 2149,
+"release_year": 2022,
+"country_of_origin": "China",
+"specs": {
+"weight_g": 895,
+"flight_time_min": 46,
+"max_speed_kmh": 68,
+"max_range_km": 15,
+"camera_sensor": "4/3 CMOS Hasselblad",
+"video_resolution": "5.1K/50",
+"obstacle_sensing": "Omnidirectional",
+"transmission": "OcuSync O3+"
+},
+"description": "Hasselblad 4/3 sensor without the telephoto cameras of the Pro \u2014 sweet spot for photographers.",
+"highlights": [
+"Hasselblad 4/3 sensor",
+"5.1K/50 HDR",
+"46-min flight",
+"Omnidirectional obstacle sensing"
+],
+"tags": [
+"hasselblad",
+"mavic-3",
+"photography"
+],
+"features": [],
+"status": "published"
+},
+{
+"slug": "dji-avata",
+"name": "DJI Avata",
+"manufacturer": "DJI",
+"category": "fpv-freestyle",
+"subcategory": "cinewhoop",
+"image_url": null,
+"official_url": "https://www.dji.com/avata",
+"price_usd_min": 629,
+"price_usd_max": 1388,
+"release_year": 2022,
+"country_of_origin": "China",
+"specs": {
+"weight_g": 410,
+"flight_time_min": 18,
+"max_speed_kmh": 97,
+"max_range_km": 10,
+"video_resolution": "4K/60",
+"transmission": "OcuSync O3+"
+},
+"description": "DJI first-gen cinewhoop with ducted props. Still popular; Avata 2 is the successor.",
+"highlights": [
+"4K/60 video",
+"Ducted prop design",
+"Motion controller support"
+],
+"tags": [
+"dji",
+"avata",
+"cinewhoop"
+],
+"features": [],
+"status": "published"
+},
+{
+"slug": "dji-mini-3",
+"name": "DJI Mini 3",
+"manufacturer": "DJI",
+"category": "consumer",
+"subcategory": "sub-250g",
+"image_url": "https://www-cdn.djiits.com/cms/uploads/0e65b98eaee5cad6f74196e9594b99cd@374*374.png",
+"official_url": "https://www.dji.com/mini-3",
+"price_usd_min": 469,
+"price_usd_max": 999,
+"release_year": 2022,
+"country_of_origin": "China",
+"specs": {
+"weight_g": 249,
+"flight_time_min": 38,
+"max_speed_kmh": 57.6,
+"max_range_km": 10,
+"camera_sensor": "1/1.3\" CMOS",
+"video_resolution": "4K/30",
+"transmission": "OcuSync O2"
+},
+"description": "Budget version of the Mini 3 Pro \u2014 same sensor, simpler features, 38-min flights.",
+"highlights": [
+"Sub-250g",
+"4K/30",
+"38-min flight time"
+],
+"tags": [
+"dji",
+"mini-3",
+"sub-250g"
+],
+"features": [],
+"status": "published"
+},
+{
+"slug": "dji-mavic-3-thermal",
+"name": "DJI Mavic 3 Thermal",
+"manufacturer": "DJI",
+"category": "public-safety",
+"subcategory": "thermal",
+"image_url": "https://www-cdn.djiits.com/cms/uploads/ceb4e66653f63beacc29ba3df9ab4645@374*374.png",
+"official_url": "https://enterprise.dji.com/mavic-3-enterprise",
+"price_usd_min": 5199,
+"price_usd_max": 6999,
+"release_year": 2022,
+"country_of_origin": "China",
+"specs": {
+"weight_g": 920,
+"flight_time_min": 45,
+"camera_sensor": "4/3 CMOS + 640\u00d7512 thermal",
+"video_resolution": "5.1K wide",
+"transmission": "OcuSync O3 Enterprise"
+},
+"description": "First responder flagship \u2014 wide + 56\u00d7 zoom + 640\u00d7512 thermal in a sub-1kg Mavic body.",
+"highlights": [
+"640\u00d7512 radiometric thermal",
+"56\u00d7 hybrid zoom",
+"45-min flight",
+"Obstacle sensing"
+],
+"tags": [
+"dji",
+"mavic",
+"thermal",
+"public-safety"
+],
+"features": [],
+"status": "published"
+},
+{
+"slug": "dji-matrice-30t",
+"name": "DJI Matrice 30T",
+"manufacturer": "DJI",
+"category": "enterprise",
+"subcategory": "multi-sensor",
+"image_url": "https://www-cdn.djiits.com/cms/uploads/a39d9ada3c5c88ab54082e100284f642@374*374.png",
+"official_url": "https://enterprise.dji.com/matrice-30",
+"price_usd_min": 13999,
+"price_usd_max": 19000,
+"release_year": 2022,
+"country_of_origin": "China",
+"specs": {
+"weight_g": 3770,
+"flight_time_min": 41,
+"max_range_km": 15,
+"camera_sensor": "Wide+tele+thermal+laser",
+"video_resolution": "4K/30",
+"transmission": "OcuSync O3 Enterprise"
+},
+"description": "Compact folding enterprise drone \u2014 single gimbal has wide + zoom + thermal + laser rangefinder.",
+"highlights": [
+"IP55 rated",
+"Dual battery redundancy",
+"4-sensor gimbal",
+"AirSense ADS-B"
+],
+"tags": [
+"dji",
+"matrice",
+"enterprise"
+],
+"features": [],
+"status": "published"
+},
+{
+"slug": "dji-agras-t25",
+"name": "DJI Agras T25",
+"manufacturer": "DJI",
+"category": "agricultural",
+"subcategory": "spraying",
+"image_url": "https://www-cdn.djiits.com/cms/uploads/6277c156b1b2a0db2f7c95ec998a0817@374*374.png",
+"official_url": "https://ag.dji.com/t25",
+"price_usd_min": 8000,
+"price_usd_max": 10000,
+"release_year": 2024,
+"country_of_origin": "China",
+"specs": {
+"weight_g": 22000,
+"flight_time_min": 10,
+"payload_kg": 25,
+"max_speed_kmh": 36
+},
+"description": "Mid-range spraying drone for smaller farms. 25L tank, lighter operation, same radar tech as T50.",
+"highlights": [
+"25L tank",
+"Terrain-following radar",
+"DJI Agras 4 system"
+],
+"tags": [
+"dji",
+"agras",
+"agricultural"
+],
+"features": [],
+"status": "published"
+},
+{
+"slug": "dji-neo",
+"name": "DJI Neo",
+"manufacturer": "DJI",
+"category": "consumer",
+"subcategory": "palm-launch",
+"image_url": "https://www-cdn.djiits.com/cms/uploads/a2d5733d4fe4b62050a3a1ea1109612d@374*374.png",
+"official_url": "https://www.dji.com/neo",
+"price_usd_min": 199,
+"price_usd_max": 389,
+"release_year": 2024,
+"country_of_origin": "China",
+"specs": {
+"weight_g": 135,
+"flight_time_min": 18,
+"max_speed_kmh:": 28,
+"video_resolution": "4K/30"
+},
+"description": "Palm-launch selfie drone. 135g, no controller needed, AI subject tracking, built-in prop guards.",
+"highlights": [
+"Palm launch",
+"135g",
+"AI subject tracking",
+"Controller-optional"
+],
+"tags": [
+"dji",
+"neo",
+"palm-launch",
+"selfie"
+],
+"features": [],
+"status": "published"
+},
+{
+"slug": "autel-evo-lite-plus",
+"name": "Autel EVO Lite+",
+"manufacturer": "Autel",
+"category": "photography",
+"subcategory": "1-inch",
+"image_url": null,
+"official_url": "https://www.autelrobotics.com/productdetail/evo-lite-plus-drone",
+"price_usd_min": 999,
+"price_usd_max": 1595,
+"release_year": 2022,
+"country_of_origin": "China",
+"specs": {
+"weight_g:": 820,
+"flight_time_min": 40,
+"camera_sensor": "1-inch CMOS",
+"video_resolution": "6K/30",
+"transmission": "SkyLink 2.0 (12km)",
+"obstacle_sensing": "3-directional"
+},
+"description": "1-inch sensor drone with 6K video \u2014 direct competitor to DJI Air 2S at similar price, slightly longer flight time.",
+"highlights": [
+"1-inch sensor",
+"6K video",
+"40-min flight",
+"3-directional obstacle sensing"
+],
+"tags": [
+"autel",
+"evo",
+"lite",
+"1-inch"
+],
+"features": [],
+"status": "published"
+},
+{
+"slug": "autel-dragonfish",
+"name": "Autel Dragonfish",
+"manufacturer": "Autel",
+"category": "vtol",
+"subcategory": "heavy-lift",
+"image_url": null,
+"official_url": "https://www.autelrobotics.com/productdetail/dragonfish-drone/",
+"price_usd_min": 30000,
+"price_usd_max": 60000,
+"release_year": 2022,
+"country_of_origin": "China",
+"specs": {
+"weight_g": 17500,
+"flight_time_min": 158,
+"payload_kg": 4,
+"max_range_km": 150,
+"wingspan_mm": 2800
+},
+"description": "Heavy-duty VTOL for long-range surveillance. 158-min endurance, 150km range, quadplane design.",
+"highlights": [
+"2.5-hr endurance",
+"150km range",
+"Quadplane VTOL",
+"AES-256 encryption"
+],
+"tags": [
+"autel",
+"dragonfish",
+"vtol",
+"surveillance"
+],
+"features": [],
+"status": "published"
+},
+{
+"slug": "betafpv-cetus-x",
+"name": "BetaFPV Cetus X",
+"manufacturer": "BetaFPV",
+"category": "fpv-freestyle",
+"subcategory": "beginner-kit",
+"image_url": "http://betafpv.com/cdn/shop/products/74b96dbb2d19db9758ba306fc55ad040_54f7f44f-2c02-4260-9cd7-f73550d6f448_1200x630.jpg?v=1664359398",
+"official_url": "https://betafpv.com/products/cetus-x-fpv-kit",
+"price_usd_min": 249,
+"price_usd_max": 369,
+"release_year": 2022,
+"country_of_origin": "China",
+"specs": {
+"weight_g": 48,
+"wheelbase_mm": 95,
+"flight_time_min": 5
+},
+"description": "Beginner FPV quadcopter kit \u2014 transmitter + goggles + 95mm quad in one box. One of the easiest entry paths to FPV.",
+"highlights": [
+"Complete RTF kit",
+"LiteRadio 3 TX",
+"VR03 goggles",
+"ExpressLRS 2.4GHz"
+],
+"tags": [
+"betafpv",
+"beginner",
+"rtf"
+],
+"features": [],
+"status": "published"
+},
+{
+"slug": "betafpv-air65",
+"name": "BetaFPV Air65",
+"manufacturer": "BetaFPV",
+"category": "fpv-freestyle",
+"subcategory": "micro",
+"image_url": null,
+"official_url": "https://betafpv.com/products/air65-brushless-whoop",
+"price_usd_min": 179,
+"price_usd_max": 249,
+"release_year": 2023,
+"country_of_origin": "China",
+"specs": {
+"weight_g": 38,
+"wheelbase_mm": 65,
+"flight_time_min": 4
+},
+"description": "Outdoor-capable 65mm brushless whoop. Faster than Meteor65 \u2014 pushes into intermediate freestyle range.",
+"highlights": [
+"65mm outdoor whoop",
+"Brushless 0802 motors",
+"35-50kph cruise"
+],
+"tags": [
+"betafpv",
+"whoop",
+"micro"
+],
+"features": [],
+"status": "published"
+},
+{
+"slug": "betafpv-meteor85",
+"name": "BetaFPV Meteor85",
+"manufacturer": "BetaFPV",
+"category": "fpv-freestyle",
+"subcategory": "whoop",
+"image_url": null,
+"official_url": "https://betafpv.com/products/meteor85-brushless-whoop",
+"price_usd_min": 149,
+"price_usd_max": 219,
+"release_year": 2022,
+"country_of_origin": "China",
+"specs": {
+"weight_g": 42,
+"wheelbase_mm": 85,
+"flight_time_min": 5
+},
+"description": "85mm brushless whoop \u2014 the sweet spot between indoor safety and outdoor performance.",
+"highlights": [
+"85mm wheelbase",
+"Brushless 0803 motors",
+"ExpressLRS"
+],
+"tags": [
+"betafpv",
+"whoop",
+"85mm"
+],
+"features": [],
+"status": "published"
+},
+{
+"slug": "iflight-nazgul-evoque-f6",
+"name": "iFlight Nazgul Evoque F6",
+"manufacturer": "iFlight",
+"category": "fpv-freestyle",
+"subcategory": "6-inch",
+"image_url": null,
+"official_url": "https://shop.iflight.com/nazgul-evoque-f6",
+"price_usd_min": 499,
+"price_usd_max": 649,
+"release_year": 2023,
+"country_of_origin": "China",
+"specs": {
+"weight_g": 430,
+"wheelbase_mm": 235,
+"flight_time_min": 7,
+"max_speed_kmh": 180
+},
+"description": "Evolved 6\" freestyle with ELRS + DJI O3 HD option. Stiffer frame, upgraded stack.",
+"highlights": [
+"6\" freestyle",
+"DJI O3 HD",
+"5mm carbon arms",
+"XING2 2207 motors"
+],
+"tags": [
+"iflight",
+"nazgul",
+"6inch",
+"freestyle"
+],
+"features": [],
+"status": "published"
+},
+{
+"slug": "iflight-alpha-a85",
+"name": "iFlight Alpha A85 HD",
+"manufacturer": "iFlight",
+"category": "cinewhoop",
+"subcategory": "micro-hd",
+"image_url": null,
+"official_url": "https://shop.iflight.com/alpha-a85-hd",
+"price_usd_min": 329,
+"price_usd_max": 449,
+"release_year": 2023,
+"country_of_origin": "China",
+"specs": {
+"weight_g": 78,
+"wheelbase_mm": 85,
+"flight_time_min": 4
+},
+"description": "85mm HD cinewhoop with DJI O3 Air Unit. Unusual sub-100g weight for a DJI HD drone.",
+"highlights": [
+"85mm ducted",
+"DJI O3 integrated",
+"Under 100g",
+"GoPro Lite mount"
+],
+"tags": [
+"iflight",
+"alpha",
+"cinewhoop",
+"hd"
+],
+"features": [],
+"status": "published"
+},
+{
+"slug": "geprc-tern-lr4",
+"name": "GEPRC Tern LR4",
+"manufacturer": "GEPRC",
+"category": "long-range",
+"subcategory": "4-inch",
+"image_url": "https://geprc.com/wp-content/uploads/2023/12/1_Main_0003_00000-6.jpg",
+"official_url": "https://geprc.com/product/geprc-tern-lr4",
+"price_usd_min": 439,
+"price_usd_max": 579,
+"release_year": 2022,
+"country_of_origin": "China",
+"specs": {
+"weight_g": 260,
+"wheelbase_mm": 178,
+"flight_time_min": 20
+},
+"description": "Efficient 4\" long-range cruiser. GoPro Lite + analog or HD options.",
+"highlights": [
+"4\" long-range",
+"20-min cruise",
+"HD or analog",
+"F722 stack"
+],
+"tags": [
+"geprc",
+"tern",
+"long-range",
+"4inch"
+],
+"features": [],
+"status": "published"
+},
+{
+"slug": "emax-babyhawk-o3",
+"name": "Emax Babyhawk O3",
+"manufacturer": "Emax",
+"category": "cinewhoop",
+"subcategory": "3-inch-hd",
+"image_url": null,
+"official_url": "https://emax-usa.com/products/babyhawk-o3",
+"price_usd_min": 349,
+"price_usd_max": 449,
+"release_year": 2023,
+"country_of_origin": "China",
+"specs": {
+"weight_g": 160,
+"wheelbase_mm": 141,
+"flight_time_min": 6
+},
+"description": "3\" cinewhoop with DJI O3 integrated. Good for tight indoor shots with HD quality.",
+"highlights": [
+"3\" 141mm wheelbase",
+"DJI O3 HD",
+"Emax Hawk3 motors"
+],
+"tags": [
+"emax",
+"babyhawk",
+"cinewhoop",
+"3inch"
+],
+"features": [],
+"status": "published"
+},
+{
+"slug": "diatone-roma-f5",
+"name": "Diatone Roma F5",
+"manufacturer": "Diatone",
+"category": "fpv-freestyle",
+"subcategory": "5-inch",
+"image_url": null,
+"official_url": "https://www.diatone.us/collections/roma-f5",
+"price_usd_min": 289,
+"price_usd_max": 429,
+"release_year": 2022,
+"country_of_origin": "China",
+"specs": {
+"weight_g": 395,
+"wheelbase_mm": 220,
+"flight_time_min": 6
+},
+"description": "Well-regarded 5\" freestyle. Mamba F722 stack, XING 2207 motors. Budget-friendly alternative to Nazgul.",
+"highlights": [
+"5mm bottom plate",
+"Mamba F722 MK4",
+"XING 2207 1900kv"
+],
+"tags": [
+"diatone",
+"roma",
+"freestyle",
+"5inch"
+],
+"features": [],
+"status": "published"
+},
+{
+"slug": "happymodel-mobula-8",
+"name": "HappyModel Mobula 8",
+"manufacturer": "HappyModel",
+"category": "fpv-freestyle",
+"subcategory": "micro-hd",
+"image_url": null,
+"official_url": "https://www.happymodel.cn/index.php/2023/05/18/happymodel-mobula8-2s-85mm-micro-fpv-whoop/",
+"price_usd_min": 179,
+"price_usd_max": 249,
+"release_year": 2023,
+"country_of_origin": "China",
+"specs": {
+"weight_g": 32,
+"wheelbase_mm": 85,
+"flight_time_min": 4
+},
+"description": "Popular 85mm 1S/2S micro-whoop with ELRS + Walksnail HD option.",
+"highlights": [
+"85mm",
+"1-2S flex",
+"ELRS 2.4 built-in",
+"Walksnail HD variant"
+],
+"tags": [
+"happymodel",
+"mobula",
+"whoop",
+"85mm"
+],
+"features": [],
+"status": "published"
+},
+{
+"slug": "happymodel-crux3-nls",
+"name": "HappyModel Crux3 NLS",
+"manufacturer": "HappyModel",
+"category": "fpv-racing",
+"subcategory": "tinywhoop",
+"image_url": null,
+"official_url": "https://www.happymodel.cn/index.php/2022/12/26/happymodel-crux3-nls/",
+"price_usd_min": 159,
+"price_usd_max": 229,
+"release_year": 2022,
+"country_of_origin": "China",
+"specs": {
+"weight_g": 25,
+"wheelbase_mm": 75
+},
+"description": "Lite weight sub-50g \"Crux3 Non-Line-of-Sight\" \u2014 GPS + barometer for return-to-home on a tinywhoop.",
+"highlights": [
+"GPS RTH on a whoop!",
+"BEC 5V",
+"ExpressLRS + Walksnail HD"
+],
+"tags": [
+"happymodel",
+"crux",
+"whoop",
+"gps"
+],
+"features": [],
+"status": "published"
+},
+{
+"slug": "hubsan-zino-mini-pro",
+"name": "Hubsan Zino Mini Pro",
+"manufacturer": "Hubsan",
+"category": "photography",
+"subcategory": "sub-250g",
+"image_url": null,
+"official_url": "https://www.hubsan.com/product-details-133.html",
+"price_usd_min": 399,
+"price_usd_max": 599,
+"release_year": 2021,
+"country_of_origin": "China",
+"specs": {
+"weight_g": 249,
+"flight_time_min": 40,
+"camera_sensor": "1/1.3\" CMOS",
+"video_resolution": "4K/30",
+"obstacle_sensing": "3-directional"
+},
+"description": "Competitive sub-250g with 40-min flights, 3-directional obstacle sensing, and 10km SyncLeas transmission.",
+"highlights": [
+"Sub-250g",
+"40-min flight",
+"3-directional obstacle sensing",
+"10km transmission"
+],
+"tags": [
+"hubsan",
+"zino",
+"sub-250g"
+],
+"features": [],
+"status": "published"
+},
+{
+"slug": "ruko-f11-gim2",
+"name": "Ruko F11GIM2",
+"manufacturer": "Ruko",
+"category": "consumer",
+"subcategory": "budget-4k",
+"image_url": null,
+"official_url": "https://www.rukotoys.com/collections/all/products/f11gim2-drone",
+"price_usd_min": 349,
+"price_usd_max": 499,
+"release_year": 2022,
+"country_of_origin": "China",
+"specs": {
+"weight_g": 580,
+"flight_time_min": 28,
+"camera_sensor": "1/2\" CMOS",
+"video_resolution": "4K/30"
+},
+"description": "Budget camera drone with 2-axis gimbal + EIS. Popular Amazon buy under $500.",
+"highlights": [
+"2-axis gimbal + EIS",
+"28-min flight",
+"GPS RTH",
+"Under $500"
+],
+"tags": [
+"ruko",
+"budget",
+"4k"
+],
+"features": [],
+"status": "published"
+},
+{
+"slug": "sjrc-f11s-4k",
+"name": "SJRC F11S 4K Pro",
+"manufacturer": "SJRC",
+"category": "consumer",
+"subcategory": "budget-4k",
+"image_url": "https://www.sjrcdrone.com/wp-content/uploads/2022/12/sjrc-f11s-4k-pro-video-camera-drone-professional-gps-2axis-desc-0.jpg",
+"official_url": "https://www.sjrcdrone.com/sjrc-f11s-4k-pro",
+"price_usd_min": 199,
+"price_usd_max": 329,
+"release_year": 2021,
+"country_of_origin": "China",
+"specs": {
+"weight_g": 570,
+"flight_time_min": 26,
+"video_resolution": "4K/30"
+},
+"description": "Well-reviewed sub-$300 4K drone with brushless motors and GPS follow-me.",
+"highlights": [
+"Brushless motors",
+"GPS follow-me",
+"26-min flight",
+"4K EIS"
+],
+"tags": [
+"sjrc",
+"budget",
+"beginner"
+],
+"features": [],
+"status": "published"
+},
+{
+"slug": "quantum-vector",
+"name": "Quantum-Systems Vector",
+"manufacturer": "Quantum-Systems",
+"category": "vtol",
+"subcategory": "surveying",
+"image_url": "https://quantum-systems.com/au/wp-content/uploads/sites/5/2025/05/Vector-AI-training-ground-1024x576.jpg",
+"official_url": "https://www.quantum-systems.com/vector/",
+"price_usd_min": 28000,
+"price_usd_max": 45000,
+"release_year": 2021,
+"country_of_origin": "Germany",
+"specs": {
+"weight_g": 3400,
+"flight_time_min": 120,
+"wingspan_mm": 1600,
+"max_range_km": 15
+},
+"description": "Compact eVTOL for high-resolution mapping. 2-hour flights, 700-hectare missions.",
+"highlights": [
+"eVTOL",
+"2h flight",
+"Modular payloads",
+"Made in Germany"
+],
+"tags": [
+"quantum",
+"vector",
+"vtol",
+"surveying"
+],
+"features": [],
+"status": "published"
+},
+{
+"slug": "quantum-reliant",
+"name": "Quantum-Systems Reliant",
+"manufacturer": "Quantum-Systems",
+"category": "vtol",
+"subcategory": "defense",
+"image_url": "https://quantum-systems.com/au/wp-content/uploads/sites/5/2025/08/2025_Reliant-Fliegerhorst-LQ-3-1024x683.jpg",
+"official_url": "https://www.quantum-systems.com/reliant/",
+"price_usd_min": 100000,
+"price_usd_max": 250000,
+"release_year": 2024,
+"country_of_origin": "Germany / USA",
+"specs": {
+"weight_g": 8500,
+"flight_time_min": 180,
+"wingspan_mm": 3000,
+"payload_kg": 1.5
+},
+"description": "NDAA-compliant military eVTOL. Deployed with US allies for tactical ISR.",
+"highlights": [
+"NDAA / Blue sUAS",
+"3h endurance",
+"EO/IR + SAR payloads",
+"Made in USA/Germany"
+],
+"tags": [
+"quantum",
+"reliant",
+"defense",
+"ndaa"
+],
+"features": [],
+"status": "published"
+},
+{
+"slug": "wingcopter-198",
+"name": "Wingcopter 198",
+"manufacturer": "Wingcopter",
+"category": "delivery",
+"subcategory": "medical",
+"image_url": null,
+"official_url": "https://wingcopter.com/wingcopter-198",
+"price_usd_min": 120000,
+"price_usd_max": 180000,
+"release_year": 2022,
+"country_of_origin": "Germany",
+"specs": {
+"weight_g": 12000,
+"flight_time_min": 75,
+"wingspan_mm": 1980,
+"payload_kg": 6,
+"max_range_km": 110
+},
+"description": "Tiltrotor delivery eVTOL. Triple-drop capable, 110km range. Medical + commercial delivery deployments in Africa, Ireland, US.",
+"highlights": [
+"Tiltrotor VTOL",
+"3 drops per flight",
+"110km range",
+"6kg payload"
+],
+"tags": [
+"wingcopter",
+"delivery",
+"vtol",
+"medical"
+],
+"features": [],
+"status": "published"
+},
+{
+"slug": "agerobotics-ebee-x",
+"name": "AgEagle / senseFly eBee X",
+"manufacturer": "AgEagle (senseFly)",
+"category": "vtol",
+"subcategory": "mapping",
+"image_url": "https://eaglenxt.com/wp-content/uploads/eBee-X-mapping-drone.png",
+"official_url": "https://ageagle.com/drones/ebee-x",
+"price_usd_min": 12000,
+"price_usd_max": 20000,
+"release_year": 2019,
+"country_of_origin": "USA / Switzerland",
+"specs": {
+"weight_g": 1400,
+"flight_time_min": 90,
+"wingspan_mm": 1160,
+"payload_kg": 0.3
+},
+"description": "Foam fixed-wing survey drone. Hand-launched, 90-min flight, 500 ha / flight.",
+"highlights": [
+"Hand-launched",
+"90-min flight",
+"500 ha per flight",
+"RTK/PPK photogrammetry"
+],
+"tags": [
+"ebee",
+"senseflyag",
+"fixed-wing",
+"mapping"
+],
+"features": [],
+"status": "published"
+},
+{
+"slug": "teal-2",
+"name": "Teal 2",
+"manufacturer": "Teal (Red Cat)",
+"category": "military",
+"subcategory": "small-tactical",
+"image_url": "https://tealdrones.com/wp-content/uploads/2026/01/black-widow-front-1021x1024.png",
+"official_url": "https://tealdrones.com/teal-2",
+"price_usd_min": 8000,
+"price_usd_max": 18000,
+"release_year": 2023,
+"country_of_origin": "USA",
+"specs": {
+"weight_g": 1470,
+"flight_time_min": 30,
+"max_range_km": 8,
+"payload_kg": 1.3
+},
+"description": "Blue sUAS-compliant small tactical drone for US SOCOM. 4K thermal + 8K color, encrypted datalink.",
+"highlights": [
+"Blue sUAS / NDAA compliant",
+"4K thermal + 8K color",
+"Silent mode",
+"Made in USA"
+],
+"tags": [
+"teal",
+"redcat",
+"military",
+"ndaa"
+],
+"features": [],
+"status": "published"
+},
+{
+"slug": "brinc-lemur-2",
+"name": "BRINC Lemur 2",
+"manufacturer": "BRINC",
+"category": "public-safety",
+"subcategory": "indoor-tactical",
+"image_url": "https://brincdrones.com/wp-content/uploads/2023/11/SEO-graphics-for-L2-Page.jpg",
+"official_url": "https://www.brincdrones.com/lemur-2",
+"price_usd_min": 9500,
+"price_usd_max": 14000,
+"release_year": 2022,
+"country_of_origin": "USA",
+"specs": {
+"weight_g": 1500,
+"flight_time_min": 31,
+"max_range_km": 2
+},
+"description": "Indoor / structure tactical drone for SWAT and hostage scenarios. Glass-breaker, two-way audio, self-righting.",
+"highlights": [
+"Indoor SWAT/tactical",
+"Glass-breaker tool",
+"Two-way voice",
+"Self-righting design"
+],
+"tags": [
+"brinc",
+"lemur",
+"public-safety",
+"swat"
+],
+"features": [],
+"status": "published"
+},
+{
+"slug": "volansi-voly-c10",
+"name": "Volansi VOLY C10",
+"manufacturer": "Volansi",
+"category": "delivery",
+"subcategory": "middle-mile",
+"image_url": null,
+"official_url": "https://volansi.com/voly-c10/",
+"price_usd_min": 300000,
+"price_usd_max": 500000,
+"release_year": 2021,
+"country_of_origin": "USA",
+"specs": {
+"weight_g": 45000,
+"flight_time_min": 600,
+"max_range_km": 128,
+"payload_kg": 10
+},
+"description": "Middle-mile hybrid VTOL \u2014 10-hour endurance at 10kg payload. Oil & gas + defense logistics.",
+"highlights": [
+"10h endurance",
+"128km range",
+"10kg payload",
+"VTOL"
+],
+"tags": [
+"volansi",
+"delivery",
+"middle-mile",
+"vtol"
+],
+"features": [],
+"status": "published"
+},
+{
+"slug": "elbit-hermes-900",
+"name": "Elbit Hermes 900",
+"manufacturer": "Elbit Systems",
+"category": "military",
+"subcategory": "male",
+"image_url": null,
+"official_url": "https://elbitsystems.com/product/hermes-900-kochav",
+"price_usd_min": 7000000,
+"price_usd_max": 14000000,
+"release_year": 2012,
+"country_of_origin": "Israel",
+"specs": {
+"weight_g": 1180000,
+"flight_time_min": 1800,
+"wingspan_mm": 15000,
+"max_altitude_m": 9100,
+"payload_kg": 300
+},
+"description": "Israeli MALE drone. 30h+ endurance, SAR + EO/IR + COMINT. Exported to Brazil, Chile, Thailand, Germany, UK.",
+"highlights": [
+"30h endurance",
+"300kg multi-sensor payload",
+"COMINT/SIGINT capable",
+"Combat-proven"
+],
+"tags": [
+"elbit",
+"hermes",
+"male",
+"israel"
+],
+"features": [],
+"status": "published"
+},
+{
+"slug": "iai-heron-1",
+"name": "IAI Heron 1",
+"manufacturer": "Israel Aerospace Industries",
+"category": "military",
+"subcategory": "male",
+"image_url": null,
+"official_url": "https://www.iai.co.il/p/heron",
+"price_usd_min": 10000000,
+"price_usd_max": 15000000,
+"release_year": 1994,
+"country_of_origin": "Israel",
+"specs": {
+"weight_g": 1100000,
+"flight_time_min": 2520,
+"wingspan_mm": 16600,
+"max_altitude_m:": 9100,
+"payload_kg": 250
+},
+"description": "Heron family has 42h endurance. India, Israel, Germany, Canada, Turkey operators.",
+"highlights": [
+"42h endurance",
+"Satellite link",
+"Multi-sensor payload",
+"Over 1.9M flight hours"
+],
+"tags": [
+"iai",
+"heron",
+"male",
+"israel"
+],
+"features": [],
+"status": "published"
+},
+{
+"slug": "aerovel-flexrotor",
+"name": "Aerovel Flexrotor",
+"manufacturer": "Aerovel",
+"category": "military",
+"subcategory": "vtol-isr",
+"image_url": null,
+"official_url": "https://www.aerovel.com/flexrotor",
+"price_usd_min": 400000,
+"price_usd_max": 700000,
+"release_year": 2015,
+"country_of_origin": "USA",
+"specs": {
+"weight_g": 20000,
+"flight_time_min": 1200,
+"max_range_km:": 250,
+"wingspan_mm": 3000,
+"payload_kg": 4
+},
+"description": "Tail-sitter VTOL with 20h endurance. Used by NOAA, Coast Guard. Max range 500+ nautical miles.",
+"highlights": [
+"20h endurance",
+"VTOL tail-sitter",
+"NOAA + Coast Guard user",
+"250-500 km range"
+],
+"tags": [
+"aerovel",
+"flexrotor",
+"vtol",
+"noaa"
+],
+"features": [],
+"status": "published"
+},
+{
+"slug": "xiaomi-fimi-x8-se-2022",
+"name": "Xiaomi FIMI X8 SE 2022",
+"manufacturer": "FIMI (Xiaomi)",
+"category": "consumer",
+"subcategory": "budget-4k",
+"image_url": null,
+"official_url": "https://fimi.com/pages/x8-se-2022",
+"price_usd_min": 399,
+"price_usd_max": 599,
+"release_year": 2022,
+"country_of_origin": "China",
+"specs": {
+"weight_g": 790,
+"flight_time_min": 35,
+"camera_sensor": "1/2\" Sony",
+"video_resolution": "4K/30",
+"max_range_km": 10
+},
+"description": "Competitive DJI alternative \u2014 10km transmission, 35-min flights, FIMI Explore app.",
+"highlights": [
+"35-min flight",
+"10km range",
+"4K with EIS",
+"Sub-$500"
+],
+"tags": [
+"xiaomi",
+"fimi",
+"budget",
+"4k"
+],
+"features": [],
+"status": "published"
+},
+{
+"slug": "fimi-x8-pro",
+"name": "FIMI X8 Pro",
+"manufacturer": "FIMI (Xiaomi)",
+"category": "photography",
+"subcategory": "mid-range",
+"image_url": null,
+"official_url": "https://fimi.com/pages/x8pro",
+"price_usd_min": 649,
+"price_usd_max": 899,
+"release_year": 2023,
+"country_of_origin": "China",
+"specs": {
+"weight_g": 790,
+"flight_time_min": 40,
+"camera_sensor": "1/2.7\" CMOS",
+"video_resolution": "4K/60",
+"obstacle_sensing": "3-directional",
+"max_range_km": 15
+},
+"description": "Updated X8 with 15km range, 4K/60, 40-min flight, and obstacle sensing. DJI Air 2S competitor under $900.",
+"highlights": [
+"4K/60 video",
+"40-min flight",
+"3-directional obstacle sensing",
+"15km transmission"
+],
+"tags": [
+"fimi",
+"xiaomi",
+"mid-range"
+],
+"features": [],
+"status": "published"
+},
+{
+"slug": "swellpro-splashdrone-4",
+"name": "SwellPro SplashDrone 4",
+"manufacturer": "SwellPro",
+"category": "consumer",
+"subcategory": "waterproof",
+"image_url": null,
+"official_url": "https://www.swellpro.com/waterproof-splash-drone-4.html",
+"price_usd_min": 1999,
+"price_usd_max": 2799,
+"release_year": 2022,
+"country_of_origin": "China",
+"specs": {
+"weight_g": 2000,
+"flight_time_min": 30,
+"video_resolution": "4K",
+"payload_kg": 1.5,
+"max_range_km": 1.6
+},
+"description": "Fully waterproof drone \u2014 lands/takes off on water. Built for fishing, maritime inspection, SAR.",
+"highlights": [
+"Fully waterproof",
+"Payload release",
+"Floatable",
+"Fishing / SAR / maritime"
+],
+"tags": [
+"swellpro",
+"waterproof",
+"fishing"
+],
+"features": [],
+"status": "published"
+},
+{
+"slug": "flir-skyraider",
+"name": "FLIR (Teledyne) SkyRaider",
+"manufacturer": "Teledyne FLIR",
+"category": "public-safety",
+"subcategory": "thermal",
+"image_url": null,
+"official_url": "https://www.flir.com/products/skyraider-rsta/",
+"price_usd_min": 12000,
+"price_usd_max": 22000,
+"release_year": 2020,
+"country_of_origin": "USA",
+"specs": {
+"weight_g": 2500,
+"flight_time_min": 50,
+"payload_kg": 1.5
+},
+"description": "US-made multi-rotor with FLIR thermal + daylight payloads. Fire, law enforcement, and ISR.",
+"highlights": [
+"NDAA compliant",
+"FLIR radiometric thermal",
+"50-min flight",
+"Hot-swap batteries"
+],
+"tags": [
+"flir",
+"teledyne",
+"public-safety",
+"thermal"
+],
+"features": [],
+"status": "published"
+},
+{
+"slug": "hubsan-ace-pro-2",
+"name": "Hubsan ACE Pro 2",
+"manufacturer": "Hubsan",
+"category": "photography",
+"subcategory": "mid-range",
+"image_url": null,
+"official_url": "https://www.hubsan.com/product-details-195.html",
+"price_usd_min": 749,
+"price_usd_max": 999,
+"release_year": 2023,
+"country_of_origin": "China",
+"specs": {
+"weight_g": 745,
+"flight_time_min": 40,
+"camera_sensor": "1/1.28\" CMOS",
+"video_resolution": "4K/60",
+"obstacle_sensing": "Omnidirectional",
+"max_range_km": 20
+},
+"description": "High-spec DJI Air 3 competitor \u2014 omnidirectional obstacle sensing, 20km range, 40-min flight.",
+"highlights": [
+"Omnidirectional obstacle sensing",
+"20km transmission",
+"4K/60 video",
+"40-min flight"
+],
+"tags": [
+"hubsan",
+"ace",
+"mid-range"
+],
+"features": [],
+"status": "published"
+},
+{
+"slug": "kargu-2",
+"name": "STM Kargu-2",
+"manufacturer": "STM (T\u00fcrkiye)",
+"category": "military",
+"subcategory": "loitering-munition",
+"image_url": null,
+"official_url": "https://www.stm.com.tr/en/kargu-autonomous-tactical-multi-rotor-attack-uav",
+"price_usd_min": 25000,
+"price_usd_max": 50000,
+"release_year": 2020,
+"country_of_origin": "T\u00fcrkiye",
+"specs": {
+"weight_g": 7500,
+"flight_time_min": 30,
+"max_range_km": 5,
+"payload_kg": 1.36
+},
+"description": "Loitering munition with autonomous swarm + strike capability. Deployed in Libya \u2014 reportedly the first autonomous drone kill.",
+"highlights": [
+"Autonomous swarm",
+"Face-recognition mode",
+"30-min loiter",
+"5km range"
+],
+"tags": [
+"stm",
+"kargu",
+"loitering",
+"autonomous",
+"turkey"
+],
+"features": [],
+"status": "published"
+},
+{
+"slug": "orlan-10",
+"name": "Orlan-10",
+"manufacturer": "STC (Russia)",
+"category": "military",
+"subcategory": "tactical-isr",
+"image_url": null,
+"official_url": "https://cdn.st.t-l.ru/orlan-10",
+"price_usd_min": 100000,
+"price_usd_max": 150000,
+"release_year": 2010,
+"country_of_origin": "Russia",
+"specs": {
+"weight_g": 16500,
+"flight_time_min": 1080,
+"max_range_km": 120,
+"max_altitude_m": 5000,
+"wingspan_mm": 3100
+},
+"description": "Most widely deployed Russian tactical ISR drone. 18h endurance, SIGINT + optical ISR + artillery spotter.",
+"highlights": [
+"18h endurance",
+"120km range",
+"SIGINT capable",
+"Primary Russian tactical drone"
+],
+"tags": [
+"orlan-10",
+"russia",
+"tactical",
+"isr"
+],
+"features": [],
+"status": "published"
+},
+{
+"slug": "mq-1c-gray-eagle",
+"name": "MQ-1C Gray Eagle",
+"manufacturer": "General Atomics",
+"category": "military",
+"subcategory": "hunter-killer",
+"image_url": "https://www.ga-asi.com/images/BlogFeaturedImages/ga-asi-og1200x630.jpg",
+"official_url": "https://www.ga-asi.com/mq-1c",
+"price_usd_min": 9000000,
+"price_usd_max": 22000000,
+"release_year": 2009,
+"country_of_origin": "USA",
+"specs": {
+"weight_g": 1600000,
+"flight_time_min": 1620,
+"wingspan_mm": 17000,
+"max_altitude_m": 8800,
+"payload_kg": 488
+},
+"description": "US Army's primary hunter-killer UAV. 27-hour endurance, AGM-114 Hellfires, ground moving target indicator.",
+"highlights": [
+"27h endurance",
+"Hellfire carrier",
+"GMTI radar",
+"US Army frontline ISR-strike"
+],
+"tags": [
+"general-atomics",
+"mq-1c",
+"gray-eagle",
+"us-army"
+],
+"features": [],
+"status": "published"
+},
+{
+"slug": "anduril-altius-700",
+"name": "Anduril ALTIUS-700",
+"manufacturer": "Anduril Industries",
+"category": "military",
+"subcategory": "loitering",
+"image_url": "https://cdn.sanity.io/images/61nocsj5/production/f7d0f077c398e8e24666e9430611395186d347bd-1200x630.png?w=1200&h=630&fit=min&auto=format",
+"official_url": "https://www.anduril.com/hardware/altius/",
+"price_usd_min": 50000,
+"price_usd_max": 150000,
+"release_year": 2024,
+"country_of_origin": "USA",
+"specs": {
+"weight_g": 20000,
+"flight_time_min": 240,
+"max_range_km:": 440,
+"payload_kg": 13
+},
+"description": "440km range loitering munition / ISR drone. Ship, helicopter, or ground-launched. NDAA compliant.",
+"highlights": [
+"440km range",
+"Lattice AI autonomy",
+"Multi-launch",
+"NDAA compliant",
+"13kg payload"
+],
+"tags": [
+"anduril",
+"altius",
+"loitering",
+"ndaa"
+],
+"features": [],
+"status": "published"
+},
+{
+"slug": "shield-ai-nova-2",
+"name": "Shield AI Nova 2",
+"manufacturer": "Shield AI",
+"category": "military",
+"subcategory": "indoor-tactical",
+"image_url": "https://shield.ai/wp-content/uploads/2025/03/ogp.jpg",
+"official_url": "https://shield.ai/nova-2/",
+"price_usd_min": 80000,
+"price_usd_max": 150000,
+"release_year": 2019,
+"country_of_origin": "USA",
+"specs": {
+"weight_g": 1360,
+"flight_time_min": 30,
+"max_range_km": 2
+},
+"description": "Indoor tactical drone for clearing rooms and tunnels. GPS-denied autonomy. Used by US SOCOM.",
+"highlights": [
+"GPS-denied autonomy",
+"Indoor / tunnel clearing",
+"SOCOM deployed",
+"AI room-mapping"
+],
+"tags": [
+"shield-ai",
+"nova",
+"indoor",
+"socom"
+],
+"features": [],
+"status": "published"
+},
+{
+"slug": "dji-phantom-4-rtk",
+"name": "DJI Phantom 4 RTK",
+"manufacturer": "DJI",
+"category": "enterprise",
+"subcategory": "mapping-legacy",
+"image_url": null,
+"official_url": "https://www.dji.com/phantom-4-rtk",
+"price_usd_min": 6500,
+"price_usd_max": 9000,
+"release_year": 2018,
+"country_of_origin": "China",
+"specs": {
+"weight_g": 1391,
+"flight_time_min": 30,
+"camera_sensor": "1-inch CMOS",
+"video_resolution": "4K/60",
+"transmission": "OcuSync 2.0"
+},
+"description": "Legacy but still widely-used mapping drone with RTK module. Replaced by Matrice 350 RTK in enterprise.",
+"highlights": [
+"Built-in RTK",
+"1-inch sensor",
+"Mechanical shutter",
+"Centimeter accuracy"
+],
+"tags": [
+"dji",
+"phantom",
+"rtk",
+"mapping"
+],
+"features": [],
+"status": "published"
+},
+{
+"slug": "freefly-alta-6",
+"name": "Freefly Alta 6",
+"manufacturer": "Freefly Systems",
+"category": "enterprise",
+"subcategory": "legacy-cinema",
+"image_url": "https://freeflysystems.com/wp-content/uploads/2023/02/freefly-og-logo.jpeg",
+"official_url": "https://freeflysystems.com/alta-6/",
+"price_usd_min": 18000,
+"price_usd_max": 30000,
+"release_year": 2014,
+"country_of_origin": "USA",
+"specs": {
+"weight_g": 6200,
+"flight_time_min": 20,
+"payload_kg": 6.8
+},
+"description": "Legacy cinema hexacopter. Replaced by Alta X but still in production for niche broadcast work.",
+"highlights": [
+"Hexacopter",
+"RED / Alexa Mini payload",
+"6-motor redundancy",
+"Used by broadcast"
+],
+"tags": [
+"freefly",
+"alta",
+"hexacopter",
+"cinema"
+],
+"features": [],
+"status": "published"
+},
+{
+"slug": "emax-hawk-apex",
+"name": "Emax Hawk Apex",
+"manufacturer": "Emax",
+"category": "fpv-racing",
+"subcategory": "5-inch",
+"image_url": null,
+"official_url": "https://emax-usa.com/products/hawk-apex",
+"price_usd_min": 309,
+"price_usd_max": 459,
+"release_year": 2023,
+"country_of_origin": "China",
+"specs": {
+"weight_g": 395,
+"wheelbase_mm": 227,
+"flight_time_min": 5,
+"max_speed_kmh": 170
+},
+"description": "Emax's flagship 5\" freestyle with updated Pulsar 2306.5 motors + Mamba F722 MK4 stack.",
+"highlights": [
+"5mm CF arms",
+"2306.5 motors",
+"F722 MK4 stack",
+"Walksnail or DJI O3"
+],
+"tags": [
+"emax",
+"hawk",
+"freestyle",
+"5inch"
+],
+"features": [],
+"status": "published"
+},
+{
+"slug": "dji-matrice-300-rtk",
+"name": "DJI Matrice 300 RTK",
+"manufacturer": "DJI",
+"category": "enterprise",
+"subcategory": "legacy-industrial",
+"image_url": null,
+"official_url": "https://enterprise.dji.com/matrice-300",
+"price_usd_min": 13500,
+"price_usd_max": 18500,
+"release_year": 2020,
+"country_of_origin": "China",
+"specs": {
+"weight_g": 6300,
+"flight_time_min": 55,
+"payload_kg": 2.7,
+"max_altitude_m": 7000,
+"transmission": "OcuSync Enterprise"
+},
+"description": "Predecessor to Matrice 350 RTK. Industry-standard inspection platform \u2014 LiDAR, thermal, P1 photogrammetry.",
+"highlights": [
+"55-min flight",
+"Triple-payload",
+"RTK",
+"Thousands deployed worldwide"
+],
+"tags": [
+"dji",
+"matrice-300",
+"enterprise",
+"rtk",
+"legacy"
+],
+"features": [],
+"status": "published"
+},
+{
+"slug": "flyability-elios-3",
+"name": "Flyability Elios 3",
+"manufacturer": "Flyability",
+"category": "enterprise",
+"subcategory": "indoor-inspection",
+"image_url": "https://www.flyability.com/hubfs/WebAdjustment/Homepage/20231122_Featured-image-hp.jpg",
+"official_url": "https://www.flyability.com/elios-3",
+"price_usd_min": 35000,
+"price_usd_max": 45000,
+"release_year": 2022,
+"country_of_origin": "Switzerland",
+"specs": {
+"weight_g": 1500,
+"flight_time_min": 12,
+"payload_kg": 0.4
+},
+"description": "Caged indoor inspection drone. Mounted LiDAR + 4K camera + thermal. The \"collision-tolerant\" drone for boilers, mines, tanks.",
+"highlights": [
+"Collision-tolerant caged design",
+"LiDAR SLAM",
+"4K + thermal payload",
+"Indoor GPS-free navigation"
+],
+"tags": [
+"flyability",
+"elios",
+"inspection",
+"indoor"
+],
+"features": [],
+"status": "published"
+},
+{
+"slug": "zohd-dart",
+"name": "ZOHD Dart Wing",
+"manufacturer": "ZOHD",
+"category": "consumer",
+"subcategory": "fixed-wing",
+"image_url": "https://zohd.com/img/1200x630.jpg",
+"official_url": "https://zohd.com/dart",
+"price_usd_min": 90,
+"price_usd_max": 250,
+"release_year": 2019,
+"country_of_origin": "China",
+"specs": {
+"weight_g": 480,
+"flight_time_min": 15,
+"wingspan_mm": 635
+},
+"description": "Popular entry-level FPV wing. EPP foam, PNP/BNF. Under $100 for the frame alone.",
+"highlights": [
+"EPP foam FPV wing",
+"Under $100 bare airframe",
+"Autonomous modes"
+],
+"tags": [
+"zohd",
+"fixed-wing",
+"fpv",
+"consumer"
+],
+"features": [],
+"status": "published"
+}
+]
