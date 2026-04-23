@@ -85,13 +85,13 @@ function PWelcome({ go }) {
       </p>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
         {[
-          ['📋', 'Drone registration number', 'From the civil aviation authority in your country — KCAA, FAA, CAA, EASA, DGAC, etc.'],
-          ['🪪', 'Government-issued ID', 'Passport, driver\'s license, or national ID card. We OCR it, then delete the image after 30 days.'],
-          ['🎓', 'Commercial certification (recommended)', 'FAA Part 107, KCAA Commercial, EASA A2, or your regional equivalent.'],
-          ['🛡️', 'Liability insurance (optional, tier 3)', 'Required only for Extended licenses over $1K. We partner with SkyWatch.AI if you need coverage.'],
-        ].map(([emoji, t, d]) => (
+          [Ic.clipboard, 'Drone registration number', 'From the civil aviation authority in your country — KCAA, FAA, CAA, EASA, DGAC, etc.'],
+          [Ic.idCard, 'Government-issued ID', 'Passport, driver\'s license, or national ID card. We OCR it, then delete the image after 30 days.'],
+          [Ic.cap, 'Commercial certification (recommended)', 'FAA Part 107, KCAA Commercial, EASA A2, or your regional equivalent.'],
+          [Ic.shield, 'Liability insurance (optional, tier 3)', 'Required only for Extended licenses over $1K. We partner with SkyWatch.AI if you need coverage.'],
+        ].map(([Icon, t, d]) => (
           <div key={t} style={{ display: 'grid', gridTemplateColumns: '40px 1fr', gap: 16, padding: 18, border: '1px solid var(--line)', borderRadius: 3 }}>
-            <div style={{ fontSize: 24, lineHeight: 1 }}>{emoji}</div>
+            <div style={{ color: 'var(--amber)', lineHeight: 1, paddingTop: 2 }}><Icon size={24}/></div>
             <div>
               <div style={{ fontSize: 14, fontWeight: 600, marginBottom: 3 }}>{t}</div>
               <div style={{ fontSize: 12, color: 'var(--parchment-dim)', lineHeight: 1.6 }}>{d}</div>
@@ -129,7 +129,7 @@ function PAbout({ go }) {
           padding: 28, border: '2px dashed var(--line-strong)', borderRadius: 4, textAlign: 'center',
           background: 'var(--forest-950)',
         }}>
-          <div style={{ fontSize: 28, marginBottom: 8 }}>🪪</div>
+          <div style={{ color: 'var(--amber)', marginBottom: 8 }}><Ic.idCard size={28}/></div>
           <div style={{ fontSize: 13, fontWeight: 600, marginBottom: 3 }}>passport_hp.pdf</div>
           <div className="mono" style={{ fontSize: 10, color: 'var(--lichen)', letterSpacing: '0.14em' }}>● ENCRYPTED · 2.1 MB · OCR PASSED</div>
         </div>
@@ -282,7 +282,7 @@ function PReview({ go }) {
 
       <div style={{ border: '1px solid var(--line)', borderRadius: 4 }}>
         {[
-          ['Identity', 'Hyunwoo Park · 1994.08.21 · 🇰🇷 South Korea'],
+          ['Identity', 'Hyunwoo Park · 1994.08.21 · South Korea'],
           ['Drones', '1 registered · DJI Mavic 3 Pro Cine (FA3X4MK219)'],
           ['Certifications', 'KCAA Commercial · FAA Part 107'],
           ['Insurance', 'Lloyd\'s of London · $1M · expires 2027.02'],

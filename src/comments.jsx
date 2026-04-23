@@ -11,7 +11,7 @@ const COMMENT_SEED = [
     id: 'c1', user: 'Maya Chen', handle: '@maya.aerial', avatar: 'MC',
     role: 'Creator', verified: true,
     time: '2d ago', likes: 47, ts: '0:12',
-    body: 'The way you caught the golden hour bouncing off the limestone at 0:12 — chef\'s kiss 👨‍🍳 What ND filter were you running?',
+    body: 'The way you caught the golden hour bouncing off the limestone at 0:12 — chef\'s kiss  What ND filter were you running?',
     replies: [
       { id: 'r1', user: 'Amira Haddad', handle: '@amira.skies', avatar: 'AH', verified: true, time: '2d ago', likes: 12, body: 'ND64. Sun was brutal, had to pull back ISO to 100.' }
     ]

@@ -129,7 +129,7 @@ Set these in **Settings → Secrets and variables → Actions**:
 | Auth (sign-in, sign-up, forgot password, sign-out) | ✅ real Supabase Auth |
 | Header profile menu | ✅ shows real profile + Sign out |
 | Upload → Storage + DB insert | ✅ real (needs signed-in pilot) |
-| Video & location lists | 🟡 falls back to mock unless `VITE_USE_SUPABASE_DATA=true` |
+| Video & location lists | [PARTIAL] falls back to mock unless `VITE_USE_SUPABASE_DATA=true` |
 | Comments, likes, collections | ❌ still mock (schema ready, UI not yet wired) |
 | Orders, payouts | ❌ still mock (schema ready) |
 | Live flights, notifications | ❌ still mock (schema ready) |

@@ -285,7 +285,7 @@ export function LabSubsectionPage({ subsection, onNav }) {
         ) : filtered.length === 0 ? (
           <div style={{ padding: 60, textAlign: 'center', color: 'var(--parchment-dim)', border: '1px dashed var(--line)', borderRadius: 6 }}>
             <div style={{ fontSize: 15, marginBottom: 4 }}>No items found</div>
-            <div style={{ fontSize: 12 }}>{selectedTag ? 'Try clearing the tag filter' : 'Coming soon — seeded items will appear here.'}</div>
+            <div style={{ fontSize: 12 }}>{selectedTag ? 'Try clearing the tag filter' : 'No items match your filters yet.'}</div>
           </div>
         ) : (
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 14 }}>

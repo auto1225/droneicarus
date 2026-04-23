@@ -32,7 +32,7 @@ const YT_URL = `https://www.youtube.com/watch?v=${YT_VIDEO_ID}`;
 const CHAT_POOL = [
   { user: 'sky.nordic',     msg: 'Wow this looks like the Lofoten islands?', mins: -28 },
   { user: 'ben.films',      msg: 'What lens are you running today?', mins: -27 },
-  { user: 'marta.nomad',    msg: 'the colors at golden hour 😍', mins: -25 },
+  { user: 'marta.nomad',    msg: 'the colors at golden hour', mins: -25 },
   { user: 'pilot.bot',      msg: 'Wind aloft at 200m: 14 km/h NW. Battery 78%.', mins: -24 },
   { user: 'leon.aerial',    msg: 'how high are you flying right now?', mins: -22 },
   { user: 'demo.pilot',     msg: '180m altitude, 1.4km out — heading toward the fjord head', mins: -21, fromPilot: true },
@@ -47,7 +47,7 @@ const CHAT_POOL = [
   { user: 'sigrid.j',       msg: 'do you sell licenses for the clip?', mins: -11 },
   { user: 'demo.pilot',     msg: 'Yes — license through droneicarus marketplace, 4K master available', mins: -10, fromPilot: true },
   { user: 'hans.b',         msg: 'how long is the flight battery?', mins: -9 },
-  { user: 'aerial.kr',      msg: 'thanks for streaming 🙏', mins: -8 },
+  { user: 'aerial.kr',      msg: 'thanks for streaming', mins: -8 },
   { user: 'mira.films',     msg: 'gimbal so smooth', mins: -7 },
   { user: 'daniel.l',       msg: 'love these long flow shots', mins: -6 },
   { user: 'rena.air',       msg: 'this is what calm looks like', mins: -5 },

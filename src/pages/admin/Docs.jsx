@@ -228,17 +228,6 @@ Our 70% to creators is **best-in-class** — strongest competitive lever for att
 | Tax compliance | ~1-2% |
 | **Net to droneicarus** | **~22-25%** |
 
-## Tier model (recommended for v2 — not yet implemented)
-
-\`\`\`
-Tier 1 (default):       30% platform / 70% pilot
-Tier 2 (LTV \\$1k+):      25% platform / 75% pilot
-Tier 3 (LTV \\$10k+):     20% platform / 80% pilot
-Tier 4 (Pro/invite):    15% platform / 85% pilot
-\`\`\`
-
-Lock-in for top performers + simple "Earn up to 85%" marketing message.
-
 ## License tiers (pricing per clip)
 
 | Tier | Use case | Price multiplier |
@@ -842,8 +831,6 @@ Most recent commits to droneicarus repo (latest first):
 - #89 Admin Discover section — query CRUD + manual trigger + run history
 - #90 Home map — YouTube source badge + pin color + filter toggle
 - Switch PayPal sandbox → live (set \`VITE_PAYPAL_CLIENT_ID\` GH secret)
-- Tier-based revenue split (#proposed not implemented)
-- Subscription / bulk-license model (future)
 `,
 };
 

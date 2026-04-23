@@ -28,7 +28,7 @@ const POOL = [
   { user: 'film.korea',  msg: 'great work as always' },
   { user: 'wing.daniel', msg: 'is that the Mavic 3 Pro?' },
   { user: 'aurora.ke',   msg: 'this is what slow living looks like' },
-  { user: 'kira.flight', msg: '🙌' },
+  { user: 'kira.flight', msg: 'incredible flight' },
   { user: 'eric.fpv',    msg: 'thinking of buying my first drone — recommendations?', isSuper: true, amount: 10 },
 ];
 
