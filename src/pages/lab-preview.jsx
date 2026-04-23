@@ -25,9 +25,17 @@ function pickSource(item) {
   if (item.document_type === 'pdf' && item.document_url) {
     return `https://image.thum.io/get/width/480/pdfSource/${item.document_url}`;
   }
-  // 4) Any external HTML page — image.thum.io screenshot
+  // 4) Any external HTML page — return list of candidates, tried in order
   if (item.external_url) {
-    return `https://image.thum.io/get/width/480/${item.external_url}`;
+    const u = encodeURIComponent(item.external_url);
+    return [
+      // Microlink extracts og:image (works on DJI / GoPro / most product pages)
+      `https://api.microlink.io/?url=${u}&meta=false&embed=image.url`,
+      // image.thum.io screenshot fallback
+      `https://image.thum.io/get/width/480/${item.external_url}`,
+      // last resort: domain favicon (better than nothing)
+      `https://www.google.com/s2/favicons?domain=${u}&sz=128`,
+    ];
   }
   return null;
 }
@@ -45,14 +53,24 @@ export function LabPagePreview({ item, fallback }) {
         if (e.isIntersecting && !triggered.current) {
           triggered.current = true;
           io.disconnect();
-          const url = pickSource(item);
-          if (!url) { setErrored(true); return; }
-          // Pre-load the image — only swap in once it resolves to avoid flicker
-          const img = new Image();
-          img.referrerPolicy = 'no-referrer';
-          img.onload = () => setSrc(url);
-          img.onerror = () => setErrored(true);
-          img.src = url;
+          const picked = pickSource(item);
+          if (!picked) { setErrored(true); return; }
+          const candidates = Array.isArray(picked) ? picked : [picked];
+          let i = 0;
+          const tryNext = () => {
+            if (i >= candidates.length) { setErrored(true); return; }
+            const url = candidates[i++];
+            const img = new Image();
+            img.referrerPolicy = 'no-referrer';
+            // Treat tiny / non-image responses as failure: check naturalWidth in onload
+            img.onload = () => {
+              if (img.naturalWidth >= 64) setSrc(url);
+              else tryNext();
+            };
+            img.onerror = tryNext;
+            img.src = url;
+          };
+          tryNext();
         }
       }
     }, { rootMargin: '300px' });
