@@ -862,19 +862,28 @@ export function HomePage({ onOpenVideo, onNav }) {
                 }} onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--amber)'; e.currentTarget.style.transform = 'translateY(-2px)'; }}
                    onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--line)'; e.currentTarget.style.transform = 'translateY(0)'; }}>
                   {(() => {
-                    const v = (dbVideos || []).find(vv => vv.location_id === loc.id || (vv.shot_lat && Math.abs(vv.shot_lat - (loc.lat||0)) < 0.05 && Math.abs((vv.shot_lon||vv.lon||0) - (loc.lon||0)) < 0.05));
+                    // Match a video to this location: by location_id, then by lat/lon proximity (~30km)
+                    const lLat = Number(loc.lat) || 0, lLon = Number(loc.lon) || 0;
+                    const v = (dbVideos || []).find(vv => {
+                      if (vv.location_id && vv.location_id === loc.id) return true;
+                      const vLat = Number(vv.lat || vv.shot_lat) || 0;
+                      const vLon = Number(vv.lon || vv.shot_lon) || 0;
+                      if (!vLat || !vLon) return false;
+                      return Math.abs(vLat - lLat) < 0.3 && Math.abs(vLon - lLon) < 0.3;
+                    });
                     const yt = v && (v.youtube_id || v.yt_id);
-                    if (yt) {
+                    const thumb = v && (v.thumb_url || (yt && `https://i.ytimg.com/vi/${yt}/mqdefault.jpg`));
+                    if (thumb) {
                       return <div style={{
                         width: 88, height: 56, flexShrink: 0,
-                        backgroundImage: `url(https://i.ytimg.com/vi/${yt}/mqdefault.jpg)`,
+                        backgroundImage: `url('${thumb.replace(/'/g, "%27")}')`,
                         backgroundSize: 'cover', backgroundPosition: 'center',
                         borderRadius: 3, border: '1px solid var(--line)',
                       }}/>;
                     }
                     return <div style={{
                       width: 88, height: 56, flexShrink: 0,
-                      background: thumbGradient(loc.id.length * 7),
+                      background: thumbGradient(String(loc.id || loc.name || '').length * 7),
                       borderRadius: 3, display: 'flex', alignItems: 'center', justifyContent: 'center',
                       color: 'var(--amber)', border: '1px solid var(--line)',
                     }}>{CAT_ICONS[loc.category] && CAT_ICONS[loc.category](22)}</div>;
