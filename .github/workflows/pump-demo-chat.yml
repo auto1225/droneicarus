@@ -1,0 +1,23 @@
+name: Pump fresh chat messages into demo stream
+on:
+  workflow_dispatch:
+    inputs:
+      count:
+        description: 'How many messages to inject'
+        default: '10'
+      delay:
+        description: 'Delay between messages (ms)'
+        default: '4000'
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: '20' }
+      - env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          COUNT: ${{ inputs.count }}
+          DELAY_MS: ${{ inputs.delay }}
+        run: node scripts/pump-demo-chat.mjs
