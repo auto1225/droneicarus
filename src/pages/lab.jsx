@@ -3,6 +3,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { useContent } from '../content/ContentContext';
 import { Ic, formatViews } from '../components';
 import { useAuth } from '../auth/AuthContext';
+import { LabPagePreview } from './lab-preview';
 import {
   fetchLabItems, fetchLabItem, fetchLabTags,
   toggleLabVote, toggleLabSave, fetchMyVotes, fetchMySaves,
