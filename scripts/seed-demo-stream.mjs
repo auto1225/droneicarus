@@ -20,7 +20,7 @@ async function sb(path, opts = {}) {
 }
 
 // Demo pilot — uses a fixed UUID so we can rerun safely
-const DEMO_USER_ID = '11111111-1111-4111-8111-111111111111';
+const DEMO_USER_ID = '23c9b732-d522-4814-969b-a8b0f02073df';  // auto0104@gmail.com (admin)
 const DEMO_HANDLE = '@demo.pilot';
 const DEMO_NAME = 'Demo Pilot · Drone Cam Live';
 
@@ -86,44 +86,18 @@ const SUPER_CHATS = [
 ];
 
 async function ensureProfile() {
-  // Check if demo profile exists
-  const existing = await sb(`/rest/v1/profiles?id=eq.${DEMO_USER_ID}&select=id`);
-  if (existing.length === 0) {
-    // Need to create auth user first via admin API. Use service role to insert profiles row
-    // (assumes profiles table allows inserts with service role)
-    await sb('/rest/v1/profiles', {
-      method: 'POST',
-      body: {
-        id: DEMO_USER_ID,
-        handle: DEMO_HANDLE,
-        display_name: DEMO_NAME,
-        email: 'demo@droneicarus.example',
-        role: 'pilot',
-        pilot_verified: true,
-        bio: 'Demo profile for live stream simulation. Real broadcasts coming soon.',
-        // Payout fully set up so monetization is allowed
-        paypal_email: 'demo@paypal.example',
-        payee_name: 'Demo Pilot LLC',
-        payout_country: 'US',
-        payout_terms_at: new Date().toISOString(),
-      },
-      prefer: 'return=minimal',
-    });
-    console.log('[demo] profile created');
-  } else {
-    // Patch payout fields just in case
-    await sb(`/rest/v1/profiles?id=eq.${DEMO_USER_ID}`, {
-      method: 'PATCH',
-      body: {
-        paypal_email: 'demo@paypal.example',
-        payee_name: 'Demo Pilot LLC',
-        payout_country: 'US',
-        payout_terms_at: new Date().toISOString(),
-      },
-      prefer: 'return=minimal',
-    });
-    console.log('[demo] profile patched');
-  }
+  // Profile must pre-exist (auth.users FK). Just patch payout fields so monetization passes the trigger.
+  await sb(`/rest/v1/profiles?id=eq.${DEMO_USER_ID}`, {
+    method: 'PATCH',
+    body: {
+      paypal_email: 'demo@paypal.example',
+      payee_name: 'Demo Pilot LLC',
+      payout_country: 'US',
+      payout_terms_at: new Date().toISOString(),
+    },
+    prefer: 'return=minimal',
+  });
+  console.log('[demo] payout patched on existing profile');
 }
 
 async function ensureStream() {
