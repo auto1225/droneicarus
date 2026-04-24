@@ -689,6 +689,7 @@ export function GearItemPage({ slug, onNav }) {
       </div>
 
       <div className="gear-detail-hero">
+        <div className="gear-detail-hero-backdrop" style={{ backgroundImage: `url('${heroImg}')` }}></div>
         <img src={heroImg} alt={product.name} onError={() => setImgError(true)} referrerPolicy="no-referrer"/>
       </div>
 
@@ -731,9 +732,6 @@ export function GearItemPage({ slug, onNav }) {
               </ul>
             </>
           )}
-
-          <Comments slug={slug} />
-
 
           {product.feature_sections && product.feature_sections.length > 0 && (
             <>
@@ -974,14 +972,6 @@ export function GearItemPage({ slug, onNav }) {
             </>
           )}
 
-          {related.length > 0 && (
-            <>
-              <h3 style={{ marginTop: 32 }}>Related drones in {product.category}</h3>
-              <div className="gear-grid">
-                {related.map(p => <DroneCard key={p.id} product={p} onOpen={() => onNav('gear-item', p.slug)} />)}
-              </div>
-            </>
-          )}
         </div>
 
         <aside className="gear-detail-buy">
@@ -1039,8 +1029,26 @@ export function GearItemPage({ slug, onNav }) {
               </div>
             </>
           )}
+
+          <a href="#discussion" onClick={(e) => { e.preventDefault(); document.getElementById('discussion')?.scrollIntoView({ behavior: 'smooth', block: 'start' }); }} className="gear-jump-discussion">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" strokeLinejoin="round"/></svg>
+            Jump to discussion
+          </a>
         </aside>
       </div>
+
+      <section id="discussion" className="gear-discussion-wrap">
+        <Comments slug={slug} />
+      </section>
+
+      {related.length > 0 && (
+        <section className="gear-related-section">
+          <h3>Related drones in {product.category}</h3>
+          <div className="gear-grid">
+            {related.map(p => <DroneCard key={p.id} product={p} onOpen={() => onNav('gear-item', p.slug)} />)}
+          </div>
+        </section>
+      )}
     </div>
   );
 }
