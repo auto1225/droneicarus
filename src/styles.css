@@ -1470,7 +1470,8 @@ input:focus, textarea:focus, select:focus {
 .gear-faq summary::after {
   content: "+"; position: absolute; right: 16px; top: 12px;
   color: var(--amber); font-size: 18px; line-height: 1;
-  transition: transform 0.2s;\u007d
+  transition: transform 0.2s;
+}
 .gear-faq[open] summary::after { content: "−"; }
 .gear-faq p {
   margin: 0; padding: 0 16px 14px; font-size: 13px; line-height: 1.65;
