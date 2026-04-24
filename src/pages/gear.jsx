@@ -1,6 +1,6 @@
 // src/pages/gear.jsx — Drone product catalog with multi-axis faceted filters
 import React, { useState, useEffect, useMemo } from 'react';
-import { fetchDroneProducts, fetchDroneProduct, fetchGearAds } from '../db/gear';
+import { fetchDroneProducts, fetchDroneProduct, fetchGearAds, fetchDroneComments, postDroneComment } from '../db/gear';
 import { Ic } from '../components';
 
 // ─────────────────────────────────────────────────────────────
@@ -389,6 +389,133 @@ function CheckboxRow({ label, count, checked, onChange }) {
       <span className="gear-check-label">{label}</span>
       <span className="gear-check-count">{count}</span>
     </label>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────
+// Comments sidebar — user-submitted comments with 1-level replies
+// ─────────────────────────────────────────────────────────────
+function CommentsSidebar({ slug }) {
+  const [comments, setComments] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [name, setName] = useState(() => localStorage.getItem('di_comment_name') || '');
+  const [body, setBody] = useState('');
+  const [replyTo, setReplyTo] = useState(null);
+  const [replyBody, setReplyBody] = useState('');
+  const [submitting, setSubmitting] = useState(false);
+
+  useEffect(() => {
+    setLoading(true);
+    fetchDroneComments(slug).then(rs => { setComments(rs || []); setLoading(false); });
+  }, [slug]);
+
+  const submit = async (parent_id, bodyText, cb) => {
+    if (!name.trim()) { alert('Please enter your name.'); return; }
+    if (!bodyText.trim()) { alert('Please write a comment.'); return; }
+    setSubmitting(true);
+    localStorage.setItem('di_comment_name', name.trim());
+    const newComment = await postDroneComment({ slug, parent_id, author_name: name, body: bodyText });
+    setSubmitting(false);
+    if (newComment) {
+      setComments(prev => [...prev, newComment]);
+      cb?.();
+    } else {
+      alert('Could not post comment. Please try again.');
+    }
+  };
+
+  // Build threaded tree: top-level first, each with its replies
+  const tree = useMemo(() => {
+    const byId = new Map(comments.map(c => [c.id, { ...c, replies: [] }]));
+    const roots = [];
+    for (const c of byId.values()) {
+      if (c.parent_id && byId.has(c.parent_id)) byId.get(c.parent_id).replies.push(c);
+      else roots.push(c);
+    }
+    // Sort roots newest-first, replies oldest-first (conversation order)
+    roots.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+    for (const r of roots) r.replies.sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
+    return roots;
+  }, [comments]);
+
+  const fmtDate = (iso) => {
+    const d = new Date(iso);
+    const diff = (Date.now() - d.getTime()) / 1000;
+    if (diff < 60) return 'just now';
+    if (diff < 3600) return `${Math.floor(diff / 60)}m ago`;
+    if (diff < 86400) return `${Math.floor(diff / 3600)}h ago`;
+    if (diff < 86400 * 7) return `${Math.floor(diff / 86400)}d ago`;
+    return d.toLocaleDateString();
+  };
+
+  return (
+    <>
+      <div className="mono gear-label" style={{ marginTop: 22 }}>
+        DISCUSSION ({comments.length})
+      </div>
+      <div className="gear-comments">
+        <div className="gear-comment-form">
+          <input className="gear-comment-name" type="text" value={name} placeholder="Your name"
+                 maxLength={60} onChange={e => setName(e.target.value)}/>
+          <textarea className="gear-comment-body" value={body} placeholder="Share your thoughts about this drone…"
+                    maxLength={2000} rows={3} onChange={e => setBody(e.target.value)}/>
+          <div className="gear-comment-actions">
+            <span className="gear-comment-count">{body.length}/2000</span>
+            <button className="gear-comment-post" disabled={submitting || !name.trim() || !body.trim()}
+                    onClick={() => submit(null, body, () => setBody(''))}>
+              {submitting ? 'Posting…' : 'Post'}
+            </button>
+          </div>
+        </div>
+
+        {loading ? (
+          <div className="gear-comment-loading">Loading comments…</div>
+        ) : tree.length === 0 ? (
+          <div className="gear-comment-empty">No comments yet. Be the first to share your thoughts.</div>
+        ) : (
+          <div className="gear-comment-list">
+            {tree.map(c => (
+              <div key={c.id} className="gear-comment">
+                <div className="gear-comment-head">
+                  <span className="gear-comment-author">{c.author_name}</span>
+                  <span className="gear-comment-date">{fmtDate(c.created_at)}</span>
+                </div>
+                <div className="gear-comment-text">{c.body}</div>
+                <button className="gear-comment-reply-btn"
+                        onClick={() => { setReplyTo(replyTo === c.id ? null : c.id); setReplyBody(''); }}>
+                  {replyTo === c.id ? 'Cancel' : 'Reply'}
+                </button>
+
+                {replyTo === c.id && (
+                  <div className="gear-comment-reply-form">
+                    <textarea value={replyBody} placeholder={`Reply to ${c.author_name}…`}
+                              maxLength={2000} rows={2} onChange={e => setReplyBody(e.target.value)}/>
+                    <button className="gear-comment-post" disabled={submitting || !replyBody.trim()}
+                            onClick={() => submit(c.id, replyBody, () => { setReplyBody(''); setReplyTo(null); })}>
+                      {submitting ? 'Posting…' : 'Post reply'}
+                    </button>
+                  </div>
+                )}
+
+                {c.replies?.length > 0 && (
+                  <div className="gear-comment-replies">
+                    {c.replies.map(r => (
+                      <div key={r.id} className="gear-comment gear-comment-is-reply">
+                        <div className="gear-comment-head">
+                          <span className="gear-comment-author">{r.author_name}</span>
+                          <span className="gear-comment-date">{fmtDate(r.created_at)}</span>
+                        </div>
+                        <div className="gear-comment-text">{r.body}</div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    </>
   );
 }
 
@@ -785,6 +912,7 @@ export function GearItemPage({ slug, onNav }) {
               </div>
             </>
           )}
+          <CommentsSidebar slug={slug} />
         </aside>
       </div>
     </div>
