@@ -66,3 +66,74 @@ export async function postDroneComment({ slug, parent_id, author_name, body }) {
     return Array.isArray(arr) ? arr[0] : arr;
   } catch (e) { console.warn('[comment]', e.message); return null; }
 }
+
+// Appended to src/db/gear.js
+
+export async function fetchDroneRatingStats({ limit = 100, min_count = 1, category } = {}) {
+  const parts = [
+    'select=drone_slug,name,manufacturer,category,subcategory,image_url,price_usd_min,price_usd_max,release_year,rating_count,avg_score,fresh_pct,tomato_status,tomato_score',
+    `rating_count=gte.${min_count}`,
+    'order=tomato_score.desc.nullslast,rating_count.desc',
+    `limit=${limit}`,
+  ];
+  if (category && category !== 'all') parts.push(`category=eq.${encodeURIComponent(category)}`);
+  return get('/rest/v1/drone_rating_stats?' + parts.join('&'));
+}
+
+export async function fetchDroneRatingsFor(slug) {
+  return get(`/rest/v1/drone_ratings?select=id,score,review,created_at,user_id&drone_slug=eq.${encodeURIComponent(slug)}&order=created_at.desc&limit=500`);
+}
+
+export async function fetchMyRating(slug, accessToken) {
+  if (!SUPA_URL || !SUPA_KEY || !accessToken) return null;
+  try {
+    const r = await fetch(`${SUPA_URL}/rest/v1/drone_ratings?select=id,score,review&drone_slug=eq.${encodeURIComponent(slug)}&limit=1`, {
+      headers: { apikey: SUPA_KEY, Authorization: 'Bearer ' + accessToken },
+    });
+    if (!r.ok) return null;
+    const rows = await r.json();
+    return rows?.[0] ?? null;
+  } catch (e) { return null; }
+}
+
+export async function submitDroneRating({ slug, score, review }, accessToken) {
+  if (!SUPA_URL || !SUPA_KEY || !accessToken) return { error: 'not_authenticated' };
+  if (!slug || score < 1 || score > 10) return { error: 'invalid_score' };
+  try {
+    // Upsert by (drone_slug, user_id) unique constraint
+    const r = await fetch(`${SUPA_URL}/rest/v1/drone_ratings?on_conflict=drone_slug,user_id`, {
+      method: 'POST',
+      headers: {
+        apikey: SUPA_KEY,
+        Authorization: 'Bearer ' + accessToken,
+        'Content-Type': 'application/json',
+        Prefer: 'return=representation,resolution=merge-duplicates',
+      },
+      body: JSON.stringify({
+        drone_slug: slug,
+        score,
+        review: review?.trim()?.slice(0, 2000) || null,
+        updated_at: new Date().toISOString(),
+      }),
+    });
+    if (!r.ok) {
+      const body = await r.text();
+      return { error: body };
+    }
+    const arr = await r.json();
+    return { rating: Array.isArray(arr) ? arr[0] : arr };
+  } catch (e) {
+    return { error: e.message };
+  }
+}
+
+export async function deleteMyRating(slug, accessToken) {
+  if (!SUPA_URL || !SUPA_KEY || !accessToken) return false;
+  try {
+    const r = await fetch(`${SUPA_URL}/rest/v1/drone_ratings?drone_slug=eq.${encodeURIComponent(slug)}`, {
+      method: 'DELETE',
+      headers: { apikey: SUPA_KEY, Authorization: 'Bearer ' + accessToken },
+    });
+    return r.ok;
+  } catch (e) { return false; }
+}
