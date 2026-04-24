@@ -1,4 +1,4 @@
-/* ──────────────────────────────────────────────────────────
+—/* ──────────────────────────────────────────────────────────
    Z-INDEX CANONICAL SCALE (injected 2026-04-21)
    0       document flow
    50      in-page sticky sub-navs (filter bars, section tabs)
@@ -1903,3 +1903,45 @@ input:focus, textarea:focus, select:focus {
   .yt-comments-head { flex-direction: column; align-items: flex-start; gap: 12px; }
   .yt-comment-text { font-size: 13px; }
 }
+
+
+/* ═══════════════════════════════════════════════════════════
+   YouTube Comments — theme color fix (parchment palette)
+   ═══════════════════════════════════════════════════════════ */
+.yt-comments { border-top-color: var(--line, rgba(26, 40, 32, 0.12)); }
+.yt-comments-count { color: var(--bone, #0f1a14); }
+.yt-sort { background: rgba(26, 40, 32, 0.05); }
+.yt-sort-btn { color: var(--parchment-dim, #4a5540); }
+.yt-sort-btn:hover { background: rgba(26, 40, 32, 0.06); color: var(--parchment, #1f2b22); }
+.yt-sort-btn.active { background: var(--sunset, #c85a2c); color: #faf6ec; }
+
+.yt-input-placeholder { color: var(--parchment-dim, #4a5540); border-bottom-color: var(--line, rgba(26, 40, 32, 0.15)); }
+.yt-input-placeholder:hover,
+.yt-input-placeholder:focus-within { border-bottom-color: var(--sunset, #c85a2c); }
+.yt-name-input,
+.yt-body-input { color: var(--bone, #0f1a14); border-bottom-color: var(--line, rgba(26, 40, 32, 0.15)); }
+.yt-name-input:focus,
+.yt-body-input:focus { border-bottom-color: var(--sunset, #c85a2c); }
+.yt-body-input::placeholder { color: var(--parchment-dim, #6a7260); }
+.yt-char-count { color: var(--parchment-dim, #4a5540); }
+
+.yt-btn-ghost { color: var(--parchment, #1f2b22); }
+.yt-btn-ghost:hover:not(:disabled) { background: rgba(26, 40, 32, 0.06); }
+.yt-btn-primary { background: var(--sunset, #c85a2c); color: #faf6ec; }
+.yt-btn-primary:hover:not(:disabled) { background: var(--sunset-deep, #9b4020); }
+
+.yt-loading { color: var(--parchment-dim, #4a5540); }
+.yt-empty { color: var(--parchment-dim, #4a5540); background: rgba(26, 40, 32, 0.025); border-color: rgba(26, 40, 32, 0.12); }
+.yt-empty-title { color: var(--bone, #0f1a14); }
+
+.yt-comment-author { color: var(--bone, #0f1a14); }
+.yt-comment-date { color: var(--parchment-dim, #6a7260); }
+.yt-comment-text { color: var(--parchment, #1f2b22); }
+
+.yt-action { color: var(--parchment-dim, #4a5540); }
+.yt-action:hover { background: rgba(26, 40, 32, 0.07); color: var(--bone, #0f1a14); }
+.yt-action.active { color: var(--sunset, #c85a2c); }
+.yt-action.active svg { fill: var(--sunset, #c85a2c); stroke: var(--sunset, #c85a2c); }
+
+.yt-view-replies { color: var(--sunset, #c85a2c); }
+.yt-view-replies:hover { background: rgba(200, 90, 44, 0.08); }
