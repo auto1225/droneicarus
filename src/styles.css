@@ -1945,3 +1945,49 @@ input:focus, textarea:focus, select:focus {
 
 .yt-view-replies { color: var(--sunset, #c85a2c); }
 .yt-view-replies:hover { background: rgba(200, 90, 44, 0.08); }
+
+
+
+/* ═══════════════════════════════════════════════════════════
+   Hero image — adaptive height (fix 2026-04-24)
+   Removes fixed 380px cropping, fits entire product photo
+   ═══════════════════════════════════════════════════════════ */
+.gear-detail-hero {
+  width: 100%;
+  height: auto !important;
+  min-height: 280px;
+  max-height: 600px;
+  background: linear-gradient(135deg, #f6f0dc 0%, #ede4cc 100%);
+  background-image: none !important;
+  border-radius: 8px;
+  margin-bottom: 28px;
+  border: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: 12px;
+  box-sizing: border-box;
+}
+.gear-detail-hero img {
+  display: block !important;
+  width: auto !important;
+  height: auto !important;
+  max-width: 100% !important;
+  max-height: 560px !important;
+  object-fit: contain !important;
+  object-position: center !important;
+}
+
+/* Comments inside main column, give extra top spacing separator */
+.gear-detail-main .yt-comments {
+  margin-top: 36px;
+  margin-bottom: 28px;
+  padding-top: 24px;
+  border-top: 2px solid var(--line);
+}
+
+@media (max-width: 720px) {
+  .gear-detail-hero { min-height: 220px; max-height: 440px; }
+  .gear-detail-hero img { max-height: 420px !important; }
+}
