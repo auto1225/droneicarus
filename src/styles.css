@@ -1339,3 +1339,193 @@ input:focus, textarea:focus, select:focus {
 
 /* Multi-paragraph description fallback */
 .gear-detail-desc { white-space: pre-wrap; }
+
+/* ─── Rich detail page Phase 3 sections ─── */
+.gear-use-cases {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 14px;
+  margin: 12px 0 0;
+}
+@media (max-width: 720px) { .gear-use-cases { grid-template-columns: 1fr; } }
+.gear-use-case {
+  background: var(--forest-800); border: 1px solid var(--line);
+  border-radius: 6px; padding: 14px 16px;
+}
+.gear-use-case h4 {
+  margin: 0 0 6px; font-size: 14px; color: var(--amber);
+  font-family: var(--font-display);
+}
+.gear-use-case p {
+  margin: 0; font-size: 13px; line-height: 1.6; color: var(--parchment);
+}
+
+.gear-reviews {
+  background: var(--forest-900); border: 1px solid var(--line);
+  border-radius: 6px; padding: 18px; margin-top: 10px;
+}
+.gear-reviews-header {
+  display: flex; gap: 20px; align-items: baseline;
+  padding-bottom: 14px; border-bottom: 1px solid var(--line);
+  margin-bottom: 14px;
+}
+.gear-reviews-rating { display: flex; align-items: baseline; }
+.gear-reviews-score {
+  font-size: 36px; font-weight: 700; color: var(--amber);
+  font-family: var(--font-display);
+}
+.gear-reviews-outof { font-size: 14px; color: var(--parchment-dim); margin-left: 4px; }
+.gear-reviews-meta { font-size: 12px; color: var(--parchment-dim); line-height: 1.55; }
+.gear-reviews-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+@media (max-width: 720px) { .gear-reviews-grid { grid-template-columns: 1fr; } }
+.gear-reviews-col-title {
+  font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.12em;
+  color: var(--amber); margin-bottom: 8px; text-transform: uppercase;
+}
+.gear-reviews-col ul { list-style: none; padding: 0; margin: 0; }
+.gear-reviews-col li {
+  padding: 5px 0 5px 18px; position: relative;
+  font-size: 13px; line-height: 1.55; color: var(--parchment);
+}
+.gear-reviews-col li::before {
+  content: "·"; position: absolute; left: 4px; color: var(--amber);
+  font-weight: 700; font-size: 18px; line-height: 1;
+}
+
+.gear-spec-groups { display: flex; flex-direction: column; gap: 18px; }
+.gear-spec-group-title {
+  font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.12em;
+  color: var(--amber); text-transform: uppercase; margin-bottom: 6px;
+  padding-bottom: 6px; border-bottom: 1px solid var(--amber);
+}
+
+.gear-accessories {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+}
+@media (max-width: 720px) { .gear-accessories { grid-template-columns: 1fr; } }
+.gear-accessory {
+  padding: 12px 14px; background: var(--forest-900);
+  border: 1px solid var(--line); border-radius: 6px;
+}
+.gear-accessory-top {
+  display: flex; justify-content: space-between; gap: 8px;
+  align-items: baseline; margin-bottom: 4px;
+}
+.gear-accessory-name { font-size: 13px; color: var(--bone); font-weight: 500; }
+.gear-accessory-price {
+  font-family: var(--font-mono); font-size: 13px; color: var(--amber);
+  font-weight: 600;
+}
+.gear-accessory-desc {
+  font-size: 12px; color: var(--parchment); line-height: 1.5;
+  margin: 4px 0;
+}
+.gear-accessory-cat {
+  display: inline-block; font-family: var(--font-mono); font-size: 10px;
+  color: var(--parchment-dim); letter-spacing: 0.1em; text-transform: uppercase;
+  padding: 2px 6px; border: 1px solid var(--line); border-radius: 3px;
+  margin-top: 4px;
+}
+
+.gear-comparisons { display: flex; flex-direction: column; gap: 14px; }
+.gear-comparison {
+  background: var(--forest-900); border: 1px solid var(--line);
+  border-radius: 6px; padding: 16px 18px;
+}
+.gear-comparison-title {
+  font-family: var(--font-display); font-size: 15px; color: var(--bone);
+  margin-bottom: 10px; display: flex; align-items: center; gap: 8px;
+  flex-wrap: wrap;
+}
+.gear-comparison-vs {
+  color: var(--amber); font-family: var(--font-mono); font-size: 11px;
+  letter-spacing: 0.18em; text-transform: uppercase; padding: 2px 6px;
+  background: var(--forest-800); border-radius: 3px;
+}
+.gear-comparison-link {
+  margin-left: auto; background: transparent; border: 1px solid var(--amber);
+  color: var(--amber); padding: 4px 10px; border-radius: 3px;
+  font-size: 11px; font-family: var(--font-mono); cursor: pointer;
+  letter-spacing: 0.1em;
+}
+.gear-comparison-link:hover { background: var(--amber); color: var(--forest-900); }
+.gear-comparison ul { list-style: none; padding: 0; margin: 0; }
+.gear-comparison li {
+  padding: 5px 0 5px 18px; position: relative;
+  font-size: 13px; line-height: 1.55; color: var(--parchment);
+}
+.gear-comparison li::before {
+  content: "▸"; position: absolute; left: 0; color: var(--amber);
+}
+
+.gear-faqs { display: flex; flex-direction: column; gap: 6px; }
+.gear-faq {
+  background: var(--forest-900); border: 1px solid var(--line);
+  border-radius: 4px; overflow: hidden;
+}
+.gear-faq summary {
+  padding: 12px 16px; cursor: pointer; font-size: 14px;
+  color: var(--bone); font-weight: 500; list-style: none;
+  position: relative; padding-right: 40px;
+}
+.gear-faq summary::-webkit-details-marker { display: none; }
+.gear-faq summary::after {
+  content: "+"; position: absolute; right: 16px; top: 12px;
+  color: var(--amber); font-size: 18px; line-height: 1;
+  transition: transform 0.2s;\u007d
+.gear-faq[open] summary::after { content: "−"; }
+.gear-faq p {
+  margin: 0; padding: 0 16px 14px; font-size: 13px; line-height: 1.65;
+  color: var(--parchment);
+}
+
+.gear-regulatory {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 14px;
+}
+@media (max-width: 720px) { .gear-regulatory { grid-template-columns: 1fr; } }
+.gear-regulatory-region {
+  background: var(--forest-900); border: 1px solid var(--line);
+  border-radius: 6px; padding: 12px 14px;
+}
+.gear-regulatory-name {
+  font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.15em;
+  color: var(--amber); margin-bottom: 8px;
+}
+.gear-regulatory .gear-spec-table { font-size: 12px; }
+.gear-regulatory .spec-k { padding: 6px 8px; font-size: 10px; }
+.gear-regulatory .spec-v { padding: 6px 8px; font-size: 12px; }
+
+.gear-warranty {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+}
+@media (max-width: 720px) { .gear-warranty { grid-template-columns: 1fr; } }
+.gear-warranty-plan {
+  padding: 14px 16px; background: var(--forest-900);
+  border: 1px solid var(--line); border-radius: 6px;
+}
+.gear-warranty-top {
+  display: flex; justify-content: space-between; align-items: baseline;
+  gap: 8px; margin-bottom: 2px;
+}
+.gear-warranty-name { font-size: 14px; color: var(--bone); font-weight: 600; }
+.gear-warranty-price {
+  font-family: var(--font-mono); font-size: 14px; color: var(--amber);
+  font-weight: 600;
+}
+.gear-warranty-duration {
+  font-size: 11px; color: var(--parchment-dim); margin-bottom: 8px;
+  font-family: var(--font-mono);
+}
+.gear-warranty-plan ul { list-style: none; padding: 0; margin: 0; }
+.gear-warranty-plan li {
+  padding: 4px 0 4px 16px; position: relative;
+  font-size: 12px; line-height: 1.5; color: var(--parchment);
+}
+.gear-warranty-plan li::before {
+  content: "✓"; position: absolute; left: 0; color: var(--amber);
+}
+
+.gear-sidebar-rating {
+  display: flex; gap: 6px; align-items: baseline;
+  font-family: var(--font-mono); font-size: 13px; color: var(--bone);
+}
+.gear-sidebar-score { color: var(--amber); font-weight: 700; }
+.gear-sidebar-reviews { color: var(--parchment-dim); font-size: 11px; }
