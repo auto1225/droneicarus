@@ -1,7 +1,8 @@
 // src/pages/gear.jsx — Drone product catalog with multi-axis faceted filters
 import React, { useState, useEffect, useMemo } from 'react';
-import { fetchDroneProducts, fetchDroneProduct, fetchGearAds, fetchDroneComments, postDroneComment } from '../db/gear';
+import { fetchDroneProducts, fetchDroneProduct, fetchGearAds, fetchDroneComments, postDroneComment, fetchDroneRatingStats, fetchMyRating, submitDroneRating, deleteMyRating } from '../db/gear';
 import { Ic } from '../components';
+import { useAuth } from '../auth/AuthContext';
 
 // ─────────────────────────────────────────────────────────────
 // Classification axes
@@ -149,12 +150,145 @@ function DroneCard({ product, onOpen }) {
 // ─────────────────────────────────────────────────────────────
 // Gear page — main catalog with multi-axis filters
 // ─────────────────────────────────────────────────────────────
+// Tomato components — inserted into gear.jsx before GearPage()
+
+function TomatoIcon({ status, score, size = 56 }) {
+  const tone = status === 'certified_fresh' ? '#d4a02b' : status === 'fresh' ? '#c1292e' : status === 'rotten' ? '#6b7d3a' : '#9b8c6e';
+  return (
+    <div className="tomato-icon" style={{ width: size, height: size }}>
+      <svg viewBox="0 0 100 100" width={size} height={size}>
+        {status === 'rotten' ? (
+          <g>
+            <path d="M50 20 Q30 30 20 50 Q15 75 30 85 Q50 90 70 85 Q85 75 80 50 Q70 30 50 20 Z" fill={tone} opacity="0.9"/>
+            <path d="M35 35 L45 45 M55 35 L65 45 M40 60 Q50 65 60 60" stroke="#2d3a1c" strokeWidth="2.5" fill="none"/>
+          </g>
+        ) : (
+          <g>
+            <circle cx="50" cy="55" r="35" fill={tone}/>
+            <path d="M38 20 Q45 10 55 15 Q62 10 68 22 Q72 28 65 32 Q58 28 50 30 Q42 28 35 32 Q28 28 38 20 Z" fill="#4a6b2e"/>
+            <circle cx="40" cy="48" r="3" fill="#fff" opacity="0.6"/>
+            {status === 'certified_fresh' && <circle cx="50" cy="55" r="35" fill="none" stroke="#f4d24b" strokeWidth="3" strokeDasharray="6 4"/>}
+          </g>
+        )}
+      </svg>
+      {score !== null && score !== undefined && <div className="tomato-score-badge" style={{ color: tone }}>{score}%</div>}
+    </div>
+  );
+}
+
+function TomatoHero({ onNav }) {
+  const [leaders, setLeaders] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [totalRated, setTotalRated] = useState(0);
+  useEffect(() => {
+    fetchDroneRatingStats({ limit: 6, min_count: 1 }).then(rs => {
+      setLeaders(rs || []);
+      setTotalRated((rs || []).length);
+      setLoading(false);
+    });
+  }, []);
+  return (
+    <section className="tomato-hero">
+      <div className="tomato-hero-head">
+        <div className="tomato-hero-eyebrow"><TomatoIcon status="certified_fresh" size={32} /><span className="mono">DRONEICARUS TOMATOMETER</span></div>
+        <h1>Critics' Choice — highest rated drones by our pilot community</h1>
+        <p className="tomato-hero-sub">Pilots score drones 1–10. 60%+ earns a Fresh tomato, 75%+ with 10+ reviews goes Certified Fresh. Open any drone page to rate.</p>
+      </div>
+      {loading ? (
+        <div className="tomato-loading">Tallying scores…</div>
+      ) : leaders.length === 0 ? (
+        <div className="tomato-empty">
+          <div className="tomato-empty-title">No scores yet — be the first critic.</div>
+          <div className="tomato-empty-sub">Pick any drone, give it a rating 1–10. Drones with 3+ ratings enter the Tomatometer.</div>
+        </div>
+      ) : (
+        <div className="tomato-leaderboard">
+          {leaders.map((d, i) => (
+            <button key={d.drone_slug} className={`tomato-card tomato-${d.tomato_status}`} onClick={() => onNav('gear-item', d.drone_slug)}>
+              <div className="tomato-rank">#{i + 1}</div>
+              <TomatoIcon status={d.tomato_status} score={d.tomato_score} size={64} />
+              <div className="tomato-card-body">
+                <div className="tomato-card-manu">{d.manufacturer}</div>
+                <div className="tomato-card-name">{d.name}</div>
+                <div className="tomato-card-meta">{d.rating_count} rating{d.rating_count === 1 ? '' : 's'}{d.avg_score ? ` · ${d.avg_score}/10 avg` : ''}</div>
+              </div>
+            </button>
+          ))}
+        </div>
+      )}
+    </section>
+  );
+}
+
+function DroneRatingWidget({ slug, onNav }) {
+  const { session } = useAuth();
+  const [stats, setStats] = useState(null);
+  const [myRating, setMyRating] = useState(null);
+  const [score, setScore] = useState(7);
+  const [review, setReview] = useState('');
+  const [submitting, setSubmitting] = useState(false);
+  const [msg, setMsg] = useState('');
+  const refresh = async () => {
+    const all = await fetchDroneRatingStats({ limit: 200, min_count: 0 });
+    const s = (all || []).find(x => x.drone_slug === slug);
+    setStats(s || { rating_count: 0, tomato_status: 'unrated' });
+    if (session?.access_token) {
+      const mine = await fetchMyRating(slug, session.access_token);
+      if (mine) { setMyRating(mine); setScore(mine.score); setReview(mine.review || ''); }
+    }
+  };
+  useEffect(() => { refresh(); }, [slug, session?.access_token]);
+  const submit = async () => {
+    if (!session) { onNav && onNav('home'); return; }
+    setSubmitting(true); setMsg('');
+    const res = await submitDroneRating({ slug, score, review }, session.access_token);
+    setSubmitting(false);
+    if (res.error) setMsg('Could not save: ' + String(res.error).slice(0, 100));
+    else { setMsg(myRating ? 'Rating updated.' : 'Thanks for rating!'); await refresh(); }
+  };
+  const remove = async () => {
+    if (!session || !myRating) return;
+    const ok = await deleteMyRating(slug, session.access_token);
+    if (ok) { setMyRating(null); setReview(''); setScore(7); setMsg('Rating removed.'); await refresh(); }
+  };
+  return (
+    <section className="rating-widget">
+      <div className="rating-widget-head">
+        <TomatoIcon status={stats?.tomato_status || 'unrated'} score={stats?.tomato_score} size={48} />
+        <div>
+          <h3 className="rating-widget-title">Community score</h3>
+          <div className="rating-widget-meta">{stats?.rating_count > 0 ? `${stats.rating_count} pilot${stats.rating_count === 1 ? '' : 's'} rated · ${stats.avg_score || '—'}/10 avg` : 'No ratings yet — be the first'}</div>
+        </div>
+      </div>
+      {!session ? (
+        <div className="rating-signin"><a href="#" onClick={(e) => { e.preventDefault(); onNav && onNav('home'); }}>Sign in</a> to rate this drone.</div>
+      ) : (
+        <div className="rating-form">
+          <div className="rating-form-label">Your score <span className="rating-score-num">{score}/10</span></div>
+          <div className="rating-score-picker">
+            {Array.from({length: 10}, (_, i) => i + 1).map(n => (
+              <button key={n} className={`rating-score-btn ${n <= score ? 'on' : ''} ${n >= 6 ? 'fresh' : 'rotten'}`} onClick={() => setScore(n)}>{n}</button>
+            ))}
+          </div>
+          <textarea className="rating-review" placeholder="Optional review (2000 chars max)" maxLength={2000} rows={3} value={review} onChange={e => setReview(e.target.value)} />
+          <div className="rating-actions">
+            <button className="rating-submit" disabled={submitting} onClick={submit}>{submitting ? 'Saving…' : myRating ? 'Update rating' : 'Submit rating'}</button>
+            {myRating && <button className="rating-delete" onClick={remove}>Remove</button>}
+            {msg && <span className="rating-msg">{msg}</span>}
+          </div>
+        </div>
+      )}
+    </section>
+  );
+}
+
+
 export function GearPage({ onNav }) {
   const [products, setProducts] = useState([]);
   const [ads, setAds] = useState([]);
   const [loading, setLoading] = useState(true);
   const [query, setQuery] = useState('');
-  const [sort, setSort] = useState('featured');
+  const [sort, setSort] = useState('newest');
 
   // Filter state
   const [category, setCategory] = useState('all');
@@ -231,6 +365,8 @@ export function GearPage({ onNav }) {
   const manuList = useMemo(() => Object.entries(counts.manu).sort((a, b) => b[1] - a[1]).map(([k, v]) => ({ id: k, label: k, count: v })), [counts.manu]);
 
   return (
+    <>
+      <TomatoHero onNav={onNav} />
     <div className="gear-layout">
       {/* LEFT SIDEBAR — multi-axis filters */}
       <aside className="gear-sidebar">
@@ -366,6 +502,7 @@ export function GearPage({ onNav }) {
         </div>
       </aside>
     </div>
+    </>
   );
 }
 
@@ -704,6 +841,8 @@ export function GearItemPage({ slug, onNav }) {
           )}
 
           {product.description && <p className="gear-detail-desc">{product.description}</p>}
+
+          <DroneRatingWidget slug={slug} onNav={onNav} />
 
           {product.marketing_copy && (
             <div className="gear-marketing">
