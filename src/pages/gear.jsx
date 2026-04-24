@@ -5,7 +5,7 @@ import { Ic } from '../components';
 
 // ─────────────────────────────────────────────────────────────
 // Classification axes
-// ─────────────────────────────────────────────────────────────
+// ──────────────────────────────────────────────────────────────
 const CATEGORIES = [
   { id: 'all',            label: 'All Drones' },
   { id: 'consumer',       label: 'Consumer' },
@@ -393,38 +393,71 @@ function CheckboxRow({ label, count, checked, onChange }) {
 }
 
 // ─────────────────────────────────────────────────────────────
-// Comments sidebar — user-submitted comments with 1-level replies
-// ─────────────────────────────────────────────────────────────
-function CommentsSidebar({ slug }) {
+// YouTube-style comments — full-width section below the product
+// ───────────────────────────────────────────────────────
+function YtAvatar({ name, size = 40 }) {
+  const n = (name || '?').trim();
+  const hash = [...n].reduce((a, c) => a + c.charCodeAt(0), 0);
+  const hue = hash % 360;
+  const initial = (n.charAt(0) || '?').toUpperCase();
+  return (
+    <div className="yt-avatar" style={{
+      width: size, height: size, fontSize: Math.round(size * 0.42),
+      background: `linear-gradient(135deg, hsl(${hue},58%,48%), hsl(${(hue + 48) % 360},58%,36%))`,
+    }}>{initial}</div>
+  );
+}
+
+function fmtDateYT(iso) {
+  const d = new Date(iso);
+  const diff = (Date.now() - d.getTime()) / 1000;
+  if (diff < 60) return 'just now';
+  if (diff < 3600) { const m = Math.floor(diff / 60); return `${m} ${m === 1 ? 'minute' : 'minutes'} ago`; }
+  if (diff < 86400) { const h = Math.floor(diff / 3600); return `${h} ${h === 1 ? 'hour' : 'hours'} ago`; }
+  if (diff < 86400 * 7) { const dd = Math.floor(diff / 86400); return `${dd} ${dd === 1 ? 'day' : 'days'} ago`; }
+  if (diff < 86400 * 30) { const w = Math.floor(diff / (86400 * 7)); return `${w} ${w === 1 ? 'week' : 'weeks'} ago`; }
+  if (diff < 86400 * 365) { const mo = Math.floor(diff / (86400 * 30)); return `${mo} ${mo === 1 ? 'month' : 'months'} ago`; }
+  const yr = Math.floor(diff / (86400 * 365));
+  return `${yr} ${yr === 1 ? 'year' : 'years'} ago`;
+}
+
+function Comments({ slug }) {
   const [comments, setComments] = useState([]);
   const [loading, setLoading] = useState(true);
   const [name, setName] = useState(() => localStorage.getItem('di_comment_name') || '');
   const [body, setBody] = useState('');
+  const [focused, setFocused] = useState(false);
+  const [sort, setSort] = useState('top');
   const [replyTo, setReplyTo] = useState(null);
   const [replyBody, setReplyBody] = useState('');
   const [submitting, setSubmitting] = useState(false);
+  const [likes, setLikes] = useState(() => {
+    try { return JSON.parse(localStorage.getItem('di_comment_likes') || '{}'); } catch { return {}; }
+  });
+  const [expanded, setExpanded] = useState({});
 
   useEffect(() => {
     setLoading(true);
     fetchDroneComments(slug).then(rs => { setComments(rs || []); setLoading(false); });
+    setBody(''); setFocused(false); setReplyTo(null); setReplyBody(''); setExpanded({});
   }, [slug]);
 
-  const submit = async (parent_id, bodyText, cb) => {
+  const submit = async (parent_id, text, cb) => {
     if (!name.trim()) { alert('Please enter your name.'); return; }
-    if (!bodyText.trim()) { alert('Please write a comment.'); return; }
+    if (!text.trim()) return;
     setSubmitting(true);
     localStorage.setItem('di_comment_name', name.trim());
-    const newComment = await postDroneComment({ slug, parent_id, author_name: name, body: bodyText });
+    const nc = await postDroneComment({ slug, parent_id, author_name: name, body: text });
     setSubmitting(false);
-    if (newComment) {
-      setComments(prev => [...prev, newComment]);
+    if (nc) {
+      setComments(prev => [...prev, nc]);
+      if (parent_id) setExpanded(e => ({ ...e, [parent_id]: true }));
       cb?.();
     } else {
       alert('Could not post comment. Please try again.');
     }
   };
 
-  // Build threaded tree: top-level first, each with its replies
   const tree = useMemo(() => {
     const byId = new Map(comments.map(c => [c.id, { ...c, replies: [] }]));
     const roots = [];
@@ -432,90 +465,182 @@ function CommentsSidebar({ slug }) {
       if (c.parent_id && byId.has(c.parent_id)) byId.get(c.parent_id).replies.push(c);
       else roots.push(c);
     }
-    // Sort roots newest-first, replies oldest-first (conversation order)
-    roots.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+    if (sort === 'newest') {
+      roots.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+    } else {
+      roots.sort((a, b) => (b.likes || 0) - (a.likes || 0) || new Date(b.created_at) - new Date(a.created_at));
+    }
     for (const r of roots) r.replies.sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
     return roots;
-  }, [comments]);
+  }, [comments, sort]);
 
-  const fmtDate = (iso) => {
-    const d = new Date(iso);
-    const diff = (Date.now() - d.getTime()) / 1000;
-    if (diff < 60) return 'just now';
-    if (diff < 3600) return `${Math.floor(diff / 60)}m ago`;
-    if (diff < 86400) return `${Math.floor(diff / 3600)}h ago`;
-    if (diff < 86400 * 7) return `${Math.floor(diff / 86400)}d ago`;
-    return d.toLocaleDateString();
+  const vote = (id, dir) => {
+    const cur = likes[id] || 0;
+    const next = cur === dir ? 0 : dir;
+    const nl = { ...likes, [id]: next };
+    setLikes(nl);
+    try { localStorage.setItem('di_comment_likes', JSON.stringify(nl)); } catch {}
+  };
+
+  const renderActions = (c, small = false) => {
+    const v = likes[c.id] || 0;
+    const disp = (c.likes || 0) + (v === 1 ? 1 : 0);
+    const ic = small ? 15 : 17;
+    return (
+      <div className="yt-comment-actions">
+        <button className={`yt-action yt-like ${v === 1 ? 'active' : ''}`}
+                onClick={() => vote(c.id, 1)} title="Like">
+          <svg viewBox="0 0 24 24" width={ic} height={ic} fill="none" stroke="currentColor" strokeWidth="1.8">
+            <path d="M7 11v9H3v-9h4zm3 9h8.5a2 2 0 0 0 2-1.7l1.2-7A2 2 0 0 0 19.7 9H14l.9-4.3a2 2 0 0 0-3.3-2L7 9v11h3z" strokeLinejoin="round"/>
+          </svg>
+          {disp > 0 ? <span>{disp}</span> : null}
+        </button>
+        <button className={`yt-action yt-dislike ${v === -1 ? 'active' : ''}`}
+                onClick={() => vote(c.id, -1)} title="Dislike">
+          <svg viewBox="0 0 24 24" width={ic} height={ic} fill="none" stroke="currentColor" strokeWidth="1.8">
+            <path d="M17 13V4h4v9h-4zm-3-9H5.5a2 2 0 0 0-2 1.7l-1.2 7a2 2 0 0 0 2 2.3H10l-.9 4.3a2 2 0 0 0 3.3 2L17 15V4h-3z" strokeLinejoin="round"/>
+          </svg>
+        </button>
+        {!small && (
+          <button className="yt-action yt-reply-btn"
+                  onClick={() => { setReplyTo(replyTo === c.id ? null : c.id); setReplyBody(''); }}>
+            Reply
+          </button>
+        )}
+      </div>
+    );
   };
 
   return (
-    <>
-      <div className="mono gear-label" style={{ marginTop: 22 }}>
-        DISCUSSION ({comments.length})
-      </div>
-      <div className="gear-comments">
-        <div className="gear-comment-form">
-          <input className="gear-comment-name" type="text" value={name} placeholder="Your name"
-                 maxLength={60} onChange={e => setName(e.target.value)}/>
-          <textarea className="gear-comment-body" value={body} placeholder="Share your thoughts about this drone…"
-                    maxLength={2000} rows={3} onChange={e => setBody(e.target.value)}/>
-          <div className="gear-comment-actions">
-            <span className="gear-comment-count">{body.length}/2000</span>
-            <button className="gear-comment-post" disabled={submitting || !name.trim() || !body.trim()}
-                    onClick={() => submit(null, body, () => setBody(''))}>
-              {submitting ? 'Posting…' : 'Post'}
-            </button>
-          </div>
+    <section className="yt-comments">
+      <div className="yt-comments-head">
+        <h3 className="yt-comments-count">{comments.length.toLocaleString()} Comments</h3>
+        <div className="yt-sort">
+          <button className={sort === 'top' ? 'yt-sort-btn active' : 'yt-sort-btn'}
+                  onClick={() => setSort('top')}>Top comments</button>
+          <button className={sort === 'newest' ? 'yt-sort-btn active' : 'yt-sort-btn'}
+                  onClick={() => setSort('newest')}>Newest first</button>
         </div>
-
-        {loading ? (
-          <div className="gear-comment-loading">Loading comments…</div>
-        ) : tree.length === 0 ? (
-          <div className="gear-comment-empty">No comments yet. Be the first to share your thoughts.</div>
-        ) : (
-          <div className="gear-comment-list">
-            {tree.map(c => (
-              <div key={c.id} className="gear-comment">
-                <div className="gear-comment-head">
-                  <span className="gear-comment-author">{c.author_name}</span>
-                  <span className="gear-comment-date">{fmtDate(c.created_at)}</span>
-                </div>
-                <div className="gear-comment-text">{c.body}</div>
-                <button className="gear-comment-reply-btn"
-                        onClick={() => { setReplyTo(replyTo === c.id ? null : c.id); setReplyBody(''); }}>
-                  {replyTo === c.id ? 'Cancel' : 'Reply'}
-                </button>
-
-                {replyTo === c.id && (
-                  <div className="gear-comment-reply-form">
-                    <textarea value={replyBody} placeholder={`Reply to ${c.author_name}…`}
-                              maxLength={2000} rows={2} onChange={e => setReplyBody(e.target.value)}/>
-                    <button className="gear-comment-post" disabled={submitting || !replyBody.trim()}
-                            onClick={() => submit(c.id, replyBody, () => { setReplyBody(''); setReplyTo(null); })}>
-                      {submitting ? 'Posting…' : 'Post reply'}
-                    </button>
-                  </div>
-                )}
-
-                {c.replies?.length > 0 && (
-                  <div className="gear-comment-replies">
-                    {c.replies.map(r => (
-                      <div key={r.id} className="gear-comment gear-comment-is-reply">
-                        <div className="gear-comment-head">
-                          <span className="gear-comment-author">{r.author_name}</span>
-                          <span className="gear-comment-date">{fmtDate(r.created_at)}</span>
-                        </div>
-                        <div className="gear-comment-text">{r.body}</div>
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
-        )}
       </div>
-    </>
+
+      <div className="yt-input-row">
+        <YtAvatar name={name || 'You'} size={40} />
+        <div className="yt-input-body">
+          {!focused ? (
+            <div className="yt-input-placeholder" onClick={() => setFocused(true)}
+                 tabIndex={0} onFocus={() => setFocused(true)}>
+              Add a comment…
+            </div>
+          ) : (
+            <>
+              <input className="yt-name-input" type="text" value={name} placeholder="Your name"
+                     maxLength={60} onChange={e => setName(e.target.value)} />
+              <textarea className="yt-body-input" value={body} placeholder="Share your thoughts about this drone…"
+                        maxLength={2000} rows={2} autoFocus
+                        onChange={e => setBody(e.target.value)} />
+              <div className="yt-input-actions">
+                <span className="yt-char-count">{body.length}/2000</span>
+                <div className="yt-input-btns">
+                  <button className="yt-btn yt-btn-ghost"
+                          onClick={() => { setBody(''); setFocused(false); }}>Cancel</button>
+                  <button className="yt-btn yt-btn-primary"
+                          disabled={submitting || !name.trim() || !body.trim()}
+                          onClick={() => submit(null, body, () => { setBody(''); setFocused(false); })}>
+                    {submitting ? 'Posting…' : 'Comment'}
+                  </button>
+                </div>
+              </div>
+            </>
+          )}
+        </div>
+      </div>
+
+      {loading ? (
+        <div className="yt-loading">Loading comments…</div>
+      ) : tree.length === 0 ? (
+        <div className="yt-empty">
+          <div className="yt-empty-title">No comments yet</div>
+          <div className="yt-empty-sub">Be the first to share what you think about this drone.</div>
+        </div>
+      ) : (
+        <div className="yt-list">
+          {tree.map(c => {
+            const exp = !!expanded[c.id];
+            return (
+              <div key={c.id} className="yt-comment">
+                <YtAvatar name={c.author_name} size={40} />
+                <div className="yt-comment-body">
+                  <div className="yt-comment-head">
+                    <span className="yt-comment-author">{c.author_name}</span>
+                    <span className="yt-comment-date">{fmtDateYT(c.created_at)}</span>
+                  </div>
+                  <div className="yt-comment-text">{c.body}</div>
+                  {renderActions(c)}
+
+                  {replyTo === c.id && (
+                    <div className="yt-reply-row">
+                      <YtAvatar name={name || 'You'} size={32} />
+                      <div className="yt-input-body">
+                        <input className="yt-name-input" type="text" value={name} placeholder="Your name"
+                               maxLength={60} onChange={e => setName(e.target.value)} />
+                        <textarea className="yt-body-input" value={replyBody}
+                                  placeholder={`Reply to ${c.author_name}…`}
+                                  maxLength={2000} rows={2} autoFocus
+                                  onChange={e => setReplyBody(e.target.value)} />
+                        <div className="yt-input-actions">
+                          <span className="yt-char-count">{replyBody.length}/2000</span>
+                          <div className="yt-input-btns">
+                            <button className="yt-btn yt-btn-ghost"
+                                    onClick={() => { setReplyTo(null); setReplyBody(''); }}>Cancel</button>
+                            <button className="yt-btn yt-btn-primary"
+                                    disabled={submitting || !name.trim() || !replyBody.trim()}
+                                    onClick={() => submit(c.id, replyBody, () => { setReplyBody(''); setReplyTo(null); })}>
+                              {submitting ? 'Posting…' : 'Reply'}
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {c.replies?.length > 0 && (
+                    <>
+                      <button className="yt-view-replies"
+                              onClick={() => setExpanded(e => ({ ...e, [c.id]: !exp }))}>
+                        <svg viewBox="0 0 24 24" width="16" height="16" fill="none"
+                             stroke="currentColor" strokeWidth="2"
+                             style={{ transform: exp ? 'rotate(180deg)' : 'none', transition: 'transform .15s' }}>
+                          <path d="M6 9l6 6 6-6" strokeLinecap="round" strokeLinejoin="round"/>
+                        </svg>
+                        {exp ? 'Hide' : 'View'} {c.replies.length} {c.replies.length === 1 ? 'reply' : 'replies'}
+                      </button>
+
+                      {exp && (
+                        <div className="yt-replies">
+                          {c.replies.map(r => (
+                            <div key={r.id} className="yt-comment yt-reply">
+                              <YtAvatar name={r.author_name} size={32} />
+                              <div className="yt-comment-body">
+                                <div className="yt-comment-head">
+                                  <span className="yt-comment-author">{r.author_name}</span>
+                                  <span className="yt-comment-date">{fmtDateYT(r.created_at)}</span>
+                                </div>
+                                <div className="yt-comment-text">{r.body}</div>
+                                {renderActions(r, true)}
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </>
+                  )}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      )}
+    </section>
   );
 }
 
@@ -912,9 +1037,10 @@ export function GearItemPage({ slug, onNav }) {
               </div>
             </>
           )}
-          <CommentsSidebar slug={slug} />
         </aside>
       </div>
+
+      <Comments slug={slug} />
     </div>
   );
 }
