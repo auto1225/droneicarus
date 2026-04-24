@@ -689,8 +689,7 @@ export function GearItemPage({ slug, onNav }) {
       </div>
 
       <div className="gear-detail-hero">
-        <img src={heroImg} alt={product.name} onError={() => setImgError(true)} referrerPolicy="no-referrer"
-             style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}/>
+        <img src={heroImg} alt={product.name} onError={() => setImgError(true)} referrerPolicy="no-referrer"/>
       </div>
 
       <div className="gear-detail-grid">
@@ -732,6 +731,9 @@ export function GearItemPage({ slug, onNav }) {
               </ul>
             </>
           )}
+
+          <Comments slug={slug} />
+
 
           {product.feature_sections && product.feature_sections.length > 0 && (
             <>
@@ -1039,8 +1041,6 @@ export function GearItemPage({ slug, onNav }) {
           )}
         </aside>
       </div>
-
-      <Comments slug={slug} />
     </div>
   );
 }
