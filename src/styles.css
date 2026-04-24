@@ -1991,3 +1991,68 @@ input:focus, textarea:focus, select:focus {
   .gear-detail-hero { min-height: 220px; max-height: 440px; }
   .gear-detail-hero img { max-height: 420px !important; }
 }
+
+
+/* Tomatometer hero */
+.tomato-hero {
+  max-width: 1200px;
+  margin: 0 auto 32px;
+  padding: 32px 24px;
+  background: linear-gradient(135deg, rgba(200, 90, 44, 0.08), rgba(255, 255, 255, 0));
+  border: 1px solid var(--line, rgba(26, 40, 32, 0.12));
+  border-radius: 14px;
+}
+.tomato-hero-head { margin-bottom: 20px; }
+.tomato-hero-eyebrow { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; letter-spacing: 2px; font-size: 12px; color: var(--sunset, #c85a2c); }
+.tomato-hero h1 { font-size: 28px; line-height: 1.25; margin: 0 0 8px; color: var(--bone, #0f1a14); font-family: var(--font-display, 'Bricolage Grotesque'); }
+.tomato-hero-sub { font-size: 14px; line-height: 1.55; color: var(--parchment, #1f2b22); max-width: 720px; margin: 0; }
+.tomato-hero-sub a { color: var(--sunset, #c85a2c); font-weight: 500; }
+
+.tomato-icon { position: relative; display: inline-block; }
+.tomato-icon svg { display: block; filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.15)); }
+.tomato-score-badge { position: absolute; bottom: -4px; right: -4px; background: #fff; border: 2px solid currentColor; border-radius: 12px; padding: 1px 6px; font-size: 11px; font-weight: 700; font-family: var(--mono, monospace); }
+
+.tomato-leaderboard { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin-top: 16px; }
+.tomato-card { display: flex; gap: 12px; align-items: center; padding: 16px; background: #fff; border: 1px solid var(--line, rgba(26, 40, 32, 0.12)); border-radius: 10px; cursor: pointer; text-align: left; transition: transform 0.15s, box-shadow 0.15s; font-family: inherit; position: relative; }
+.tomato-card:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(26, 40, 32, 0.1); }
+.tomato-rank { position: absolute; top: 6px; right: 10px; font-family: var(--mono, monospace); font-size: 11px; color: var(--parchment-dim, #6a7260); font-weight: 600; }
+.tomato-card-body { flex: 1; min-width: 0; }
+.tomato-card-manu { font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--sunset, #c85a2c); font-family: var(--mono, monospace); }
+.tomato-card-name { font-size: 14px; font-weight: 600; color: var(--bone, #0f1a14); margin-top: 2px; line-height: 1.25; }
+.tomato-card-meta { font-size: 11px; color: var(--parchment-dim, #6a7260); margin-top: 4px; }
+
+.tomato-empty, .tomato-loading { padding: 48px 20px; text-align: center; border: 1px dashed rgba(26, 40, 32, 0.12); border-radius: 10px; background: rgba(26, 40, 32, 0.02); color: var(--parchment-dim, #4a5540); }
+.tomato-empty-title { font-size: 15px; color: var(--bone, #0f1a14); font-weight: 500; margin-bottom: 6px; }
+.tomato-empty-sub { font-size: 13px; }
+
+/* Rating widget on detail page */
+.rating-widget { margin: 28px 0; padding: 20px; background: rgba(200, 90, 44, 0.04); border: 1px solid rgba(200, 90, 44, 0.15); border-radius: 12px; }
+.rating-widget-head { display: flex; align-items: center; gap: 14px; margin-bottom: 16px; }
+.rating-widget-title { margin: 0; font-size: 16px; color: var(--bone, #0f1a14); }
+.rating-widget-meta { font-size: 13px; color: var(--parchment-dim, #6a7260); margin-top: 2px; }
+.rating-signin { font-size: 13px; color: var(--parchment, #1f2b22); padding: 12px; background: rgba(26, 40, 32, 0.04); border-radius: 8px; }
+.rating-signin a { color: var(--sunset, #c85a2c); font-weight: 600; }
+
+.rating-form-label { font-size: 13px; font-weight: 500; margin-bottom: 8px; color: var(--parchment, #1f2b22); display: flex; justify-content: space-between; }
+.rating-score-num { font-family: var(--mono, monospace); color: var(--sunset, #c85a2c); font-weight: 700; }
+.rating-score-picker { display: flex; gap: 4px; margin-bottom: 12px; }
+.rating-score-btn { flex: 1; height: 36px; background: rgba(26, 40, 32, 0.05); border: 1px solid rgba(26, 40, 32, 0.1); border-radius: 6px; font-family: var(--mono, monospace); font-size: 13px; font-weight: 600; color: var(--parchment-dim, #6a7260); cursor: pointer; transition: all 0.12s; }
+.rating-score-btn:hover { background: rgba(26, 40, 32, 0.1); }
+.rating-score-btn.on.fresh { background: var(--sunset, #c85a2c); color: #faf6ec; border-color: var(--sunset, #c85a2c); }
+.rating-score-btn.on.rotten { background: #6b7d3a; color: #faf6ec; border-color: #6b7d3a; }
+.rating-review { width: 100%; padding: 10px 12px; background: #fff; border: 1px solid rgba(26, 40, 32, 0.15); border-radius: 6px; font-family: inherit; font-size: 13px; resize: vertical; outline: none; color: var(--bone, #0f1a14); }
+.rating-review:focus { border-color: var(--sunset, #c85a2c); }
+.rating-actions { margin-top: 12px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.rating-submit { padding: 10px 20px; background: var(--sunset, #c85a2c); color: #faf6ec; border: 0; border-radius: 20px; font-size: 13px; font-weight: 500; cursor: pointer; font-family: inherit; transition: background 0.15s; }
+.rating-submit:hover:not(:disabled) { background: var(--sunset-deep, #9b4020); }
+.rating-submit:disabled { opacity: 0.5; cursor: not-allowed; }
+.rating-delete { padding: 10px 16px; background: transparent; color: var(--parchment-dim, #6a7260); border: 1px solid rgba(26, 40, 32, 0.15); border-radius: 20px; font-size: 12px; cursor: pointer; font-family: inherit; }
+.rating-delete:hover { background: rgba(26, 40, 32, 0.05); }
+.rating-msg { font-size: 12px; color: var(--parchment-dim, #6a7260); }
+
+@media (max-width: 640px) {
+  .tomato-hero { padding: 20px 16px; }
+  .tomato-hero h1 { font-size: 22px; }
+  .tomato-leaderboard { grid-template-columns: 1fr 1fr; }
+  .rating-score-btn { height: 30px; font-size: 12px; }
+}
