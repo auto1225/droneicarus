@@ -1205,3 +1205,137 @@ input:focus, textarea:focus, select:focus {
 .drone-card-img-wrap img {
   width: 100%; height: 100%; object-fit: cover; display: block;
 }
+
+/* ─── Rich detail page sections (Phase 2) ─── */
+.gear-marketing {
+  margin: 18px 0 24px;
+}
+.gear-marketing p {
+  font-size: 15px; line-height: 1.75; color: var(--parchment);
+  margin: 0 0 14px; max-width: 720px;
+}
+
+.gear-gallery {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 8px; margin: 10px 0 0;
+}
+.gear-gallery-item {
+  aspect-ratio: 4/3; background: var(--forest-900);
+  border: 1px solid var(--line); border-radius: 4px; overflow: hidden;
+}
+.gear-gallery-item img {
+  width: 100%; height: 100%; object-fit: cover; display: block;
+}
+
+.gear-feature-sections {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 14px;
+  margin: 12px 0 0;
+}
+@media (max-width: 720px) {
+  .gear-feature-sections { grid-template-columns: 1fr; }
+}
+.gear-feature-section {
+  background: var(--forest-900); border: 1px solid var(--line);
+  border-radius: 6px; padding: 16px 18px;
+}
+.gear-feature-section h4 {
+  margin: 0 0 8px; font-size: 14px;
+  font-family: var(--font-display); color: var(--amber);
+  letter-spacing: -0.01em;
+}
+.gear-feature-section p {
+  margin: 0; font-size: 13px; line-height: 1.6;
+  color: var(--parchment);
+}
+
+.gear-box-list {
+  list-style: none; padding: 0; margin: 0;
+  background: var(--forest-900); border: 1px solid var(--line);
+  border-radius: 6px;
+}
+.gear-box-list li {
+  padding: 10px 16px; border-bottom: 1px solid var(--line);
+  font-size: 14px; color: var(--parchment); position: relative;
+  padding-left: 36px;
+}
+.gear-box-list li:last-child { border-bottom: none; }
+.gear-box-list li::before {
+  content: "📦"; position: absolute; left: 12px; opacity: 0.5;
+}
+
+.gear-features-list {
+  list-style: none; padding: 0; margin: 0;
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 4px 18px;
+}
+@media (max-width: 720px) {
+  .gear-features-list { grid-template-columns: 1fr; }
+}
+.gear-features-list li {
+  padding: 6px 0 6px 18px; position: relative;
+  font-size: 13px; color: var(--parchment);
+}
+.gear-features-list li::before {
+  content: "✓"; position: absolute; left: 0; color: var(--amber);
+  font-weight: 600;
+}
+
+.gear-videos {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 10px;
+}
+.gear-video-card {
+  display: block; background: var(--forest-900);
+  border: 1px solid var(--line); border-radius: 6px;
+  overflow: hidden; text-decoration: none;
+}
+.gear-video-card img { width: 100%; aspect-ratio: 16/9; object-fit: cover; display: block; }
+.gear-video-title {
+  padding: 10px 12px; font-size: 13px; color: var(--parchment);
+}
+
+.gear-docs {
+  list-style: none; padding: 0; margin: 0;
+}
+.gear-docs li {
+  padding: 10px 0; border-bottom: 1px solid var(--line);
+  display: flex; align-items: center; gap: 10px;
+}
+.gear-docs li:last-child { border-bottom: none; }
+.gear-docs a {
+  color: var(--parchment); text-decoration: none; flex: 1;
+  font-size: 14px;
+}
+.gear-docs a:hover { color: var(--amber); }
+.gear-doc-type {
+  font-family: var(--font-mono); font-size: 10px;
+  color: var(--parchment-dim); letter-spacing: 0.1em;
+  padding: 3px 7px; border: 1px solid var(--line); border-radius: 3px;
+}
+
+.gear-variants {
+  display: flex; flex-direction: column; gap: 8px;
+  margin-top: 6px;
+}
+.gear-variant {
+  padding: 10px 12px; background: var(--forest-800);
+  border: 1px solid var(--line); border-radius: 4px;
+}
+.gear-variant-top {
+  display: flex; justify-content: space-between; align-items: baseline;
+  gap: 8px;
+}
+.gear-variant-name {
+  font-size: 13px; color: var(--bone); font-weight: 500;
+}
+.gear-variant-price {
+  font-family: var(--font-mono); font-size: 13px; color: var(--amber);
+  font-weight: 600;
+}
+.gear-variant-desc {
+  font-size: 11px; color: var(--parchment-dim); line-height: 1.5;
+  margin-top: 4px;
+}
+
+/* Multi-paragraph description fallback */
+.gear-detail-desc { white-space: pre-wrap; }
