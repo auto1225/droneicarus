@@ -495,29 +495,92 @@ export function GearItemPage({ slug, onNav }) {
             </>
           )}
 
-          <h3>Full specifications</h3>
-          <table className="gear-spec-table">
-            <tbody>
-              {Object.entries(specs).map(([k, v]) => {
-                if (v === null || v === undefined || v === '') return null;
-                const label = k.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase())
-                  .replace(/\bMm\b/, 'mm').replace(/\bKmh\b/, 'km/h').replace(/\bKm\b/, 'km')
-                  .replace(/\bMs\b/, 'm/s').replace(/\bMin\b/, 'min').replace(/\bMp\b/, 'MP')
-                  .replace(/\bGps\b/, 'GPS').replace(/\bHdr\b/, 'HDR').replace(/\bFov\b/, 'FoV')
-                  .replace(/\bIso\b/, 'ISO').replace(/\bId\b/, 'ID').replace(/\bCmos\b/, 'CMOS')
-                  .replace(/\bApp\b/, 'App').replace(/\bRtk\b/, 'RTK').replace(/\bUhd\b/, 'UHD')
-                  .replace(/\bFcc\b/, 'FCC').replace(/\bCe\b/, 'CE').replace(/\bGnss\b/, 'GNSS')
-                  .replace(/\bIos\b/, 'iOS').replace(/\bMbps\b/, 'Mbps').replace(/\bHz\b/, 'Hz')
-                  .replace(/_c$/i, ' (°C)').replace(/_g$/i, ' (g)').replace(/_deg$/i, ' (°)');
-                return (
-                  <tr key={k}>
-                    <td className="spec-k">{label}</td>
-                    <td className="spec-v">{typeof v === 'number' ? v.toLocaleString() : v}</td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
+          {product.use_cases && product.use_cases.length > 0 && (
+            <>
+              <h3>Best for</h3>
+              <div className="gear-use-cases">
+                {product.use_cases.map((uc, i) => (
+                  <div key={i} className="gear-use-case">
+                    <h4>{uc.scenario}</h4>
+                    <p>{uc.description}</p>
+                  </div>
+                ))}
+              </div>
+            </>
+          )}
+
+          {product.reviews_summary && product.reviews_summary.rating && (
+            <>
+              <h3>Customer reviews</h3>
+              <div className="gear-reviews">
+                <div className="gear-reviews-header">
+                  <div className="gear-reviews-rating">
+                    <span className="gear-reviews-score">{product.reviews_summary.rating}</span>
+                    <span className="gear-reviews-outof">/ 5</span>
+                  </div>
+                  <div className="gear-reviews-meta">
+                    <div>{product.reviews_summary.count?.toLocaleString()} reviews on {product.reviews_summary.source}</div>
+                    {product.reviews_summary.bought_past_month && <div>{product.reviews_summary.bought_past_month} bought in past month</div>}
+                  </div>
+                </div>
+                <div className="gear-reviews-grid">
+                  {product.reviews_summary.pros && (
+                    <div className="gear-reviews-col">
+                      <div className="gear-reviews-col-title">What buyers praise</div>
+                      <ul>{product.reviews_summary.pros.map((p, i) => <li key={i}>{p}</li>)}</ul>
+                    </div>
+                  )}
+                  {product.reviews_summary.cons && (
+                    <div className="gear-reviews-col">
+                      <div className="gear-reviews-col-title">Common complaints</div>
+                      <ul>{product.reviews_summary.cons.map((c, i) => <li key={i}>{c}</li>)}</ul>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </>
+          )}
+
+          {product.spec_groups && product.spec_groups.length > 0 ? (
+            <>
+              <h3>Full specifications</h3>
+              <div className="gear-spec-groups">
+                {product.spec_groups.map((grp, gi) => (
+                  <div key={gi} className="gear-spec-group">
+                    <div className="gear-spec-group-title">{grp.title}</div>
+                    <table className="gear-spec-table">
+                      <tbody>
+                        {(grp.rows || []).map((row, ri) => (
+                          <tr key={ri}>
+                            <td className="spec-k">{row[0]}</td>
+                            <td className="spec-v">{row[1]}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                ))}
+              </div>
+            </>
+          ) : (
+            <>
+              <h3>Full specifications</h3>
+              <table className="gear-spec-table">
+                <tbody>
+                  {Object.entries(specs).map(([k, v]) => {
+                    if (v === null || v === undefined || v === '') return null;
+                    const label = k.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+                    return (
+                      <tr key={k}>
+                        <td className="spec-k">{label}</td>
+                        <td className="spec-v">{typeof v === 'number' ? v.toLocaleString() : v}</td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </>
+          )}
 
           {product.included_in_box && product.included_in_box.length > 0 && (
             <>
@@ -525,6 +588,98 @@ export function GearItemPage({ slug, onNav }) {
               <ul className="gear-box-list">
                 {product.included_in_box.map((item, i) => <li key={i}>{item}</li>)}
               </ul>
+            </>
+          )}
+
+          {product.compatible_accessories && product.compatible_accessories.length > 0 && (
+            <>
+              <h3>Compatible accessories</h3>
+              <div className="gear-accessories">
+                {product.compatible_accessories.map((a, i) => (
+                  <div key={i} className="gear-accessory">
+                    <div className="gear-accessory-top">
+                      <span className="gear-accessory-name">{a.name}</span>
+                      {a.price_usd && <span className="gear-accessory-price">${a.price_usd.toLocaleString()}</span>}
+                    </div>
+                    {a.description && <div className="gear-accessory-desc">{a.description}</div>}
+                    {a.category && <span className="gear-accessory-cat">{a.category}</span>}
+                  </div>
+                ))}
+              </div>
+            </>
+          )}
+
+          {product.comparisons && product.comparisons.length > 0 && (
+            <>
+              <h3>How it compares</h3>
+              <div className="gear-comparisons">
+                {product.comparisons.map((c, i) => (
+                  <div key={i} className="gear-comparison">
+                    <div className="gear-comparison-title">
+                      {product.name} <span className="gear-comparison-vs">vs</span> {c.vs_name}
+                      {c.vs_slug && <button className="gear-comparison-link" onClick={() => onNav('gear-item', c.vs_slug)}>View →</button>}
+                    </div>
+                    <ul>
+                      {(c.differences || []).map((d, di) => <li key={di}>{d}</li>)}
+                    </ul>
+                  </div>
+                ))}
+              </div>
+            </>
+          )}
+
+          {product.faqs && product.faqs.length > 0 && (
+            <>
+              <h3>Frequently asked questions</h3>
+              <div className="gear-faqs">
+                {product.faqs.map((f, i) => (
+                  <details key={i} className="gear-faq">
+                    <summary>{f.q}</summary>
+                    <p>{f.a}</p>
+                  </details>
+                ))}
+              </div>
+            </>
+          )}
+
+          {product.regulatory && Object.keys(product.regulatory).length > 0 && (
+            <>
+              <h3>Regulations by region</h3>
+              <div className="gear-regulatory">
+                {Object.entries(product.regulatory).map(([region, rules]) => (
+                  <div key={region} className="gear-regulatory-region">
+                    <div className="gear-regulatory-name">{region.replace(/_/g, ' ').toUpperCase()}</div>
+                    <table className="gear-spec-table">
+                      <tbody>
+                        {Object.entries(rules).map(([k, v]) => (
+                          <tr key={k}>
+                            <td className="spec-k">{k.replace(/_/g, ' ')}</td>
+                            <td className="spec-v">{v}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                ))}
+              </div>
+            </>
+          )}
+
+          {product.warranty_plans && product.warranty_plans.length > 0 && (
+            <>
+              <h3>Warranty & protection</h3>
+              <div className="gear-warranty">
+                {product.warranty_plans.map((w, i) => (
+                  <div key={i} className="gear-warranty-plan">
+                    <div className="gear-warranty-top">
+                      <span className="gear-warranty-name">{w.name}</span>
+                      <span className="gear-warranty-price">{w.price_usd === 0 ? 'Free' : w.price_usd ? `$${w.price_usd}` : ''}</span>
+                    </div>
+                    {w.duration && <div className="gear-warranty-duration">{w.duration}</div>}
+                    {w.covers && <ul>{w.covers.map((c, ci) => <li key={ci}>{c}</li>)}</ul>}
+                  </div>
+                ))}
+              </div>
             </>
           )}
 
@@ -611,6 +766,17 @@ export function GearItemPage({ slug, onNav }) {
               ))}
             </>
           )}
+
+          {product.reviews_summary && product.reviews_summary.rating && (
+            <>
+              <div className="mono gear-label" style={{ marginTop: 22 }}>RATED</div>
+              <div className="gear-sidebar-rating">
+                <span className="gear-sidebar-score">{product.reviews_summary.rating}/5</span>
+                <span className="gear-sidebar-reviews">· {product.reviews_summary.count?.toLocaleString()} reviews</span>
+              </div>
+            </>
+          )}
+
           {product.tags && product.tags.length > 0 && (
             <>
               <div className="mono gear-label" style={{ marginTop: 22 }}>TAGS</div>
