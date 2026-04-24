@@ -453,6 +453,25 @@ export function GearItemPage({ slug, onNav }) {
 
           {product.description && <p className="gear-detail-desc">{product.description}</p>}
 
+          {product.marketing_copy && (
+            <div className="gear-marketing">
+              {product.marketing_copy.split(/\n\n+/).map((para, i) => <p key={i}>{para}</p>)}
+            </div>
+          )}
+
+          {product.gallery && product.gallery.length > 1 && (
+            <>
+              <h3>Gallery</h3>
+              <div className="gear-gallery">
+                {product.gallery.map((url, i) => (
+                  <div key={i} className="gear-gallery-item">
+                    <img src={url} alt={`${product.name} view ${i+1}`} referrerPolicy="no-referrer" />
+                  </div>
+                ))}
+              </div>
+            </>
+          )}
+
           {product.highlights && product.highlights.length > 0 && (
             <>
               <h3>Highlights</h3>
@@ -462,30 +481,86 @@ export function GearItemPage({ slug, onNav }) {
             </>
           )}
 
+          {product.feature_sections && product.feature_sections.length > 0 && (
+            <>
+              <h3>Key capabilities</h3>
+              <div className="gear-feature-sections">
+                {product.feature_sections.map((fs, i) => (
+                  <div key={i} className="gear-feature-section">
+                    <h4>{fs.title}</h4>
+                    <p>{fs.body}</p>
+                  </div>
+                ))}
+              </div>
+            </>
+          )}
+
           <h3>Full specifications</h3>
           <table className="gear-spec-table">
             <tbody>
-              {specRow('Weight', specs.weight_g?.toLocaleString?.() || specs.weight_g, 'g')}
-              {specRow('Max flight time', specs.flight_time_min, ' min')}
-              {specRow('Max speed', specs.max_speed_kmh, ' km/h')}
-              {specRow('Max range', specs.max_range_km, ' km')}
-              {specRow('Max altitude', specs.max_altitude_m?.toLocaleString?.() || specs.max_altitude_m, ' m')}
-              {specRow('Transmission', specs.transmission)}
-              {specRow('Wheelbase', specs.wheelbase_mm, ' mm')}
-              {specRow('Wingspan', specs.wingspan_mm?.toLocaleString?.() || specs.wingspan_mm, ' mm')}
-              {specRow('Video resolution', specs.video_resolution)}
-              {specRow('Camera sensor', specs.camera_sensor)}
-              {specRow('Gimbal', specs.gimbal)}
-              {specRow('Obstacle sensing', specs.obstacle_sensing)}
-              {specRow('Payload', specs.payload_kg, ' kg')}
+              {Object.entries(specs).map(([k, v]) => {
+                if (v === null || v === undefined || v === '') return null;
+                const label = k.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase())
+                  .replace(/\bMm\b/, 'mm').replace(/\bKmh\b/, 'km/h').replace(/\bKm\b/, 'km')
+                  .replace(/\bMs\b/, 'm/s').replace(/\bMin\b/, 'min').replace(/\bMp\b/, 'MP')
+                  .replace(/\bGps\b/, 'GPS').replace(/\bHdr\b/, 'HDR').replace(/\bFov\b/, 'FoV')
+                  .replace(/\bIso\b/, 'ISO').replace(/\bId\b/, 'ID').replace(/\bCmos\b/, 'CMOS')
+                  .replace(/\bApp\b/, 'App').replace(/\bRtk\b/, 'RTK').replace(/\bUhd\b/, 'UHD')
+                  .replace(/\bFcc\b/, 'FCC').replace(/\bCe\b/, 'CE').replace(/\bGnss\b/, 'GNSS')
+                  .replace(/\bIos\b/, 'iOS').replace(/\bMbps\b/, 'Mbps').replace(/\bHz\b/, 'Hz')
+                  .replace(/_c$/i, ' (°C)').replace(/_g$/i, ' (g)').replace(/_deg$/i, ' (°)');
+                return (
+                  <tr key={k}>
+                    <td className="spec-k">{label}</td>
+                    <td className="spec-v">{typeof v === 'number' ? v.toLocaleString() : v}</td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
 
+          {product.included_in_box && product.included_in_box.length > 0 && (
+            <>
+              <h3>What's in the box</h3>
+              <ul className="gear-box-list">
+                {product.included_in_box.map((item, i) => <li key={i}>{item}</li>)}
+              </ul>
+            </>
+          )}
+
+          {product.videos && product.videos.length > 0 && (
+            <>
+              <h3>Videos</h3>
+              <div className="gear-videos">
+                {product.videos.map((v, i) => (
+                  <a key={i} href={v.url} target="_blank" rel="noopener noreferrer" className="gear-video-card">
+                    {v.thumbnail && <img src={v.thumbnail} alt={v.title} />}
+                    <div className="gear-video-title">{v.title}</div>
+                  </a>
+                ))}
+              </div>
+            </>
+          )}
+
           {product.features && product.features.length > 0 && (
             <>
-              <h3>Features</h3>
-              <ul className="gear-highlights">
+              <h3>All features</h3>
+              <ul className="gear-features-list">
                 {product.features.map((f, i) => <li key={i}>{f}</li>)}
+              </ul>
+            </>
+          )}
+
+          {product.support_docs && product.support_docs.length > 0 && (
+            <>
+              <h3>Documentation &amp; support</h3>
+              <ul className="gear-docs">
+                {product.support_docs.map((d, i) => (
+                  <li key={i}>
+                    <a href={d.url} target="_blank" rel="noopener noreferrer">{d.title}</a>
+                    {d.type && <span className="gear-doc-type">{d.type.toUpperCase()}</span>}
+                  </li>
+                ))}
               </ul>
             </>
           )}
@@ -507,12 +582,30 @@ export function GearItemPage({ slug, onNav }) {
               Official product page →
             </a>
           )}
+
+          {product.variants && product.variants.length > 0 && (
+            <>
+              <div className="mono gear-label" style={{ marginTop: 22 }}>PURCHASE OPTIONS</div>
+              <div className="gear-variants">
+                {product.variants.map((v, i) => (
+                  <div key={i} className="gear-variant">
+                    <div className="gear-variant-top">
+                      <span className="gear-variant-name">{v.name}</span>
+                      {v.price_usd && <span className="gear-variant-price">${v.price_usd.toLocaleString()}</span>}
+                    </div>
+                    {v.description && <div className="gear-variant-desc">{v.description}</div>}
+                  </div>
+                ))}
+              </div>
+            </>
+          )}
+
           {product.purchase_links && product.purchase_links.length > 0 && (
             <>
               <div className="mono gear-label" style={{ marginTop: 22 }}>BUY FROM</div>
               {product.purchase_links.map((link, i) => (
                 <a key={i} href={link.url} target="_blank" rel="noopener noreferrer" className="gear-buy-link">
-                  <span>{link.store}</span>
+                  <span>{link.name || link.store}</span>
                   <span className="gear-buy-price">{link.price_usd ? `$${link.price_usd.toLocaleString()}` : 'Visit →'}</span>
                 </a>
               ))}
