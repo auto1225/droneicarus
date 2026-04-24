@@ -34,3 +34,35 @@ export async function fetchGearAds() {
   const rows = await get('/rest/v1/ads?select=id,title,brand,image_url,click_url,cta_label&active=eq.true&placement=eq.gear-sidebar&order=created_at.desc&limit=8');
   return rows;
 }
+
+// ─── Comments ───
+export async function fetchDroneComments(slug) {
+  const rows = await get(
+    `/rest/v1/drone_comments?select=id,drone_slug,parent_id,author_name,body,created_at,likes&drone_slug=eq.${encodeURIComponent(slug)}&status=eq.published&order=created_at.asc&limit=500`
+  );
+  return rows;
+}
+
+export async function postDroneComment({ slug, parent_id, author_name, body }) {
+  if (!SUPA_URL || !SUPA_KEY) return null;
+  if (!author_name?.trim() || !body?.trim()) return null;
+  try {
+    const r = await fetch(SUPA_URL + '/rest/v1/drone_comments', {
+      method: 'POST',
+      headers: {
+        apikey: SUPA_KEY, Authorization: 'Bearer ' + SUPA_KEY,
+        'Content-Type': 'application/json', Prefer: 'return=representation',
+      },
+      body: JSON.stringify({
+        drone_slug: slug,
+        parent_id: parent_id || null,
+        author_name: author_name.trim().slice(0, 60),
+        body: body.trim().slice(0, 2000),
+        status: 'published',
+      }),
+    });
+    if (!r.ok) { console.warn('[comment]', r.status); return null; }
+    const arr = await r.json();
+    return Array.isArray(arr) ? arr[0] : arr;
+  } catch (e) { console.warn('[comment]', e.message); return null; }
+}
