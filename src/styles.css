@@ -2076,3 +2076,12 @@ input:focus, textarea:focus, select:focus {
 .pagination-ellipsis { padding: 0 6px; color: var(--parchment-dim, #4a5548); font-size: 13px; user-select: none; }
 .pagination-meta { width: 100%; text-align: center; font-size: 12px; color: var(--parchment-dim, #4a5548); margin-top: 4px; font-family: var(--font-mono, monospace); letter-spacing: 0.5px; }
 @media (max-width: 640px) { .pagination-btn { min-width: 32px; height: 32px; font-size: 12px; padding: 0 8px; } .pagination-arrow { padding: 0 8px; } }
+
+
+/* ─── Global card design ─ site-wide consistent box ─── */
+.di-card { background: #ffffff; border: 1.5px solid rgba(26, 40, 32, 0.22); border-radius: 12px; box-shadow: 0 2px 0 rgba(26,40,32,0.06), 0 6px 18px rgba(60,50,35,0.10); transition: border-color 0.18s, transform 0.18s, box-shadow 0.18s; overflow: hidden; }
+.di-card:hover { border-color: var(--sunset, #c85a2e); transform: translateY(-3px); box-shadow: 0 18px 40px rgba(200,90,46,0.22), 0 2px 0 rgba(26,40,32,0.08); }
+.di-card.di-card-flat { box-shadow: 0 1px 0 rgba(26,40,32,0.04); }
+.di-card.di-card-flat:hover { box-shadow: 0 6px 18px rgba(60,50,35,0.10); transform: translateY(-1px); }
+[data-theme="dark"] .di-card { background: var(--forest-900); border-color: rgba(245,237,224,0.18); box-shadow: 0 2px 0 rgba(0,0,0,0.18), 0 6px 18px rgba(0,0,0,0.32); }
+[data-theme="dark"] .di-card:hover { border-color: var(--sunset); box-shadow: 0 18px 40px rgba(200,90,46,0.32); }
