@@ -2056,3 +2056,23 @@ input:focus, textarea:focus, select:focus {
   .tomato-leaderboard { grid-template-columns: 1fr 1fr; }
   .rating-score-btn { height: 30px; font-size: 12px; }
 }
+
+
+/* ─── Scroll-to-top floating button ─── */
+.scroll-top-btn { position: fixed; right: 24px; bottom: 24px; width: 48px; height: 48px; border-radius: 50%; background: var(--sunset, #c85a2e); color: #faf6ec; border: 1px solid rgba(0,0,0,0.08); box-shadow: 0 8px 24px rgba(60,50,35,0.25); cursor: pointer; display: flex; align-items: center; justify-content: center; opacity: 0; visibility: hidden; transform: translateY(8px); transition: opacity 0.2s, transform 0.2s, visibility 0.2s, background 0.15s; z-index: 1900; padding: 0; }
+.scroll-top-btn.is-visible { opacity: 1; visibility: visible; transform: translateY(0); }
+.scroll-top-btn:hover { background: var(--sunset-deep, #9b4020); }
+.scroll-top-btn:focus-visible { outline: 2px solid var(--sunset, #c85a2e); outline-offset: 3px; }
+.scroll-top-btn svg { display: block; }
+@media (max-width: 640px) { .scroll-top-btn { right: 16px; bottom: 16px; width: 44px; height: 44px; } }
+
+/* ─── Pagination (numbered) ─── */
+.pagination { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 6px; margin: 32px 0 16px; font-family: var(--font-ui, 'Inter', system-ui, sans-serif); }
+.pagination-btn { min-width: 36px; height: 36px; padding: 0 10px; border: 1px solid var(--line, rgba(26,40,32,0.12)); background: transparent; color: var(--parchment, #1f2b22); border-radius: 8px; font-size: 13px; font-weight: 500; font-family: inherit; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 4px; transition: background 0.12s, border-color 0.12s, color 0.12s; }
+.pagination-btn:hover:not(:disabled):not(.is-active) { background: rgba(200,90,46,0.08); border-color: var(--sunset, #c85a2e); color: var(--bone, #0f1a14); }
+.pagination-btn.is-active { background: var(--sunset, #c85a2e); color: #faf6ec; border-color: var(--sunset, #c85a2e); font-weight: 600; }
+.pagination-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+.pagination-arrow { padding: 0 12px; font-size: 13px; }
+.pagination-ellipsis { padding: 0 6px; color: var(--parchment-dim, #4a5548); font-size: 13px; user-select: none; }
+.pagination-meta { width: 100%; text-align: center; font-size: 12px; color: var(--parchment-dim, #4a5548); margin-top: 4px; font-family: var(--font-mono, monospace); letter-spacing: 0.5px; }
+@media (max-width: 640px) { .pagination-btn { min-width: 32px; height: 32px; font-size: 12px; padding: 0 8px; } .pagination-arrow { padding: 0 8px; } }
