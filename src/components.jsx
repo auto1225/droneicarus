@@ -753,7 +753,11 @@ export function ScrollToTop({ threshold = 400 }) {
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, [threshold]);
-  const goTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
+  const goTop = () => {
+    try { window.scrollTo({ top: 0, behavior: 'smooth' }); } catch(e) {}
+    // Some browsers / scroll containers ignore smooth — fall back after 600ms
+    setTimeout(() => { if (window.scrollY > 0) { document.documentElement.scrollTop = 0; document.body.scrollTop = 0; } }, 600);
+  };
   return (
     <button
       className={'scroll-top-btn' + (visible ? ' is-visible' : '')}
