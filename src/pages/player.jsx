@@ -390,43 +390,52 @@ export function PlayerPage({ video, onNav, onOpenVideo }) {
             </div>
           </div>
 
-          {/* Stats strip */}
-          <div style={{ display: 'flex', gap: 0, marginTop: 20, border: '1px solid var(--line)', borderRadius: 4 }}>
-            {[
-              ['Views', formatViews(video.views)],
-              ['Uploaded', formatDays(video.uploadedDaysAgo)],
-              ['Duration', video.duration],
-              ['Location', loc?.name],
-              ['Coords', `${loc?.lat.toFixed(3)}°, ${loc?.lon.toFixed(3)}°`],
-            ].map(([k, v], i) => (
-              <div key={k} style={{ flex: 1, padding: '14px 18px', borderLeft: i > 0 ? '1px solid var(--line)' : 'none' }}>
-                <div className="mono" style={{ fontSize: 12, letterSpacing: '0.14em', color: 'var(--parchment-dim)', textTransform: 'uppercase', marginBottom: 4 }}>{k}</div>
-                <div style={{ fontSize: 14, fontWeight: 600 }}>{v}</div>
+          {/* Stats strip — only show columns we actually have data for */}
+          {(() => {
+            const vLat = Number.isFinite(video.lat) ? video.lat : (Number.isFinite(loc?.lat) ? loc.lat : null);
+            const vLon = Number.isFinite(video.lon) ? video.lon : (Number.isFinite(loc?.lon) ? loc.lon : null);
+            const placeName = loc?.name || video.inferredLocationRaw?.name || video.inferredLocationRaw?.value || video.country || null;
+            const uploaded = (video.uploadedDaysAgo === 0 || video.uploadedDaysAgo == null) ? 'Today' : formatDays(video.uploadedDaysAgo);
+            const cells = [
+              ['Views', video.views != null ? formatViews(video.views) : null],
+              ['Uploaded', uploaded],
+              ['Duration', video.duration || null],
+              ['Location', placeName],
+              (vLat != null && vLon != null) ? ['Coords', `${vLat.toFixed(3)}°, ${vLon.toFixed(3)}°`] : null,
+            ].filter(c => c && c[1]);
+            if (cells.length === 0) return null;
+            return (
+              <div style={{ display: 'flex', gap: 0, marginTop: 20, border: '1px solid var(--line)', borderRadius: 4, overflow: 'hidden' }}>
+                {cells.map(([k, v], i) => (
+                  <div key={k} style={{ flex: 1, padding: '14px 18px', borderLeft: i > 0 ? '1px solid var(--line)' : 'none', minWidth: 0 }}>
+                    <div className="mono" style={{ fontSize: 11, letterSpacing: '0.14em', color: 'var(--parchment-dim)', textTransform: 'uppercase', marginBottom: 4 }}>{k}</div>
+                    <div style={{ fontSize: 14, fontWeight: 600, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{v}</div>
+                  </div>
+                ))}
               </div>
-            ))}
-          </div>
+            );
+          })()}
 
-          {/* Description */}
-          <div style={{ marginTop: 24, padding: 20, background: 'var(--forest-900)', border: '1px solid var(--line)', borderRadius: 4 }}>
-            <div className="eyebrow" style={{ marginBottom: 12 }}>FLIGHT NOTES</div>
-            {(() => {
-              const parsed = parseDescription(video.description);
-              return (
-                <>
-                  {parsed.items.map((s, i) => <NoteSection key={i} section={s} />)}
-                  <NoteLinks links={parsed.links} />
-                  {video.tags && video.tags.length > 0 && (
-                    <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginTop: 14, paddingTop: 12, borderTop: '1px solid var(--line)' }}>
-                      {video.tags.map(t => (
-                        <span key={t} className="mono" style={{ fontSize: 12, padding: '3px 8px', background: 'var(--forest-800)', border: '1px solid var(--line)', borderRadius: 2, color: 'var(--parchment)' }}>#{t}</span>
-                      ))}
-                    </div>
-                  )}
-                </>
-              );
-            })()}
-          </div>
-
+          {/* Flight notes — only render when there's actual content */}
+          {(() => {
+            const _p = parseDescription(video.description);
+            const _hasContent = _p.items.length > 0 || _p.links.length > 0 || (video.tags && video.tags.length > 0);
+            if (!_hasContent) return null;
+            return (
+              <div style={{ marginTop: 24, padding: 20, background: 'var(--forest-900)', border: '1px solid var(--line)', borderRadius: 4 }}>
+                <div className="eyebrow" style={{ marginBottom: 12 }}>FLIGHT NOTES</div>
+                {_p.items.map((s, i) => <NoteSection key={i} section={s} />)}
+                <NoteLinks links={_p.links} />
+                {video.tags && video.tags.length > 0 && (
+                  <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginTop: 14, paddingTop: 12, borderTop: '1px solid var(--line)' }}>
+                    {video.tags.map(t => (
+                      <span key={t} className="mono" style={{ fontSize: 12, padding: '3px 8px', background: 'var(--forest-800)', border: '1px solid var(--line)', borderRadius: 2, color: 'var(--parchment)' }}>#{t}</span>
+                    ))}
+                  </div>
+                )}
+              </div>
+            );
+          })()}
           {video.source !== 'youtube' && video.price > 0 && (<>
           {/* What you download — delivery transparency */}
           <div style={{ marginTop: 24, padding: 0, border: '1px solid var(--line)', borderRadius: 4, overflow: 'hidden' }}>
