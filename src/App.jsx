@@ -5,7 +5,7 @@ import { useAuth } from './auth/AuthContext';
 import React, { useState, useEffect, useRef, Suspense, lazy } from 'react';
 
 import { VIDEOS } from './data';
-import { Header, Footer, Ic } from './components';
+import { Header, Footer, Ic, ScrollToTop } from './components';
 import { ToastStack, toast } from './toast';
 import { RequireAuth } from './auth/RequireAuth';
 
@@ -319,6 +319,7 @@ export default function App() {
     <>
       <Header route={route} onNav={onNav} query={query} setQuery={setQuery} />
       <ToastStack />
+      <ScrollToTop />
       <ChunkErrorBoundary><Suspense fallback={<RouteFallback />}>
         {route === 'home' && <HomePage onOpenVideo={onOpenVideo} onNav={onNav} />}
         {route === 'watch' && <PlayerPage video={currentVideo} onNav={onNav} onOpenVideo={onOpenVideo} />}
