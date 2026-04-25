@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { CATEGORIES, LOCATIONS, VIDEOS as _MOCK_VIDEOS, CREATORS } from '../data';
 import { fetchVideos } from '../db/videos';
-import { Ic, formatViews, VideoCard, FollowButton } from '../components';
+import { Ic, formatViews, VideoCard, FollowButton, Pagination, usePagination } from '../components';
 import { useContent } from '../content/ContentContext';
 
 /* ─────────────────────────────────────────────
@@ -160,6 +160,9 @@ export function ExplorePage({ onOpenVideo, onNav }) {
     return arr;
   }, [searched, sort]);
 
+  // Pagination — 24 clips per page; resets on filter/search/sort change
+  const { page, setPage, pageCount, slice: pagedSlice } = usePagination(sorted, 24);
+
   const headerText = !selected ? 'All Clips'
     : selected.type === 'group'
       ? hierarchy.groups.find(g => g.id === selected.id)?.label
@@ -250,9 +253,12 @@ export function ExplorePage({ onOpenVideo, onNav }) {
         </header>
         {loading ? <div className="explore-loading">Loading…</div>
           : sorted.length === 0 ? <div className="explore-empty">No clips in this category yet.</div>
-          : <div className="video-grid">
-              {sorted.map(v => <VideoCard key={v.id} video={v} onClick={onOpenVideo} />)}
-            </div>}
+          : <>
+              <div className="video-grid" id="explore-grid-top">
+                {pagedSlice.map(v => <VideoCard key={v.id} video={v} onClick={onOpenVideo} />)}
+              </div>
+              <Pagination page={page} pageCount={pageCount} onChange={setPage} totalItems={sorted.length} pageSize={24} scrollTargetId="explore-grid-top" />
+            </>}
       </main>
     </div>
   );
