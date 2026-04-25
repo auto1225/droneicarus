@@ -104,6 +104,7 @@ export function ExplorePage({ onOpenVideo, onNav }) {
   const [selected, setSelected] = useState(null);
   const [expanded, setExpanded] = useState(() => new Set());
   const [sort, setSort] = useState('newest');
+  const [licenseFilter, setLicenseFilter] = useState('all'); // all | free | paid | commercial | extended | exclusive | pilot
   const [query, setQuery] = useState('');
   // Default: groups collapsed — user expands what they want. Keeps sidebar within viewport without scrolling.
 
@@ -153,15 +154,28 @@ export function ExplorePage({ onOpenVideo, onNav }) {
       (v.tags || []).some(t => String(t).toLowerCase().includes(q))
     );
   }, [filtered, query]);
+  // license filter overlay
+  const licenseFiltered = useMemo(() => {
+    if (licenseFilter === 'all') return searched;
+    return searched.filter(v => {
+      if (licenseFilter === 'free')      return Number(v.price || 0) === 0;
+      if (licenseFilter === 'paid')      return Number(v.price || 0) > 0;
+      if (licenseFilter === 'pilot')     return v.source && v.source !== 'youtube';
+      // tier-specific: must include this tier
+      return Array.isArray(v.licenseTiers) && v.licenseTiers.includes(licenseFilter);
+    });
+  }, [searched, licenseFilter]);
+
+
 
   const sorted = useMemo(() => {
-    const arr = [...searched];
+    const arr = [...licenseFiltered];
     if (sort === 'newest')  arr.sort((a,b) => (b.uploadedDaysAgo||0) > (a.uploadedDaysAgo||0) ? -1 : 1);
     else if (sort === 'rated') arr.sort((a,b) => (b.qualityScore||0) - (a.qualityScore||0));
     else if (sort === 'free')  arr.sort((a,b) => (a.price||0) - (b.price||0));
     else arr.sort((a,b) => (b.views||0) - (a.views||0));
     return arr;
-  }, [searched, sort]);
+  }, [licenseFiltered, sort]);
 
   // Pagination — 24 clips per page; resets on filter/search/sort change
   const { page, setPage, pageCount, slice: pagedSlice } = usePagination(sorted, 24);
@@ -247,11 +261,16 @@ export function ExplorePage({ onOpenVideo, onNav }) {
                 color: 'var(--bone)', borderRadius: 999, outline: 'none',
                 width: 200,
               }}/>
-            <div className="sort-chips">
-            {[['trending','Trending'],['newest','Newest'],['rated','Highest rated'],['free','Free first']].map(([k,l]) => (
-              <button key={k} className={`chip ${sort===k?'active':''}`} onClick={() => setSort(k)}>{l}</button>
-            ))}
-          </div>
+            <div className="sort-chips" style={{ display: 'flex', flexWrap: 'wrap', gap: 6, alignItems: 'center' }}>
+              <span className="mono" style={{ fontSize: 11, letterSpacing: '0.14em', color: 'var(--parchment-dim)', textTransform: 'uppercase', marginRight: 4 }}>License</span>
+              {[['all','All'],['free','Free'],['paid','Paid'],['pilot','Pilot uploads'],['commercial','Commercial'],['extended','Extended'],['exclusive','Exclusive']].map(([k,l]) => (
+                <button key={k} className={`chip ${licenseFilter===k?'active':''}`} onClick={() => setLicenseFilter(k)}>{l}</button>
+              ))}
+              <span className="mono" style={{ fontSize: 11, letterSpacing: '0.14em', color: 'var(--parchment-dim)', textTransform: 'uppercase', margin: '0 4px 0 12px' }}>Sort</span>
+              {[['trending','Trending'],['newest','Newest'],['rated','Highest rated'],['free','Free first']].map(([k,l]) => (
+                <button key={k} className={`chip ${sort===k?'active':''}`} onClick={() => setSort(k)}>{l}</button>
+              ))}
+            </div>
           </div>
         </header>
         {loading ? <div className="explore-loading">Loading…</div>
