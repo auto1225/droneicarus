@@ -373,13 +373,13 @@ export function PlayerPage({ video, onNav, onOpenVideo }) {
                 background: 'var(--moss)',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
                 fontWeight: 700, color: 'var(--bone)', border: '1px solid var(--line-strong)',
-              }}>{video.creator.name[0]}</div>
+              }}>{(video.creator?.name || video.title || 'P')[0]}</div>
               <div>
                 <div style={{ fontWeight: 600, fontSize: 15, display: 'flex', alignItems: 'center', gap: 6 }}>
-                  {video.creator.name}
-                  {video.creator.verified && <span style={{ color: 'var(--amber)' }}><Ic.check/></span>}
+                  {video.creator?.name || video.channel || 'Drone Icarus pilot'}
+                  {video.creator?.verified && <span style={{ color: 'var(--amber)' }}><Ic.check/></span>}
                 </div>
-                <div style={{ fontSize: 14, color: 'var(--parchment-dim)' }}>{video.creator.handle} · {formatViews(128000)} followers</div>
+                <div style={{ fontSize: 14, color: 'var(--parchment-dim)' }}>{video.creator?.handle || video.channel || (video.source === 'original' ? 'Pilot upload' : '')} {video.creator?.handle ? ' · ' + formatViews(128000) + ' followers' : ''}</div>
               </div>
               <FollowButton creatorId={video.creator?.id || video.creator?.handle} creatorHandle={video.creator?.handle} className="btn" style={{ marginLeft: 12, padding: '8px 18px', fontSize: 14 }} />
             </div>
@@ -548,7 +548,7 @@ export function PlayerPage({ video, onNav, onOpenVideo }) {
 
       {/* Right rail: related at this landmark */}
       <aside>
-        <div className="eyebrow" style={{ marginBottom: 10 }}>MORE FROM {loc?.name.toUpperCase()}</div>
+        <div className="eyebrow" style={{ marginBottom: 10 }}>MORE FROM {(loc?.name || video.inferredLocationRaw?.name || 'THIS LOCATION').toString().toUpperCase()}</div>
         <button onClick={() => { onNav('home'); }} style={{
           display: 'flex', alignItems: 'center', gap: 12, width: '100%',
           padding: 14, background: 'var(--forest-900)', border: '1px solid var(--line)', borderRadius: 4,
@@ -575,7 +575,7 @@ export function PlayerPage({ video, onNav, onOpenVideo }) {
               </div>
               <div style={{ minWidth: 0 }}>
                 <div style={{ fontSize: 14, fontWeight: 600, lineHeight: 1.3, marginBottom: 4, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>{v.title}</div>
-                <div style={{ fontSize: 12, color: 'var(--parchment-dim)' }}>{v.creator.handle}</div>
+                <div style={{ fontSize: 12, color: 'var(--parchment-dim)' }}>{v.creator?.handle || v.channel || 'pilot'}</div>
                 <div style={{ fontSize: 12, color: 'var(--parchment-dim)' }}>{formatViews(v.views)} views · {formatDays(v.uploadedDaysAgo)}</div>
               </div>
             </div>
