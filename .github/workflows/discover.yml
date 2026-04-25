@@ -27,6 +27,7 @@ jobs:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
           MAX_PER_QUERY: ${{ github.event.inputs.max_per_query || '10' }}
+          DAILY_QUOTA_UNITS: '2400'  # 4 runs/day × 2400 = 9600 ~ within YouTube 10k/day quota
           TRIGGERED_BY: ${{ github.event_name }}
         run: node scripts/discover-youtube.mjs
       - name: Run enrichment after discovery
