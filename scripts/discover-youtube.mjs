@@ -285,7 +285,7 @@ async function run() {
             resolution: v.contentDetails?.definition === 'hd' ? 'HD' : 'SD',
             duration_s: parseISO8601Duration(v.contentDetails?.duration || 'PT0S'),
             price_usd: 0,  // external clips are free-to-watch, non-sellable
-            license_tiers: null,
+            // license_tiers: omit — column is NOT NULL with default '{personal}'; sending null violates constraint
             published_at: new Date().toISOString(),
           };
 
