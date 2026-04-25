@@ -10,9 +10,6 @@ import { useContent } from '../content/ContentContext';
    ───────────────────────────────────────────── */
 const DEFAULT_HIERARCHY = {
   groups: [
-    { id: 'ai', label: 'AI Generated', icon: 'ai', children: [
-      { id: 'ai-aerial',    label: 'AI Aerial',          fine: ['ai-aerial'] },
-    ]},
     { id: 'nature', label: 'Nature', icon: 'mountain', children: [
       { id: 'mountain',     label: 'Mountain & Glacier', fine: ['mountain','glacier'] },
       { id: 'volcano',      label: 'Volcano',            fine: ['volcano'] },
@@ -68,6 +65,9 @@ const DEFAULT_HIERARCHY = {
       { id: 'autonomous',   label: 'Autonomous Swarms',  fine: ['war-swarm','war-autonomous'] },
       { id: 'counter-uav',  label: 'Counter-UAV',        fine: ['war-counter'] },
       { id: 'platforms',    label: 'Platforms (MQ-9/Bayraktar/Shahed)', fine: ['war-platform'] },
+    ]},
+    { id: 'ai', label: 'AI Generated', icon: 'ai', children: [
+      { id: 'ai-aerial',    label: 'AI Aerial',          fine: ['ai-aerial'] },
     ]},
   ],
 };
