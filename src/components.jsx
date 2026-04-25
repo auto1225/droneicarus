@@ -741,3 +741,109 @@ export function FollowButton({ creatorId, creatorHandle, className = 'btn', styl
 }
 
 
+
+// ─────────────────────────────────────────────────────────────
+// ScrollToTop floating button — auto-shows when window.scrollY > threshold
+// ─────────────────────────────────────────────────────────────
+export function ScrollToTop({ threshold = 400 }) {
+  const [visible, setVisible] = useState(false);
+  useEffect(() => {
+    const onScroll = () => setVisible(window.scrollY > threshold);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, [threshold]);
+  const goTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
+  return (
+    <button
+      className={'scroll-top-btn' + (visible ? ' is-visible' : '')}
+      onClick={goTop}
+      aria-label="Scroll to top"
+      title="Scroll to top"
+      tabIndex={visible ? 0 : -1}
+    >
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M12 19V5M5 12l7-7 7 7" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"/>
+      </svg>
+    </button>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────
+// Pagination (numbered) + usePagination hook
+// ─────────────────────────────────────────────────────────────
+function buildPageList(current, total) {
+  if (total <= 7) return Array.from({ length: total }, (_, i) => i + 1);
+  const out = [];
+  const startWin = Math.max(2, current - 1);
+  const endWin = Math.min(total - 1, current + 1);
+  out.push(1);
+  if (startWin > 2) out.push('…');
+  for (let i = startWin; i <= endWin; i++) out.push(i);
+  if (endWin < total - 1) out.push('…');
+  out.push(total);
+  return out;
+}
+
+export function Pagination({ page, pageCount, onChange, totalItems, pageSize, scrollTargetId }) {
+  if (!pageCount || pageCount <= 1) return null;
+  const pages = useMemo(() => buildPageList(page, pageCount), [page, pageCount]);
+  const go = (p) => {
+    if (p < 1 || p > pageCount || p === page) return;
+    onChange(p);
+    setTimeout(() => {
+      const el = scrollTargetId ? document.getElementById(scrollTargetId) : null;
+      if (el) {
+        const top = el.getBoundingClientRect().top + window.scrollY - 80;
+        window.scrollTo({ top, behavior: 'smooth' });
+      } else {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    }, 30);
+  };
+  const start = (page - 1) * pageSize + 1;
+  const end = Math.min(page * pageSize, totalItems || page * pageSize);
+  return (
+    <nav className="pagination" aria-label="Pagination">
+      <button className="pagination-btn pagination-arrow" disabled={page <= 1} onClick={() => go(page - 1)} aria-label="Previous page">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M15 19l-7-7 7-7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+        Prev
+      </button>
+      {pages.map((p, i) =>
+        p === '…' ? (
+          <span key={'e'+i} className="pagination-ellipsis" aria-hidden="true">…</span>
+        ) : (
+          <button
+            key={p}
+            className={'pagination-btn' + (p === page ? ' is-active' : '')}
+            onClick={() => go(p)}
+            aria-current={p === page ? 'page' : undefined}
+            aria-label={'Page ' + p}
+          >{p}</button>
+        )
+      )}
+      <button className="pagination-btn pagination-arrow" disabled={page >= pageCount} onClick={() => go(page + 1)} aria-label="Next page">
+        Next
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 5l7 7-7 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+      </button>
+      {totalItems != null && (
+        <div className="pagination-meta">{start}–{end} of {totalItems}</div>
+      )}
+    </nav>
+  );
+}
+
+// Slice an array into pages, reset to 1 when total changes (filters apply).
+export function usePagination(items, pageSize = 24) {
+  const [page, setPage] = useState(1);
+  const total = items?.length || 0;
+  const pageCount = Math.max(1, Math.ceil(total / pageSize));
+  useEffect(() => { setPage(1); }, [total]);
+  useEffect(() => { if (page > pageCount) setPage(1); }, [page, pageCount]);
+  const slice = useMemo(() => {
+    if (!items) return [];
+    const s = (page - 1) * pageSize;
+    return items.slice(s, s + pageSize);
+  }, [items, page, pageSize]);
+  return { page, setPage, pageCount, slice, total, pageSize };
+}
