@@ -679,8 +679,8 @@ function homeParseHierarchy(raw) {
 }
 
 function HomeSidebar({ selected, onSelect, mapFilters, onToggleMapFilter, onClearMapFilters, totals, hierarchy, query, onQuery }) {
-  const [expanded, setExpanded] = hUseState(() => new Set(hierarchy.groups.map(g => g.id)));
-  hUseEffect(() => { setExpanded(new Set(hierarchy.groups.map(g => g.id))); }, [hierarchy]);
+  const [expanded, setExpanded] = hUseState(() => new Set());
+  // Default: groups collapsed — keeps sidebar within viewport without scrolling.
   const toggleGroup = (id) => setExpanded(p => {
     const n = new Set(p); n.has(id) ? n.delete(id) : n.add(id); return n;
   });
