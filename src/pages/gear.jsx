@@ -1,7 +1,7 @@
 // src/pages/gear.jsx — Drone product catalog with multi-axis faceted filters
 import React, { useState, useEffect, useMemo } from 'react';
 import { fetchDroneProducts, fetchDroneProduct, fetchGearAds, fetchDroneComments, postDroneComment, fetchDroneRatingStats, fetchMyRating, submitDroneRating, deleteMyRating } from '../db/gear';
-import { Ic } from '../components';
+import { Ic, Pagination, usePagination } from '../components';
 import { useAuth } from '../auth/AuthContext';
 
 // ─────────────────────────────────────────────────────────────
@@ -331,6 +331,9 @@ export function GearPage({ onNav }) {
   // Apply filters
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
+
+  // Pagination — 24 items per page; resets to page 1 on filter/search/sort change
+  const { page, setPage, pageCount, slice: pagedSlice } = usePagination(filtered, 24);
     let rows = products.filter(p => {
       if (category !== 'all' && p.category !== category) return false;
       if (manufacturers.size && !manufacturers.has(p.manufacturer)) return false;
@@ -459,9 +462,12 @@ export function GearPage({ onNav }) {
             )}
           </div>
         ) : (
-          <div className="gear-grid">
-            {filtered.map(p => <DroneCard key={p.id} product={p} onOpen={() => onNav('gear-item', p.slug)} />)}
-          </div>
+          <>
+            <div className="gear-grid" id="gear-grid-top">
+              {pagedSlice.map(p => <DroneCard key={p.id} product={p} onOpen={() => onNav('gear-item', p.slug)} />)}
+            </div>
+            <Pagination page={page} pageCount={pageCount} onChange={setPage} totalItems={filtered.length} pageSize={24} scrollTargetId="gear-grid-top" />
+          </>
         )}
       </main>
 
