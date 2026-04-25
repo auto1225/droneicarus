@@ -283,7 +283,7 @@ export function PricingPage({ onNav }) {
               ['Methods', 'Wise · PayPal', 'Stripe Connect for US/EU, Wise multi-currency, PayPal worldwide. Live tips → PayPal email on file.'],
               ['Fees we absorb', '0%', 'Payout transfer fees come out of our 30% — never the pilot\u2019s 70%.'],
             ].map(([k, big, sub]) => (
-              <div key={k} style={{ padding: 20, border: '1px solid var(--line)', borderRadius: 4, background: 'var(--forest-800)' }}>
+              <div key={k} className="di-card" style={{ padding: 20 }}>
                 <div className="mono" style={{ fontSize: 12, letterSpacing: '0.14em', color: 'var(--parchment-dim)', marginBottom: 6 }}>{k.toUpperCase()}</div>
                 <div style={{ fontSize: 20, fontFamily: 'var(--font-display)', fontWeight: 600, color: 'var(--amber)', marginBottom: 8 }}>{big}</div>
                 <div style={{ fontSize: 14, color: 'var(--parchment)', lineHeight: 1.55 }}>{sub}</div>
