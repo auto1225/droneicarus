@@ -2085,3 +2085,123 @@ input:focus, textarea:focus, select:focus {
 .di-card.di-card-flat:hover { box-shadow: 0 6px 18px rgba(60,50,35,0.10); transform: translateY(-1px); }
 [data-theme="dark"] .di-card { background: var(--forest-900); border-color: rgba(245,237,224,0.18); box-shadow: 0 2px 0 rgba(0,0,0,0.18), 0 6px 18px rgba(0,0,0,0.32); }
 [data-theme="dark"] .di-card:hover { border-color: var(--sunset); box-shadow: 0 18px 40px rgba(200,90,46,0.32); }
+
+
+/* === UI POLISH PASS — global utility classes for consistent UX === */
+
+/* Section heading pattern: eyebrow + title + optional helper */
+.di-section-head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; margin: 0 0 18px; flex-wrap: wrap; }
+.di-section-head h2, .di-section-head h3 { margin: 0; letter-spacing: -0.01em; }
+.di-section-head .di-section-meta { font-size: 12px; color: var(--parchment-dim); font-family: var(--font-mono); letter-spacing: 0.12em; text-transform: uppercase; }
+
+/* Empty state pattern */
+.di-empty {
+  padding: 36px 24px; text-align: center;
+  border: 1px dashed var(--line-strong);
+  border-radius: 10px;
+  background: var(--forest-900);
+  color: var(--parchment-dim);
+  font-size: 14px; line-height: 1.5;
+}
+.di-empty-title { font-weight: 600; color: var(--parchment); margin-bottom: 4px; font-size: 15px; }
+.di-empty-icon { display: inline-flex; opacity: 0.5; margin-bottom: 10px; }
+
+/* Polished form fields */
+.di-input, .di-textarea, .di-select {
+  width: 100%;
+  background: var(--ink);
+  color: var(--bone);
+  border: 1px solid var(--line-strong);
+  border-radius: 6px;
+  padding: 10px 12px;
+  font-size: 14px;
+  font-family: inherit;
+  line-height: 1.45;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.di-textarea { min-height: 88px; resize: vertical; }
+.di-input::placeholder, .di-textarea::placeholder { color: rgba(245, 237, 224, 0.38); }
+.di-input:focus, .di-textarea:focus, .di-select:focus {
+  outline: none;
+  border-color: var(--sunset);
+  box-shadow: 0 0 0 3px rgba(200, 90, 46, 0.18);
+}
+
+/* Hashtag-style tag chip */
+.di-tag {
+  display: inline-flex; align-items: center;
+  font-family: var(--font-mono);
+  font-size: 12px; line-height: 1;
+  padding: 5px 9px; border-radius: 999px;
+  background: var(--forest-800);
+  color: var(--parchment);
+  border: 1px solid var(--line);
+  letter-spacing: 0.02em;
+}
+.di-tag:hover { border-color: var(--amber); color: var(--bone); }
+
+/* Review card */
+.di-review-card {
+  padding: 16px 20px;
+  background: rgba(13, 20, 16, 0.4);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+.di-review-stars { display: inline-flex; gap: 2px; }
+.di-review-stars > * { color: var(--amber); }
+
+/* Stats card row (like the player metadata strip) */
+.di-stats-strip {
+  display: flex;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  overflow: hidden;
+  background: var(--ink);
+}
+.di-stats-cell {
+  flex: 1; padding: 14px 18px; min-width: 0;
+  border-left: 1px solid var(--line);
+}
+.di-stats-cell:first-child { border-left: none; }
+.di-stats-cell .label {
+  font-family: var(--font-mono);
+  font-size: 11px; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--parchment-dim);
+  margin-bottom: 4px;
+}
+.di-stats-cell .value {
+  font-size: 14px; font-weight: 600; color: var(--bone);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+
+/* License callout (free CC clip) */
+.di-license-card {
+  margin-top: 24px; padding: 20px 24px;
+  background: linear-gradient(135deg, rgba(81, 145, 100, 0.12), rgba(13, 20, 16, 0.4));
+  border: 1px solid var(--lichen);
+  border-radius: 10px;
+}
+.di-license-card .badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--lichen);
+  margin-bottom: 8px;
+}
+.di-license-card p { margin: 0 0 14px; line-height: 1.6; color: var(--parchment); font-size: 14px; }
+
+/* Comment composer */
+.di-comment-row { display: flex; gap: 12px; align-items: flex-start; padding: 14px 0; border-bottom: 1px solid var(--line); }
+.di-comment-avatar {
+  width: 36px; height: 36px; border-radius: 50%;
+  background: var(--forest-700); color: var(--bone);
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 600; font-size: 14px; flex-shrink: 0;
+}
+.di-comment-meta { display: flex; gap: 8px; align-items: baseline; margin-bottom: 4px; }
+.di-comment-meta .who { font-weight: 600; font-size: 14px; }
+.di-comment-meta .when { font-size: 12px; color: var(--parchment-dim); }
+.di-comment-body { font-size: 14px; line-height: 1.5; color: var(--parchment); }
+
+/* Hide trailing whitespace-only blocks */
+.di-section-empty:empty { display: none; }
