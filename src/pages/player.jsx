@@ -483,8 +483,8 @@ export function PlayerPage({ video, onNav, onOpenVideo }) {
                   items: ['Social organic', 'Student films', 'Portfolio use', 'Unlimited edits'],
                 },
                 {
-                  name: 'Commercial 1yr', price: video.price === 0 ? 'Free' : '$' + video.price,
-                  cover: 'Full commercial · 12 months', restrict: 'Worldwide · 1 brand', popular: true,
+                  name: 'Commercial', price: video.price === 0 ? 'Free' : '$' + video.price,
+                  cover: 'Full commercial · perpetual', restrict: 'Worldwide · 1 brand', popular: true,
                   items: ['Paid social & ads', 'Websites & apps', 'Events & trade shows', 'Client billed work'],
                 },
                 {
