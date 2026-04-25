@@ -10,6 +10,9 @@ import { useContent } from '../content/ContentContext';
    ───────────────────────────────────────────── */
 const DEFAULT_HIERARCHY = {
   groups: [
+    { id: 'ai', label: 'AI Generated', icon: 'ai', children: [
+      { id: 'ai-aerial',    label: 'AI Aerial',          fine: ['ai-aerial'] },
+    ]},
     { id: 'nature', label: 'Nature', icon: 'mountain', children: [
       { id: 'mountain',     label: 'Mountain & Glacier', fine: ['mountain','glacier'] },
       { id: 'volcano',      label: 'Volcano',            fine: ['volcano'] },
