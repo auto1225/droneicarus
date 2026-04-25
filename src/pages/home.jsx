@@ -435,6 +435,16 @@ function MapHero({ selectedLoc, onSelectLoc, selectedFineSet, mapFilters, search
 
 function HomeRightSidebar({ onOpenVideo, onNav }) {
   const [slots, setSlots] = hUseState({ hot: [], live: [], ads: [], recent: [] });
+  const [aiClips, setAiClips] = hUseState([]);
+  hUseEffect(() => {
+    let cancel = false;
+    const SUPA_URL = import.meta.env.VITE_SUPABASE_URL || 'https://eotsbncgkgewgbemaarp.supabase.co';
+    const KEY = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
+    fetch(`${SUPA_URL}/rest/v1/videos?select=id,title,thumb_url,youtube_id,youtube_channel,views,category&category=eq.ai-aerial&status=eq.published&order=views.desc.nullslast&limit=8`, {
+      headers: { apikey: KEY, Authorization: 'Bearer ' + KEY },
+    }).then(r => r.ok ? r.json() : []).then(rs => { if (!cancel) setAiClips(rs || []); }).catch(() => {});
+    return () => { cancel = true; };
+  }, []);
   hUseEffect(() => {
     let cancel = false;
     fetchSidebarSlots().then(s => { if (!cancel) setSlots(s); });
@@ -460,6 +470,27 @@ function HomeRightSidebar({ onOpenVideo, onNav }) {
               <div>
                 <div style={{ fontSize: 14, fontWeight: 600, lineHeight: 1.25, marginBottom: 4, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>{s.title}</div>
                 <div style={{ fontSize: 12, color: 'var(--parchment-dim)' }}>{(s.viewers_peak || 0).toLocaleString()} viewers</div>
+              </div>
+            </button>
+          ))}
+        </section>
+      )}
+      {aiClips.length > 0 && (
+        <section style={{ marginBottom: 18 }}>
+          <h3 className="mono" style={{ fontSize: 12, letterSpacing: '0.18em', color: 'var(--amber)', margin: '4px 0 10px', display: 'flex', alignItems: 'center', gap: 6 }}>
+            <span style={{ color: 'var(--sunset)' }}>✦</span> AI AERIAL
+            <span style={{ marginLeft: 'auto', fontSize: 9, padding: '2px 6px', background: 'rgba(200,90,46,0.10)', color: 'var(--sunset)', borderRadius: 999, letterSpacing: '0.08em', fontWeight: 700 }}>NEW</span>
+          </h3>
+          {aiClips.slice(0, 6).map(v => (
+            <button key={v.id} onClick={() => onOpenVideo && onOpenVideo({ ...v, thumbUrl: v.thumb_url, youtubeId: v.youtube_id })}
+              style={{ display: 'grid', gridTemplateColumns: '120px 1fr', gap: 10, padding: 6, background: 'transparent', border: 'none', cursor: 'pointer', textAlign: 'left', width: '100%', color: 'inherit', marginBottom: 8 }}>
+              <div style={{ position: 'relative', width: 120, height: 70, background: 'var(--forest-900)', borderRadius: 4, overflow: 'hidden' }}>
+                {(v.thumb_url || v.youtube_id) && <img src={v.thumb_url || (v.youtube_id ? `https://i.ytimg.com/vi/${v.youtube_id}/mqdefault.jpg` : '')} alt="" referrerPolicy="no-referrer" style={{ width: '100%', height: '100%', objectFit: 'cover' }}/>}
+                <span style={{ position: 'absolute', bottom: 3, left: 3, background: 'var(--sunset)', color: '#fff', fontSize: 9, padding: '1px 5px', borderRadius: 2, fontFamily: 'var(--font-mono)', letterSpacing: '0.06em', fontWeight: 700 }}>AI</span>
+              </div>
+              <div>
+                <div style={{ fontSize: 13, fontWeight: 600, lineHeight: 1.25, marginBottom: 4, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>{v.title}</div>
+                <div style={{ fontSize: 11, color: 'var(--parchment-dim)' }}>{v.youtube_channel || ''}</div>
               </div>
             </button>
           ))}
