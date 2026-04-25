@@ -8,6 +8,7 @@ import { signedUrl } from '../db/storage';
 import { fetchReviews, postReview } from '../db/commerce';
 import { useAuth } from '../auth/AuthContext';
 import { CommentThread } from '../comments';
+import { useContent } from '../content/ContentContext';
 
 // Parse a YouTube description into compact structured sections.
 // Strategy: strip URLs into a separate links array, split on divider lines
@@ -132,6 +133,72 @@ function NoteLinks({ links }) {
 }
 
 
+
+// Lightweight sidebar with the same category tree as the Map page.
+// Click a group/child -> save filter to sessionStorage + navigate home.
+function PlayerSidebar({ onNav }) {
+  const hierarchyRaw = useContent('explore.hierarchy', null);
+  const hierarchy = useMemo(() => {
+    try {
+      if (typeof hierarchyRaw === 'object' && hierarchyRaw?.groups) return hierarchyRaw;
+      const p = JSON.parse(hierarchyRaw || '{}');
+      return (p && p.groups) ? p : null;
+    } catch { return null; }
+  }, [hierarchyRaw]);
+  const [expanded, setExpanded] = useState(() => new Set());
+  const toggle = (id) => setExpanded(p => { const n = new Set(p); n.has(id) ? n.delete(id) : n.add(id); return n; });
+  const goToCategory = (selection) => {
+    try { sessionStorage.setItem('mapSelectedFilter', JSON.stringify(selection)); } catch {}
+    onNav?.('home');
+  };
+  if (!hierarchy) {
+    return (
+      <aside style={{ background: 'var(--ink)', borderRight: '1px solid var(--line)', padding: '20px 14px', overflowY: 'auto' }}>
+        <button onClick={() => onNav?.('home')} style={{ display: 'flex', alignItems: 'center', gap: 8, width: '100%', padding: '10px 12px', background: 'var(--bone)', color: 'var(--ink)', border: 'none', borderRadius: 6, cursor: 'pointer', fontSize: 14, fontWeight: 600 }}>
+          <Ic.pin/> Back to map
+        </button>
+      </aside>
+    );
+  }
+  return (
+    <aside style={{ background: 'var(--ink)', borderRight: '1px solid var(--line)', padding: '16px 14px', overflowY: 'auto' }}>
+      <div className="mono" style={{ fontSize: 11, letterSpacing: '0.14em', color: 'var(--parchment-dim)', marginBottom: 10, textTransform: 'uppercase' }}>Browse by theme</div>
+      <button onClick={() => goToCategory(null)} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', padding: '8px 12px', marginBottom: 8, background: 'transparent', color: 'var(--parchment)', border: 'none', borderRadius: 6, cursor: 'pointer', fontSize: 14, fontWeight: 600, textAlign: 'left' }}>
+        <span><Ic.pin/> Back to map (all clips)</span>
+      </button>
+      <nav style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+        {hierarchy.groups.map(group => {
+          const open = expanded.has(group.id);
+          return (
+            <div key={group.id}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 2, marginTop: 4 }}>
+                <button onClick={() => toggle(group.id)} style={{ flex: '0 0 auto', width: 22, height: 26, background: 'transparent', border: 'none', cursor: 'pointer', color: 'var(--parchment-dim)', fontSize: 12 }}>{open ? '\u25BE' : '\u25B8'}</button>
+                <button onClick={() => goToCategory({ type: 'group', id: group.id, fine: group.children.flatMap(c => c.fine || []) })} style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '6px 10px', borderRadius: 6, fontSize: 14, fontWeight: 700, background: 'transparent', color: 'var(--parchment)', border: 'none', cursor: 'pointer', textAlign: 'left', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+                  <span style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                    {Ic[group.icon] && <span style={{ display: 'inline-flex' }}>{Ic[group.icon]()}</span>}
+                    <span>{group.label}</span>
+                  </span>
+                </button>
+              </div>
+              {open && (
+                <ul style={{ listStyle: 'none', padding: '0 0 0 24px', margin: '2px 0 0', display: 'flex', flexDirection: 'column', gap: 1 }}>
+                  {group.children.map(child => (
+                    <li key={child.id}>
+                      <button onClick={() => goToCategory({ type: 'child', id: child.id, groupId: group.id, fine: child.fine || [] })} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', padding: '5px 10px', borderRadius: 6, fontSize: 14, background: 'transparent', color: 'var(--parchment)', border: 'none', cursor: 'pointer', textAlign: 'left' }}>
+                        {child.label}
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          );
+        })}
+      </nav>
+    </aside>
+  );
+}
+
 export function PlayerPage({ video, onNav, onOpenVideo }) {
   if (!video) return <div style={{ padding: 80, textAlign: 'center' }}>No video selected.</div>;
   const [previewRemaining, setPreviewRemaining] = React.useState(video.price > 0 ? 3 : null);
@@ -192,7 +259,8 @@ export function PlayerPage({ video, onNav, onOpenVideo }) {
   }, [previewRemaining]);
 
   return (
-    <div style={{ display: 'grid', gridTemplateColumns: '1fr 380px', gap: 28, padding: '28px', maxWidth: 1760, margin: '0 auto' }}>
+    <div style={{ display: 'grid', gridTemplateColumns: '240px 1fr 380px', gap: 28, padding: '28px 28px 28px 0', maxWidth: 1900, margin: '0 auto' }}>
+      <PlayerSidebar onNav={onNav} />
       <div>
         {/* Video */}
         <div style={{
