@@ -10,6 +10,7 @@ const hUseState = useState;
 const hUseEffect = useEffect;
 const hUseRef = useRef;
 const hUseMemo = useMemo;
+const hUseCallback = useCallback;
 
 // Escape HTML for safe injection into Leaflet popup/tooltip HTML strings
 function hEsc(s) {
