@@ -29,6 +29,9 @@ const ckUseState = useState;
 const ckUseEffect = useEffect;
 const ckUseRef = useRef;
 
+// Module-scoped scratch — last completed order (used by SuccessPage)
+let __lastOrder = null;
+
 
 // PayPal SDK loader — injects the JS SDK once, returns a promise resolving with window.paypal
 const PAYPAL_CLIENT_ID = (import.meta.env.VITE_PAYPAL_CLIENT_ID || 'sb');
