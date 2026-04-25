@@ -730,7 +730,7 @@ function homeParseHierarchy(raw) {
   catch { return HOME_DEFAULT_HIERARCHY; }
 }
 
-function HomeSidebar({ selected, onSelect, mapFilters, onToggleMapFilter, onClearMapFilters, totals, hierarchy, query, onQuery }) {
+export function HomeSidebar({ selected, onSelect, mapFilters, onToggleMapFilter, onClearMapFilters, totals, hierarchy, query, onQuery }) {
   const [expanded, setExpanded] = hUseState(() => new Set());
   // Default: groups collapsed — keeps sidebar within viewport without scrolling.
   const toggleGroup = (id) => setExpanded(p => {
@@ -952,7 +952,13 @@ export function HomePage({ onOpenVideo, onNav }) {
       }));
   }, [dbVideos]);
   const [selectedLoc, setSelectedLoc] = hUseState(null);
-  const [selected, setSelected] = hUseState(null);
+  const [selected, _setSelected] = hUseState(() => {
+    try { return JSON.parse(sessionStorage.getItem('mapSelectedFilter') || 'null'); } catch { return null; }
+  });
+  const setSelected = hUseCallback((v) => {
+    _setSelected(v);
+    try { sessionStorage.setItem('mapSelectedFilter', JSON.stringify(v)); } catch {}
+  }, []);
   const [searchQuery, setSearchQuery] = hUseState('');  // null | { type:'group', id, fine[] } | { type:'child', id, groupId, fine[] }
   const hierarchyRaw = useContent('explore.hierarchy', null);
   const hierarchy = hUseMemo(() => homeParseHierarchy(hierarchyRaw), [hierarchyRaw]);
