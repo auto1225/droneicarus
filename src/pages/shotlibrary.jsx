@@ -70,7 +70,7 @@ export function ShotLibraryPage({ onNav, onOpenVideo }) {
       <section style={{ maxWidth: 1200, margin: '0 auto', padding: '40px 28px 30px' }}>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16 }}>
           {USE_CASES.map((u, i) => (
-            <button key={u.id} data-placeholder="true" onClick={() => {}} style={{ textAlign: 'left', padding: 24, border: '1px solid var(--line)', borderRadius: 4, background: 'var(--forest-950)', position: 'relative' }}>
+            <button key={u.id} className="di-card" data-placeholder="true" onClick={() => {}} style={{ textAlign: 'left', padding: 24, position: 'relative', cursor: 'pointer', font: 'inherit', color: 'inherit' }}>
               <div className="mono" style={{ fontSize: 12, letterSpacing: '0.16em', color: 'var(--amber)', marginBottom: 12, fontWeight: 600 }}>{u.tag}</div>
               <h3 style={{ fontSize: 22, letterSpacing: '-0.01em', marginBottom: 8, fontFamily: 'var(--font-display)', fontWeight: 600 }}>{u.name}</h3>
               <p style={{ fontSize: 14, color: 'var(--parchment)', lineHeight: 1.55, marginBottom: 18, minHeight: 58 }}>{u.desc}</p>
@@ -96,7 +96,7 @@ export function ShotLibraryPage({ onNav, onOpenVideo }) {
             { name: 'Documentary establish — world cities', count: 20, price: 249, save: 130, curator: 'by Adaeze O.', tag: 'DOCUMENTARY · BROADCAST LICENSED' },
             { name: 'ESG reel — sustainability evidence pack', count: 15, price: 149, save: 78, curator: 'by Priya S.', tag: 'ESG · SHOT-DATE VERIFIED' },
           ].map((k, i) => (
-            <div key={k.name} style={{ border: '1px solid var(--line)', borderRadius: 4, overflow: 'hidden', display: 'grid', gridTemplateColumns: '200px 1fr' }}>
+            <div key={k.name} className="di-card" style={{ display: 'grid', gridTemplateColumns: '200px 1fr' }}>
               <div style={{ position: 'relative', background: thumbGradient(k.name.charCodeAt(0) + i) }}>
                 <div style={{ position: 'absolute', inset: 0, display: 'grid', gridTemplateColumns: '1fr 1fr', gridTemplateRows: '1fr 1fr', gap: 2, padding: 2 }}>
                   {[0,1,2,3].map(j => <div key={j} style={{ background: thumbGradient(k.name.charCodeAt(0) + i + j + 2), opacity: 0.8 }}/>)}
