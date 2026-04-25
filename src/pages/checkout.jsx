@@ -4,6 +4,7 @@ import { LOCATIONS, VIDEOS, thumbGradient, CURRENT_USER, ORDERS } from '../data'
 import { Ic } from '../components';
 import { useAuth } from '../auth/AuthContext';
 import { createOrder, fetchOrder } from '../db/commerce';
+import { fetchVideo } from '../db/videos';
 import { toast } from '../toast';
 
 async function downloadSigned(path, suggestedName) {
