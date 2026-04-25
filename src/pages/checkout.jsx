@@ -360,7 +360,15 @@ export function CheckoutPage({ videoId, licenseType = 'Commercial', onNav }) {
 
 export function SuccessPage({ onNav }) {
   const order = __lastOrder || { id: 'DI-2026-04821', videoId: 'v0', tier: 'Commercial', total: 17.98, method: 'Visa •• 4242' };
-  const v = VIDEOS.find(x => x.id === order.videoId) || VIDEOS[0];
+  const [dbVideo, setDbVideo] = ckUseState(null);
+  ckUseEffect(() => {
+    let alive = true;
+    if (order.videoId && /^[0-9a-f]{8}-/.test(String(order.videoId))) {
+      fetchVideo(order.videoId).then(row => { if (alive) setDbVideo(row); });
+    }
+    return () => { alive = false; };
+  }, [order.videoId]);
+  const v = dbVideo || VIDEOS.find(x => x.id === order.videoId) || VIDEOS[0];
   const [progress, setProgress] = ckUseState(0);
   ckUseEffect(() => {
     const id = setInterval(() => setProgress(p => Math.min(100, p + 7)), 90);
