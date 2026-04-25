@@ -243,7 +243,7 @@ export function PricingPage({ onNav }) {
         </p>
         <div style={{ border: '1px solid var(--line)', borderRadius: 4, overflow: 'hidden' }}>
           <div style={{ display: 'grid', gridTemplateColumns: '1.4fr repeat(5, 1fr)', background: 'var(--forest-900)', borderBottom: '1px solid var(--line-strong)' }}>
-            {['', 'Free · CC-BY', 'Personal', 'Commercial 1yr', 'Extended', 'Exclusive'].map((h, i) => (
+            {['', 'Free · CC-BY', 'Personal', 'Commercial', 'Extended', 'Exclusive'].map((h, i) => (
               <div key={i} className="mono" style={{ padding: '14px 12px', fontSize: 12, letterSpacing: '0.14em', color: i === 0 ? 'transparent' : (i === 5 ? 'var(--amber)' : 'var(--parchment-dim)'), fontWeight: 600 }}>{h}</div>
             ))}
           </div>
