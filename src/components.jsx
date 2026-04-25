@@ -786,8 +786,8 @@ function buildPageList(current, total) {
 }
 
 export function Pagination({ page, pageCount, onChange, totalItems, pageSize, scrollTargetId }) {
+  const pages = useMemo(() => buildPageList(page, pageCount || 1), [page, pageCount]);
   if (!pageCount || pageCount <= 1) return null;
-  const pages = useMemo(() => buildPageList(page, pageCount), [page, pageCount]);
   const go = (p) => {
     if (p < 1 || p > pageCount || p === page) return;
     onChange(p);
