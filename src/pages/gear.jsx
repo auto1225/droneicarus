@@ -331,9 +331,6 @@ export function GearPage({ onNav }) {
   // Apply filters
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
-
-  // Pagination — 24 items per page; resets to page 1 on filter/search/sort change
-  const { page, setPage, pageCount, slice: pagedSlice } = usePagination(filtered, 24);
     let rows = products.filter(p => {
       if (category !== 'all' && p.category !== category) return false;
       if (manufacturers.size && !manufacturers.has(p.manufacturer)) return false;
@@ -358,6 +355,9 @@ export function GearPage({ onNav }) {
     else rows = [...rows].sort((a, b) => (b.featured === a.featured ? a.name.localeCompare(b.name) : (b.featured ? 1 : -1)));
     return rows;
   }, [products, category, manufacturers, airframeTypes, priceBuckets, yearBuckets, features, query, sort]);
+
+  // Pagination — 24 items per page; resets when filtered length changes
+  const { page, setPage, pageCount, slice: pagedSlice } = usePagination(filtered, 24);
 
   const hasActiveFilters = category !== 'all' || manufacturers.size || airframeTypes.size || priceBuckets.size || yearBuckets.size || features.size || query;
   const clearAll = () => {
