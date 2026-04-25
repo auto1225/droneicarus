@@ -302,10 +302,9 @@ export function SearchPage({ query, onOpenVideo, onNav, onSelectLoc }) {
           <h2 style={{ fontSize: 20, marginBottom: 16, paddingBottom: 10, borderBottom: '1px solid var(--line)' }}>Landmarks</h2>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: 12 }}>
             {matchedLocs.map(loc => (
-              <button key={loc.id} onClick={() => { onSelectLoc(loc); onNav('home'); }} style={{
+              <button key={loc.id} className="di-card" onClick={() => { onSelectLoc(loc); onNav('home'); }} style={{
                 display: 'flex', alignItems: 'center', gap: 14,
-                padding: 14, background: 'var(--forest-900)', border: '1px solid var(--line)',
-                borderRadius: 4, textAlign: 'left',
+                padding: 14, textAlign: 'left',
               }}>
                 <span style={{ color: 'var(--amber)' }}><Ic.pin/></span>
                 <div style={{ flex: 1 }}>
@@ -333,7 +332,7 @@ export function SearchPage({ query, onOpenVideo, onNav, onSelectLoc }) {
           <h2 style={{ fontSize: 20, marginBottom: 16, paddingBottom: 10, borderBottom: '1px solid var(--line)' }}>Pilots</h2>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 12 }}>
             {matchedCreators.map(c => (
-              <div key={c.handle} style={{ padding: 16, background: 'var(--forest-900)', border: '1px solid var(--line)', borderRadius: 4, display: 'flex', gap: 12, alignItems: 'center' }}>
+              <div key={c.handle} className="di-card" style={{ padding: 16, display: 'flex', gap: 12, alignItems: 'center' }}>
                 <div style={{ width: 48, height: 48, borderRadius: '50%', background: 'var(--moss)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 700, border: '1px solid var(--line-strong)' }}>{c.name[0]}</div>
                 <div style={{ flex: 1 }}>
                   <div style={{ fontSize: 14, fontWeight: 600, display: 'flex', alignItems: 'center', gap: 4 }}>
