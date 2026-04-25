@@ -44,6 +44,7 @@ const CollectionPage      = lazy(() => import('./pages/collection').then(m => ({
 const LocationPage        = lazy(() => import('./pages/location').then(m => ({ default: m.LocationPage })));
 const PricingPage         = lazy(() => import('./pages/pricing').then(m => ({ default: m.PricingPage })));
 const ShotLibraryPage     = lazy(() => import('./pages/shotlibrary').then(m => ({ default: m.ShotLibraryPage })));
+const ShotsCategoryPage   = lazy(() => import('./pages/shotlibrary').then(m => ({ default: m.ShotsCategoryPage })));
 const AdvancedPage        = lazy(() => import('./pages/advanced').then(m => ({ default: m.AdvancedPage })));
 const GearPage            = lazy(() => import('./pages/gear').then(m => ({ default: m.GearPage })));
 const GearItemPage        = lazy(() => import('./pages/gear').then(m => ({ default: m.GearItemPage })));
@@ -352,7 +353,9 @@ export default function App() {
         {route === 'collection' && <CollectionPage id={routeParam} onOpenVideo={onOpenVideo} onNav={onNav} />}
         {route === 'location' && <LocationPage id={routeParam} onOpenVideo={onOpenVideo} onNav={onNav} />}
         {route === 'pricing' && <PricingPage onNav={onNav} />}
-        {(route === 'shotlibrary' || route === 'shots') && <ShotLibraryPage onNav={onNav} onOpenVideo={onOpenVideo} />}
+        {route === 'shotlibrary' && <ShotLibraryPage onNav={onNav} onOpenVideo={onOpenVideo} />}
+        {route === 'shots' && !routeParam && <ShotLibraryPage onNav={onNav} onOpenVideo={onOpenVideo} />}
+        {route === 'shots' && routeParam && <ShotsCategoryPage useCaseId={routeParam} onNav={onNav} onOpenVideo={onOpenVideo} />}
         {route === 'advanced' && <AdvancedPage onNav={onNav} onOpenVideo={onOpenVideo} />}
         {route === 'gear' && <GearPage onNav={onNav} />}
         {route === 'gear-item' && <GearItemPage slug={routeParam} onNav={onNav} />}
