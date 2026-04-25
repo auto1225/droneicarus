@@ -519,20 +519,20 @@ export function PlayerPage({ video, onNav, onOpenVideo }) {
           </div>
           </>)}
 
-          {/* Free YouTube clip — clean credit + watch CTA */}
+          {/* Free YouTube clip — polished credit + watch CTA */}
           {video.source === 'youtube' && (
-            <div style={{ marginTop: 24, padding: 20, background: 'var(--forest-900)', border: '1px solid var(--lichen)', borderRadius: 4 }}>
-              <div className="eyebrow" style={{ color: 'var(--lichen)', marginBottom: 8 }}>FREE TO USE · CREATIVE COMMONS BY 4.0</div>
-              <p style={{ fontSize: 14, color: 'var(--parchment)', lineHeight: 1.6, margin: '0 0 14px' }}>
+            <div className="di-license-card">
+              <div className="badge"><Ic.check/> Free to use · Creative Commons BY 4.0</div>
+              <p>
                 This clip is published on YouTube under a Creative Commons Attribution license. You may embed, share, and reuse it &mdash; including for commercial work &mdash; provided you credit the original creator.
               </p>
-              <div style={{ display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap' }}>
+              <div style={{ display: 'flex', gap: 12, alignItems: 'center', flexWrap: 'wrap' }}>
                 <a href={`https://www.youtube.com/watch?v=${video.youtubeId || video.ytId}`} target="_blank" rel="noopener noreferrer"
-                   className="btn" style={{ fontSize: 14, padding: '10px 18px', textDecoration: 'none' }}>
-                  Watch on YouTube
+                   className="btn" style={{ fontSize: 14, padding: '10px 18px', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 8 }}>
+                  <Ic.play size={14}/> Watch on YouTube
                 </a>
                 <span className="mono" style={{ fontSize: 12, color: 'var(--parchment-dim)', letterSpacing: '0.08em' }}>
-                  CREDIT: {video.creator?.name || video.channel || 'YouTube creator'}
+                  CREDIT — {video.creator?.name || video.channel || 'YouTube creator'}
                 </span>
               </div>
             </div>
@@ -644,7 +644,8 @@ function ReviewsSection({ video, onNav }) {
             value={role}
             onChange={e => setRole(e.target.value)}
             placeholder="Your role (e.g. Freelance filmmaker)"
-            style={{ flex: 1, marginLeft: 12, background: 'var(--ink)', border: '1px solid var(--line)', borderRadius: 3, padding: '6px 10px', fontSize: 14, color: 'var(--bone)' }}
+            className="di-input"
+            style={{ flex: 1, marginLeft: 12, padding: '8px 12px' }}
           />
         </div>
         <textarea
@@ -652,7 +653,7 @@ function ReviewsSection({ video, onNav }) {
           onChange={e => setDraft(e.target.value)}
           placeholder="Did this clip deliver what the preview promised?"
           rows={3}
-          style={{ width: '100%', background: 'var(--ink)', border: '1px solid var(--line)', borderRadius: 3, padding: 10, fontSize: 14, color: 'var(--bone)', resize: 'vertical' }}
+          className="di-textarea"
         />
         <div style={{ textAlign: 'right', marginTop: 8 }}>
           <button onClick={submit} disabled={saving || !draft.trim()} className="btn" style={{ fontSize: 14, padding: '8px 14px', opacity: (saving || !draft.trim()) ? 0.5 : 1 }}>
@@ -663,6 +664,13 @@ function ReviewsSection({ video, onNav }) {
 
       {/* List */}
       <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+        {rows.length === 0 && (
+          <div className="di-empty">
+            <div className="di-empty-icon"><Ic.star/></div>
+            <div className="di-empty-title">No reviews yet</div>
+            Be the first to share how this clip performed in your edit.
+          </div>
+        )}
         {rows.map((r, i) => (
           <div key={i} style={{ padding: '16px 20px', border: '1px solid var(--line)', borderRadius: 4 }}>
             <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', marginBottom: 6 }}>
