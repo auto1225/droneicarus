@@ -707,13 +707,16 @@ function LabItemCard({ item, onNav }) {
   const showReal = hasReal && !imgErr;
   return (
     <div onClick={() => onNav('lab-item', item.id)} style={{
-      cursor: 'pointer', padding: 0, background: 'var(--forest-900)',
-      border: '1px solid var(--line)', borderRadius: 6, overflow: 'hidden',
+      cursor: 'pointer', padding: 0,
+      background: 'var(--ink)',
+      border: '1px solid var(--line-strong)',
+      borderRadius: 10, overflow: 'hidden',
+      boxShadow: '0 1px 0 rgba(26,40,32,0.04), 0 4px 14px rgba(60,50,35,0.06)',
       display: 'flex', flexDirection: 'column',
-      transition: 'border-color 0.15s, transform 0.15s, box-shadow 0.15s',
+      transition: 'border-color 0.18s, transform 0.18s, box-shadow 0.18s',
     }}
-    onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--sunset)'; e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 12px 24px rgba(60,50,35,0.18)'; }}
-    onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--line)'; e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = 'none'; }}>
+    onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--sunset)'; e.currentTarget.style.transform = 'translateY(-3px)'; e.currentTarget.style.boxShadow = '0 14px 32px rgba(200,90,46,0.18), 0 2px 0 rgba(26,40,32,0.06)'; }}
+    onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--line-strong)'; e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 1px 0 rgba(26,40,32,0.04), 0 4px 14px rgba(60,50,35,0.06)'; }}>
       {showReal ? (
         <div style={{
           aspectRatio: '16/9', width: '100%',
@@ -725,7 +728,7 @@ function LabItemCard({ item, onNav }) {
       ) : (
         <LabPlaceholder item={item} />
       )}
-      <div style={{ padding: 14, flex: 1, display: 'flex', flexDirection: 'column' }}>
+      <div style={{ padding: '14px 16px 16px', flex: 1, display: 'flex', flexDirection: 'column', background: 'var(--ink)' }}>
         <div className="mono" style={{ fontSize: 9, letterSpacing: '0.14em', color: 'var(--parchment-dim)', marginBottom: 6 }}>
           {item.type?.toUpperCase()}{item.institution ? ` · ${item.institution}` : ''}
         </div>
