@@ -919,57 +919,59 @@ export function HomePage({ onOpenVideo, onNav }) {
           <section style={{ padding: '40px 28px', maxWidth: 1760, margin: '0 auto' }}>
             <div className="eyebrow" style={{ marginBottom: 6 }}>EDITOR'S ATLAS</div>
             <h2 style={{ fontSize: 30, letterSpacing: '-0.02em', marginBottom: 18 }}>Landmarks worth the flight</h2>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: 16 }}>
-              {(dbLocations.length ? dbLocations : _MOCK_LOCATIONS).filter(l => l.featured).concat((dbLocations.length ? dbLocations : _MOCK_LOCATIONS).filter(l => !l.featured).slice(0, 9)).map(loc => (
-                <button key={loc.id} onClick={() => handleSelect(loc)} style={{
-                  display: 'flex', alignItems: 'center', gap: 16,
-                  padding: 18,
-                  background: 'var(--forest-900)',
-                  border: '1px solid var(--line)',
-                  borderRadius: 4,
-                  textAlign: 'left',
-                  transition: 'all 0.15s',
-                }} onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--amber)'; e.currentTarget.style.transform = 'translateY(-2px)'; }}
-                   onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--line)'; e.currentTarget.style.transform = 'translateY(0)'; }}>
-                  {(() => {
-                    // Match a video to this location: by location_id, then by lat/lon proximity (~30km)
-                    const lLat = Number(loc.lat) || 0, lLon = Number(loc.lon) || 0;
-                    const v = (dbVideos || []).find(vv => {
-                      if (vv.location_id && vv.location_id === loc.id) return true;
-                      const vLat = Number(vv.lat || vv.shot_lat) || 0;
-                      const vLon = Number(vv.lon || vv.shot_lon) || 0;
-                      if (!vLat || !vLon) return false;
-                      return Math.abs(vLat - lLat) < 0.3 && Math.abs(vLon - lLon) < 0.3;
-                    });
-                    const yt = v && (v.youtube_id || v.yt_id);
-                    const thumb = v && (v.thumb_url || (yt && `https://i.ytimg.com/vi/${yt}/mqdefault.jpg`));
-                    if (thumb) {
-                      return <div style={{
-                        width: 88, height: 56, flexShrink: 0,
-                        backgroundImage: `url('${thumb.replace(/'/g, "%27")}')`,
-                        backgroundSize: 'cover', backgroundPosition: 'center',
-                        borderRadius: 3, border: '1px solid var(--line)',
-                      }}/>;
-                    }
-                    return <div style={{
-                      width: 88, height: 56, flexShrink: 0,
-                      background: thumbGradient(String(loc.id || loc.name || '').length * 7),
-                      borderRadius: 3, display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      color: 'var(--amber)', border: '1px solid var(--line)',
-                    }}>{CAT_ICONS[loc.category] && CAT_ICONS[loc.category](22)}</div>;
-                  })()}
-                  <div style={{ flex: 1, minWidth: 0 }}>
-                    <div className="mono" style={{ fontSize: 12, letterSpacing: '0.1em', color: 'var(--parchment-dim)', textTransform: 'uppercase', marginBottom: 2 }}>
-                      {loc.country}
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 16 }}>
+              {(dbLocations.length ? dbLocations : _MOCK_LOCATIONS).filter(l => l.featured).concat((dbLocations.length ? dbLocations : _MOCK_LOCATIONS).filter(l => !l.featured).slice(0, 9)).slice(0, 12).map(loc => {
+                // Resolve the underlying video — prefer loc.video (set by dbLocations) then search dbVideos
+                const v = loc.video || (dbVideos || []).find(vv => {
+                  const id = vv.youtubeId || vv.youtube_id || vv.id;
+                  if (id && id === loc.id) return true;
+                  if (vv.location_id && vv.location_id === loc.id) return true;
+                  const vLat = Number(vv.lat || vv.shot_lat) || 0;
+                  const vLon = Number(vv.lon || vv.shot_lon) || 0;
+                  const lLat = Number(loc.lat) || 0, lLon = Number(loc.lon) || 0;
+                  if (!vLat || !vLon || !lLat || !lLon) return false;
+                  return Math.abs(vLat - lLat) < 0.3 && Math.abs(vLon - lLon) < 0.3;
+                });
+                // Thumbnail — try every common spelling, fall back to YouTube CDN
+                const yt = v?.youtubeId || v?.youtube_id || v?.yt_id || v?.ytId;
+                const thumb = v?.thumbUrl || v?.thumb_url || (yt && `https://i.ytimg.com/vi/${yt}/mqdefault.jpg`);
+                // Clean location name — prefer parsed landmark name from inferred_location_raw,
+                // fall back to title up to first separator (— | · :)
+                const inferredName = v?.inferredLocationRaw?.name || v?.inferred_location_raw?.name;
+                const titleLine = (loc.name || v?.title || '').split(/\s[—|·:|]\s/)[0].slice(0, 70);
+                const displayName = inferredName || titleLine;
+                const country = v?.country || (loc.country?.length > 0 && loc.country.length < 30 ? loc.country : null);
+                const catLabel = (CATEGORIES.find(c => c.id === loc.category)?.label || (loc.category || '').replace(/-/g, ' ')).toUpperCase();
+                return (
+                  <button key={loc.id} className="di-card" onClick={() => { if (loc.video && onOpenVideo) onOpenVideo(loc.video); else handleSelect(loc); }} style={{
+                    display: 'flex', flexDirection: 'column', padding: 0, textAlign: 'left', cursor: 'pointer', font: 'inherit', color: 'inherit', overflow: 'hidden',
+                  }}>
+                    <div style={{
+                      aspectRatio: '16/9', width: '100%',
+                      background: thumb ? `#0d1410 center/cover no-repeat url('${thumb.replace(/'/g, "%27")}')` : thumbGradient(String(loc.id || loc.name || '').length * 7),
+                      display: 'flex', alignItems: 'flex-end', justifyContent: 'flex-start',
+                      borderBottom: '1px solid rgba(26,40,32,0.10)', position: 'relative',
+                    }}>
+                      {!thumb && CAT_ICONS[loc.category] && (
+                        <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--amber)', opacity: 0.5 }}>
+                          {CAT_ICONS[loc.category](42)}
+                        </div>
+                      )}
+                      {v?.source === 'youtube' && (
+                        <span className="mono" style={{ position: 'absolute', top: 8, left: 8, background: 'rgba(204,0,0,0.92)', color: '#fff', fontSize: 10, padding: '2px 6px', borderRadius: 2, letterSpacing: '0.08em', fontWeight: 700 }}>▶ YOUTUBE</span>
+                      )}
                     </div>
-                    <div style={{ fontWeight: 600, fontSize: 15, marginBottom: 4 }}>{loc.name}</div>
-                    <div style={{ fontSize: 14, color: 'var(--parchment-dim)' }}>
-                      {loc.videos} clips · {CATEGORIES.find(c => c.id === loc.category)?.label}
+                    <div style={{ padding: 14, flex: 1, display: 'flex', flexDirection: 'column', gap: 6 }}>
+                      <div className="mono" style={{ fontSize: 11, letterSpacing: '0.14em', color: 'var(--amber)', fontWeight: 600 }}>{catLabel || 'AERIAL'}</div>
+                      <div style={{ fontSize: 15, fontWeight: 600, lineHeight: 1.3, color: 'var(--bone)', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>{displayName}</div>
+                      <div style={{ fontSize: 13, color: 'var(--parchment-dim)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 'auto', paddingTop: 6 }}>
+                        <span>{country ? country : (v?.youtubeChannel || v?.youtube_channel || 'aerial clip')}</span>
+                        <span style={{ color: 'var(--sunset)', fontWeight: 600 }}>{loc.videos || 1} clip{(loc.videos || 1) === 1 ? '' : 's'} →</span>
+                      </div>
                     </div>
-                  </div>
-                  <span style={{ color: 'var(--parchment-dim)' }}><Ic.chevron/></span>
-                </button>
-              ))}
+                  </button>
+                );
+              })}
             </div>
           </section>
 
