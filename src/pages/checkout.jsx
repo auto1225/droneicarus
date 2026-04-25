@@ -47,7 +47,19 @@ function loadPayPal() {
 }
 
 export function CheckoutPage({ videoId, licenseType = 'Commercial', onNav }) {
-  const v = VIDEOS.find(x => x.id === videoId) || VIDEOS.find(x => x.price > 0);
+  // Fetch real video by id (UUID); fall back to mock for v0/v1 demo ids
+  const [dbVideo, setDbVideo] = ckUseState(null);
+  const [vLoading, setVLoading] = ckUseState(true);
+  ckUseEffect(() => {
+    let alive = true;
+    if (videoId && /^[0-9a-f]{8}-/.test(String(videoId))) {
+      fetchVideo(videoId).then(row => { if (alive) { setDbVideo(row); setVLoading(false); } });
+    } else {
+      setVLoading(false);
+    }
+    return () => { alive = false; };
+  }, [videoId]);
+  const v = dbVideo || VIDEOS.find(x => x.id === videoId) || VIDEOS.find(x => x.price > 0);
   const [tier, setTier] = ckUseState(licenseType);
   const [payMethod, setPayMethod] = ckUseState('card');
   const [email, setEmail] = ckUseState('hyunwoo@icarus.fly');
