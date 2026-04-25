@@ -661,9 +661,6 @@ function FeaturedRow({ title, eyebrow, videos, onOpenVideo, accent }) {
 // ─── 2-level category hierarchy (mirrors Explore page; loaded from site_content if present) ─────────
 const HOME_DEFAULT_HIERARCHY = {
   groups: [
-    { id: 'ai', label: 'AI Generated', icon: 'ai', children: [
-      { id: 'ai-aerial',    label: 'AI Aerial',          fine: ['ai-aerial'] },
-    ]},
     { id: 'nature', label: 'Nature', icon: 'mountain', children: [
       { id: 'mountain',     label: 'Mountain & Glacier', fine: ['mountain','glacier'] },
       { id: 'volcano',      label: 'Volcano',            fine: ['volcano'] },
@@ -719,6 +716,9 @@ const HOME_DEFAULT_HIERARCHY = {
       { id: 'autonomous',   label: 'Autonomous Swarms',  fine: ['war-swarm','war-autonomous'] },
       { id: 'counter-uav',  label: 'Counter-UAV',        fine: ['war-counter'] },
       { id: 'platforms',    label: 'Platforms (MQ-9/Bayraktar/Shahed)', fine: ['war-platform'] },
+    ]},
+    { id: 'ai', label: 'AI Generated', icon: 'ai', children: [
+      { id: 'ai-aerial',    label: 'AI Aerial',          fine: ['ai-aerial'] },
     ]},
   ],
 };
@@ -871,6 +871,62 @@ function HomeSidebar({ selected, onSelect, mapFilters, onToggleMapFilter, onClea
   );
 }
 
+
+// ─── AI Aerial carousel ─ shows full set of AI clips when AI category is selected ─
+function AIClipsRow({ onOpenVideo }) {
+  const [clips, setClips] = hUseState([]);
+  hUseEffect(() => {
+    let cancel = false;
+    const SUPA = 'https://eotsbncgkgewgbemaarp.supabase.co';
+    const KEY = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY || 'sb_publishable_xUhKdbvFkBS5_iRHhHiY3A_aXh-PoQt';
+    fetch(`${SUPA}/rest/v1/videos?select=id,title,thumb_url,youtube_id,youtube_channel,views,lat,lon,inferred_location_raw,duration_s&category=eq.ai-aerial&status=eq.published&order=views.desc.nullslast&limit=64`, {
+      headers: { apikey: KEY, Authorization: 'Bearer ' + KEY },
+    })
+      .then(r => r.ok ? r.json() : [])
+      .then(d => { if (!cancel) setClips(d || []); })
+      .catch(() => {});
+    return () => { cancel = true; };
+  }, []);
+  if (!clips.length) return null;
+  const mapped = clips.filter(v => v.lat != null && v.lon != null).length;
+  const unmapped = clips.length - mapped;
+  return (
+    <section style={{ padding: '32px 28px 40px', maxWidth: 1760, margin: '0 auto', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+      <div style={{ marginBottom: 14 }}>
+        <div className="eyebrow" style={{ color: 'var(--sunset)', marginBottom: 6 }}>● AI GENERATED · {clips.length} CLIPS</div>
+        <h2 style={{ fontSize: 28, letterSpacing: '-0.02em' }}>Drone-style AI footage</h2>
+        <div style={{ fontSize: 13, color: 'var(--parchment-dim)', marginTop: 4 }}>{mapped} mapped to real-world locations · {unmapped} fictional / no real coords</div>
+      </div>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))', gap: 14 }}>
+        {clips.map(v => {
+          const yt = v.youtube_id;
+          const thumb = v.thumb_url || (yt ? `https://i.ytimg.com/vi/${yt}/mqdefault.jpg` : '');
+          const onMap = v.lat != null && v.lon != null;
+          const place = v.inferred_location_raw && (v.inferred_location_raw.value || v.inferred_location_raw.name);
+          return (
+            <button key={v.id} className="di-card" onClick={() => onOpenVideo && onOpenVideo({ ...v, youtubeId: v.youtube_id, youtubeChannel: v.youtube_channel, thumbUrl: v.thumb_url })} style={{
+              display: 'flex', flexDirection: 'column', padding: 0, textAlign: 'left', cursor: 'pointer', font: 'inherit', color: 'inherit', overflow: 'hidden',
+            }}>
+              <div style={{
+                aspectRatio: '16/9', width: '100%',
+                background: thumb ? `#0d1410 center/cover no-repeat url('${thumb.replace(/'/g, '%27')}')` : 'linear-gradient(135deg, #2a1f3d, #0d1410)',
+                position: 'relative', display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', padding: 8,
+              }}>
+                <span className="mono" style={{ background: 'rgba(0,0,0,0.7)', color: 'var(--amber)', fontSize: 10, padding: '2px 6px', borderRadius: 2, letterSpacing: '0.08em', fontWeight: 700 }}>AI</span>
+                <span className="mono" style={{ background: onMap ? 'rgba(204,0,0,0.85)' : 'rgba(0,0,0,0.6)', color: '#fff', fontSize: 10, padding: '2px 6px', borderRadius: 2, letterSpacing: '0.06em', fontWeight: 600 }}>{onMap ? (place || 'on map') : 'FICTIONAL'}</span>
+              </div>
+              <div style={{ padding: 12, flex: 1 }}>
+                <div style={{ fontSize: 14, fontWeight: 600, lineHeight: 1.3, color: 'var(--bone)', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>{v.title}</div>
+                <div style={{ fontSize: 12, color: 'var(--parchment-dim)', marginTop: 4 }}>{v.youtube_channel} · {(v.views || 0).toLocaleString()} views</div>
+              </div>
+            </button>
+          );
+        })}
+      </div>
+    </section>
+  );
+}
+
 export function HomePage({ onOpenVideo, onNav }) {
   // DB videos: every published row with lat/lon becomes a map pin.
   const [dbVideos, setDbVideos] = hUseState([]);
@@ -952,6 +1008,8 @@ export function HomePage({ onOpenVideo, onNav }) {
           <MapHero selectedLoc={selectedLoc} onSelectLoc={handleSelect} selectedFineSet={selectedFineSet} mapFilters={mapFilters} searchQuery={searchQuery} locations={dbLocations} videos={dbVideos} onOpenVideo={onOpenVideo} onNav={onNav} />
         </div>
       </div>
+
+      {selected?.id === 'ai' && <AIClipsRow onOpenVideo={onOpenVideo} />}
 
       <div ref={sheetRef}>
         {selectedLoc && <LocationSheet loc={selectedLoc} onOpenVideo={onOpenVideo} onClose={() => setSelectedLoc(null)} />}
