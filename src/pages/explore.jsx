@@ -99,10 +99,10 @@ export function ExplorePage({ onOpenVideo, onNav }) {
 
   // selected: null = all | { type:'group', id } | { type:'child', id, groupId, fine[] }
   const [selected, setSelected] = useState(null);
-  const [expanded, setExpanded] = useState(() => new Set(hierarchy.groups.map(g => g.id)));
+  const [expanded, setExpanded] = useState(() => new Set());
   const [sort, setSort] = useState('newest');
   const [query, setQuery] = useState('');
-  useEffect(() => { setExpanded(new Set(hierarchy.groups.map(g => g.id))); }, [hierarchy]);
+  // Default: groups collapsed — user expands what they want. Keeps sidebar within viewport without scrolling.
 
   // count map: byFine[fine] = N
   const counts = useMemo(() => {
