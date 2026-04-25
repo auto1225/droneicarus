@@ -46,9 +46,20 @@ function MapHero({ selectedLoc, onSelectLoc, selectedFineSet, mapFilters, search
   hUseEffect(() => {
     if (mapInstance.current || !mapRef.current) return;
     const L = window.L;
+    // Restore last viewed map state (center+zoom) from sessionStorage so users
+    // returning from a video player land on the exact view they left.
+    let initCenter = [25, 15];
+    let initZoom = 3;
+    try {
+      const saved = JSON.parse(sessionStorage.getItem('mapViewState') || 'null');
+      if (saved && Number.isFinite(saved.lat) && Number.isFinite(saved.lon) && Number.isFinite(saved.zoom)) {
+        initCenter = [saved.lat, saved.lon];
+        initZoom = Math.min(19, Math.max(2, saved.zoom));
+      }
+    } catch {}
     const map = L.map(mapRef.current, {
-      center: [25, 15],
-      zoom: 3,
+      center: initCenter,
+      zoom: initZoom,
       minZoom: 2,
       maxZoom: 19,
       zoomControl: true,
@@ -56,6 +67,13 @@ function MapHero({ selectedLoc, onSelectLoc, selectedFineSet, mapFilters, search
       attributionControl: true,
       maxBounds: [[-85, -180], [85, 180]],
       maxBoundsViscosity: 1.0,
+    });
+    // Persist the map view on every move/zoom so restoration always reflects the latest state.
+    map.on('moveend zoomend', () => {
+      try {
+        const c = map.getCenter();
+        sessionStorage.setItem('mapViewState', JSON.stringify({ lat: c.lat, lon: c.lng, zoom: map.getZoom() }));
+      } catch {}
     });
     const dpr = devicePixelRatio || 1;
     const detectRetina = dpr > 1;
