@@ -2231,3 +2231,40 @@ div[style*="forest-900"][style*="border"] {
   box-shadow: 0 2px 0 rgba(26,40,32,0.05), 0 6px 18px rgba(60,50,35,0.08);
   transition: box-shadow 0.15s ease, transform 0.15s ease, border-color 0.15s ease;
 }
+
+
+/* === PAID PIN STYLING === */
+.drone-pin.is-paid .pin-core { background: var(--sunset, #c85a2e) !important; }
+.drone-pin.is-paid .pin-ring { border-color: var(--sunset, #c85a2e) !important; }
+.drone-pin.is-pilot .pin-core { background: var(--amber, #c68820) !important; }
+.drone-pin.is-paid.is-pilot .pin-core { background: linear-gradient(135deg, var(--amber, #c68820), var(--sunset, #c85a2e)) !important; }
+.pin-price {
+  position: absolute; top: -10px; right: -10px;
+  min-width: 28px; height: 18px; padding: 0 6px;
+  background: var(--sunset, #c85a2e); color: #fff;
+  font-family: var(--font-mono, monospace); font-size: 10px; font-weight: 700;
+  border-radius: 9px; display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+  border: 1.5px solid #fff;
+  z-index: 5;
+}
+
+/* Price badge on cards */
+.di-price-badge {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-family: var(--font-mono, monospace);
+  font-size: 11px; font-weight: 700; letter-spacing: 0.04em;
+  padding: 4px 8px; border-radius: 4px;
+  background: var(--sunset, #c85a2e); color: #fff;
+  text-transform: uppercase;
+}
+.di-price-badge.free { background: var(--lichen, #8a9a5b); }
+.di-price-badge.cc   { background: rgba(26,40,32,0.7); }
+.di-license-pill {
+  display: inline-flex; align-items: center;
+  font-family: var(--font-mono, monospace);
+  font-size: 10px; font-weight: 600; letter-spacing: 0.06em;
+  padding: 2px 6px; border-radius: 99px;
+  background: var(--forest-800, #f3eddd); color: var(--bone, #0f1a14);
+  text-transform: uppercase;
+}
