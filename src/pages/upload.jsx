@@ -320,16 +320,35 @@ export function UploadPage({ onNav }) {
   if (stage === 'drop') return <UploadDropZone
       onPick={onPick}
       onCancel={() => onNav('home')}
-      onLink={(url, provider, status) => {
+      onLink={async (url, provider, status) => {
+        if (!user) { toast?.('Sign in first', 'Create an account to upload', 'error'); onNav('signin'); return; }
         setExternalMode(true);
         setExternalUrl(url);
         setExternalProvider(provider);
         setExternalCheckStatus(status);
-        // synthesize a pseudo-file stub so form header has values
         setFile({ name: `external-${provider}.mp4`, size: 0 });
         setTitle('Untitled clip');
         setStage('form');
         setUploadDone(true);
+        // Create a draft videos row so publish() has an id to update.
+        try {
+          const { data: row, error } = await supabase.from('videos').insert({
+            title: 'Untitled clip',
+            owner_id: user.id,
+            category: 'landscape',
+            resolution: '1080p',
+            price_usd: 0,
+            status: 'draft',
+            external_url: url,
+            external_provider: provider,
+            external_check_status: status || 'pending',
+          }).select('id').single();
+          if (error) throw error;
+          setVideoId(row.id);
+        } catch (e) {
+          console.warn('[external draft]', e.message);
+          toast?.('Draft creation failed', e.message || 'Try again', 'error');
+        }
       }}
     />;
 
