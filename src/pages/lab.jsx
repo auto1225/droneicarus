@@ -645,39 +645,100 @@ function cleanLabSummary(item) {
   }
   return s;
 }
+function isRealLabImg(u) { return typeof u === 'string' && /^https?:\/\//.test(u); }
+
+function LabPlaceholder({ item }) {
+  const typeLabel = (item.type || 'item').toUpperCase();
+  const url = item.external_url || item.document_url || '';
+  let idTag = '';
+  const mPatent = url.match(/patent\/([A-Z0-9]+)/);
+  const mArxiv = url.match(/arxiv\.org\/(?:abs|pdf)\/(\d{4}\.\d{4,5})/);
+  const mGh = url.match(/github\.com\/([^/]+\/[^/?#]+)/);
+  if (mPatent) idTag = mPatent[1];
+  else if (mArxiv) idTag = 'arXiv:' + mArxiv[1];
+  else if (mGh) idTag = mGh[1];
+  const seed = (item.id || item.title || '').split('').reduce((a,c)=>a+c.charCodeAt(0),0);
+  const accentRot = seed % 360;
+  return (
+    <div style={{
+      aspectRatio: '16/9', width: '100%',
+      background: 'linear-gradient(155deg, var(--forest-950) 0%, var(--forest-900) 60%, var(--forest-800) 100%)',
+      borderBottom: '1px solid var(--line)',
+      position: 'relative', overflow: 'hidden',
+      display: 'flex', flexDirection: 'column', justifyContent: 'space-between',
+      padding: '14px 16px',
+    }}>
+      <svg style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', opacity: 0.07 }} viewBox="0 0 400 225" preserveAspectRatio="none">
+        <g stroke="var(--bone)" strokeWidth="0.5" fill="none">
+          {[40, 70, 100, 130, 160, 190].map(y => <line key={y} x1="20" x2="380" y1={y} y2={y} />)}
+        </g>
+      </svg>
+      <div className="mono" style={{
+        position: 'relative', fontSize: 10, letterSpacing: '0.18em',
+        color: 'var(--sunset)', fontWeight: 600,
+      }}>
+        <span style={{ display: 'inline-block', width: 4, height: 4, background: 'var(--sunset)', marginRight: 6, verticalAlign: 'middle' }}/>
+        {typeLabel}
+      </div>
+      <div style={{
+        position: 'relative', fontFamily: 'var(--font-display)',
+        fontSize: 18, lineHeight: 1.2, color: 'var(--bone)', fontWeight: 600,
+        display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical', overflow: 'hidden',
+      }}>{item.title}</div>
+      <div className="mono" style={{
+        position: 'relative', fontSize: 10, letterSpacing: '0.1em',
+        color: 'var(--parchment-dim)', display: 'flex', justifyContent: 'space-between',
+      }}>
+        <span>{idTag || (item.institution || '').slice(0, 30)}</span>
+        <span style={{ color: 'var(--amber)' }}>● DRONEICARUS · LAB</span>
+      </div>
+      <svg style={{ position: 'absolute', right: 14, top: 14, width: 18, height: 18, opacity: 0.35, color: 'var(--amber)', transform: 'rotate(' + accentRot + 'deg)' }} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4">
+        <circle cx="5" cy="5" r="2.5"/><circle cx="19" cy="5" r="2.5"/>
+        <circle cx="5" cy="19" r="2.5"/><circle cx="19" cy="19" r="2.5"/>
+        <rect x="9" y="9" width="6" height="6" rx="1"/>
+      </svg>
+    </div>
+  );
+}
+
 function LabItemCard({ item, onNav }) {
+  const hasReal = isRealLabImg(item.cover_image_url);
+  const [imgErr, setImgErr] = useState(false);
+  const showReal = hasReal && !imgErr;
   return (
     <div onClick={() => onNav('lab-item', item.id)} style={{
       cursor: 'pointer', padding: 0, background: 'var(--forest-900)',
       border: '1px solid var(--line)', borderRadius: 6, overflow: 'hidden',
       display: 'flex', flexDirection: 'column',
-      transition: 'border-color 0.15s, transform 0.15s',
-    }}>
-      <LabPagePreview item={item} fallback={item.cover_image_url}/>
+      transition: 'border-color 0.15s, transform 0.15s, box-shadow 0.15s',
+    }}
+    onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--sunset)'; e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 12px 24px rgba(60,50,35,0.18)'; }}
+    onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--line)'; e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = 'none'; }}>
+      {showReal ? (
+        <div style={{
+          aspectRatio: '16/9', width: '100%',
+          background: `#fff center / cover no-repeat url('${item.cover_image_url.replace(/'/g, "%27")}')`,
+          borderBottom: '1px solid var(--line)',
+        }}>
+          <img src={item.cover_image_url} alt="" referrerPolicy="no-referrer" onError={() => setImgErr(true)} style={{ width: 0, height: 0, opacity: 0 }} />
+        </div>
+      ) : (
+        <LabPlaceholder item={item} />
+      )}
       <div style={{ padding: 14, flex: 1, display: 'flex', flexDirection: 'column' }}>
-        <div className="mono" style={{ fontSize: 12, letterSpacing: '0.14em', color: 'var(--parchment-dim)', marginBottom: 6 }}>
+        <div className="mono" style={{ fontSize: 9, letterSpacing: '0.14em', color: 'var(--parchment-dim)', marginBottom: 6 }}>
           {item.type?.toUpperCase()}{item.institution ? ` · ${item.institution}` : ''}
         </div>
-        <div style={{ fontSize: 14, fontWeight: 600, lineHeight: 1.35, marginBottom: 8 }}>{cleanLabTitle(item)}</div>
+        <div style={{ fontSize: 14, fontWeight: 600, lineHeight: 1.35, marginBottom: 8 }}>{item.title}</div>
         {item.summary && (
-          <div style={{ fontSize: 14, color: 'var(--parchment-dim)', lineHeight: 1.5, marginBottom: 10, display: '-webkit-box', WebkitLineClamp: 4, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
-            {cleanLabSummary(item)}
-          </div>
-        )}
-        {(item.price_min_usd != null || item.price_max_usd != null || item.brand) && (
-          <div style={{ display: 'flex', gap: 6, alignItems: 'center', marginBottom: 8, fontSize: 12, color: 'var(--amber)', fontFamily: 'var(--font-mono)' }}>
-            {item.price_min_usd != null && (
-              <span style={{ padding: '2px 8px', background: 'rgba(198,136,32,0.1)', border: '1px solid var(--amber)', borderRadius: 3 }}>
-                ${item.price_min_usd}{item.price_max_usd != null && item.price_max_usd !== item.price_min_usd ? `–$${item.price_max_usd}` : ''}
-              </span>
-            )}
-            {item.brand && <span style={{ color: 'var(--parchment-dim)' }}>{item.brand}</span>}
+          <div style={{ fontSize: 12, color: 'var(--parchment-dim)', lineHeight: 1.5, marginBottom: 10, display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
+            {item.summary}
           </div>
         )}
         {(item.tags && item.tags.length > 0) && (
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4, marginTop: 'auto' }}>
             {item.tags.slice(0, 3).map(t => (
-              <span key={t} className="mono" style={{ padding: '2px 6px', background: 'var(--forest-800)', borderRadius: 999, fontSize: 12, color: 'var(--parchment-dim)' }}>#{t}</span>
+              <span key={t} className="mono" style={{ padding: '2px 6px', background: 'var(--forest-800)', borderRadius: 999, fontSize: 10, color: 'var(--parchment-dim)' }}>#{t}</span>
             ))}
           </div>
         )}
