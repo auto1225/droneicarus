@@ -119,6 +119,11 @@ function MapHero({ selectedLoc, onSelectLoc, selectedFineSet, mapFilters, search
     return locs.filter(loc => {
       const vids = loc.video ? [loc.video] : VIDEOS.filter(v => v.locationId === loc.id);
       if (mapFilters.free && !vids.some(v => v.price === 0)) return false;
+      if (mapFilters.paid && !vids.some(v => v.price > 0)) return false;
+      if (mapFilters.pilot && !vids.some(v => v.source && v.source !== 'youtube')) return false;
+      if (mapFilters.commercial && !vids.some(v => Array.isArray(v.licenseTiers) && v.licenseTiers.includes('commercial'))) return false;
+      if (mapFilters.extended && !vids.some(v => Array.isArray(v.licenseTiers) && v.licenseTiers.includes('extended'))) return false;
+      if (mapFilters.exclusive && !vids.some(v => Array.isArray(v.licenseTiers) && v.licenseTiers.includes('exclusive'))) return false;
       if (mapFilters.uhd && !vids.some(v => v.resolution && (v.resolution.includes('5K') || v.resolution.includes('8K') || v.resolution === '4K'))) return false;
       if (mapFilters.recent && !vids.some(v => (v.uploadedDaysAgo || 999) <= 30)) return false;
       if (mapFilters.featured && !loc.featured) return false;
@@ -250,14 +255,18 @@ function MapHero({ selectedLoc, onSelectLoc, selectedFineSet, mapFilters, search
       const isFeatured = loc.featured;
       const vids = loc.video ? [loc.video] : VIDEOS.filter(v => v.locationId === loc.id).slice(0, 3);
       const firstVid = vids[0];
+      const isPaid = vids.some(v => Number(v.price) > 0);
+      const isPilot = vids.some(v => v.source && v.source !== 'youtube');
+      const minPrice = vids.filter(v => Number(v.price) > 0).reduce((m, v) => m === null || v.price < m ? v.price : m, null);
 
-      const html = `<div class="pin-outer ${selected ? 'selected' : ''}">
+      const html = `<div class="pin-outer ${selected ? 'selected' : ''}${isPaid ? ' paid' : ''}${isPilot ? ' pilot' : ''}">
         <div class="pin-ring"></div>
         <div class="pin-core"></div>
         <div class="pin-count">${loc.videos}</div>
+        ${isPaid ? `<div class="pin-price">$${Math.round(minPrice)}</div>` : ''}
       </div>`;
       const icon = L.divIcon({
-        className: 'drone-pin' + (isFeatured ? ' featured' : '') + (selected ? ' is-selected' : ''),
+        className: 'drone-pin' + (isFeatured ? ' featured' : '') + (selected ? ' is-selected' : '') + (isPaid ? ' is-paid' : '') + (isPilot ? ' is-pilot' : ''),
         html, iconSize: [44, 44], iconAnchor: [22, 44],
       });
       const marker = L.marker([loc.lat, loc.lon], { icon, zIndexOffset: selected ? 2000 : (isFeatured ? 600 : 100) }).addTo(map);
@@ -840,10 +849,15 @@ export function HomeSidebar({ selected, onSelect, mapFilters, onToggleMapFilter,
         <div className="mono" style={{ fontSize: 12, letterSpacing: '0.18em', color: 'var(--parchment-dim)', padding: '0 10px 8px' }}>MAP FILTERS</div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 4, padding: '0 6px' }}>
           {[
-            ['free', 'Free only'],
-            ['uhd', '4K+'],
-            ['recent', 'Last 30 days'],
-            ['featured', "Editor's picks"],
+            ['free',      'Free only'],
+            ['paid',      'Paid clips'],
+            ['pilot',     'Pilot uploads only'],
+            ['commercial','Commercial license'],
+            ['extended',  'Extended license'],
+            ['exclusive', 'Exclusive (1 buyer)'],
+            ['uhd',       '4K+'],
+            ['recent',    'Last 30 days'],
+            ['featured',  "Editor's picks"],
           ].map(([k, label]) => (
             <label key={k} style={{
               display: 'flex', alignItems: 'center', gap: 8,
@@ -981,7 +995,7 @@ export function HomePage({ onOpenVideo, onNav }) {
     });
     return { byFine, groups, children, total: dbVideos.length };
   }, [dbVideos, hierarchy]);
-  const [mapFilters, setMapFilters] = hUseState({ free: false, uhd: false, recent: false, featured: false });
+  const [mapFilters, setMapFilters] = hUseState({ free: false, paid: false, pilot: false, commercial: false, extended: false, exclusive: false, uhd: false, recent: false, featured: false });
   const sheetRef = hUseRef(null);
 
   const toggleFilter = (k) => setMapFilters(f => ({ ...f, [k]: !f[k] }));
@@ -1005,7 +1019,7 @@ export function HomePage({ onOpenVideo, onNav }) {
           onSelect={setSelected}
           mapFilters={mapFilters}
           onToggleMapFilter={toggleFilter}
-          onClearMapFilters={() => setMapFilters({ free: false, uhd: false, recent: false, featured: false })}
+          onClearMapFilters={() => setMapFilters({ free: false, paid: false, pilot: false, commercial: false, extended: false, exclusive: false, uhd: false, recent: false, featured: false })}
           totals={totals}
           hierarchy={hierarchy}
           query={searchQuery}
