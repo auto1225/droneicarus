@@ -175,7 +175,7 @@ export function CheckoutPage({ videoId, licenseType = 'Commercial', onNav }) {
           <div className="mono" style={{ fontSize: 12, letterSpacing: '0.18em', color: 'var(--parchment-dim)', marginBottom: 10 }}>LICENSE CHECKOUT</div>
           <h1 style={{ fontSize: 34, lineHeight: 1.1, marginBottom: 8 }}>{v.title}</h1>
           <div style={{ fontSize: 14, color: 'var(--parchment-dim)', marginBottom: 22 }}>
-            {v.creator.handle} · {loc?.name}, {loc?.country}
+            {v.creator?.handle || v.channel || 'pilot'} · {loc?.name || 'Custom location'}{loc?.country ? ', ' + loc.country : ''}
           </div>
 
           <div style={{
@@ -388,7 +388,7 @@ export function SuccessPage({ onNav }) {
           </div>
           <div style={{ padding: '16px 20px' }}>
             <div style={{ fontSize: 15, fontWeight: 600, marginBottom: 4 }}>{v.title}</div>
-            <div style={{ fontSize: 14, color: 'var(--parchment-dim)', marginBottom: 10 }}>{v.creator.handle} · {v.resolution} · {v.duration}</div>
+            <div style={{ fontSize: 14, color: 'var(--parchment-dim)', marginBottom: 10 }}>{v.creator?.handle || v.channel || 'pilot'} · {v.resolution} · {v.duration}</div>
             <div className="mono" style={{ fontSize: 12, letterSpacing: '0.14em', color: 'var(--amber)', textTransform: 'uppercase' }}>{order.tier} LICENSE · PERPETUAL · WORLDWIDE</div>
           </div>
         </div>
@@ -427,7 +427,7 @@ export function SuccessPage({ onNav }) {
       </div>
 
       <div style={{ marginTop: 40, padding: '18px 20px', background: 'var(--forest-900)', border: '1px solid var(--line)', borderRadius: 4, display: 'flex', gap: 14, alignItems: 'center' }}>
-        <div style={{ width: 36, height: 36, borderRadius: '50%', background: 'var(--moss)', color: '#faf6ec', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 700 }}>{v.creator.name[0]}</div>
+        <div style={{ width: 36, height: 36, borderRadius: '50%', background: 'var(--moss)', color: '#faf6ec', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 700 }}>{(v.creator?.name || v.channel || v.title || 'P')[0]}</div>
         <div style={{ flex: 1 }}>
           <div style={{ fontSize: 14, fontWeight: 600 }}>Pilot was paid ${(order.total * 0.7).toFixed(2)}</div>
           <div style={{ fontSize: 12, color: 'var(--parchment-dim)' }}>{v.creator?.name || v.channel || 'The pilot'} ({v.creator?.handle || (v.source === 'original' ? 'Drone Icarus pilot' : 'YouTube creator')}) receives 70% of every license, paid out monthly. Thanks for supporting pilots directly.</div>
@@ -499,7 +499,7 @@ export function OrdersPage({ onNav }) {
                 <div style={{ width: 56, height: 32, borderRadius: 2, background: thumbGradient(i + 2), flexShrink: 0 }}/>
                 <div style={{ minWidth: 0 }}>
                   <div style={{ fontSize: 14, fontWeight: 600, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{v?.title}</div>
-                  <div style={{ fontSize: 12, color: 'var(--parchment-dim)' }}>{v?.creator.handle}</div>
+                  <div style={{ fontSize: 12, color: 'var(--parchment-dim)' }}>{v?.creator?.handle || v?.channel || 'pilot'}</div>
                 </div>
               </div>
               <div>
@@ -567,7 +567,7 @@ export function LicenseDetailPage({ orderId, onNav }) {
             <Kv k="Coordinates" v={`${loc?.lat.toFixed(4)}°, ${loc?.lon.toFixed(4)}°`}/>
             <Kv k="Shot date" v="Mar 14, 2026 · 06:24 local"/>
             <Kv k="Format" v={`${o.fileFormat} · ${o.fileSize}`}/>
-            <Kv k="Pilot" v={`${v?.creator.name} (${v?.creator.handle})`}/>
+            <Kv k="Pilot" v={`${v?.creator?.name || v?.channel || "Drone Icarus pilot"} (${v?.creator?.handle || v?.channel || "pilot"})`}/>
           </div>
           <div>
             <div className="eyebrow" style={{ marginBottom: 10 }}>§2 · LICENSEE</div>
@@ -585,7 +585,7 @@ export function LicenseDetailPage({ orderId, onNav }) {
         <div style={{ padding: '32px 48px', borderTop: '1px solid var(--line)' }}>
           <div className="eyebrow" style={{ marginBottom: 12 }}>§3 · GRANT OF RIGHTS</div>
           <p style={{ fontSize: 14, color: 'var(--parchment)', lineHeight: 1.7, marginBottom: 10 }}>
-            Licensor grants Licensee a perpetual, worldwide, non-transferable, non-exclusive license to reproduce, distribute, publicly perform, and create derivative works based on the Work, subject to the {o.license} tier rights below. Credit line "<span className="mono">{v?.creator.handle} · Drone Icarus</span>" is required for the Personal tier only.
+            Licensor grants Licensee a perpetual, worldwide, non-transferable, non-exclusive license to reproduce, distribute, publicly perform, and create derivative works based on the Work, subject to the {o.license} tier rights below. Credit line "<span className="mono">{v?.creator?.handle || v?.channel || 'pilot'} · Drone Icarus</span>" is required for the Personal tier only.
           </p>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 10, marginTop: 14 }}>
             {[
