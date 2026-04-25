@@ -32,7 +32,7 @@ export async function fetchLocations() {
 
 export async function fetchVideos({ limit = null, category, locationId, ownerId, source } = {}) {
   const parts = [
-    `select=id,title,description,category,resolution,duration_s,views,likes,price_usd,tags,thumb_path,thumb_url,yt_id,youtube_id,youtube_channel,source,lat,lon,published_at,location_id,ai_quality_score,status`,
+    `select=id,title,description,category,resolution,duration_s,views,likes,price_usd,license_tiers,owner_id,is_demo,tags,thumb_path,thumb_url,yt_id,youtube_id,youtube_channel,source,lat,lon,published_at,location_id,ai_quality_score,status`,
     `status=eq.published`,
     `order=published_at.desc.nullslast`,
   ];
@@ -81,6 +81,9 @@ function adaptVideo(row) {
       ? Math.max(0, Math.round((Date.now() - new Date(row.published_at)) / 86400000))
       : 0,
     price: Number(row.price_usd) || 0,
+    licenseTiers: Array.isArray(row.license_tiers) ? row.license_tiers : [],
+    ownerId: row.owner_id || null,
+    isDemo: !!row.is_demo,
     resolution: row.resolution,
     tags: row.tags ?? [],
     qualityScore: row.ai_quality_score,
