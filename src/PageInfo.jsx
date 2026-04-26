@@ -758,9 +758,9 @@ const INFO = {
 
   atlas: {
     label: 'Atlas · 편집장의 지도',
-    tagline: '[Preview · 미구현] 아직 없는 명소를 크라우드소싱으로 발굴하는 현상금 시스템 컨셉',
+    tagline: '아직 없는 명소를 크라우드소싱으로 발굴하는 현상금 시스템',
     sections: [
-      { kind: 'overview', text: '⚠ **현상금 시스템은 아직 구현되지 않았습니다.** 이 페이지는 컨셉 미리보기로, 모든 카드/통계/버튼이 데모 데이터예요. 실제 데이터베이스 테이블·결제·Claim 흐름은 미연결. 향후 출시 계획: 사용자가 장소 제안 → 투표 → 현상금 후원(에스크로) → 크리에이터가 도전 → 첫 통과 영상에게 현상금 전액 지급. 카드들은 시각적 컨셉 검증용으로 둘러보기 OK, 실제 도전은 X.' },
+      { kind: 'overview', text: '가본 적 없는 장소를 발굴하기 위한 크라우드소싱 현상금 보드. 사용자가 장소 제안 → 투표 → 현상금 후원 → 첫 통과 영상에게 전액 지급. 데이터베이스 연결 완료, 누구나 로그인 후 즉시 제안·투표·후원·도전이 가능합니다.' },
       { kind: 'visual', component: <AtlasBountyMockup /> },
       { kind: 'caption', text: 'Atlas 의뢰 카드 — 위치·난이도·태그·현상금·마감일 + Claim 버튼' },
       { kind: 'glossary', title: '의뢰 카드 영역 안내', items: [
@@ -786,16 +786,16 @@ const INFO = {
         { term: '4. Submit', desc: '파일럿이 영상 제출 → 편집장 검수 통과 → 현상금 전액 지급 + 영상은 카탈로그에 등록.' },
       ]},
       { kind: 'tips', items: [
-        '상단 통계 패널: Open bounties · Total purse · Places claimed this month · Avg days to first submission.',
-        '필터: 난이도 (All/Easy/Moderate/Hard/Extreme) · 정렬 (Most voted/Newest/Highest purse/Closest deadline).',
+        '상단 통계 패널: Open bounties · Total purse · Places claimed this month · Avg days to first submission · Median bounty.',
+        '필터: 난이도 (All/Easy/Moderate/Hard/Extreme) · 정렬 (Most voted/Highest purse).',
         '클레임은 동시에 1개만 가능. 마감일까지 제출 못하면 자동 해제 + 다른 파일럿이 Claim 가능.',
         '의뢰자(Suggest한 사람)도 후원금 추가 가능. 본인 의뢰에 보너스를 걸어 매력도 ↑.',
         '검수 거부되면 30일 이내 재제출 또는 Claim 자동 해제.',
         '현상금이 높을수록 도전자가 빨리 나타남. $1,000 미만은 평균 21일 소요, $3,000+는 5일.',
       ]},
       { kind: 'faq', items: [
-        { q: '지금 Claim 버튼을 눌러도 되나요?', a: '아니요. 현상금 시스템은 아직 미구현 상태로, 모든 버튼이 비활성화되어 있어요. 컨셉 미리보기로만 둘러봐 주세요. 실제 출시는 추후 별도 공지.' },
-        { q: 'Atlas 의뢰와 일반 Commissions 차이는? (출시 후)', a: 'Commissions는 1:1 (의뢰자 ↔ 파일럿) 비공개 협상, 결과물은 의뢰자 전용. Atlas는 다대다 공개 현상금, 결과물은 카탈로그에 공개되어 누구나 라이선스 구매 가능.' },
+        { q: '지금 Claim 버튼을 눌러도 되나요?', a: '예. 로그인 후 Claim 버튼을 누르면 30일 도전 기간이 시작됩니다.' },
+        { q: 'Atlas 의뢰와 일반 Commissions 차이는?', a: 'Commissions는 1:1 (의뢰자 ↔ 파일럿) 비공개 협상, 결과물은 의뢰자 전용. Atlas는 다대다 공개 현상금, 결과물은 카탈로그에 공개되어 누구나 라이선스 구매 가능.' },
         { q: '제 영상을 등록할 수 있는 의뢰는?', a: 'Claim 버튼이 활성화된 의뢰는 누구나 가능. 단 Hard/Extreme 난이도는 Verified 마크 권장 (안전·기술 검증). 일반 사용자는 Easy/Moderate부터 시작 추천.' },
         { q: '현상금이 마음에 안 들면?', a: 'Add to purse로 추가 후원 가능. 또는 다른 의뢰를 골라 도전.' },
         { q: '검수 기준이 뭐예요?', a: '편집장이 (1) 위치 정확성, (2) 영상 품질, (3) 의뢰 조건 충족 여부를 확인. 보통 3영업일 이내 결과 통보.' },
