@@ -408,8 +408,8 @@ function MapHero({ selectedLoc, onSelectLoc, selectedFineSet, mapFilters, search
       }}>
         {[
           ['Clips', (videos||[]).length.toLocaleString()],
-          ['Pilots', (new Set((videos||[]).map(v=>v.youtube_channel).filter(Boolean))).size.toLocaleString()],
-          ['Countries', (new Set((videos||[]).map(v=>{const i=typeof v.inferred_location_raw==='string'?(()=>{try{return JSON.parse(v.inferred_location_raw)}catch{return{}}})():(v.inferred_location_raw||{});return i&&i.country}).filter(Boolean))).size.toLocaleString()],
+          ['Pilots', (new Set((videos||[]).map(v=>v.channel).filter(Boolean))).size.toLocaleString()],
+          ['Countries', (new Set((videos||[]).map(v=>v.country).filter(Boolean))).size.toLocaleString()],
           ['Licensed', (videos||[]).filter(v=>Array.isArray(v.license_tiers)&&v.license_tiers.length>0).length.toLocaleString()],
         ].map(([k, v], i) => (
           <div key={k} style={{
