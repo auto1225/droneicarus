@@ -264,7 +264,7 @@ function Stat({ label, value, color }) {
   );
 }
 
-export function CreatorsPage({ onOpenVideo }) {
+export function CreatorsPage({ onOpenVideo, onNav }) {
   const [dbVids, setDbVids] = useState([]);
   useEffect(() => { fetchVideos().then(v => setDbVids(v || [])); }, []);
 
@@ -293,7 +293,7 @@ export function CreatorsPage({ onOpenVideo }) {
         {CREATORS.map(c => {
           const vids = (dbVids.length ? dbVids : _MV).filter(v => v.creator?.handle === c.handle).slice(0, 3);
           return (
-            <div key={c.handle} className="di-card" style={{ padding: 24 }}>
+            <div key={c.handle} className="di-card" onClick={() => onNav?.('profile', (c.handle||'').replace(/^@/, ''))} style={{ padding: 24, cursor: 'pointer' }}>
               <div style={{ display: 'flex', gap: 16, marginBottom: 18 }}>
                 <div style={{ width: 64, height: 64, borderRadius: '50%', background: 'linear-gradient(135deg, var(--moss), var(--lichen))', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 22, fontWeight: 700, color: '#fff' }}>{c.name[0]}</div>
                 <div style={{ flex: 1 }}>
