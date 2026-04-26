@@ -675,7 +675,7 @@ const HOME_DEFAULT_HIERARCHY = {
       { id: 'mountain',     label: 'Mountain & Glacier', fine: ['mountain','glacier'] },
       { id: 'volcano',      label: 'Volcano',            fine: ['volcano'] },
       { id: 'waterfall',    label: 'Waterfall',          fine: ['waterfall'] },
-      { id: 'forest',       label: 'Forest & Jungle',    fine: ['rainforest'] },
+      { id: 'forest',       label: 'Forest & Jungle',    fine: ['rainforest','forest'] },
       { id: 'desert',       label: 'Desert & Dunes',     fine: ['desert','dunes'] },
       { id: 'landscape',    label: 'Landscape',          fine: ['landscape'] },
     ]},
@@ -688,18 +688,18 @@ const HOME_DEFAULT_HIERARCHY = {
     ]},
     { id: 'sky', label: 'Sky & Weather', icon: 'sky', children: [
       { id: 'aurora',       label: 'Aurora',         fine: ['aurora'] },
-      { id: 'phenomena',    label: 'Phenomena',      fine: ['phenomena'] },
+      { id: 'phenomena',    label: 'Phenomena',      fine: ['phenomena','storm-chasing','stratosphere'] },
       { id: 'fireworks',    label: 'Fireworks',      fine: ['fireworks'] },
       { id: 'drone-show',   label: 'Drone Shows',    fine: ['drone-show'] },
     ]},
     { id: 'cities', label: 'Cities', icon: 'city', children: [
-      { id: 'skyline',      label: 'Skylines',       fine: ['cityscape'] },
+      { id: 'skyline',      label: 'Skylines',       fine: ['cityscape','night-flight'] },
       { id: 'architecture', label: 'Architecture',   fine: ['architecture'] },
       { id: 'bridge',       label: 'Bridges',        fine: ['bridge'] },
       { id: 'port',         label: 'Ports & Harbors',fine: ['port'] },
     ]},
     { id: 'heritage', label: 'Heritage', icon: 'heritage', children: [
-      { id: 'ruins',        label: 'Ancient Ruins',  fine: ['ancient-ruins'] },
+      { id: 'ruins',        label: 'Ancient Ruins',  fine: ['ancient-ruins','ruins-heritage'] },
       { id: 'temple',       label: 'Temples & Shrines', fine: ['temple'] },
       { id: 'castle',       label: 'Castles & Palaces', fine: ['castle'] },
     ]},
@@ -714,7 +714,7 @@ const HOME_DEFAULT_HIERARCHY = {
       { id: 'skiing',       label: 'Skiing & Snow', fine: ['skiing'] },
     ]},
     { id: 'wildlife', label: 'Wildlife', icon: 'wildlife', children: [
-      { id: 'safari',       label: 'Safari Big Game', fine: ['wildlife-safari'] },
+      { id: 'safari',       label: 'Safari Big Game', fine: ['wildlife-safari','wildlife'] },
     ]},
     { id: 'industry', label: 'Industry & Energy', icon: 'industry', children: [
       { id: 'wind-farm',    label: 'Wind Farms',  fine: ['wind-farm'] },
@@ -1011,7 +1011,7 @@ export function HomePage({ onOpenVideo, onNav }) {
     const visible = (dbVideos || []).filter(v => matchesQuery(v) && matchesMapFilter(v));
     const byFine = {};
     visible.forEach(v => {
-      const fine = v.tags?.[0];
+      const fine = v.category;
       if (fine && fine !== 'drone') byFine[fine] = (byFine[fine] || 0) + 1;
     });
     const groups = {}, children = {};
