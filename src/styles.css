@@ -2268,3 +2268,55 @@ div[style*="forest-900"][style*="border"] {
   background: var(--forest-800, #f3eddd); color: var(--bone, #0f1a14);
   text-transform: uppercase;
 }
+
+
+/* --- Mobile QA fixes (<=480px) added 2026-04-26 --- */
+@media (max-width: 480px) {
+  html, body { overflow-x: hidden; max-width: 100vw; }
+  body { word-break: keep-all; overflow-wrap: anywhere; }
+  .home-grid .home-stats, [class*="stat-bar"], .home-stats-bar {
+    display: grid !important; grid-template-columns: repeat(4, 1fr) !important;
+    gap: 4px !important; padding: 8px 6px !important; font-size: 10px !important;
+  }
+  .home-grid .home-stats > *, .home-stats-bar > * { min-width: 0; text-align: center; padding: 4px !important; }
+  .home-grid .home-stats > * .num, .home-stats-bar .num { font-size: 14px !important; }
+  .live-pin-callout { font-size: 10px !important; padding: 2px 6px !important; max-width: 180px !important; }
+  .live-pin-dot { font-size: 10px !important; padding: 4px 8px !important; }
+  [class*="atlas-layout"], [class*="atlas-grid"], [class*="atlas-hero-wrap"] {
+    display: block !important; grid-template-columns: 1fr !important;
+  }
+  [class*="atlas-stats"], [class*="atlas-sidebar"] {
+    width: 100% !important; max-width: 100% !important; margin-top: 16px !important; padding: 12px !important;
+  }
+  [class*="bounty-card"], [class*="bounty-row"] { width: 100% !important; max-width: 100% !important; overflow: hidden !important; }
+  [class*="bounty-card"] > *, [class*="bounty-row"] > * { min-width: 0; word-break: break-word; }
+  [class*="guide-tabs"], [class*="guide-nav"] {
+    display: flex !important; flex-wrap: wrap !important; gap: 6px !important; padding: 8px 0 !important;
+  }
+  [class*="guide-tabs"] button, [class*="guide-nav"] button {
+    flex: 1 1 auto !important; min-width: 0 !important; padding: 8px 10px !important;
+    font-size: 12px !important; white-space: nowrap !important; word-break: keep-all !important;
+  }
+  [class*="commission"] [class*="hero"], [class*="commission"] [class*="cta"],
+  [class*="commission-card"], [class*="post-request"] {
+    width: 100% !important; max-width: 100% !important; box-sizing: border-box !important;
+  }
+  [class*="commission"] button { white-space: normal !important; }
+  [class*="pilot-card"], [class*="creator-card"] {
+    width: 100% !important; max-width: 100% !important; box-sizing: border-box !important; overflow: hidden !important;
+  }
+  [class*="pilot-card"] [class*="follow"], [class*="creator-card"] [class*="follow"] {
+    flex-shrink: 0 !important; padding: 6px 10px !important; font-size: 12px !important;
+  }
+  [class*="demo-banner"], [class*="creators-banner"] {
+    font-size: 12px !important; padding: 10px 12px !important; line-height: 1.45 !important;
+  }
+  [class*="signin"] button, [class*="auth-toggle"] button { white-space: nowrap !important; padding: 10px 14px !important; }
+  [class*="watch-title"], [class*="video-title"] h1 { font-size: 18px !important; line-height: 1.3 !important; }
+  [class*="modal"][class*="overlay"] [class*="modal-card"], [role="dialog"] {
+    width: calc(100vw - 24px) !important; max-width: calc(100vw - 24px) !important;
+    max-height: calc(100vh - 40px) !important; overflow-y: auto !important;
+  }
+  main, section, article { max-width: 100%; }
+  img, video, iframe { max-width: 100%; height: auto; }
+}
