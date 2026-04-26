@@ -240,6 +240,7 @@ export function Header({ route, onNav, query, setQuery }) {
     { id: 'lab', label: txt('header.nav.lab', 'Lab') },
     { id: 'gear', label: txt('header.nav.gear', 'Gear') },
     { id: 'live', label: txt('header.nav.live', 'Live') },
+    { id: 'commissions', label: txt('header.nav.commissions', 'Commissions') },
     { id: 'pricing', label: txt('header.nav.pricing', 'Pricing') },
   ];
   const { profile, user, signOut } = useAuth();
