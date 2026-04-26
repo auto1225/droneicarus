@@ -33,6 +33,9 @@ const ProfilePage         = lazy(() => import('./pages/profile').then(m => ({ de
 const MessagesPage        = lazy(() => import('./pages/messages').then(m => ({ default: m.MessagesPage })));
 const NotificationsPage   = lazy(() => import('./pages/notifications').then(m => ({ default: m.NotificationsPage })));
 const CommissionPage      = lazy(() => import('./pages/commission').then(m => ({ default: m.CommissionPage })));
+const CommissionsPage     = lazy(() => import('./pages/commissions').then(m => ({ default: m.CommissionsPage })));
+const CommissionDetailPage= lazy(() => import('./pages/commissions').then(m => ({ default: m.CommissionDetailPage })));
+const CommissionNewPage   = lazy(() => import('./pages/commissions').then(m => ({ default: m.CommissionNewPage })));
 const GuidelinesPage      = lazy(() => import('./pages/static').then(m => ({ default: m.GuidelinesPage })));
 const LegalPage           = lazy(() => import('./pages/static').then(m => ({ default: m.LegalPage })));
 const FlightLogPage       = lazy(() => import('./pages/flightlog').then(m => ({ default: m.FlightLogPage })));
@@ -342,7 +345,10 @@ export default function App() {
         {route === 'profile' && <ProfilePage handle={routeParam} onOpenVideo={onOpenVideo} onNav={onNav} />}
         {route === 'messages' && <MessagesPage onNav={onNav} />}
         {route === 'notifications' && <NotificationsPage onNav={onNav} />}
-        {route === 'commission' && <CommissionPage onNav={onNav} />}
+        {route === 'commissions' && <CommissionsPage onNav={onNav} />}
+        {route === 'commission-new' && <CommissionNewPage onNav={onNav} />}
+        {route === 'commission' && routeParam && <CommissionDetailPage id={routeParam} onNav={onNav} />}
+        {route === 'commission' && !routeParam && <CommissionPage onNav={onNav} />}
         {route === 'guidelines' && <GuidelinesPage onNav={onNav} />}
         {route === 'legal' && <LegalPage onNav={onNav} />}
         {route === 'flightlog' && <FlightLogPage videoId={routeParam} onNav={onNav} />}
@@ -363,7 +369,7 @@ export default function App() {
         {route === 'lab' && routeParam && <LabSubsectionPage subsection={routeParam} onNav={onNav} />}
         {route === 'lab-item' && <LabItemPage itemId={routeParam} onNav={onNav} />}
         {route === 'admin' && <RequireAdminM onNav={onNav}><AdminShell section={routeParam || 'dashboard'} onNav={onNav} /></RequireAdminM>}
-        {!['home', 'watch', 'explore', 'rankings', 'creators', 'creator', 'search', 'upload', 'mypage', 'signin', 'checkout', 'success', 'orders', 'license', 'earnings', 'settings', 'pilot-onboarding', 'profile', 'messages', 'notifications', 'commission', 'guidelines', 'legal', 'flightlog', 'atlas', 'live', 'collection', 'location', 'pricing', 'shotlibrary', 'advanced', 'admin', 'lab', 'lab-item', 'livehelp', 'mystreams', 'shots', 'gear', 'gear-item'].includes(route) && <NotFoundPage onNav={onNav} />}
+        {!['home', 'watch', 'explore', 'rankings', 'creators', 'creator', 'search', 'upload', 'mypage', 'signin', 'checkout', 'success', 'orders', 'license', 'earnings', 'settings', 'pilot-onboarding', 'profile', 'messages', 'notifications', 'commission', 'commissions', 'commission-new', 'guidelines', 'legal', 'flightlog', 'atlas', 'live', 'collection', 'location', 'pricing', 'shotlibrary', 'advanced', 'admin', 'lab', 'lab-item', 'livehelp', 'mystreams', 'shots', 'gear', 'gear-item'].includes(route) && <NotFoundPage onNav={onNav} />}
       </Suspense></ChunkErrorBoundary>
       {!['creator','pilot-onboarding','signin','messages','live','admin'].includes(route) && <Footer onNav={onNav} />}
 
