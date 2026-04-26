@@ -49,7 +49,7 @@ export async function fetchLocations() {
 
 export async function fetchVideos({ limit = null, category, locationId, ownerId, source } = {}) {
   const parts = [
-    `select=id,title,description,category,resolution,duration_s,views,likes,price_usd,license_tiers,owner_id,is_demo,tags,thumb_path,thumb_url,yt_id,youtube_id,youtube_channel,source,lat,lon,published_at,location_id,ai_quality_score,status`,
+    `select=id,title,description,category,resolution,duration_s,views,likes,price_usd,license_tiers,owner_id,is_demo,tags,thumb_path,thumb_url,yt_id,youtube_id,youtube_channel,source,lat,lon,published_at,location_id,ai_quality_score,status,inferred_location_raw`,
     `status=eq.published`,
     `order=published_at.desc.nullslast`,
   ];
@@ -104,7 +104,7 @@ function adaptVideo(row) {
     resolution: row.resolution,
     tags: row.tags ?? [],
     qualityScore: row.ai_quality_score,
-    channel: row.youtube_channel,
+    channel: row.youtube_channel, country: (row.inferred_location_raw && (typeof row.inferred_location_raw==='string' ? (()=>{try{return JSON.parse(row.inferred_location_raw).country}catch{return null}})() : row.inferred_location_raw.country)) || null,
     creator: row.youtube_channel ? {
       handle: row.youtube_channel.toLowerCase().replace(/\s+/g, ''),
       name: row.youtube_channel,
