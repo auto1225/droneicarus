@@ -410,7 +410,7 @@ function MapHero({ selectedLoc, onSelectLoc, selectedFineSet, mapFilters, search
           ['Clips', (videos||[]).length.toLocaleString()],
           ['Pilots', (new Set((videos||[]).map(v=>v.channel).filter(Boolean))).size.toLocaleString()],
           ['Countries', (new Set((videos||[]).map(v=>v.country).filter(Boolean))).size.toLocaleString()],
-          ['Licensed', (videos||[]).filter(v=>Array.isArray(v.license_tiers)&&v.license_tiers.length>0).length.toLocaleString()],
+          ['Licensed', (videos||[]).filter(v=>Array.isArray(v.licenseTiers)&&v.licenseTiers.length>0).length.toLocaleString()],
         ].map(([k, v], i) => (
           <div key={k} style={{
             padding: '12px 20px',
