@@ -709,7 +709,7 @@ const HOME_DEFAULT_HIERARCHY = {
       { id: 'flower-field', label: 'Flower Fields', fine: ['flower-field'] },
     ]},
     { id: 'action', label: 'Action & Sports', icon: 'action', children: [
-      { id: 'fpv-racing',   label: 'FPV Racing',    fine: ['aerial-sports'] },
+      { id: 'fpv-racing',   label: 'FPV Racing',    fine: ['aerial-sports','fpv-racing','sports'] },
       { id: 'surfing',      label: 'Surfing',       fine: ['surfing'] },
       { id: 'skiing',       label: 'Skiing & Snow', fine: ['skiing'] },
     ]},
