@@ -5,7 +5,22 @@ import { useContent } from '../content/ContentContext';
 export function LiveHelpPage({ onNav }) {
   const txt = useContent;
   return (
-    <div style={{ maxWidth: 880, margin: '0 auto', padding: '40px 24px 80px', color: 'var(--bone)' }}>
+    <div style={{ color: 'var(--bone)' }}>
+      {/* PREVIEW BANNER — live streaming/Super Chat not yet implemented */}
+      <div style={{
+        background: 'linear-gradient(90deg, var(--amber) 0%, var(--sunset) 100%)',
+        color: '#1a2820', padding: '10px 24px',
+        display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10,
+        fontSize: 13, fontWeight: 600, textAlign: 'center',
+      }}>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <circle cx="12" cy="12" r="10"/>
+          <line x1="12" y1="8" x2="12" y2="12"/>
+          <line x1="12" y1="16" x2="12.01" y2="16"/>
+        </svg>
+        <span>[PREVIEW · 미구현] 라이브 방송 시스템은 아직 구현되지 않았어요. RTMP 송출, 슈퍼챗 후원 등은 향후 출시 예정입니다.</span>
+      </div>
+      <div style={{ maxWidth: 880, margin: '0 auto', padding: '40px 24px 80px' }}>
       <div className="eyebrow" style={{ color: 'var(--sunset)', marginBottom: 10 }}>● LIVE HELP</div>
       <h1 style={{ fontSize: 40, marginBottom: 14, letterSpacing: '-0.02em' }}>{txt('livehelp.title', 'How live streaming works')}</h1>
       <p style={{ fontSize: 15, color: 'var(--parchment)', lineHeight: 1.6, marginBottom: 36 }}>
@@ -55,6 +70,7 @@ export function LiveHelpPage({ onNav }) {
         <p style={{ fontSize: 14, color: 'var(--parchment)', marginBottom: 12 }}>Make sure you've started your YouTube live stream first.</p>
         <button onClick={() => onNav?.('live')} style={{ padding: '10px 18px', background: 'var(--sunset)', color: '#fff', border: 'none', borderRadius: 4, cursor: 'pointer', fontWeight: 700 }}>Go to Live page →</button>
       </div>
+    </div>
     </div>
   );
 }

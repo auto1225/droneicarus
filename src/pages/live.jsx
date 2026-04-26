@@ -139,7 +139,22 @@ export function LivePage({ onNav, streamId }) {
   }, [selected]);
 
   return (
-    <div style={{ display: 'grid', gridTemplateColumns: '320px minmax(0, 1fr) 320px', minHeight: 'calc(100vh - 62px)' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', minHeight: 'calc(100vh - 62px)' }}>
+      {/* PREVIEW BANNER — live streaming/Super Chat not yet implemented */}
+      <div style={{
+        background: 'linear-gradient(90deg, var(--amber) 0%, var(--sunset) 100%)',
+        color: '#1a2820', padding: '10px 24px',
+        display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10,
+        fontSize: 13, fontWeight: 600, textAlign: 'center',
+      }}>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <circle cx="12" cy="12" r="10"/>
+          <line x1="12" y1="8" x2="12" y2="12"/>
+          <line x1="12" y1="16" x2="12.01" y2="16"/>
+        </svg>
+        <span>[PREVIEW · 미구현] 라이브 방송 시스템은 아직 구현되지 않았어요. RTMP 송출, 슈퍼챗 후원 등은 향후 출시 예정입니다.</span>
+      </div>
+      <div style={{ display: 'grid', gridTemplateColumns: '320px minmax(0, 1fr) 320px', flex: 1, minHeight: 0 }}>
       {/* Sidebar: list */}
       <aside style={{ borderRight: '1px solid var(--line)', background: 'var(--forest-950)', display: 'flex', flexDirection: 'column' }}>
         <div style={{ padding: '22px 22px 14px', borderBottom: '1px solid var(--line)' }}>
@@ -297,6 +312,7 @@ export function LivePage({ onNav, streamId }) {
       </aside>
       {tipOpen && <SuperChatModal streamId={selected.id && selected.id.length === 36 ? selected.id : '00000000-0000-0000-0000-000000000000'} onClose={() => setTipOpen(false)}/>}
       {goLiveOpen && <GoLiveModal onClose={() => setGoLiveOpen(false)} onCreated={(stream) => { setGoLiveOpen(false); setSelected(stream); }} user={auth.user} profile={auth.profile} onNav={onNav}/>}
+      </div>
     </div>
   );
 }
