@@ -241,6 +241,7 @@ export function Header({ route, onNav, query, setQuery }) {
     { id: 'gear', label: txt('header.nav.gear', 'Gear') },
     { id: 'live', label: txt('header.nav.live', 'Live') },
     { id: 'commissions', label: txt('header.nav.commissions', 'Commissions') },
+    { id: 'guide', label: txt('header.nav.guide', 'Guide') },
     { id: 'pricing', label: txt('header.nav.pricing', 'Pricing') },
   ];
   const { profile, user, signOut } = useAuth();
