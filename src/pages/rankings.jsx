@@ -273,8 +273,22 @@ export function CreatorsPage({ onOpenVideo }) {
       <div className="eyebrow" style={{ marginBottom: 10, color: 'var(--amber)' }}>PILOT COMMUNITY</div>
       <h1 style={{ fontSize: 52, marginBottom: 10 }}>Meet the pilots.</h1>
       <p style={{ fontSize: 16, color: 'var(--parchment)', maxWidth: 640, marginBottom: 40 }}>
-        {STATS.projected.pilots.toLocaleString()} verified drone pilots in {STATS.projected.countries} countries. Follow your favorites, license their work, commission custom flights.
+        데모 프로필 {CREATORS.length}개 표시 중 — 실제 파일럿이 가입하면 점진적으로 교체됩니다. 향후 {STATS.projected.pilots.toLocaleString()}+ verified drone creators in {STATS.projected.countries} countries 목표. Follow your favorites, license their work, commission custom flights.
       </p>
+      <div style={{
+        background: 'linear-gradient(90deg, var(--amber) 0%, var(--sunset) 100%)',
+        color: '#1a2820', padding: '12px 20px',
+        borderRadius: 8, marginBottom: 24,
+        display: 'flex', alignItems: 'center', gap: 12,
+        fontSize: 13, fontWeight: 600,
+      }}>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <circle cx="12" cy="12" r="10"/>
+          <line x1="12" y1="8" x2="12" y2="12"/>
+          <line x1="12" y1="16" x2="12.01" y2="16"/>
+        </svg>
+        <span>데모 프로필 — 아래 카드들은 모두 샘플 데이터입니다. 팔로우·통계·수익 모두 데모용 수치이며 실제 사용자가 아닙니다. 가입하시면 진짜 파일럿 카드가 추가됩니다.</span>
+      </div>
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(360px, 1fr))', gap: 20 }}>
         {CREATORS.map(c => {
           const vids = (dbVids.length ? dbVids : _MV).filter(v => v.creator?.handle === c.handle).slice(0, 3);
@@ -284,7 +298,7 @@ export function CreatorsPage({ onOpenVideo }) {
                 <div style={{ width: 64, height: 64, borderRadius: '50%', background: 'linear-gradient(135deg, var(--moss), var(--lichen))', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 22, fontWeight: 700, color: '#fff' }}>{c.name[0]}</div>
                 <div style={{ flex: 1 }}>
                   <div style={{ fontSize: 18, fontWeight: 600, display: 'flex', alignItems: 'center', gap: 6, color: 'var(--bone)' }}>
-                    {c.name}{c.verified && <span style={{ color: 'var(--amber)' }}><Ic.check/></span>}
+                    {c.name}{c.verified && <span style={{ color: 'var(--amber)' }}><Ic.check/></span>}<span style={{ marginLeft: 4, fontSize: 10, fontWeight: 700, fontFamily: 'var(--font-mono)', letterSpacing: '0.1em', background: 'var(--amber)', color: '#1a2820', padding: '2px 7px', borderRadius: 999 }}>DEMO</span>
                   </div>
                   <div style={{ fontSize: 14, color: 'var(--parchment-dim)' }}>{c.handle} · {c.region}</div>
                 </div>
