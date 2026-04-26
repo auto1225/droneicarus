@@ -15,18 +15,18 @@ export function MyPage({ onOpenVideo, onNav }) {
     name: profile.display_name || 'User',
     handle: profile.handle || '@user',
     email: profile.email,
-    initials: (profile.display_name || profile.handle || '?').split(/\s+/).map(s => s[0]).join('').slice(0,2).toUpperCase(),
+    initials: (profile.display_name || profile.handle || '?').replace('@','').split(/\s+/).map(s => s[0]).join('').slice(0,2).toUpperCase(),
     pilotVerified: profile.pilot_verified,
-    joined: profile.created_at ? new Date(profile.created_at).toLocaleString('en-US', { month: 'short', year: 'numeric' }) : CURRENT_USER.joined,
-    location: profile.location || CURRENT_USER.location,
-    followers: profile.followers_count ?? CURRENT_USER.followers,
-    following: profile.following_count ?? CURRENT_USER.following,
-    collections: CURRENT_USER.collections,
-    purchases: CURRENT_USER.purchases,
-  } : CURRENT_USER;
+    joined: profile.created_at ? new Date(profile.created_at).toLocaleString('en-US', { month: 'short', year: 'numeric' }) : 'Recently',
+    location: profile.location || '',
+    followers: profile.followers_count ?? 0,
+    following: profile.following_count ?? 0,
+    collections: 0,
+    purchases: 0,
+  } : { id: null, name: 'User', handle: '@user', email: '', initials: '?', pilotVerified: false, joined: 'Recently', location: '', followers: 0, following: 0, collections: 0, purchases: 0 };
   const [tab, setTab] = mpUseState('purchases');
   const [selectedCol, setSelectedCol] = mpUseState(null);
-  const [cols, setCols] = mpUseState(COLLECTIONS);
+  const [cols, setCols] = mpUseState([]);
   const [orders, setOrders] = mpUseState([]);
   const [ordersLoading, setOrdersLoading] = mpUseState(true);
 
@@ -45,8 +45,7 @@ export function MyPage({ onOpenVideo, onNav }) {
 
   if (selectedCol) return <CollectionDetail col={selectedCol} onBack={() => setSelectedCol(null)} onOpenVideo={onOpenVideo} />;
 
-  const likedIds = ['v0','v2','v5','v8','v11','v14','v17','v20','v23','v26','v29','v32','v35','v38','v41','v44','v47','v50','v53','v56','v59','v62'];
-  const liked = likedIds.map(id => VIDEOS.find(v => v.id === id)).filter(Boolean);
+  const liked = [];
 
   return (
     <div>
@@ -92,10 +91,10 @@ export function MyPage({ onOpenVideo, onNav }) {
             </div>
             <div style={{ fontSize: 14, color: 'var(--parchment-dim)', marginBottom: 8 }}>{u.handle} · {u.email}</div>
             <div style={{ display: 'flex', gap: 22, fontSize: 14, flexWrap: 'wrap' }}>
-              <span><strong>{u.collections}</strong> <span style={{ color: 'var(--parchment-dim)' }}>boards</span></span>
+              <span><strong>{cols.length}</strong> <span style={{ color: 'var(--parchment-dim)' }}>boards</span></span>
               <span><strong>{formatViews(u.followers)}</strong> <span style={{ color: 'var(--parchment-dim)' }}>followers</span></span>
               <span><strong>{u.following}</strong> <span style={{ color: 'var(--parchment-dim)' }}>following</span></span>
-              <span><strong>{u.purchases}</strong> <span style={{ color: 'var(--parchment-dim)' }}>licenses</span></span>
+              <span><strong>{orders.length}</strong> <span style={{ color: 'var(--parchment-dim)' }}>licenses</span></span>
             </div>
           </div>
           <div style={{ display: 'flex', gap: 8, paddingBottom: 10 }}>
@@ -108,7 +107,7 @@ export function MyPage({ onOpenVideo, onNav }) {
         <div style={{ display: 'flex', gap: 2, borderBottom: '1px solid var(--line)', marginBottom: 24 }}>
           {[
             ['purchases', 'My purchases', orders.length],
-            ['collections', 'Collections', u.collections],
+            ['collections', 'Collections', cols.length],
             ['liked', 'Liked', liked.length],
             ['following', 'Following', u.following],
             ['activity', 'Activity', null],
@@ -168,7 +167,7 @@ export function MyPage({ onOpenVideo, onNav }) {
 
         {tab === 'following' && (
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: 14, marginBottom: 60 }}>
-            {CREATORS.concat(CREATORS).slice(0, 8).map((c, i) => (
+            {[].map((c, i) => (
               <div key={i} style={{ display: 'flex', gap: 14, padding: 16, border: '1px solid var(--line)', borderRadius: 4 }}>
                 <div style={{ width: 56, height: 56, borderRadius: '50%', background: 'var(--moss)', color: '#faf6ec', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18, fontWeight: 700 }}>{c.name[0]}</div>
                 <div style={{ flex: 1 }}>
