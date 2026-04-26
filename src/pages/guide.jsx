@@ -445,7 +445,7 @@ const PagesTab = () => (
 );
 
 // ====== Main page ======
-export default function GuidePage() {
+export function GuidePage() {
   const [tab, setTab] = useState('buy');
 
   const tabs = [
