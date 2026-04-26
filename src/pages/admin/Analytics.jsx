@@ -143,7 +143,7 @@ export function AnalyticsPage() {
         <Card title="OS"><Donut slices={oses.map(b => ({ label: b.label, value: Number(b.pageviews) }))}/></Card>
         <Card title="Device"><Donut slices={devices.map(b => ({ label: b.label, value: Number(b.pageviews) }))}/></Card>
         <Card title="Language"><Donut slices={langs.map(b => ({ label: b.label, value: Number(b.pageviews) }))}/></Card>
-        <Card title="Top members (signed-in users)">
+        <DeviceCardK devices={devices}/><RecentVisitsCardK from={p_from} to={p_to}/><Card title="Top members (signed-in users)">
           <Tab cols={['Email','Handle','Views','Sessions','Last seen']}
             rows={members.map(m => [m.user_email || '—', m.user_handle || '—', fmt(m.pageviews), fmt(m.sessions), m.last_seen ? new Date(m.last_seen).toLocaleString() : '—'])}/>
         </Card>
@@ -289,4 +289,69 @@ function Donut({ slices, size = 200 }) {
       </div>
     </div>
   );
+}
+
+
+function DeviceCardK({ devices }) {
+    const total = (devices || []).reduce((s, d) => s + Number(d.pageviews || 0), 0) || 1;
+    const get = (k) => (devices || []).find(d => (d.label || '').toLowerCase() === k);
+    const desk = get('desktop'), mob = get('mobile'), tab = get('tablet');
+    const cell = (label, count, icon) => (
+          React.createElement('div', { style: { background: 'var(--forest-900)', border: '1px solid var(--line)', borderRadius: 6, padding: '14px 16px', display: 'flex', alignItems: 'center', gap: 14 } },
+                                    React.createElement('div', { style: { fontSize: 22, color: 'var(--amber)', minWidth: 32, textAlign: 'center' } }, icon),
+                                    React.createElement('div', null,
+                                                                React.createElement('div', { style: { fontSize: 22, fontWeight: 700, color: 'var(--bone)' } }, fmt(count)),
+                                                                React.createElement('div', { style: { fontSize: 12, color: 'var(--parchment-dim)' } }, label + ' (' + Math.round((Number(count)||0)/total*100) + '%)')
+                                                              )
+                                  )
+        );
+    return React.createElement('div', { style: { background: 'var(--forest-900)', border: '1px solid var(--line)', borderRadius: 4, padding: 16, marginBottom: 18, gridColumn: '1 / -1' } },
+                                   React.createElement('h3', { style: { fontSize: 14, marginTop: 0, marginBottom: 10 } }, '디바이스별 접속 (Devices)'),
+                                   React.createElement('div', { style: { display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 12 } },
+                                                             cell('데스크탑', desk?.pageviews || 0, '□'),
+                                                             cell('모바일', mob?.pageviews || 0, '▯'),
+                                                             cell('태블릿', tab?.pageviews || 0, '▢')
+                                                           )
+                                 );
+}
+
+function RecentVisitsCardK({ from, to }) {
+    const [rows, setRows] = useState([]);
+    useEffect(() => {
+          let cancel = false;
+          (async () => {
+                  const { data } = await supabase.from('page_views')
+                    .select('created_at,path,is_member,user_email,user_handle,country,ip,device')
+                    .gte('created_at', from).lte('created_at', to)
+                    .order('created_at', { ascending: false }).limit(20);
+                  if (!cancel) setRows(data || []);
+          })();
+          return () => { cancel = true; };
+    }, [from, to]);
+    return React.createElement('div', { style: { background: 'var(--forest-900)', border: '1px solid var(--line)', borderRadius: 4, padding: 16, marginBottom: 18, gridColumn: '1 / -1' } },
+                                   React.createElement('h3', { style: { fontSize: 14, marginTop: 0, marginBottom: 10 } }, '최근 방문 기록 (Recent visits)'),
+                                   rows.length === 0
+                                     ? React.createElement('div', { style: { fontSize: 14, color: 'var(--parchment-dim)', padding: 14, textAlign: 'center' } }, '데이터 없음')
+                                     : React.createElement('div', { style: { overflow: 'auto' } },
+                                                                     React.createElement('table', { style: { width: '100%', borderCollapse: 'collapse', fontSize: 13 } },
+                                                                                                     React.createElement('thead', null,
+                                                                                                                                       React.createElement('tr', { style: { borderBottom: '1px solid var(--line-strong)', color: 'var(--parchment-dim)', textAlign: 'left' } },
+                                                                                                                                                                           ['시간','페이지','유형','국가','IP','디바이스'].map((c, i) => React.createElement('th', { key: i, style: { padding: '6px 8px', fontWeight: 600 } }, c))
+                                                                                                                                                                         )
+                                                                                                                                     ),
+                                                                                                     React.createElement('tbody', null,
+                                                                                                                                       rows.map((r, i) => React.createElement('tr', { key: i, style: { borderBottom: '1px solid var(--line)' } },
+                                                                                                                                                                                              React.createElement('td', { style: { padding: '6px 8px' } }, new Date(r.created_at).toLocaleString('ko-KR')),
+                                                                                                                                                                                              React.createElement('td', { style: { padding: '6px 8px', fontFamily: 'monospace' } }, r.path || '/'),
+                                                                                                                                                                                              React.createElement('td', { style: { padding: '6px 8px' } },
+                                                                                                                                                                                                                                    React.createElement('span', { style: { fontSize: 11, padding: '2px 8px', borderRadius: 12, background: r.is_member ? 'rgba(184,154,86,0.18)' : 'rgba(140,140,140,0.15)', color: r.is_member ? 'var(--amber)' : 'var(--parchment-dim)' } }, r.is_member ? '회원' : '비회원')
+                                                                                                                                                                                                                                  ),
+                                                                                                                                                                                              React.createElement('td', { style: { padding: '6px 8px' } }, r.country || '—'),
+                                                                                                                                                                                              React.createElement('td', { style: { padding: '6px 8px', fontFamily: 'monospace', fontSize: 12, color: 'var(--parchment-dim)' } }, r.ip || '—'),
+                                                                                                                                                                                              React.createElement('td', { style: { padding: '6px 8px', textTransform: 'capitalize' } }, r.device || '—')
+                                                                                                                                                                                            ))
+                                                                                                                                     )
+                                                                                                   )
+                                                                   )
+                                 );
 }
