@@ -3,7 +3,7 @@ import React, { useState, useMemo } from 'react';
 import { Ic } from '../components';
 import { useSiteSetting } from '../db/useSettings';
 
-const PLATFORM_CUT = 0.30;
+const PLATFORM_CUT = 0.15;
 const PILOT_SHARE = 1 - PLATFORM_CUT;
 const fmt = (n) => '$' + Number(n).toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 2 });
 
