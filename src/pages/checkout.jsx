@@ -171,6 +171,20 @@ export function CheckoutPage({ videoId, licenseType = 'Commercial', onNav }) {
 
   return (
     <div style={{ background: 'var(--ink)', minHeight: 'calc(100vh - 62px)' }}>
+      {/* DEMO BANNER — all paid clips are sample data, no real transaction occurs */}
+      <div style={{
+        background: 'linear-gradient(90deg, var(--amber) 0%, var(--sunset) 100%)',
+        color: '#1a2820', padding: '12px 28px',
+        display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 12,
+        fontSize: 14, fontWeight: 600, textAlign: 'center',
+      }}>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <circle cx="12" cy="12" r="10"/>
+          <line x1="12" y1="8" x2="12" y2="12"/>
+          <line x1="12" y1="16" x2="12.01" y2="16"/>
+        </svg>
+        <span>데모 모드 — 이 영상은 샘플 데이터로, 실제 결제는 처리되지 않습니다 · Demo only · no real transaction</span>
+      </div>
       <div style={{ maxWidth: 1200, margin: '0 auto', padding: '32px 28px 60px', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 72 }}>
         {/* Left: order summary */}
         <div>
