@@ -32,20 +32,20 @@ export function AtlasPage({ onNav }) {
         </svg>
         <div style={{ maxWidth: 1200, margin: '0 auto', position: 'relative', display: 'grid', gridTemplateColumns: '1.3fr 1fr', gap: 40, alignItems: 'center' }}>
           <div>
-            <div className="eyebrow" style={{ marginBottom: 10 }}>THE ATLAS · LAST UPDATED 6 MIN AGO</div>
+            <div className="eyebrow" style={{ marginBottom: 10 }}>THE ATLAS · PREVIEW (미구현)</div>
             <h1 style={{ fontSize: 72, letterSpacing: '-0.03em', lineHeight: 0.98, marginBottom: 16, fontFamily: 'var(--font-display)', fontWeight: 600 }}>
               Places the<br/>map forgot.
             </h1>
             <p style={{ fontSize: 17, color: 'var(--parchment)', lineHeight: 1.55, maxWidth: 520, marginBottom: 26 }}>
-              A crowdsourced list of the places Drone Icarus doesn't yet have. Vote them up. Post a bounty. Any verified pilot can claim one — and the first to deliver a clip that clears review takes the whole purse.
+              [PREVIEW · 미구현] 가본 적 없는 장소를 크라우드소싱으로 발굴하는 현상금 시스템 컨셉 페이지. 실제 데이터베이스·결제·Claim 흐름은 아직 연결되지 않았어요. 아래 카드들과 통계는 모두 데모 데이터입니다. 실제 출시 전까지 컨셉 미리보기로만 사용해 주세요.
             </p>
             <div style={{ display: 'flex', gap: 10 }}>
-              <button className="btn" data-placeholder="true">Suggest a place</button>
-              <button className="btn secondary" data-placeholder="true">How bounties work</button>
+              <button className="btn" data-placeholder="true" disabled style={{ opacity: 0.5, cursor: 'not-allowed' }}>Suggest a place (Preview)</button>
+              <button className="btn secondary" data-placeholder="true" disabled style={{ opacity: 0.5, cursor: 'not-allowed' }}>How bounties work (Preview)</button>
             </div>
           </div>
           <div style={{ padding: 24, border: '1px solid var(--line)', borderRadius: 4, background: 'var(--forest-900)' }}>
-            <div className="eyebrow" style={{ marginBottom: 14 }}>ATLAS · AT A GLANCE</div>
+            <div className="eyebrow" style={{ marginBottom: 14 }}>ATLAS · DEMO STATS (실제 X)</div>
             {[
               ['Open bounties', '184'],
               ['Total purse', '$472,800'],
@@ -105,8 +105,8 @@ export function AtlasPage({ onNav }) {
               <div style={{ fontSize: 12, color: 'var(--parchment-dim)' }}>Deadline · {b.deadline}, 2026</div>
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-              <button className="btn" style={{ fontSize: 14 }} data-placeholder="true">Claim this</button>
-              <button className="btn secondary" style={{ fontSize: 14 }} data-placeholder="true">Add to purse</button>
+              <button className="btn" style={{ fontSize: 14, opacity: 0.5, cursor: 'not-allowed' }} data-placeholder="true" disabled>Claim (Preview)</button>
+              <button className="btn secondary" style={{ fontSize: 14, opacity: 0.5, cursor: 'not-allowed' }} data-placeholder="true" disabled>Add to purse (Preview)</button>
             </div>
           </article>
         ))}
