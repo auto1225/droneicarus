@@ -1,623 +1,487 @@
-// pages/guide.jsx — Korean user guide with annotated UI mockups
+// pages/guide.jsx — Korean user guide (all pages + real thumbnails)
 import React, { useState } from 'react';
-import { Ic } from '../components';
 
-const TABS = [
-  { id: 'license', label: '클립 라이선싱', sub: 'For Buyers' },
-  { id: 'upload',  label: '업로드 + 판매', sub: 'For Pilots' },
-  { id: 'commission', label: '커스텀 의뢰',  sub: 'Reverse Auction' },
-];
+const T = {
+  mountain: 'https://i.ytimg.com/vi/fbqHK8i-HdA/mqdefault.jpg',
+  cityscape: 'https://i.ytimg.com/vi/92y9ySxIXY4/mqdefault.jpg',
+  ocean: 'https://i.ytimg.com/vi/tXpXHoDKL64/mqdefault.jpg',
+  desert: 'https://i.ytimg.com/vi/jEo-ykjmHgg/mqdefault.jpg',
+  forest: 'https://i.ytimg.com/vi/DVR4aZ9JIBM/mqdefault.jpg',
+  landscape: 'https://i.ytimg.com/vi/btpg2NP4AGU/mqdefault.jpg',
+  sports: 'https://i.ytimg.com/vi/Jk7rliZpuSs/mqdefault.jpg',
+  ai: 'https://i.ytimg.com/vi/YsgfLbM-VaU/mqdefault.jpg',
+  warfare: 'https://i.ytimg.com/vi/YgtG5dBMQw0/mqdefault.jpg',
+};
 
-export function GuidePage({ onNav }) {
-  const [tab, setTab] = useState('license');
-  return (
-    <div style={{ maxWidth: 1100, margin: '0 auto', padding: '40px 24px 80px' }}>
-      <div className="eyebrow" style={{ color: 'var(--sunset)', marginBottom: 10 }}>● 사용 안내</div>
-      <h1 style={{ fontSize: 48, letterSpacing: '-0.02em', marginBottom: 12 }}>드론아이카루스 사용법</h1>
-      <p style={{ fontSize: 16, color: 'var(--parchment)', maxWidth: 720, lineHeight: 1.6, marginBottom: 32 }}>
-        드론 영상을 사고팔고, 직접 의뢰하는 모든 흐름을 단계별로 안내합니다. 각 화면은 실제 페이지를 그대로 옮긴 모형입니다.
-      </p>
+const Thumb = ({ x, y, w, h, href, label }) => (
+  <g>
+    <rect x={x} y={y} width={w} height={h} fill="#3a4a55"/>
+    <image x={x} y={y} width={w} height={h} href={href} preserveAspectRatio="xMidYMid slice"/>
+    {label && <text x={x + 6} y={y + h - 6} fontSize="10" fill="#fff" fontFamily="Inter">{label}</text>}
+  </g>
+);
 
-      {/* Tab bar */}
-      <div style={{ display: 'flex', gap: 4, marginBottom: 32, borderBottom: '1px solid var(--line)', flexWrap: 'wrap' }}>
-        {TABS.map(t => (
-          <button key={t.id} onClick={() => setTab(t.id)} style={{
-            padding: '14px 22px',
-            borderBottom: tab === t.id ? '2px solid var(--sunset)' : '2px solid transparent',
-            color: tab === t.id ? 'var(--bone)' : 'var(--parchment-dim)',
-            background: 'transparent', border: 'none', cursor: 'pointer',
-            borderBottomWidth: 2, borderBottomStyle: 'solid', marginBottom: -1,
-            display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 2,
-          }}>
-            <span style={{ fontSize: 17, fontWeight: tab === t.id ? 700 : 500 }}>{t.label}</span>
-            <span className="mono" style={{ fontSize: 11, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--parchment-dim)' }}>{t.sub}</span>
-          </button>
-        ))}
-      </div>
-
-      {tab === 'license'    && <LicenseGuide onNav={onNav}/>}
-      {tab === 'upload'     && <UploadGuide onNav={onNav}/>}
-      {tab === 'commission' && <CommissionGuide onNav={onNav}/>}
-
-      {/* Footer CTA */}
-      <div className="di-card" style={{ marginTop: 60, padding: 28, textAlign: 'center', background: 'linear-gradient(135deg, rgba(200,90,46,0.05), rgba(140,180,100,0.05))' }}>
-        <h3 style={{ fontSize: 22, marginBottom: 8 }}>준비됐다면 시작해 보세요</h3>
-        <p style={{ fontSize: 14, color: 'var(--parchment-dim)', marginBottom: 18 }}>3초 미리보기로 누구나 둘러볼 수 있습니다. 라이선스가 필요하면 결제, 직접 찍을 사람이 필요하면 의뢰를 등록하세요.</p>
-        <div style={{ display: 'flex', gap: 10, justifyContent: 'center', flexWrap: 'wrap' }}>
-          <button className="btn" onClick={() => onNav('home')}>지도에서 둘러보기</button>
-          <button className="btn secondary" onClick={() => onNav('commissions')}>의뢰 게시판</button>
-          <button className="btn secondary" onClick={() => onNav('upload')}>내 클립 업로드</button>
-        </div>
-      </div>
+const Step = ({ n, title, caption, tips, children }) => (
+  <div className="di-card" style={{ padding: 20, marginBottom: 20 }}>
+    <div style={{ display: 'flex', alignItems: 'baseline', gap: 12, marginBottom: 8 }}>
+      <div style={{ width: 32, height: 32, borderRadius: '50%', background: 'var(--accent, #4a6741)', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 700, flexShrink: 0 }}>{n}</div>
+      <h3 style={{ margin: 0, fontSize: 18 }}>{title}</h3>
     </div>
-  );
-}
+    {caption && <p style={{ marginTop: 0, color: 'var(--ink-soft, #555)' }}>{caption}</p>}
+    {children && <div style={{ margin: '12px 0', borderRadius: 8, overflow: 'hidden', border: '1px solid rgba(26,40,32,0.12)' }}>{children}</div>}
+    {tips && tips.length > 0 && (
+      <ul style={{ margin: '8px 0 0', paddingLeft: 20, color: 'var(--ink-soft, #555)', fontSize: 14, lineHeight: 1.7 }}>
+        {tips.map((t, i) => <li key={i}>{t}</li>)}
+      </ul>
+    )}
+  </div>
+);
 
-// ─── Step block (numbered + caption + UI mockup) ─────────────────
-function Step({ n, title, caption, children, accent = 'var(--sunset)' }) {
-  return (
-    <div className="di-card" style={{ display: 'grid', gridTemplateColumns: '64px 1fr', gap: 24, padding: 24, marginBottom: 18, alignItems: 'flex-start' }}>
-      <div style={{
-        width: 48, height: 48, borderRadius: '50%', background: accent, color: '#fff',
-        display: 'flex', alignItems: 'center', justifyContent: 'center',
-        fontFamily: 'var(--font-display)', fontSize: 22, fontWeight: 700, flexShrink: 0,
-      }}>{n}</div>
-      <div style={{ minWidth: 0 }}>
-        <h3 style={{ fontSize: 20, marginBottom: 8, letterSpacing: '-0.01em' }}>{title}</h3>
-        <p style={{ fontSize: 14, color: 'var(--parchment)', lineHeight: 1.65, marginBottom: 14 }}>{caption}</p>
-        <div style={{ borderRadius: 10, overflow: 'hidden', border: '1px solid var(--line)' }}>
-          {children}
-        </div>
-      </div>
+const PageCard = ({ name, hash, desc, points }) => (
+  <div className="di-card" style={{ padding: 16, marginBottom: 12 }}>
+    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 6 }}>
+      <h4 style={{ margin: 0, fontSize: 16 }}>{name}</h4>
+      <a href={`#${hash}`} style={{ fontSize: 13, color: 'var(--accent, #4a6741)' }}>해당 페이지 열기 →</a>
     </div>
-  );
-}
+    <p style={{ margin: '4px 0 8px', fontSize: 14, color: 'var(--ink-soft, #555)' }}>{desc}</p>
+    {points && points.length > 0 && (
+      <ul style={{ margin: 0, paddingLeft: 20, fontSize: 13, color: 'var(--ink-soft, #555)', lineHeight: 1.7 }}>
+        {points.map((p, i) => <li key={i}>{p}</li>)}
+      </ul>
+    )}
+  </div>
+);
 
-// ─── Tab 1: 라이선싱 (Buyers) ─────────────────────────────────────
-function LicenseGuide({ onNav }) {
-  return (
-    <div>
-      <Intro
-        eyebrow="구매자 트랙"
-        title="이미 촬영된 클립을 구매하기"
-        body="지도와 카테고리 두 가지 축으로 1,500개 이상의 영상을 둘러볼 수 있습니다. 무료 클립(YouTube CC-BY)과 유료 라이선스 클립이 함께 있고, 좌측 사이드바 라이선스 필터로 골라 볼 수 있어요."
-      />
-      <Step n={1} title="지도에서 위치 기반 탐색" caption="홈(지도)에서는 영상이 촬영된 장소가 핀으로 표시됩니다. 좌측 사이드바에서 카테고리를 누르면 해당 주제만 필터됩니다. 유료 클립은 주황색 핀에 가격 배지($)가 붙어 한눈에 구분됩니다.">
-        <MapMockup/>
-      </Step>
-      <Step n={2} title="카테고리로 찾기 (Explore)" caption="더 평면적으로 그리드 형태로 둘러보고 싶다면 Explore. 상단의 라이선스 칩(All / Free / Paid / Commercial / Extended / Exclusive)으로 거를 수 있고, 정렬은 Trending / Newest / Highest rated / Free first 중에서 선택합니다.">
-        <ExploreMockup/>
-      </Step>
-      <Step n={3} title="클립 상세 — 미리보기 + 라이선스 티어 선택" caption="썸네일을 클릭하면 3초 미리보기가 자동 재생됩니다. 그 아래 4개의 라이선스 티어 카드가 있어요. Personal(개인 프로젝트) / Commercial(상업 활용) / Extended(방송·OTT) / Exclusive(독점 매수). 가격은 파일럿이 정한 기준값을 1× / 1.8× / 3.5× / 견적으로 자동 계산.">
-        <WatchMockup/>
-      </Step>
-      <Step n={4} title="체크아웃 — 한 번 결제, 영구 사용권" caption="원하는 티어를 누르면 체크아웃으로 이동. 카드 또는 PayPal 결제 가능. VAT 8% 자동 적용. 구독이 아니라 한 번 결제해서 해당 티어 범위에서 영구 사용. 24시간 이내 환불 보장.">
-        <CheckoutMockup/>
-      </Step>
-      <Step n={5} title="다운로드 패키지" caption="결제 완료되면 4K MP4(H.264) + 4K ProRes 422 HQ + LUT 파일(.cube) + 서명된 라이선스 PDF가 즉시 받을 수 있게 준비됩니다. 마스터는 7일 안에 받아야 하고, 그 후에는 본인이 백업을 보관해야 합니다.">
-        <DownloadMockup/>
-      </Step>
-      <Step n={6} title="재다운로드 + 라이선스 보관" caption="구매 후에는 #orders 페이지(My Locker)에서 본인이 산 모든 라이선스를 다시 받을 수 있고, 라이선스 PDF도 따로 저장할 수 있습니다. 회계감사용으로 활용 가능.">
-        <OrdersMockup/>
-      </Step>
-    </div>
-  );
-}
+// ====== Mockups ======
 
-// ─── Tab 2: 업로드 + 판매 (Pilots) ────────────────────────────────
-function UploadGuide({ onNav }) {
-  return (
-    <div>
-      <Intro
-        eyebrow="파일럿 트랙"
-        title="내 영상을 올리고 70%를 가져가세요"
-        body="구독료, 업로드 수수료, 저장 비용 모두 0원. 라이선스가 팔릴 때마다 70%가 들어옵니다. 매달 28일 PayPal로 자동 정산(잔액 $50 이상)."
-      />
-      <Step n={1} title="회원가입 + 파일럿 인증" caption="이메일로 가입한 뒤 #pilot-onboarding에서 페이아웃 정보(PayPal · 본명 · 국가)를 등록합니다. 인증 파일럿은 노란 체크 배지를 받고, 검색 결과 우선 노출 + 커스텀 의뢰 받기 자격을 얻습니다." accent="var(--moss)">
-        <SignupMockup/>
-      </Step>
-      <Step n={2} title="업로드 — 파일 또는 외부 링크" caption="MP4 / MOV / MKV / WebM, 50GB까지 직접 업로드 가능. 이미 Dropbox · Vimeo · Google Drive · Frame.io · WeTransfer에 호스팅된 영상은 URL만 붙여 넣으면 됩니다." accent="var(--moss)">
-        <UploadMockup/>
-      </Step>
-      <Step n={3} title="메타데이터 — 제목 · 설명 · 위치" caption="제목과 설명은 검색에 사용. 위치는 랜드마크 검색 / 좌표 직접 입력 / 지도에서 직접 클릭 세 가지로 지정. 이 좌표가 지도 핀 위치가 됩니다." accent="var(--moss)">
-        <MetadataMockup/>
-      </Step>
-      <Step n={4} title="가격 + 라이선스 티어" caption="기준 가격(USD)을 정하면 Personal $X / Commercial $1.8X / Extended $3.5X 가 자동 계산. 파일럿은 매 라이선스 매출의 70%를 가져가고, 30%는 플랫폼 수수료(결제·전송 수수료 포함, 추가 차감 없음)." accent="var(--moss)">
-        <PricingMockup/>
-      </Step>
-      <Step n={5} title="공개 범위 + 발행" caption="Public(검색·지도·익스플로어 모두 노출) / Unlisted(링크 있는 사람만) / Private(나만 보기) 중 선택. Allow commercial(상업 사용 허용) / Allow remix(2차창작 허용) 토글로 라이선스 깊이 조절." accent="var(--moss)">
-        <VisibilityMockup/>
-      </Step>
-      <Step n={6} title="수익 정산" caption="매달 28일 PayPal로 자동 송금. 잔액 $50 이하는 다음 달로 이월. 수수료(Wise/PayPal)는 플랫폼 30%에서 부담하므로 파일럿이 받는 70%에서 추가 차감되지 않습니다." accent="var(--moss)">
-        <PayoutMockup/>
-      </Step>
-    </div>
-  );
-}
-
-// ─── Tab 3: 커스텀 의뢰 (Reverse auction) ─────────────────────────
-function CommissionGuide({ onNav }) {
-  return (
-    <div>
-      <Intro
-        eyebrow="역경매 의뢰"
-        title="원하는 영상이 카탈로그에 없다면 직접 의뢰하세요"
-        body="구매자가 브리핑(예산 + 마감 + 위치 + 라이선스 종류)을 등록하면, 인증 파일럿들이 가격과 ETA로 비드를 겁니다. 가장 적합한 비드를 골라 수락하면 계약 성립."
-      />
-
-      <h2 style={{ fontSize: 24, marginTop: 36, marginBottom: 14, color: 'var(--sunset)' }}>구매자 트랙</h2>
-      <Step n={1} title="의뢰 등록" caption="#commission-new에서 폼 작성. 제목, 상세 브리핑, 카테고리, 위치(좌표), 예산 상한, 마감일, 필요한 라이선스 등급(personal / commercial / extended / exclusive), 해상도. 등록하면 의뢰 게시판(#commissions)에 즉시 표시됩니다.">
-        <CommissionNewMockup/>
-      </Step>
-      <Step n={2} title="비드 받기" caption="파일럿들이 비드를 걸면 의뢰 상세 페이지에 실시간으로 쌓입니다. 각 비드에 가격, ETA(영업일), 자기소개 피치, 파일럿 핸들이 보입니다.">
-        <CommissionBidsMockup/>
-      </Step>
-      <Step n={3} title="수락 + 계약 성립" caption="마음에 드는 비드의 Accept 버튼을 누르면 그 비드 status='accepted', 의뢰 status='awarded'로 즉시 변경. 다른 비드들은 자동 reject. 'WINNING BID' 배지가 붙고, 파일럿에게 알림이 갑니다.">
-        <CommissionAwardedMockup/>
-      </Step>
-
-      <h2 style={{ fontSize: 24, marginTop: 48, marginBottom: 14, color: 'var(--moss)' }}>파일럿 트랙</h2>
-      <Step n={1} title="의뢰 둘러보기" caption="#commissions에서 열려있는 의뢰들을 카테고리, 지역, 예산, 마감 기준으로 필터·정렬. 카드에 예산 상한, 남은 일수, 현재 비드 수가 표시됩니다." accent="var(--moss)">
-        <CommissionListMockup/>
-      </Step>
-      <Step n={2} title="비드 등록" caption="관심 있는 의뢰의 상세 페이지에서 'Place a bid' 폼을 작성. 가격(예산 상한 이하 권장), ETA(촬영+납품까지 며칠), 짧은 피치(왜 나를 골라야 하는지). 한 의뢰에 한 명당 한 번만 비드 가능." accent="var(--moss)">
-        <BidFormMockup/>
-      </Step>
-      <Step n={3} title="결과 알림" caption="버이어가 비드를 수락하면 본인 비드 status가 'accepted'로 표시되고 'WINNING BID' 배지가 붙어요. 떨어진 비드는 'rejected'로 자동 처리됩니다. 수락된 후의 결제·납품·파일 전달은 의뢰 페이지의 메시지로 진행." accent="var(--moss)">
-        <BidWonMockup/>
-      </Step>
-    </div>
-  );
-}
-
-// ─── Intro section ──────────────────────────────────────────
-function Intro({ eyebrow, title, body }) {
-  return (
-    <div style={{ marginBottom: 28, padding: '20px 24px', borderLeft: '3px solid var(--sunset)', background: 'rgba(200,90,46,0.04)', borderRadius: 4 }}>
-      <div className="eyebrow" style={{ color: 'var(--sunset)', marginBottom: 6 }}>{eyebrow}</div>
-      <h2 style={{ fontSize: 24, marginBottom: 8 }}>{title}</h2>
-      <p style={{ fontSize: 14, color: 'var(--parchment)', lineHeight: 1.65 }}>{body}</p>
-    </div>
-  );
-}
-
-// ─── UI MOCKUPS (SVG-based, mirror real page styling) ────────
 const MapMockup = () => (
-  <svg viewBox="0 0 800 360" style={{ width: '100%', display: 'block' }}>
-    <defs>
-      <linearGradient id="ocean" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stopColor="#a8c8d0"/><stop offset="1" stopColor="#7fa3ad"/></linearGradient>
-    </defs>
-    <rect width="800" height="360" fill="#faf6ec"/>
-    {/* Sidebar */}
-    <rect x="0" y="0" width="200" height="360" fill="#fff" stroke="#e8dfc8"/>
-    <text x="14" y="28" fontFamily="JetBrains Mono" fontSize="10" fill="#666" letterSpacing="1.5">BROWSE BY THEME</text>
-    {[['All clips','1000','active'],['Nature','97'],['Ocean & Coast','13'],['Cities','209'],['Heritage','1'],['Warfare','161'],['AI Generated','32']].map((row, i) => (
-      <g key={i} transform={`translate(0, ${50 + i * 28})`}>
-        <rect x="8" y="0" width="184" height="22" rx="4" fill={row[2] === 'active' ? '#1f2b22' : 'transparent'}/>
-        <text x="20" y="15" fontSize="13" fontFamily="Inter" fill={row[2] === 'active' ? '#faf6ec' : '#1f2b22'}>{row[0]}</text>
-        <text x="180" y="15" fontSize="11" fontFamily="JetBrains Mono" fill={row[2] === 'active' ? '#faf6ec' : '#888'} textAnchor="end">{row[1]}</text>
+  <svg viewBox="0 0 800 380" style={{ width: '100%', display: 'block' }}>
+    <rect width="800" height="380" fill="#1a3a4a"/>
+    <rect x="0" y="0" width="220" height="380" fill="#faf6ec"/>
+    <text x="20" y="32" fontSize="13" fontWeight="700" fontFamily="Bricolage Grotesque" fill="#1f2b22">Categories</text>
+    {['Mountain', 'Cityscape', 'Ocean', 'Forest', 'Desert', 'Sports', 'Warfare', 'AI Generated'].map((c, i) => (
+      <g key={c}>
+        <rect x="14" y={48 + i * 30} width="190" height="22" rx="4" fill={i === 1 ? 'rgba(74,103,65,0.15)' : 'transparent'}/>
+        <text x="22" y={63 + i * 30} fontSize="12" fontFamily="Inter" fill="#1f2b22">{c}</text>
       </g>
     ))}
-    <text x="14" y="270" fontFamily="JetBrains Mono" fontSize="10" fill="#666" letterSpacing="1.5">LICENSE</text>
-    {[['Free only', false],['Paid clips', true],['Commercial', false],['Exclusive', false]].map((row, i) => (
-      <g key={i} transform={`translate(0, ${290 + i * 18})`}>
-        <rect x="14" y="2" width="10" height="10" rx="2" fill="#fff" stroke={row[1] ? '#c85a2e' : '#ccc'} strokeWidth="1.5"/>
-        {row[1] && <path d="M16 7 l2 2 l4 -4" stroke="#c85a2e" strokeWidth="1.5" fill="none"/>}
-        <text x="32" y="11" fontSize="12" fontFamily="Inter" fill="#1f2b22">{row[0]}</text>
-      </g>
-    ))}
-    {/* Map */}
-    <rect x="200" y="0" width="600" height="360" fill="url(#ocean)"/>
-    {/* Land masses */}
-    <path d="M 250 80 Q 350 50 460 90 L 480 160 Q 460 200 380 220 L 300 200 Q 240 180 250 80 Z" fill="#9bb087"/>
-    <path d="M 530 200 Q 620 180 700 200 L 720 280 Q 660 310 580 290 L 530 280 Z" fill="#9bb087"/>
-    {/* Pins — paid (orange) and free (cream) */}
-    <g>{[[330, 130, true, 299], [400, 170, true, 99], [430, 110, false], [580, 230, true, 199], [650, 260, false], [350, 200, true, 49]].map(([x, y, paid, price], i) => (
-      <g key={i}>
-        <circle cx={x} cy={y} r="9" fill={paid ? '#c85a2e' : '#a8a090'} stroke="#fff" strokeWidth="2"/>
-        {paid && <g transform={`translate(${x+6}, ${y-12})`}>
-          <rect x="0" y="0" width="32" height="14" rx="7" fill="#c85a2e" stroke="#fff" strokeWidth="1.5"/>
-          <text x="16" y="10" fontSize="9" fontFamily="JetBrains Mono" fontWeight="700" fill="#fff" textAnchor="middle">${price}</text>
-        </g>}
-      </g>
-    ))}</g>
-    {/* Annotation */}
-    <g transform="translate(580, 30)">
-      <rect x="0" y="0" width="200" height="58" rx="6" fill="#fff" stroke="#c85a2e" strokeWidth="2"/>
-      <text x="12" y="20" fontSize="11" fontFamily="JetBrains Mono" fill="#c85a2e" letterSpacing="1">유료 핀</text>
-      <text x="12" y="38" fontSize="12" fontFamily="Inter" fill="#1f2b22">주황색 + $가격 배지로</text>
-      <text x="12" y="52" fontSize="12" fontFamily="Inter" fill="#1f2b22">한눈에 구분됩니다</text>
-    </g>
+    {/* Map pins */}
+    <circle cx="380" cy="140" r="10" fill="#e8b13a"/>
+    <text x="380" y="144" fontSize="10" fontFamily="Inter" fill="#1f2b22" textAnchor="middle" fontWeight="700">$</text>
+    <circle cx="500" cy="200" r="8" fill="#4a6741"/>
+    <circle cx="600" cy="100" r="8" fill="#4a6741"/>
+    <circle cx="450" cy="280" r="10" fill="#e8b13a"/>
+    <text x="450" y="284" fontSize="10" fontFamily="Inter" fill="#1f2b22" textAnchor="middle" fontWeight="700">$</text>
+    <circle cx="660" cy="240" r="8" fill="#4a6741"/>
+    {/* License filter chips top right */}
+    <rect x="560" y="20" width="220" height="32" rx="4" fill="rgba(255,255,255,0.92)"/>
+    <text x="572" y="40" fontSize="11" fontFamily="Inter" fill="#1f2b22">All · Free · Paid</text>
+    <text x="660" y="370" fontSize="10" fill="rgba(255,255,255,0.6)" fontFamily="Inter" textAnchor="middle">Map Page</text>
   </svg>
 );
 
 const ExploreMockup = () => (
-  <svg viewBox="0 0 800 360" style={{ width: '100%', display: 'block' }}>
-    <rect width="800" height="360" fill="#faf6ec"/>
-    <rect x="0" y="0" width="200" height="360" fill="#fff" stroke="#e8dfc8"/>
-    <text x="14" y="28" fontSize="11" fontFamily="JetBrains Mono" fill="#666" letterSpacing="1.5">CATEGORIES</text>
-    {['Nature','Ocean','Sky','Cities','Heritage','Action','Warfare','AI'].map((c, i) => (
-      <text key={i} x="20" y={56 + i*22} fontSize="13" fontFamily="Inter" fill={i === 3 ? '#c85a2e' : '#1f2b22'} fontWeight={i === 3 ? '700' : '400'}>{c}</text>
-    ))}
-    {/* Header */}
-    <text x="216" y="32" fontSize="20" fontFamily="Bricolage Grotesque" fontWeight="700" fill="#1f2b22">Cities · 209 clips</text>
-    {/* License chips */}
-    <text x="216" y="60" fontSize="9" fontFamily="JetBrains Mono" fill="#888" letterSpacing="1.5">LICENSE</text>
-    {[['All',false],['Free',false],['Paid',true],['Commercial',false],['Extended',false]].map(([label, active], i) => (
-      <g key={i} transform={`translate(${268 + i * 75}, 50)`}>
-        <rect width="65" height="20" rx="10" fill={active ? '#c85a2e' : 'transparent'} stroke={active ? '#c85a2e' : '#ccc'}/>
-        <text x="32" y="14" fontSize="11" fontFamily="Inter" fill={active ? '#fff' : '#1f2b22'} textAnchor="middle">{label}</text>
-      </g>
-    ))}
-    {/* Cards grid 4x2 */}
-    {Array.from({length: 8}).map((_, i) => {
-      const r = Math.floor(i/4), c = i % 4;
-      const x = 220 + c * 142, y = 88 + r * 130;
-      const paid = [0, 2, 5, 7].includes(i);
-      const price = [299, 0, 49, 0, 0, 199, 0, 89][i];
-      return (
-        <g key={i} transform={`translate(${x}, ${y})`}>
-          <rect width="130" height="118" rx="6" fill="#fff" stroke="rgba(26,40,32,0.16)"/>
-          <rect x="0" y="0" width="130" height="74" rx="6" fill="#3a4a55"/>
-          <rect x="0" y="60" width="130" height="14" fill="#3a4a55"/>
-          {paid ? (
-            <g transform="translate(8, 8)">
-              <rect width="40" height="16" rx="3" fill="#c85a2e"/>
-              <text x="20" y="11" fontSize="9" fontFamily="JetBrains Mono" fontWeight="700" fill="#fff" textAnchor="middle">${price}</text>
-            </g>
-          ) : (
-            <g transform="translate(8, 8)">
-              <rect width="36" height="16" rx="3" fill="#8a9a5b"/>
-              <text x="18" y="11" fontSize="9" fontFamily="JetBrains Mono" fontWeight="700" fill="#fff" textAnchor="middle">FREE</text>
-            </g>
-          )}
-          <text x="6" y="92" fontSize="9" fontFamily="JetBrains Mono" fill="#c68820">CITYSCAPE</text>
-          <text x="6" y="106" fontSize="10" fontFamily="Inter" fontWeight="600" fill="#1f2b22">Tokyo skyline 4K</text>
-        </g>
-      );
-    })}
+  <svg viewBox="0 0 800 380" style={{ width: '100%', display: 'block' }}>
+    <rect width="800" height="380" fill="#faf6ec"/>
+    <rect x="20" y="20" width="760" height="42" rx="6" fill="#fff" stroke="rgba(26,40,32,0.18)"/>
+    <text x="36" y="46" fontSize="13" fontFamily="Inter" fill="#888">Search · 클립명, 위치, 카테고리...</text>
+    <Thumb x={20} y={80} w={240} h={140} href={T.mountain} label="Mountain · Free"/>
+    <Thumb x={280} y={80} w={240} h={140} href={T.cityscape} label="Cityscape · $129"/>
+    <Thumb x={540} y={80} w={240} h={140} href={T.ocean} label="Ocean · Free"/>
+    <Thumb x={20} y={240} w={240} h={130} href={T.forest} label="Forest · Free"/>
+    <Thumb x={280} y={240} w={240} h={130} href={T.ai} label="AI · Free"/>
+    <Thumb x={540} y={240} w={240} h={130} href={T.sports} label="Sports · $79"/>
+    <text x="660" y="370" fontSize="10" fill="#888" fontFamily="Inter" textAnchor="middle">Explore Page</text>
   </svg>
 );
 
-const WatchMockup = () => (
+const PlayerMockup = () => (
   <svg viewBox="0 0 800 380" style={{ width: '100%', display: 'block' }}>
     <rect width="800" height="380" fill="#faf6ec"/>
-    {/* Player area */}
-    <rect x="20" y="20" width="500" height="280" fill="#0d1410" rx="4"/>
-    <polygon points="245,140 245,180 285,160" fill="#c85a2e"/>
-    <text x="270" y="220" fontSize="12" fontFamily="JetBrains Mono" fill="#faf6ec" textAnchor="middle">PREVIEW · 3 SECONDS</text>
-    {/* Sidebar */}
-    <text x="540" y="42" fontSize="18" fontFamily="Bricolage Grotesque" fontWeight="700" fill="#1f2b22">Tokyo at dusk</text>
-    <text x="540" y="60" fontSize="11" fontFamily="JetBrains Mono" fill="#888">@aerialnomad · 4K · 0:45</text>
-    {/* License tiers */}
-    <text x="20" y="328" fontSize="10" fontFamily="JetBrains Mono" fill="#666" letterSpacing="1.5">CHOOSE A LICENSE TIER</text>
-    {[['Personal','$49','Edits, social, non-commercial', false],
-      ['Commercial','$99','Ads, client work, online', true],
-      ['Extended','$198','Broadcast & streaming', false],
-      ['Exclusive','By quote','Buyout · perpetual · all media', false]].map(([name, price, desc, popular], i) => (
-      <g key={i} transform={`translate(${20 + i * 195}, 340)`}>
-        <rect width="180" height="30" rx="4" fill={popular ? 'rgba(232,176,74,0.05)' : '#fff'} stroke={popular ? '#c68820' : 'rgba(26,40,32,0.16)'}/>
-        {popular && <rect x="120" y="-8" width="55" height="14" rx="2" fill="#c68820"/>}
-        {popular && <text x="148" y="2" fontSize="9" fontFamily="JetBrains Mono" fontWeight="700" fill="#1a2820" textAnchor="middle">POPULAR</text>}
-        <text x="10" y="14" fontSize="10" fontFamily="JetBrains Mono" fill={popular ? '#c68820' : '#888'} letterSpacing="1">{name.toUpperCase()}</text>
-        <text x="10" y="26" fontSize="14" fontFamily="Bricolage Grotesque" fontWeight="700" fill="#1f2b22">{price}</text>
-      </g>
+    <rect x="0" y="0" width="180" height="380" fill="#fff" stroke="rgba(26,40,32,0.12)"/>
+    <text x="14" y="28" fontSize="11" fontWeight="700" fill="#1f2b22" fontFamily="Bricolage Grotesque">Categories</text>
+    {['Mountain', 'Cityscape', 'Ocean', 'Forest'].map((c, i) => (
+      <text key={c} x="14" y={50 + i * 22} fontSize="12" fontFamily="Inter" fill="#1f2b22">{c}</text>
     ))}
+    <Thumb x={196} y={20} w={420} h={236} href={T.cityscape}/>
+    <rect x="630" y="20" width="156" height="236" fill="#fff" stroke="rgba(26,40,32,0.12)"/>
+    <text x="640" y="42" fontSize="11" fontWeight="700" fill="#1f2b22" fontFamily="Bricolage Grotesque">Up next</text>
+    <text x="196" y="278" fontSize="14" fontWeight="700" fontFamily="Bricolage Grotesque" fill="#1f2b22">Manhattan Skyline at Sunset</text>
+    <text x="196" y="296" fontSize="12" fontFamily="Inter" fill="#666">@nycaerial · 23k views</text>
+    <rect x="196" y="312" width="120" height="32" rx="4" fill="#e8b13a"/>
+    <text x="256" y="332" fontSize="13" fontFamily="Inter" fill="#1f2b22" textAnchor="middle" fontWeight="700">$129 구매</text>
+    <text x="660" y="370" fontSize="10" fill="#888" fontFamily="Inter" textAnchor="middle">Watch Page</text>
   </svg>
 );
 
 const CheckoutMockup = () => (
-  <svg viewBox="0 0 800 360" style={{ width: '100%', display: 'block' }}>
-    <rect width="800" height="360" fill="#faf6ec"/>
-    <rect x="40" y="30" width="500" height="290" rx="6" fill="#fff" stroke="rgba(26,40,32,0.18)"/>
-    <text x="60" y="60" fontSize="11" fontFamily="JetBrains Mono" fill="#c85a2e" letterSpacing="1.5">LICENSE CHECKOUT</text>
-    <text x="60" y="86" fontSize="20" fontFamily="Bricolage Grotesque" fontWeight="700" fill="#1f2b22">Tokyo at dusk · 4K</text>
-    <text x="60" y="104" fontSize="12" fontFamily="Inter" fill="#888">@aerialnomad · 0:45</text>
-    {/* Line items */}
-    <line x1="60" y1="130" x2="520" y2="130" stroke="#eee"/>
-    <text x="60" y="150" fontSize="13" fontFamily="Inter" fill="#1f2b22">Commercial license · perpetual · worldwide</text>
-    <text x="520" y="150" fontSize="14" fontFamily="JetBrains Mono" fontWeight="600" fill="#1f2b22" textAnchor="end">$99.00</text>
-    <text x="60" y="172" fontSize="13" fontFamily="Inter" fill="#888">VAT (8%)</text>
-    <text x="520" y="172" fontSize="14" fontFamily="JetBrains Mono" fill="#888" textAnchor="end">$7.92</text>
-    <line x1="60" y1="186" x2="520" y2="186" stroke="#eee"/>
-    <text x="60" y="208" fontSize="14" fontFamily="Inter" fontWeight="700" fill="#1f2b22">Total</text>
-    <text x="520" y="208" fontSize="20" fontFamily="Bricolage Grotesque" fontWeight="700" fill="#c85a2e" textAnchor="end">$106.92</text>
-    {/* Payment */}
-    <rect x="60" y="230" width="220" height="36" rx="4" fill="#fff" stroke="#c85a2e" strokeWidth="2"/>
-    <text x="170" y="252" fontSize="13" fontFamily="Inter" fontWeight="600" fill="#1f2b22" textAnchor="middle">Card</text>
-    <rect x="290" y="230" width="220" height="36" rx="4" fill="#fff" stroke="#ccc"/>
-    <text x="400" y="252" fontSize="13" fontFamily="Inter" fill="#888" textAnchor="middle">PayPal</text>
-    <rect x="60" y="282" width="450" height="32" rx="4" fill="#c85a2e"/>
-    <text x="285" y="302" fontSize="14" fontFamily="Inter" fontWeight="700" fill="#fff" textAnchor="middle">Pay $106.92</text>
-    {/* Side note */}
-    <g transform="translate(560, 30)">
-      <rect width="200" height="100" rx="6" fill="rgba(140,180,100,0.08)" stroke="rgba(138,154,91,0.5)"/>
-      <text x="14" y="24" fontSize="11" fontFamily="JetBrains Mono" fill="#8a9a5b" letterSpacing="1">ONE-TIME · NO SUBSCRIPTION</text>
-      <text x="14" y="50" fontSize="12" fontFamily="Inter" fill="#1f2b22" >영구 사용권</text>
-      <text x="14" y="68" fontSize="12" fontFamily="Inter" fill="#1f2b22">24시간 환불 보장</text>
-      <text x="14" y="86" fontSize="12" fontFamily="Inter" fill="#1f2b22">VAT 자동 계산</text>
-    </g>
-  </svg>
-);
-
-const DownloadMockup = () => (
-  <svg viewBox="0 0 800 280" style={{ width: '100%', display: 'block' }}>
-    <rect width="800" height="280" fill="#faf6ec"/>
-    <circle cx="400" cy="60" r="32" fill="#8a9a5b"/>
-    <path d="M 386 60 l10 10 l18 -18" stroke="#fff" strokeWidth="3" fill="none"/>
-    <text x="400" y="120" fontSize="10" fontFamily="JetBrains Mono" fill="#888" textAnchor="middle" letterSpacing="1.5">PAYMENT CONFIRMED · 2026.04.25</text>
-    <text x="400" y="148" fontSize="22" fontFamily="Bricolage Grotesque" fontWeight="700" fill="#1f2b22" textAnchor="middle">License issued.</text>
-    <text x="400" y="166" fontSize="12" fontFamily="Inter" fill="#888" textAnchor="middle">Order DI-2026-31124 · Emailed to you</text>
-    {/* Download tiles */}
-    {[['MP4 H.264','4K · 3.4 GB'],['ProRes 422 HQ','4K · 24.8 GB'],['LUT .CUBE','D-Log M · 12 KB'],['License.pdf','Signed · 84 KB']].map(([name, sub], i) => (
-      <g key={i} transform={`translate(${100 + i * 150}, 200)`}>
-        <rect width="130" height="50" rx="6" fill="#fff" stroke="rgba(26,40,32,0.18)"/>
-        <text x="65" y="22" fontSize="12" fontFamily="Inter" fontWeight="600" fill="#1f2b22" textAnchor="middle">{name}</text>
-        <text x="65" y="38" fontSize="10" fontFamily="JetBrains Mono" fill="#888" textAnchor="middle">{sub}</text>
-        <rect x="40" y="60" width="50" height="18" rx="3" fill="#c85a2e"/>
-        <text x="65" y="73" fontSize="10" fontFamily="Inter" fontWeight="700" fill="#fff" textAnchor="middle">Download</text>
-      </g>
-    ))}
-  </svg>
-);
-
-const OrdersMockup = () => (
-  <svg viewBox="0 0 800 220" style={{ width: '100%', display: 'block' }}>
-    <rect width="800" height="220" fill="#faf6ec"/>
-    <text x="40" y="40" fontSize="20" fontFamily="Bricolage Grotesque" fontWeight="700" fill="#1f2b22">My Locker</text>
-    <text x="40" y="58" fontSize="12" fontFamily="Inter" fill="#888">Every clip you've licensed, ready to re-download. Held for 12 months after purchase.</text>
-    {[['DI-2026-31124', 'Tokyo at dusk · Commercial', '$99', '4 files'],
-      ['DI-2026-12877', 'Mt Fuji sunrise · Personal', '$49', '4 files'],
-      ['DI-2026-09141', 'Iceland glacier · Extended', '$198', '4 files']].map(([id, t, p, f], i) => (
-      <g key={i} transform={`translate(40, ${82 + i * 38})`}>
-        <rect width="720" height="32" rx="4" fill="#fff" stroke="rgba(26,40,32,0.16)"/>
-        <text x="14" y="20" fontSize="11" fontFamily="JetBrains Mono" fill="#888">{id}</text>
-        <text x="160" y="20" fontSize="13" fontFamily="Inter" fontWeight="600" fill="#1f2b22">{t}</text>
-        <text x="540" y="20" fontSize="13" fontFamily="JetBrains Mono" fill="#1f2b22">{p}</text>
-        <text x="600" y="20" fontSize="11" fontFamily="JetBrains Mono" fill="#888">{f}</text>
-        <rect x="660" y="6" width="50" height="20" rx="3" fill="#c85a2e"/>
-        <text x="685" y="20" fontSize="10" fontFamily="Inter" fontWeight="700" fill="#fff" textAnchor="middle">Re-DL</text>
-      </g>
-    ))}
+  <svg viewBox="0 0 800 380" style={{ width: '100%', display: 'block' }}>
+    <rect width="800" height="380" fill="#faf6ec"/>
+    <rect x="40" y="40" width="320" height="300" rx="8" fill="#fff" stroke="rgba(26,40,32,0.12)"/>
+    <Thumb x={56} y={56} w={288} h={160} href={T.cityscape}/>
+    <text x="56" y="240" fontSize="14" fontWeight="700" fontFamily="Bricolage Grotesque" fill="#1f2b22">Manhattan Skyline at Sunset</text>
+    <text x="56" y="258" fontSize="12" fontFamily="Inter" fill="#666">@nycaerial · 4K</text>
+    <rect x="400" y="40" width="360" height="300" rx="8" fill="#fff" stroke="rgba(26,40,32,0.12)"/>
+    <text x="420" y="68" fontSize="16" fontWeight="700" fontFamily="Bricolage Grotesque" fill="#1f2b22">License</text>
+    <rect x="420" y="84" width="320" height="44" rx="4" fill="rgba(74,103,65,0.1)" stroke="rgba(74,103,65,0.4)"/>
+    <text x="430" y="104" fontSize="13" fontWeight="700" fontFamily="Inter" fill="#1f2b22">Personal · $79</text>
+    <text x="430" y="120" fontSize="11" fontFamily="Inter" fill="#666">개인 콘텐츠, 소셜 미디어</text>
+    <rect x="420" y="136" width="320" height="44" rx="4" fill="transparent" stroke="rgba(26,40,32,0.18)"/>
+    <text x="430" y="156" fontSize="13" fontWeight="700" fontFamily="Inter" fill="#1f2b22">Commercial · $129</text>
+    <text x="430" y="172" fontSize="11" fontFamily="Inter" fill="#666">광고, 마케팅, 상업적 활용</text>
+    <rect x="420" y="188" width="320" height="44" rx="4" fill="transparent" stroke="rgba(26,40,32,0.18)"/>
+    <text x="430" y="208" fontSize="13" fontWeight="700" fontFamily="Inter" fill="#1f2b22">Editorial · $199</text>
+    <text x="430" y="224" fontSize="11" fontFamily="Inter" fill="#666">방송, 다큐멘터리, 뉴스</text>
+    <rect x="420" y="288" width="320" height="40" rx="4" fill="#e8b13a"/>
+    <text x="580" y="313" fontSize="14" fontWeight="700" fontFamily="Inter" fill="#1f2b22" textAnchor="middle">결제하기 · $79</text>
+    <text x="660" y="370" fontSize="10" fill="#888" fontFamily="Inter" textAnchor="middle">Checkout Page</text>
   </svg>
 );
 
 const SignupMockup = () => (
   <svg viewBox="0 0 800 240" style={{ width: '100%', display: 'block' }}>
     <rect width="800" height="240" fill="#faf6ec"/>
-    <rect x="180" y="30" width="440" height="180" rx="8" fill="#fff" stroke="rgba(26,40,32,0.18)"/>
-    <text x="400" y="68" fontSize="22" fontFamily="Bricolage Grotesque" fontWeight="700" fill="#1f2b22" textAnchor="middle">Become a pilot</text>
-    <text x="400" y="92" fontSize="13" fontFamily="Inter" fill="#888" textAnchor="middle">70% per license · monthly PayPal · no upfront</text>
-    {/* Inputs */}
-    <rect x="220" y="110" width="360" height="32" rx="4" fill="#fbf6e9" stroke="rgba(26,40,32,0.18)"/>
-    <text x="232" y="130" fontSize="13" fontFamily="Inter" fill="#888">PayPal email</text>
-    <rect x="220" y="148" width="170" height="32" rx="4" fill="#fbf6e9" stroke="rgba(26,40,32,0.18)"/>
-    <text x="232" y="168" fontSize="13" fontFamily="Inter" fill="#888">Legal name</text>
-    <rect x="410" y="148" width="170" height="32" rx="4" fill="#fbf6e9" stroke="rgba(26,40,32,0.18)"/>
-    <text x="422" y="168" fontSize="13" fontFamily="Inter" fill="#888">Country</text>
+    <rect x="220" y="20" width="360" height="200" rx="8" fill="#fff" stroke="rgba(26,40,32,0.18)"/>
+    <text x="400" y="56" fontSize="20" fontWeight="700" fontFamily="Bricolage Grotesque" fill="#1f2b22" textAnchor="middle">Create your account</text>
+    <text x="400" y="78" fontSize="11" fontFamily="Inter" fill="#888" textAnchor="middle">30초 만에 가입 · 무료</text>
+    <rect x="240" y="100" width="320" height="32" rx="4" fill="transparent" stroke="rgba(26,40,32,0.18)"/>
+    <text x="252" y="120" fontSize="13" fontFamily="Inter" fill="#888">pilot@example.com</text>
+    <rect x="240" y="140" width="320" height="32" rx="4" fill="transparent" stroke="rgba(26,40,32,0.18)"/>
+    <text x="252" y="160" fontSize="13" fontFamily="Inter" fill="#888">••••••••</text>
+    <rect x="240" y="180" width="320" height="32" rx="4" fill="#e8b13a"/>
+    <text x="400" y="200" fontSize="13" fontWeight="700" fontFamily="Inter" fill="#1f2b22" textAnchor="middle">Sign up</text>
   </svg>
 );
 
 const UploadMockup = () => (
-  <svg viewBox="0 0 800 240" style={{ width: '100%', display: 'block' }}>
-    <rect width="800" height="240" fill="#faf6ec"/>
-    <text x="40" y="36" fontSize="20" fontFamily="Bricolage Grotesque" fontWeight="700" fill="#1f2b22">Bring your footage home.</text>
-    {/* Tabs */}
-    <rect x="40" y="56" width="120" height="30" rx="4" fill="#fff" stroke="#c85a2e" strokeWidth="2"/>
-    <text x="100" y="76" fontSize="13" fontFamily="Inter" fontWeight="600" fill="#c85a2e" textAnchor="middle">Upload file</text>
-    <rect x="170" y="56" width="160" height="30" rx="4" fill="transparent" stroke="rgba(26,40,32,0.18)"/>
-    <text x="250" y="76" fontSize="13" fontFamily="Inter" fill="#888" textAnchor="middle">Link external host</text>
-    {/* Drop zone */}
-    <rect x="40" y="100" width="720" height="120" rx="8" fill="#fbf6e9" stroke="rgba(26,40,32,0.30)" strokeDasharray="6 6"/>
-    <text x="400" y="148" fontSize="16" fontFamily="Inter" fontWeight="600" fill="#1f2b22" textAnchor="middle">파일을 끌어 놓거나 클릭해서 선택</text>
-    <text x="400" y="170" fontSize="12" fontFamily="JetBrains Mono" fill="#888" textAnchor="middle">MP4 · MOV · MKV · WebM · 최대 50GB</text>
-    <text x="400" y="190" fontSize="11" fontFamily="Inter" fill="#888" textAnchor="middle">또는 Dropbox · Vimeo · Google Drive · Frame.io · WeTransfer URL 붙여넣기</text>
+  <svg viewBox="0 0 800 380" style={{ width: '100%', display: 'block' }}>
+    <rect width="800" height="380" fill="#faf6ec"/>
+    <rect x="40" y="40" width="720" height="300" rx="8" fill="#fff" stroke="rgba(26,40,32,0.12)"/>
+    <text x="60" y="80" fontSize="20" fontWeight="700" fontFamily="Bricolage Grotesque" fill="#1f2b22">Upload your clip</text>
+    <rect x="60" y="100" width="80" height="28" rx="14" fill="#1f2b22"/>
+    <text x="100" y="118" fontSize="12" fontWeight="700" fontFamily="Inter" fill="#fff" textAnchor="middle">Direct</text>
+    <rect x="148" y="100" width="80" height="28" rx="14" fill="transparent" stroke="rgba(26,40,32,0.3)"/>
+    <text x="188" y="118" fontSize="12" fontFamily="Inter" fill="#666" textAnchor="middle">External</text>
+    <rect x="60" y="148" width="680" height="80" rx="6" fill="rgba(74,103,65,0.05)" stroke="rgba(74,103,65,0.4)" strokeDasharray="6,4"/>
+    <text x="400" y="194" fontSize="14" fontFamily="Inter" fill="#666" textAnchor="middle">파일을 끌어다 놓거나 클릭해서 업로드</text>
+    <rect x="60" y="248" width="320" height="36" rx="4" fill="transparent" stroke="rgba(26,40,32,0.18)"/>
+    <text x="72" y="270" fontSize="12" fontFamily="Inter" fill="#888">Title · Manhattan at sunset</text>
+    <rect x="400" y="248" width="160" height="36" rx="4" fill="transparent" stroke="rgba(26,40,32,0.18)"/>
+    <text x="412" y="270" fontSize="12" fontFamily="Inter" fill="#888">Price · $79</text>
+    <rect x="580" y="248" width="160" height="36" rx="4" fill="#e8b13a"/>
+    <text x="660" y="271" fontSize="13" fontWeight="700" fontFamily="Inter" fill="#1f2b22" textAnchor="middle">Publish</text>
+    <text x="660" y="370" fontSize="10" fill="#888" fontFamily="Inter" textAnchor="middle">Upload Page</text>
   </svg>
 );
 
-const MetadataMockup = () => (
-  <svg viewBox="0 0 800 280" style={{ width: '100%', display: 'block' }}>
-    <rect width="800" height="280" fill="#faf6ec"/>
-    <rect x="40" y="20" width="720" height="240" rx="8" fill="#fff" stroke="rgba(26,40,32,0.18)"/>
-    <text x="60" y="48" fontSize="11" fontFamily="JetBrains Mono" fill="#888" letterSpacing="1.5">DETAILS · THUMBNAIL · VIDEO · PRICING · VISIBILITY</text>
-    <text x="60" y="76" fontSize="12" fontFamily="Inter" fill="#1f2b22">Title</text>
-    <rect x="60" y="84" width="680" height="32" rx="4" fill="#fbf6e9" stroke="rgba(26,40,32,0.18)"/>
-    <text x="72" y="104" fontSize="13" fontFamily="Inter" fill="#1f2b22">Mt Fuji at sunrise — cinematic 4K</text>
-    <text x="60" y="138" fontSize="12" fontFamily="Inter" fill="#1f2b22">Location *</text>
-    {[['Pick a landmark', true],['Enter coordinates', false],['Drop on map', false]].map(([label, active], i) => (
-      <g key={i} transform={`translate(${60 + i * 130}, 146)`}>
-        <rect width="120" height="26" rx="4" fill={active ? '#1f2b22' : 'transparent'} stroke="rgba(26,40,32,0.18)"/>
-        <text x="60" y="18" fontSize="12" fontFamily="Inter" fontWeight="600" fill={active ? '#faf6ec' : '#1f2b22'} textAnchor="middle">{label}</text>
+const CommissionMockup = () => (
+  <svg viewBox="0 0 800 380" style={{ width: '100%', display: 'block' }}>
+    <rect width="800" height="380" fill="#faf6ec"/>
+    <rect x="40" y="40" width="720" height="60" rx="8" fill="#fff" stroke="rgba(26,40,32,0.12)"/>
+    <text x="60" y="78" fontSize="18" fontWeight="700" fontFamily="Bricolage Grotesque" fill="#1f2b22">서울 한강 야경 4K · 예산 $500</text>
+    <text x="60" y="92" fontSize="12" fontFamily="Inter" fill="#666">D-3 · 입찰 7건</text>
+    {[0,1,2].map(i => (
+      <g key={i}>
+        <rect x="40" y={120 + i * 76} width="720" height="64" rx="6" fill="#fff" stroke="rgba(26,40,32,0.12)"/>
+        <circle cx="76" cy={152 + i * 76} r="20" fill="#4a6741"/>
+        <text x="76" y={157 + i * 76} fontSize="13" fontWeight="700" fill="#fff" fontFamily="Inter" textAnchor="middle">P{i+1}</text>
+        <text x="116" y={146 + i * 76} fontSize="14" fontWeight="700" fontFamily="Bricolage Grotesque" fill="#1f2b22">@pilot{i+1}</text>
+        <text x="116" y={164 + i * 76} fontSize="11" fontFamily="Inter" fill="#666">"한강 일대 5년 촬영. 야경 전문..."</text>
+        <text x="660" y={156 + i * 76} fontSize="16" fontWeight="700" fontFamily="Bricolage Grotesque" fill="#1f2b22" textAnchor="end">${[420, 380, 450][i]}</text>
+        <rect x="680" y={142 + i * 76} width="60" height="24" rx="4" fill={i === 1 ? '#e8b13a' : 'transparent'} stroke="rgba(26,40,32,0.3)"/>
+        <text x="710" y={158 + i * 76} fontSize="11" fontWeight="700" fontFamily="Inter" fill="#1f2b22" textAnchor="middle">선택</text>
       </g>
     ))}
-    {[['Mt. Fuji', 'Japan · 35.36, 138.73'],['Giza Pyramids','Egypt · 29.98, 31.13'],['Mt. Everest BC','Nepal · 28.00, 86.85']].map(([n, sub], i) => (
-      <g key={i} transform={`translate(60, ${190 + i * 22})`}>
-        <text x="0" y="14" fontSize="13" fontFamily="Inter" fontWeight="600" fill="#1f2b22">{n}</text>
-        <text x="160" y="14" fontSize="11" fontFamily="JetBrains Mono" fill="#888">{sub}</text>
-      </g>
-    ))}
+    <text x="660" y="370" fontSize="10" fill="#888" fontFamily="Inter" textAnchor="middle">Commission Page</text>
   </svg>
 );
 
-const PricingMockup = () => (
-  <svg viewBox="0 0 800 320" style={{ width: '100%', display: 'block' }}>
-    <rect width="800" height="320" fill="#faf6ec"/>
-    <rect x="40" y="20" width="720" height="280" rx="8" fill="#fff" stroke="rgba(26,40,32,0.18)"/>
-    {/* License model */}
-    <text x="60" y="46" fontSize="12" fontFamily="Inter" fill="#1f2b22">License model</text>
-    {[['Single price', false],['Tiered', true],['Exclusive', false]].map(([label, active], i) => (
-      <g key={i} transform={`translate(${60 + i * 230}, 56)`}>
-        <rect width="220" height="40" rx="4" fill={active ? '#fbf6e9' : 'transparent'} stroke={active ? '#c85a2e' : 'rgba(26,40,32,0.18)'}/>
-        <text x="14" y="18" fontSize="13" fontFamily="Inter" fontWeight="600" fill="#1f2b22">{label}</text>
-        <text x="14" y="32" fontSize="10" fontFamily="Inter" fill="#888">{['One flat fee, all uses','Personal/Commercial/Extended','Higher fee, one buyer'][i]}</text>
-      </g>
-    ))}
-    {/* Base price */}
-    <text x="60" y="124" fontSize="12" fontFamily="Inter" fill="#1f2b22">Base price (USD)</text>
-    <rect x="60" y="134" width="200" height="32" rx="4" fill="#fbf6e9" stroke="rgba(26,40,32,0.18)"/>
-    <text x="76" y="156" fontSize="14" fontFamily="JetBrains Mono" fill="#1f2b22">49.99</text>
-    <text x="280" y="156" fontSize="13" fontFamily="Inter" fill="#888">You earn <tspan fill="#c68820" fontWeight="700">$34.99</tspan> per sale · platform keeps 30%.</text>
-    {/* Tier preview */}
-    <rect x="60" y="186" width="680" height="92" rx="6" fill="#fbf6e9" stroke="rgba(26,40,32,0.18)"/>
-    <text x="76" y="208" fontSize="10" fontFamily="JetBrains Mono" fill="#888" letterSpacing="1.5">TIER PREVIEW</text>
-    {[['Personal','$49.99','$34.99'],['Commercial','$89.98','$62.99'],['Extended','$174.97','$122.48']].map(([t, p, e], i) => (
-      <g key={i} transform={`translate(76, ${224 + i * 18})`}>
-        <text x="0" y="12" fontSize="13" fontFamily="Inter" fill="#1f2b22">{t}</text>
-        <text x="450" y="12" fontSize="13" fontFamily="JetBrains Mono" fill="#888" textAnchor="end">{p} → you get</text>
-        <text x="600" y="12" fontSize="13" fontFamily="JetBrains Mono" fontWeight="700" fill="#c68820" textAnchor="end">{e}</text>
-      </g>
-    ))}
-  </svg>
+// ====== Buy Tab ======
+const BuyTab = () => (
+  <div>
+    <Step n={1} title="Map 또는 Explore에서 클립 찾기"
+      caption="좌측 카테고리에서 원하는 풍경(예: Cityscape, Mountain)을 선택하면 지도/그리드가 즉시 필터됩니다. 우측 상단에서 'Paid'만 보거나 'All'로 전체를 볼 수 있어요."
+      tips={[
+        '지도 왼쪽 사이드바: Mountain, Cityscape, Ocean, Forest, Desert, Sports, Warfare, AI Generated 8개 카테고리',
+        '노란색 핀(원 안에 $)은 유료, 초록색 핀은 무료 클립',
+        'License 필터: All / Free / Paid 중 선택 (기본은 All)',
+        '핀이나 썸네일을 클릭하면 영상 페이지로 이동',
+      ]}>
+      <MapMockup />
+    </Step>
+    <Step n={2} title="영상 미리보기 + 가격 확인"
+      caption="썸네일을 클릭하면 영상이 재생됩니다. 페이지 하단의 '구매' 버튼이나 사이드바에 가격이 표시됩니다."
+      tips={[
+        '왼쪽 사이드바에서는 다른 카테고리로 즉시 이동 가능',
+        '오른쪽 사이드바에는 같은 카테고리의 다음 영상 추천',
+        '무료 영상은 바로 시청, 유료는 구매 후 다운로드',
+      ]}>
+      <PlayerMockup />
+    </Step>
+    <Step n={3} title="라이선스 선택 (Personal / Commercial / Editorial)"
+      caption="용도에 맞는 라이선스를 고르세요. 같은 영상이라도 Personal($79) ↔ Commercial($129) ↔ Editorial($199)로 가격이 다릅니다."
+      tips={[
+        'Personal: 개인 SNS, 블로그, 학교 과제 등 비상업 용도',
+        'Commercial: 광고, 제품 홍보, 마케팅 영상',
+        'Editorial: 방송, 뉴스, 다큐멘터리 (저작권 표시 필수)',
+        '잘못 선택하면 환불이 어려우므로 신중히 선택',
+      ]}>
+      <CheckoutMockup />
+    </Step>
+    <Step n={4} title="결제하기"
+      caption="결제 버튼을 누르면 주문이 생성되고, Success 페이지에서 영상 다운로드 링크와 라이선스 PDF가 발급됩니다."
+      tips={[
+        '주문 내역은 [내 계정 > 구매 내역]에서 언제든 확인',
+        '다운로드 링크는 결제 후 30일간 유효',
+        '라이선스 PDF는 영구 보관 (구매 증빙)',
+        '문제 발생 시 [Help > 문의하기]에서 주문 ID와 함께 신고',
+      ]} />
+  </div>
 );
 
-const VisibilityMockup = () => (
-  <svg viewBox="0 0 800 220" style={{ width: '100%', display: 'block' }}>
-    <rect width="800" height="220" fill="#faf6ec"/>
-    {[['Public', 'Show in explore, atlas and search results.', true],
-      ['Unlisted', 'Hidden from listings, but anyone with the link can view.', false],
-      ['Private (draft)', 'Only you can see this clip.', false]].map(([name, desc, active], i) => (
-      <g key={i} transform={`translate(40, ${20 + i * 56})`}>
-        <rect width="720" height="48" rx="4" fill={active ? '#fbf6e9' : 'transparent'} stroke={active ? '#c85a2e' : 'rgba(26,40,32,0.18)'}/>
-        <circle cx="20" cy="24" r="8" fill="#fff" stroke={active ? '#c85a2e' : '#ccc'} strokeWidth="2"/>
-        {active && <circle cx="20" cy="24" r="4" fill="#c85a2e"/>}
-        <text x="40" y="20" fontSize="14" fontFamily="Inter" fontWeight="600" fill="#1f2b22">{name}</text>
-        <text x="40" y="36" fontSize="12" fontFamily="Inter" fill="#888">{desc}</text>
-      </g>
-    ))}
-  </svg>
+// ====== Sell Tab ======
+const SellTab = () => (
+  <div>
+    <Step n={1} title="회원가입 / 로그인"
+      caption="우측 상단 'Sign in' 버튼을 누르고 이메일·비밀번호로 가입하세요. 이미 계정이 있다면 바로 로그인."
+      tips={[
+        '이메일 인증은 자동 (별도 메일 확인 불필요)',
+        'Google 등 외부 로그인은 추후 지원 예정',
+        '같은 계정으로 구매와 판매를 모두 할 수 있음',
+      ]}>
+      <SignupMockup />
+    </Step>
+    <Step n={2} title="Upload 페이지에서 영상 등록"
+      caption="좌측 사이드바 또는 상단 메뉴에서 'Upload'를 선택. Direct(직접 업로드)와 External(YouTube 등 외부 링크) 두 방식이 있어요."
+      tips={[
+        'Direct: MP4 파일을 직접 올리면 우리 CDN에서 호스팅',
+        'External: YouTube/Vimeo 링크만 붙여 넣으면 임베드 (호스팅비 무료)',
+        '제목, 설명, 위치(위/경도), 카테고리, 가격, 라이선스 옵션을 모두 채워야 게시 가능',
+        '썸네일은 자동 생성 (편집 가능)',
+      ]}>
+      <UploadMockup />
+    </Step>
+    <Step n={3} title="가격 + 라이선스 옵션 설정"
+      caption="Personal/Commercial/Editorial 각 라이선스별로 가격을 설정합니다. 비활성화한 라이선스는 구매자에게 표시되지 않아요."
+      tips={[
+        '시장 시세: Personal $49~99, Commercial $99~199, Editorial $149~299',
+        '같은 라이선스 안에서 무제한 사용 가능 (1회 결제 후 영구 사용)',
+        '플랫폼 수수료 15% (수익의 85%가 판매자에게)',
+        '판매 통계는 [내 계정 > 판매 내역]에서 확인',
+      ]} />
+    <Step n={4} title="공개 후 판매 모니터링"
+      caption="Publish 버튼을 누르면 24시간 내에 Map과 Explore에 자동 반영됩니다. 판매가 발생하면 이메일 알림이 옵니다."
+      tips={[
+        '판매 후 정산은 매월 1일 자동 송금 (PayPal/Stripe)',
+        '구매자가 환불을 요청하면 [내 알림]에서 처리',
+        '품질이 낮은 클립은 자동 검토 후 비공개 처리될 수 있음',
+        'Rankings 페이지에서 인기 판매자 1위가 되면 메인 노출',
+      ]} />
+  </div>
 );
 
-const PayoutMockup = () => (
-  <svg viewBox="0 0 800 220" style={{ width: '100%', display: 'block' }}>
-    <rect width="800" height="220" fill="#faf6ec"/>
-    {[['When', 'Monthly · 28th', '매월 28일 자동 송금'],
-      ['Threshold', '$50+', '잔액 $50 미만은 다음 달 이월'],
-      ['Methods', 'PayPal · Wise', 'PayPal 우선, Wise 다국통화'],
-      ['Fees', '0% off your share', '송금 수수료는 플랫폼 30%에서 부담']].map(([label, big, sub], i) => (
-      <g key={i} transform={`translate(${30 + (i % 4) * 190}, 30)`}>
-        <rect width="170" height="160" rx="8" fill="#fff" stroke="rgba(26,40,32,0.16)"/>
-        <text x="14" y="28" fontSize="10" fontFamily="JetBrains Mono" fill="#888" letterSpacing="1.5">{label.toUpperCase()}</text>
-        <text x="14" y="58" fontSize="20" fontFamily="Bricolage Grotesque" fontWeight="700" fill="#c68820">{big}</text>
-        <text x="14" y="100" fontSize="11" fontFamily="Inter" fill="#1f2b22">
-          <tspan x="14" dy="0">{sub}</tspan>
-        </text>
-      </g>
-    ))}
-  </svg>
+// ====== Commission Tab ======
+const CommissionTab = () => (
+  <div>
+    <Step n={1} title="의뢰 만들기 (Commission Post)"
+      caption="원하는 영상이 없으면 직접 의뢰하세요. Commission 페이지 우측 상단 '의뢰 등록'을 누르고 위치, 예산, 마감일, 요구사항을 작성합니다."
+      tips={[
+        '예산은 시장가 기준: 4K 클립 1분 $200~600, 시네마틱은 $500~1500',
+        '마감일은 최소 7일 이상 권장 (촬영 + 편집 시간)',
+        '구체적일수록 좋은 입찰을 받음 (시간대, 분위기, 장비 등)',
+        '예시: "서울 한강 일대 일몰 시간 4K 60fps, 30~60초, DJI Mavic 3 이상"',
+      ]} />
+    <Step n={2} title="파일럿 입찰 받기 (Receive Bids)"
+      caption="등록 후 파일럿들이 가격, 포트폴리오, 일정을 제시합니다. 보통 24~72시간 내 첫 입찰이 들어와요."
+      tips={[
+        '입찰 알림은 이메일 + 사이트 우측 상단 벨 아이콘',
+        '각 입찰자의 프로필을 클릭해서 과거 작업, 평점 확인',
+        '메시지 기능으로 직접 질문 가능 (촬영 일정, 추가 옵션 등)',
+        '낮은 가격만 보지 말고 포트폴리오 품질을 우선 고려',
+      ]}>
+      <CommissionMockup />
+    </Step>
+    <Step n={3} title="입찰 수락 + 작업 진행"
+      caption="원하는 입찰의 '선택' 버튼을 누르면 의뢰가 확정되고 다른 입찰은 자동 거절됩니다."
+      tips={[
+        '에스크로: 결제 금액은 우리 플랫폼이 보관 (작업 완료 시 송금)',
+        '진행 상황은 의뢰 페이지의 채팅 영역에서 실시간 확인',
+        '중간 결과물(러프컷)을 요청해서 방향 점검 권장',
+        '마감일 초과 시 자동 환불 옵션 활성화',
+      ]} />
+    <Step n={4} title="결과물 수령 + 평가"
+      caption="파일럿이 최종본을 업로드하면 검토 후 'Accept' 버튼을 누르세요. 그 즉시 결제 금액이 파일럿에게 송금됩니다."
+      tips={[
+        '수정 요청은 2회까지 무료, 3회부터는 추가 비용 협의',
+        '평가(별점 + 리뷰)는 다른 의뢰자에게 큰 도움이 됨',
+        '훌륭한 파일럿은 [팔로우]해서 다음 의뢰 시 1순위 추천',
+      ]} />
+  </div>
 );
 
-const CommissionNewMockup = () => (
-  <svg viewBox="0 0 800 320" style={{ width: '100%', display: 'block' }}>
-    <rect width="800" height="320" fill="#faf6ec"/>
-    <rect x="40" y="20" width="720" height="280" rx="8" fill="#fff" stroke="rgba(26,40,32,0.18)"/>
-    <text x="60" y="50" fontSize="20" fontFamily="Bricolage Grotesque" fontWeight="700" fill="#1f2b22">Brief your shoot. Pilots bid.</text>
-    {[['Title','Mt Fuji at sunrise — cinematic 4K'],
-      ['Brief','Need cinematic flythrough at golden hour. ProRes master + LUT...'],
-      ['Region · Coordinates','Asia · Japan · 35.36, 138.73'],
-      ['Budget cap','$650'],
-      ['Deadline','2026-06-15'],
-      ['License','Commercial']].map(([label, val], i) => (
-      <g key={i} transform={`translate(60, ${74 + i * 36})`}>
-        <text x="0" y="0" fontSize="11" fontFamily="JetBrains Mono" fill="#888" letterSpacing="1.2">{label.toUpperCase()}</text>
-        <rect x="0" y="6" width="660" height="22" rx="3" fill="#fbf6e9" stroke="rgba(26,40,32,0.16)"/>
-        <text x="10" y="22" fontSize="13" fontFamily="Inter" fill="#1f2b22">{val}</text>
-      </g>
-    ))}
-  </svg>
+// ====== Page Tour Tab — all 14 pages ======
+const PagesTab = () => (
+  <div>
+    <p style={{ marginBottom: 20, color: 'var(--ink-soft, #555)', lineHeight: 1.7 }}>
+      droneicarus의 모든 페이지를 한 곳에서 둘러보세요. 각 카드의 "해당 페이지 열기" 링크를 누르면 바로 이동합니다.
+    </p>
+
+    <h3 style={{ marginTop: 24, marginBottom: 12, fontSize: 16, color: 'var(--accent, #4a6741)' }}>핵심 탐색 (Discovery)</h3>
+    <PageCard name="Map (지도)" hash="map"
+      desc="전 세계 드론 영상을 지도 위에 핀으로 표시. 카테고리 필터 + 라이선스(Free/Paid) 필터 + 클러스터링 지원."
+      points={[
+        '왼쪽 사이드바: 8개 카테고리 (Mountain/Cityscape/Ocean/Forest/Desert/Sports/Warfare/AI)',
+        '핀 색상: 노랑($)=유료, 초록=무료',
+        '하단 캐러셀: 위치 정보가 없는 AI Generated 클립',
+        '핀 클릭 → Watch 페이지로 이동, 돌아올 때 줌/위치 보존',
+      ]} />
+    <PageCard name="Explore (그리드 탐색)" hash="explore"
+      desc="모든 영상을 카드 그리드로 보고 검색·정렬·필터링. 페이지네이션 지원."
+      points={[
+        '상단 검색바: 제목·설명·위치 키워드',
+        '필터 칩: All / Free / Paid + 카테고리',
+        '정렬: 최신 / 인기 / 가격 낮은순 / 가격 높은순',
+        '페이지당 24개, 하단 숫자 페이지네이션',
+      ]} />
+    <PageCard name="Watch (영상 재생)" hash="watch"
+      desc="개별 영상 재생 페이지. 플레이어, 메타데이터, 구매 버튼, 추천 영상."
+      points={[
+        '왼쪽 사이드바: 같은 카테고리 영상 빠른 이동',
+        '오른쪽 사이드바: Up next 추천',
+        '하단: 제작자, 위치, 장비, 라이선스 정보',
+        '구매 버튼 클릭 → Checkout으로 이동',
+      ]} />
+
+    <h3 style={{ marginTop: 24, marginBottom: 12, fontSize: 16, color: 'var(--accent, #4a6741)' }}>거래 (Transaction)</h3>
+    <PageCard name="Checkout (결제)" hash="checkout"
+      desc="라이선스 선택과 결제. Personal/Commercial/Editorial 3단계 가격."
+      points={[
+        '왼쪽: 영상 미리보기 + 메타데이터',
+        '오른쪽: 라이선스 옵션 + 결제 버튼',
+        'Stripe / PayPal / 카드 직접 입력 지원',
+        '결제 완료 → Success 페이지에서 다운로드 링크 제공',
+      ]} />
+    <PageCard name="Commissions (역경매 의뢰)" hash="commissions"
+      desc="원하는 영상을 의뢰하고 파일럿의 입찰을 받는 역경매. 에스크로 보장."
+      points={[
+        '의뢰 등록: 위치, 예산, 마감일, 요구사항 작성',
+        '입찰 받기: 파일럿이 가격 + 포트폴리오 제시',
+        '입찰 수락 → 에스크로 결제 → 결과물 검토 → 송금',
+        '평점·리뷰로 우수 파일럿 발굴',
+      ]} />
+    <PageCard name="Upload (영상 등록)" hash="upload"
+      desc="파일럿이 영상을 업로드/등록. Direct(파일) + External(링크) 두 방식."
+      points={[
+        '제목·설명·카테고리·위치·가격·라이선스 옵션 입력',
+        '썸네일 자동 생성 (편집 가능)',
+        'Publish 즉시 Map/Explore에 노출',
+        '판매 통계 + 정산 내역 확인',
+      ]} />
+
+    <h3 style={{ marginTop: 24, marginBottom: 12, fontSize: 16, color: 'var(--accent, #4a6741)' }}>큐레이션 + 커뮤니티</h3>
+    <PageCard name="Rankings (랭킹)" hash="rankings"
+      desc="인기 영상, 인기 파일럿, 신규 트렌드를 한눈에. 매주 갱신."
+      points={[
+        '주간/월간 베스트 영상 Top 10',
+        '판매 1위 파일럿 + 신인 파일럿',
+        '카테고리별 트렌드 (예: AI Generated 급상승)',
+        '평점 분포 + 리뷰 하이라이트',
+      ]} />
+    <PageCard name="Creators (크리에이터)" hash="creators"
+      desc="활동 중인 모든 파일럿/스튜디오 디렉터리. 프로필 + 작품집 + 평점."
+      points={[
+        '프로필 카드: 이름, 위치, 전문 분야, 평점, 작품 수',
+        '클릭 시 개인 페이지로 이동 (모든 작품 + 평가)',
+        '팔로우 기능으로 신작 알림',
+      ]} />
+    <PageCard name="Atlas (편집장의 지도)" hash="atlas"
+      desc="에디터가 큐레이션한 명소·랜드마크 컬렉션. 여행 블로그처럼 구성."
+      points={[
+        '랜드마크 카드: 사진 + 설명 + 추천 영상 링크',
+        '대륙·국가별 그룹핑',
+        '시즈널 추천 (봄 벚꽃, 가을 단풍 등)',
+      ]} />
+    <PageCard name="Lab (연구실)" hash="lab"
+      desc="기술·튜토리얼·실험 콘텐츠. 새로운 촬영 기법, 장비 리뷰, 편집 팁."
+      points={[
+        '글 + 영상 + 코드 샘플 혼합 콘텐츠',
+        'AI Generation 워크플로 가이드',
+        '장비별 비교 리뷰 + 점수표',
+      ]} />
+
+    <h3 style={{ marginTop: 24, marginBottom: 12, fontSize: 16, color: 'var(--accent, #4a6741)' }}>커머스 + 부가 서비스</h3>
+    <PageCard name="Gear (드론 카탈로그)" hash="gear"
+      desc="전 세계 드론 제품 카탈로그 (300개 이상). 가격대별/용도별 필터링."
+      points={[
+        '제품 카드: 사진 + 사양 + 가격대 + 추천 용도',
+        '가격대 필터: $500 미만 / $500~2000 / $2000+',
+        '용도별: 입문용 / 시네마틱 / FPV / 산업용',
+        '비교 모드: 최대 4개 동시 비교',
+      ]} />
+    <PageCard name="Shots (B2B 라이선싱)" hash="shots"
+      desc="대량 영상 패키지를 광고 대행사·방송사에 라이선싱. 맞춤 견적 요청."
+      points={[
+        '대규모 패키지 거래 (예: "전국 도시 야경 100편")',
+        '월간 구독 옵션 (스톡 풋티지 형태)',
+        '맞춤 큐레이션 + 전속 매니저 배정',
+        '견적 요청 폼에서 예산·용도·기간 입력',
+      ]} />
+    <PageCard name="Live (실시간 방송)" hash="live"
+      desc="라이브 드론 방송 + 진행 중인 의뢰 라이브. 실시간 시청 + 응원 메시지."
+      points={[
+        '진행 중인 라이브 방송 그리드',
+        '예약된 방송 일정 (D-day 카운트)',
+        '시청 + 채팅 + 슈퍼챗',
+      ]} />
+    <PageCard name="Pricing (요금제)" hash="pricing"
+      desc="플랫폼 수수료, 라이선스 가격대, 의뢰 비용 가이드."
+      points={[
+        '구매자: 라이선스별 가격 범위',
+        '판매자: 수수료 15% + 정산 주기',
+        '의뢰자: 예산 가이드라인',
+        '엔터프라이즈: 맞춤 견적 안내',
+      ]} />
+  </div>
 );
 
-const CommissionListMockup = () => (
-  <svg viewBox="0 0 800 320" style={{ width: '100%', display: 'block' }}>
-    <rect width="800" height="320" fill="#faf6ec"/>
-    <text x="40" y="40" fontSize="22" fontFamily="Bricolage Grotesque" fontWeight="700" fill="#1f2b22">Open commissions · 7</text>
-    {[['Mt Fuji sunrise','Mountain · Asia · Japan','$650','15D','5 bids'],
-      ['Manhattan skyline','Cityscape · NYC','$1200','30D','3 bids'],
-      ['Algarve coast','Ocean · Portugal','$400','12D','2 bids'],
-      ['Bali rice terraces','Vineyard · Indonesia','$300','25D','3 bids']].map(([title, meta, budget, days, bids], i) => {
-      const x = 40 + (i % 2) * 360, y = 70 + Math.floor(i/2) * 110;
-      return (
-        <g key={i} transform={`translate(${x}, ${y})`}>
-          <rect width="340" height="92" rx="8" fill="#fff" stroke="rgba(26,40,32,0.16)"/>
-          <text x="14" y="22" fontSize="9" fontFamily="JetBrains Mono" fill="#c85a2e" letterSpacing="1.5">OPEN</text>
-          <text x="14" y="42" fontSize="14" fontFamily="Bricolage Grotesque" fontWeight="700" fill="#1f2b22">{title}</text>
-          <text x="14" y="58" fontSize="11" fontFamily="Inter" fill="#888">{meta}</text>
-          <text x="14" y="82" fontSize="13" fontFamily="JetBrains Mono" fontWeight="700" fill="#c68820">{budget}</text>
-          <text x="80" y="82" fontSize="11" fontFamily="Inter" fill="#888">· {days} left · {bids}</text>
-        </g>
-      );
-    })}
-  </svg>
-);
+// ====== Main page ======
+export default function GuidePage() {
+  const [tab, setTab] = useState('buy');
 
-const CommissionBidsMockup = () => (
-  <svg viewBox="0 0 800 280" style={{ width: '100%', display: 'block' }}>
-    <rect width="800" height="280" fill="#faf6ec"/>
-    <text x="40" y="40" fontSize="11" fontFamily="JetBrains Mono" fill="#c85a2e" letterSpacing="1.5">OPEN · MOUNTAIN · ASIA · JAPAN</text>
-    <text x="40" y="68" fontSize="20" fontFamily="Bricolage Grotesque" fontWeight="700" fill="#1f2b22">Mt Fuji at sunrise — cinematic 4K</text>
-    <text x="40" y="98" fontSize="14" fontFamily="Inter" fontWeight="600" fill="#1f2b22">Bids (3)</text>
-    {[['@skywaltz','$580','7D','Tokyo-based, 5.7K Inspire 3, weather-window planned for May 18-22.'],
-      ['@aerialnomad','$620','5D','Local permit secured. 4K ProRes master + 3 alt cuts. References at link.'],
-      ['@hyunwoo','$540','10D','5.7K archival. Multi-day reshoots if cloudy. Includes LUT pack.']].map(([h, p, eta, pitch], i) => (
-      <g key={i} transform={`translate(40, ${110 + i * 50})`}>
-        <rect width="720" height="44" rx="6" fill="#fff" stroke="rgba(26,40,32,0.16)"/>
-        <circle cx="24" cy="22" r="14" fill="#7b9568"/>
-        <text x="24" y="26" fontSize="11" fontFamily="Inter" fontWeight="700" fill="#fff" textAnchor="middle">{h.slice(1, 3).toUpperCase()}</text>
-        <text x="50" y="20" fontSize="13" fontFamily="Inter" fontWeight="600" fill="#1f2b22">{h}</text>
-        <text x="50" y="36" fontSize="11" fontFamily="Inter" fill="#888">{pitch.slice(0, 60)}…</text>
-        <text x="540" y="20" fontSize="14" fontFamily="JetBrains Mono" fontWeight="700" fill="#1f2b22">{p}</text>
-        <text x="540" y="36" fontSize="11" fontFamily="JetBrains Mono" fill="#888">ETA {eta}</text>
-        <rect x="640" y="10" width="60" height="24" rx="3" fill="#c85a2e"/>
-        <text x="670" y="26" fontSize="12" fontFamily="Inter" fontWeight="700" fill="#fff" textAnchor="middle">Accept</text>
-      </g>
-    ))}
-  </svg>
-);
+  const tabs = [
+    { id: 'buy', label: '클립 구매하기', body: <BuyTab /> },
+    { id: 'sell', label: '클립 판매하기', body: <SellTab /> },
+    { id: 'commission', label: '커스텀 의뢰', body: <CommissionTab /> },
+    { id: 'tour', label: '모든 페이지', body: <PagesTab /> },
+  ];
 
-const CommissionAwardedMockup = () => (
-  <svg viewBox="0 0 800 220" style={{ width: '100%', display: 'block' }}>
-    <rect width="800" height="220" fill="#faf6ec"/>
-    <rect x="40" y="20" width="720" height="60" rx="6" fill="rgba(140,180,100,0.10)" stroke="#8a9a5b"/>
-    <text x="60" y="46" fontSize="14" fontFamily="Inter" fontWeight="700" fill="#1f2b22">Awarded. A pilot has been selected for this commission.</text>
-    <text x="60" y="64" fontSize="11" fontFamily="JetBrains Mono" fill="#888">@aerialnomad · $620 · ETA 5D · accepted</text>
-    {/* Winning bid card */}
-    <rect x="40" y="100" width="720" height="100" rx="8" fill="#fff" stroke="#c68820" strokeWidth="2"/>
-    <rect x="610" y="92" width="120" height="20" rx="3" fill="#c68820"/>
-    <text x="670" y="106" fontSize="11" fontFamily="JetBrains Mono" fontWeight="700" fill="#1a2820" textAnchor="middle">WINNING BID</text>
-    <circle cx="80" cy="148" r="22" fill="#7b9568"/>
-    <text x="80" y="153" fontSize="14" fontFamily="Inter" fontWeight="700" fill="#fff" textAnchor="middle">AN</text>
-    <text x="116" y="138" fontSize="15" fontFamily="Inter" fontWeight="700" fill="#1f2b22">@aerialnomad</text>
-    <text x="116" y="158" fontSize="11" fontFamily="Inter" fill="#888">Tokyo-based · DJI Inspire 3 · permit secured</text>
-    <text x="116" y="180" fontSize="11" fontFamily="JetBrains Mono" fill="#8a9a5b">just now · accepted</text>
-    <text x="600" y="158" fontSize="22" fontFamily="JetBrains Mono" fontWeight="700" fill="#1f2b22" textAnchor="end">$620</text>
-    <text x="600" y="180" fontSize="12" fontFamily="JetBrains Mono" fill="#888" textAnchor="end">ETA 5D</text>
-  </svg>
-);
+  return (
+    <div className="di-content" style={{ maxWidth: 960, margin: '0 auto', padding: '40px 20px' }}>
+      <h1 style={{ fontSize: 36, marginBottom: 12 }}>사용 설명서</h1>
+      <p style={{ fontSize: 16, color: 'var(--ink-soft, #555)', marginBottom: 32, lineHeight: 1.7 }}>
+        droneicarus는 전 세계 드론 영상의 거래·의뢰·발견을 한 곳에서 처리하는 플랫폼입니다.
+        구매자는 무료/유료 영상을 찾고, 판매자는 작품을 등록하고, 의뢰자는 원하는 영상을 직접 의뢰할 수 있어요.
+      </p>
 
-const BidFormMockup = () => (
-  <svg viewBox="0 0 800 220" style={{ width: '100%', display: 'block' }}>
-    <rect width="800" height="220" fill="#faf6ec"/>
-    <rect x="40" y="20" width="720" height="180" rx="8" fill="#fff" stroke="rgba(26,40,32,0.18)"/>
-    <text x="60" y="48" fontSize="16" fontFamily="Bricolage Grotesque" fontWeight="700" fill="#1f2b22">Place a bid</text>
-    <text x="60" y="74" fontSize="11" fontFamily="JetBrains Mono" fill="#888" letterSpacing="1.2">PRICE (USD)</text>
-    <rect x="60" y="80" width="160" height="30" rx="4" fill="#fbf6e9" stroke="rgba(26,40,32,0.18)"/>
-    <text x="70" y="100" fontSize="14" fontFamily="JetBrains Mono" fill="#1f2b22">580</text>
-    <text x="240" y="74" fontSize="11" fontFamily="JetBrains Mono" fill="#888" letterSpacing="1.2">ETA (DAYS)</text>
-    <rect x="240" y="80" width="100" height="30" rx="4" fill="#fbf6e9" stroke="rgba(26,40,32,0.18)"/>
-    <text x="250" y="100" fontSize="14" fontFamily="JetBrains Mono" fill="#1f2b22">7</text>
-    <text x="60" y="130" fontSize="11" fontFamily="JetBrains Mono" fill="#888" letterSpacing="1.2">SHORT PITCH</text>
-    <rect x="60" y="136" width="680" height="40" rx="4" fill="#fbf6e9" stroke="rgba(26,40,32,0.18)"/>
-    <text x="70" y="156" fontSize="13" fontFamily="Inter" fill="#1f2b22">Why you, what kit, location proximity, prior similar work.</text>
-  </svg>
-);
+      <div style={{ display: 'flex', gap: 4, marginBottom: 24, borderBottom: '2px solid rgba(26,40,32,0.1)' }}>
+        {tabs.map(t => (
+          <button key={t.id} onClick={() => setTab(t.id)}
+            style={{
+              padding: '12px 20px',
+              background: tab === t.id ? 'var(--accent, #4a6741)' : 'transparent',
+              color: tab === t.id ? '#fff' : 'var(--ink, #1f2b22)',
+              border: 'none',
+              borderRadius: '6px 6px 0 0',
+              fontWeight: 700,
+              fontSize: 14,
+              cursor: 'pointer',
+            }}>
+            {t.label}
+          </button>
+        ))}
+      </div>
 
-const BidWonMockup = () => (
-  <svg viewBox="0 0 800 200" style={{ width: '100%', display: 'block' }}>
-    <rect width="800" height="200" fill="#faf6ec"/>
-    <rect x="40" y="20" width="720" height="60" rx="6" fill="rgba(140,180,100,0.10)" stroke="#8a9a5b"/>
-    <text x="60" y="46" fontSize="14" fontFamily="Inter" fontWeight="700" fill="#1f2b22">Your bid was accepted!</text>
-    <text x="60" y="64" fontSize="11" fontFamily="JetBrains Mono" fill="#888">$620 · ETA 5D · status: accepted · WINNING BID</text>
-    <text x="40" y="120" fontSize="13" fontFamily="Inter" fill="#1f2b22">다음 단계: 의뢰 페이지에서 결제 영수증 + 마감일 + 납품 방법 확인. 파일 전달은 의뢰</text>
-    <text x="40" y="140" fontSize="13" fontFamily="Inter" fill="#1f2b22">상세 페이지의 메시지·첨부파일 영역에서 진행됩니다.</text>
-    <text x="40" y="170" fontSize="12" fontFamily="JetBrains Mono" fill="#888">매월 28일 PayPal로 70% 정산</text>
-  </svg>
-);
+      {tabs.find(t => t.id === tab)?.body}
+    </div>
+  );
+}
