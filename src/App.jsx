@@ -14,6 +14,7 @@ import { RequireAuth } from './auth/RequireAuth';
 // home bundle drops substantially and the browser parses other routes on demand.
 const HomePage            = lazy(() => import('./pages/home').then(m => ({ default: m.HomePage })));
 const PlayerPage          = lazy(() => import('./pages/player').then(m => ({ default: m.PlayerPage })));
+const GuidePage           = lazy(() => import('./pages/guide').then(m => ({ default: m.GuidePage })));
 const ExplorePage         = lazy(() => import('./pages/explore').then(m => ({ default: m.ExplorePage })));
 const SearchPage          = lazy(() => import('./pages/explore').then(m => ({ default: m.SearchPage })));
 const RankingsPage        = lazy(() => import('./pages/rankings').then(m => ({ default: m.RankingsPage })));
@@ -326,6 +327,7 @@ export default function App() {
       <ScrollToTop />
       <ChunkErrorBoundary><Suspense fallback={<RouteFallback />}>
         {route === 'home' && <HomePage onOpenVideo={onOpenVideo} onNav={onNav} />}
+        {route === 'guide' && <GuidePage onNav={onNav} />}
         {route === 'watch' && <PlayerPage video={currentVideo} onNav={onNav} onOpenVideo={onOpenVideo} />}
         {route === 'explore' && <ExplorePage onOpenVideo={onOpenVideo} onNav={onNav} />}
         {route === 'rankings' && <RankingsPage onOpenVideo={onOpenVideo} />}
@@ -369,7 +371,7 @@ export default function App() {
         {route === 'lab' && routeParam && <LabSubsectionPage subsection={routeParam} onNav={onNav} />}
         {route === 'lab-item' && <LabItemPage itemId={routeParam} onNav={onNav} />}
         {route === 'admin' && <RequireAdminM onNav={onNav}><AdminShell section={routeParam || 'dashboard'} onNav={onNav} /></RequireAdminM>}
-        {!['home', 'watch', 'explore', 'rankings', 'creators', 'creator', 'search', 'upload', 'mypage', 'signin', 'checkout', 'success', 'orders', 'license', 'earnings', 'settings', 'pilot-onboarding', 'profile', 'messages', 'notifications', 'commission', 'commissions', 'commission-new', 'guidelines', 'legal', 'flightlog', 'atlas', 'live', 'collection', 'location', 'pricing', 'shotlibrary', 'advanced', 'admin', 'lab', 'lab-item', 'livehelp', 'mystreams', 'shots', 'gear', 'gear-item'].includes(route) && <NotFoundPage onNav={onNav} />}
+        {!['home', 'watch', 'explore', 'rankings', 'creators', 'creator', 'search', 'upload', 'mypage', 'signin', 'checkout', 'success', 'orders', 'license', 'earnings', 'settings', 'pilot-onboarding', 'profile', 'messages', 'notifications', 'guide', 'commission', 'commissions', 'commission-new', 'guidelines', 'legal', 'flightlog', 'atlas', 'live', 'collection', 'location', 'pricing', 'shotlibrary', 'advanced', 'admin', 'lab', 'lab-item', 'livehelp', 'mystreams', 'shots', 'gear', 'gear-item'].includes(route) && <NotFoundPage onNav={onNav} />}
       </Suspense></ChunkErrorBoundary>
       {!['creator','pilot-onboarding','signin','messages','live','admin'].includes(route) && <Footer onNav={onNav} />}
 
