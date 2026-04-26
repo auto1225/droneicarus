@@ -117,6 +117,20 @@ export function ShotLibraryPage({ onNav, onOpenVideo }) {
 
   return (
     <div>
+      {/* PREVIEW BANNER — B2B inquiries route to email, no automated package delivery */}
+      <div style={{
+        background: 'linear-gradient(90deg, var(--amber) 0%, var(--sunset) 100%)',
+        color: '#1a2820', padding: '10px 24px',
+        display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10,
+        fontSize: 13, fontWeight: 600, textAlign: 'center',
+      }}>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <circle cx="12" cy="12" r="10"/>
+          <line x1="12" y1="8" x2="12" y2="12"/>
+          <line x1="12" y1="16" x2="12.01" y2="16"/>
+        </svg>
+        <span>[PREVIEW · B2B] 기업용 라이선스 패키지 자동 배송은 아직 준비 중이에요. 문의는 이메일로 응대해 드립니다 · B2B inquiries are routed to email — no automated package delivery yet.</span>
+      </div>
       <section style={{ padding: '70px 28px 40px', borderBottom: '1px solid var(--line)' }}>
         <div style={{ maxWidth: 1200, margin: '0 auto' }}>
           <div className="eyebrow" style={{ marginBottom: 12 }}>SHOT LIBRARY · BROWSE BY WHAT YOU'RE MAKING</div>
