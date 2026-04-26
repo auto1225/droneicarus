@@ -206,13 +206,16 @@ export function SearchDropdown({ query, onNav, onSelect, onClose }) {
 export function Header({ route, onNav, query, setQuery }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [ddOpen, setDdOpen] = useState(false);
+  const [moreOpen, setMoreOpen] = useState(false);
   const menuRef = useRef(null);
   const searchRef = useRef(null);
   const inputRef = useRef(null);
+  const moreRef = useRef(null);
   useEffect(() => {
     const h = (e) => {
       if (menuRef.current && !menuRef.current.contains(e.target)) setMenuOpen(false);
       if (searchRef.current && !searchRef.current.contains(e.target)) setDdOpen(false);
+      if (moreRef.current && !moreRef.current.contains(e.target)) setMoreOpen(false);
     };
     document.addEventListener('mousedown', h);
     return () => document.removeEventListener('mousedown', h);
@@ -230,20 +233,24 @@ export function Header({ route, onNav, query, setQuery }) {
     return () => document.removeEventListener('keydown', onKey);
   }, []);
   const txt = useContent;
-  const links = [
+  // Primary visible (6) — discovery + transactional core
+  const primaryLinks = [
     { id: 'home', label: txt('header.nav.map', 'Map') },
     { id: 'explore', label: txt('header.nav.explore', 'Explore') },
-    { id: 'shotlibrary', label: txt('header.nav.shots', 'Shots') },
+    { id: 'commissions', label: txt('header.nav.commissions', 'Commissions') },
     { id: 'rankings', label: txt('header.nav.rankings', 'Rankings') },
-    { id: 'creators', label: txt('header.nav.creators', 'Creators') },
     { id: 'atlas', label: txt('header.nav.atlas', 'Atlas') },
+    { id: 'creators', label: txt('header.nav.creators', 'Creators') },
+  ];
+  // Secondary inside "More" dropdown (5) — niche/utility
+  const moreLinks = [
     { id: 'lab', label: txt('header.nav.lab', 'Lab') },
     { id: 'gear', label: txt('header.nav.gear', 'Gear') },
     { id: 'live', label: txt('header.nav.live', 'Live') },
-    { id: 'commissions', label: txt('header.nav.commissions', 'Commissions') },
-    { id: 'guide', label: txt('header.nav.guide', 'Guide') },
+    { id: 'shotlibrary', label: txt('header.nav.shots', 'Shots') },
     { id: 'pricing', label: txt('header.nav.pricing', 'Pricing') },
   ];
+  const moreActive = moreLinks.some(l => l.id === route);
   const { profile, user, signOut } = useAuth();
   // Prefer real signed-in profile; fall back to mock for guest preview.
   const u = profile ? {
@@ -275,8 +282,8 @@ export function Header({ route, onNav, query, setQuery }) {
           <span className="mono" style={{ fontSize: 12, color: 'var(--parchment-dim)', marginLeft: 4, border: '1px solid var(--line)', padding: '2px 5px', borderRadius: 2 }}>{txt('header.badge', 'BETA')}</span>
         </button>
 
-        <nav style={{ display: 'flex', gap: 4, marginLeft: 12 }}>
-          {links.map(l => (
+        <nav style={{ display: 'flex', gap: 4, marginLeft: 12, alignItems: 'stretch' }}>
+          {primaryLinks.map(l => (
             <button key={l.id} onClick={() => onNav(l.id)} style={{
               padding: '8px 14px',
               fontSize: 14,
@@ -285,6 +292,43 @@ export function Header({ route, onNav, query, setQuery }) {
               marginBottom: -1,
             }}>{l.label}</button>
           ))}
+          <div ref={moreRef} style={{ position: 'relative' }}>
+            <button onClick={() => setMoreOpen(v => !v)} style={{
+              padding: '8px 14px',
+              fontSize: 14,
+              color: moreActive ? 'var(--bone)' : 'var(--parchment-dim)',
+              borderBottom: moreActive ? '2px solid var(--amber)' : '2px solid transparent',
+              marginBottom: -1,
+              display: 'inline-flex', alignItems: 'center', gap: 4,
+            }}>
+              {txt('header.nav.more', 'More')}
+              <svg width="10" height="10" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.6" style={{ transform: moreOpen ? 'rotate(180deg)' : 'none', transition: 'transform 0.15s' }}>
+                <polyline points="2,4 6,8 10,4"/>
+              </svg>
+            </button>
+            {moreOpen && (
+              <div style={{
+                position: 'absolute', top: 'calc(100% + 6px)', left: 0, zIndex: 1100,
+                minWidth: 180, background: 'var(--ink)',
+                border: '1px solid var(--line-strong)',
+                borderRadius: 6, boxShadow: 'var(--shadow-lg)',
+                overflow: 'hidden', padding: '4px 0',
+              }}>
+                {moreLinks.map(l => (
+                  <button key={l.id} onClick={() => { setMoreOpen(false); onNav(l.id); }} style={{
+                    display: 'block', width: '100%', padding: '10px 16px', textAlign: 'left',
+                    fontSize: 14,
+                    color: route === l.id ? 'var(--amber)' : 'var(--bone)',
+                    fontWeight: route === l.id ? 600 : 400,
+                  }}
+                    onMouseEnter={e => e.currentTarget.style.background = 'var(--forest-900)'}
+                    onMouseLeave={e => e.currentTarget.style.background = 'transparent'}>
+                    {l.label}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
         </nav>
 
         <div ref={searchRef} style={{ flex: 1, maxWidth: 560, marginLeft: 'auto', position: 'relative' }}>
@@ -326,6 +370,20 @@ export function Header({ route, onNav, query, setQuery }) {
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
             <line x1="4" y1="6" x2="20" y2="6"/><line x1="7" y1="12" x2="20" y2="12"/><line x1="10" y1="18" x2="20" y2="18"/>
             <circle cx="10" cy="6" r="2" fill="currentColor"/><circle cx="15" cy="12" r="2" fill="currentColor"/><circle cx="7" cy="18" r="2" fill="currentColor"/>
+          </svg>
+        </button>
+
+        <button onClick={() => onNav('guide')} title={txt('header.btn.guide', 'User guide')} style={{
+          width: 40, height: 40, borderRadius: 999,
+          border: '1px solid ' + (route === 'guide' ? 'var(--amber)' : 'var(--line)'),
+          background: 'var(--forest-900)',
+          color: route === 'guide' ? 'var(--amber)' : 'var(--parchment)',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+        }}>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="M9.1 9a3 3 0 015.8 1c0 2-3 2.5-3 4"/>
+            <line x1="12" y1="17" x2="12.01" y2="17"/>
           </svg>
         </button>
 
