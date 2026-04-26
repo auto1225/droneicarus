@@ -2,10 +2,13 @@
 import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react';
 import { CATEGORIES, LOCATIONS, VIDEOS, thumbGradient } from '../data';
 import { Ic, formatViews } from '../components';
+import { useAuth } from '../auth/AuthContext';
 
 export function CreatorDashboard({ onNav }) {
   const [step, setStep] = React.useState('dashboard'); // dashboard | upload
   const myVids = VIDEOS.slice(0, 8);
+  const { profile: _p } = useAuth();
+  const _u = _p ? { name: _p.display_name || _p.handle || 'Pilot', handle: _p.handle || '@you', initials: ((_p.display_name || _p.handle || 'P').split(/\s+/).map(s=>s[0]).join('').slice(0,2)).toUpperCase(), verified: _p.pilot_verified } : { name: 'New pilot', handle: '@you', initials: 'NP', verified: false };
 
   if (step === 'upload') return <UploadFlow onDone={() => setStep('dashboard')} />;
 
@@ -16,10 +19,10 @@ export function CreatorDashboard({ onNav }) {
         <div style={{ padding: '0 24px', marginBottom: 30 }}>
           <div className="eyebrow" style={{ marginBottom: 10 }}>PILOT CONSOLE</div>
           <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
-            <div style={{ width: 40, height: 40, borderRadius: '50%', background: 'var(--moss)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 700, border: '1px solid var(--line-strong)' }}>H</div>
+            <div style={{ width: 40, height: 40, borderRadius: '50%', background: 'var(--moss)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 700, border: '1px solid var(--line-strong)' }}>{_u.initials}</div>
             <div>
-              <div style={{ fontSize: 14, fontWeight: 600, display: 'flex', alignItems: 'center', gap: 4 }}>Hyunwoo Park <span style={{ color: 'var(--amber)' }}><Ic.check/></span></div>
-              <div style={{ fontSize: 12, color: 'var(--parchment-dim)' }}>@hyunwoo · Verified</div>
+              <div style={{ fontSize: 14, fontWeight: 600, display: 'flex', alignItems: 'center', gap: 4 }}>{_u.name} {_u.verified && <span style={{ color: 'var(--amber)' }}><Ic.check/></span>}</div>
+              <div style={{ fontSize: 12, color: 'var(--parchment-dim)' }}>{_u.handle}{_u.verified ? ' · Verified' : ''}</div>
             </div>
           </div>
         </div>
@@ -58,10 +61,10 @@ export function CreatorDashboard({ onNav }) {
         {/* KPI grid */}
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 14, marginBottom: 30 }}>
           {[
-            ['Views (30d)', '487K', '▲ 12%', 'var(--lichen)'],
-            ['Earnings (30d)', '$3,284', '▲ 23%', 'var(--amber)'],
-            ['New followers', '1,847', '▲ 8%', 'var(--lichen)'],
-            ['Pending payout', '$1,120', 'Next: Apr 28', 'var(--parchment-dim)'],
+            ['Views (30d)', '0', 'No data yet', 'var(--parchment-dim)'],
+            ['Earnings (30d)', '$0', 'Upload to start', 'var(--parchment-dim)'],
+            ['New followers', '0', 'No data yet', 'var(--parchment-dim)'],
+            ['Pending payout', '$0', 'No payouts yet', 'var(--parchment-dim)'],
           ].map(([k, v, delta, color]) => (
             <div key={k} style={{ padding: 20, background: 'var(--forest-900)', border: '1px solid var(--line)', borderRadius: 4 }}>
               <div className="mono" style={{ fontSize: 12, letterSpacing: '0.14em', color: 'var(--parchment-dim)', textTransform: 'uppercase', marginBottom: 10 }}>{k}</div>
