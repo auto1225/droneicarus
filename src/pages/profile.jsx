@@ -130,7 +130,7 @@ export function ProfilePage({ handle, onOpenVideo, onNav }) {
           <div style={{ display: 'flex', gap: 8, paddingBottom: 12 }}>
             <button className="btn secondary" style={{ fontSize: 14 }} data-placeholder="true">Message</button>
             <button className="btn secondary" style={{ fontSize: 14 }} data-placeholder="true">Commission</button>
-            <FollowButton creatorId={p?.id || handle} creatorHandle={p?.handle || handle} className="btn" style={{ fontSize: 14 }} />
+            <FollowButton creatorId={creator?.id || handle} creatorHandle={creator?.handle || handle} className="btn" style={{ fontSize: 14 }} />
           </div>
         </div>
 
