@@ -6,6 +6,7 @@ import React, { useState, useEffect, useRef, Suspense, lazy } from 'react';
 
 import { VIDEOS } from './data';
 import { Header, Footer, Ic, ScrollToTop } from './components';
+import { PageInfoButton } from './PageInfo';
 import { ToastStack, toast } from './toast';
 import { RequireAuth } from './auth/RequireAuth';
 
@@ -325,6 +326,7 @@ export default function App() {
       <Header route={route} onNav={onNav} query={query} setQuery={setQuery} />
       <ToastStack />
       <ScrollToTop />
+      <PageInfoButton route={route} onNav={onNav} />
       <ChunkErrorBoundary><Suspense fallback={<RouteFallback />}>
         {route === 'home' && <HomePage onOpenVideo={onOpenVideo} onNav={onNav} />}
         {route === 'guide' && <GuidePage onNav={onNav} />}
