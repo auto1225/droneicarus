@@ -8,9 +8,10 @@ import { toast } from '../toast';
 const pUseState = useState;
 
 export function ProfilePage({ handle, onOpenVideo, onNav }) {
-  const mockCreator = (CREATORS || []).find(c => c.handle === handle || c.handle === '@' + handle) || CREATORS[0];
+  const mockCreator = (CREATORS || []).find(c => c.handle === handle || c.handle === '@' + handle) || null;
   const [creator, setCreator] = pUseState(mockCreator);
   const [dbVideos, setDbVideos] = pUseState(null);
+  const [lookupDone, setLookupDone] = pUseState(false);
   const [following, setFollowing] = pUseState(false);
   const [tab, setTab] = pUseState('clips');
 
@@ -53,9 +54,20 @@ export function ProfilePage({ handle, onOpenVideo, onNav }) {
         })));
         isFollowing(prof.id).then(setFollowing).catch(() => {});
       }
+      setLookupDone(true);
     })();
   }, [handle]);
 
+  if (!creator && lookupDone) {
+    return (
+      <div className="di-content" style={{ maxWidth: 600, margin: '60px auto', padding: 40, textAlign: 'center' }}>
+        <h2 style={{ fontSize: 24, marginBottom: 12 }}>User not found</h2>
+        <p style={{ color: 'var(--parchment-dim)', marginBottom: 20 }}>이 핸들의 프로필이 없어요. 다른 크리에이터를 찾아보세요.</p>
+        <button className="btn" onClick={() => onNav?.('creators')}>크리에이터 디렉터리로</button>
+      </div>
+    );
+  }
+  if (!creator) return null;
   const vids = (dbVideos && dbVideos.length ? dbVideos : VIDEOS.filter(v => v.creator.handle === creator.handle || v.creator.name === creator.name));
   const displayVids = vids.length ? vids : VIDEOS.slice(0, 12);
 
