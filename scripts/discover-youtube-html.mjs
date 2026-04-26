@@ -1,58 +1,122 @@
 // scripts/discover-youtube-html.mjs
-// Fallback when YouTube Data API quota is exhausted: scrape /results pages
-// (no key, no quota) and seed videos. Lower fidelity (no view counts etc),
-// but enough to populate the map with real, embeddable clips.
+// HTML-scrape YouTube /results pages (no API quota required).
+// Append-only — does NOT wipe existing rows. Skips already-known youtube_ids.
 
 const SUPA_URL = process.env.SUPABASE_URL?.replace(/\/$/, '');
 const SUPA_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
 if (!SUPA_URL || !SUPA_KEY) { console.error('missing SUPABASE_URL/SUPABASE_SERVICE_ROLE_KEY'); process.exit(1); }
 
 const QUERIES = [
-  ['drone iceland 4K landscape',  'landscape', 64.96, -19.02, 'Iceland'],
-  ['drone tokyo skyline 4K',      'cityscape', 35.68, 139.69, 'Japan'],
-  ['drone uluru sunrise',         'desert',    -25.34, 131.04, 'Australia'],
-  ['drone swiss alps 4K',         'mountain',  46.56, 8.56,   'Switzerland'],
-  ['drone patagonia mountains',   'mountain',  -51.0, -73.0,  'Chile'],
-  ['drone amazon rainforest',     'forest',    -3.47, -62.22, 'Brazil'],
-  ['drone faroe islands',         'ocean',     61.9, -6.78,   'Faroe Islands'],
-  ['drone manhattan new york 4K', 'cityscape', 40.75, -73.98, 'USA'],
-  ['drone antelope canyon',       'desert',    36.86, -111.37, 'USA'],
-  ['drone great barrier reef',    'ocean',     -18.29, 147.7,  'Australia'],
-  ['drone dolomites italy 4K',    'mountain',  46.41, 11.84,  'Italy'],
-  ['drone santorini sunset',      'cityscape', 36.39, 25.46,  'Greece'],
-  ['drone bagan myanmar',         'landscape', 21.17, 94.86,  'Myanmar'],
-  ['drone sahara desert',         'desert',    23.0, 12.0,    'Algeria'],
-  ['drone venice italy',          'cityscape', 45.44, 12.33,  'Italy'],
-  ['drone seoul night 4K',        'cityscape', 37.57, 126.98, 'South Korea'],
-  ['drone maldives atoll',        'ocean',     4.17, 73.5,    'Maldives'],
-  ['drone lofoten norway',        'ocean',     68.23, 13.87,  'Norway'],
-  ['drone hallstatt austria',     'landscape', 47.56, 13.65,  'Austria'],
-  ['drone bali rice terraces',    'landscape', -8.48, 115.32, 'Indonesia'],
-  ['drone petra jordan',          'desert',    30.33, 35.44,  'Jordan'],
-  ['drone machu picchu peru',     'mountain',  -13.16, -72.54, 'Peru'],
-  ['drone grand canyon',          'landscape', 36.06, -112.14, 'USA'],
-  ['drone plitvice croatia',      'forest',    44.88, 15.62,  'Croatia'],
-  ['drone victoria falls',        'landscape', -17.92, 25.85, 'Zambia'],
-  ['drone yosemite valley',       'mountain',  37.75, -119.59, 'USA'],
-  ['drone cappadocia balloons',   'landscape', 38.64, 34.83,  'Turkey'],
-  ['drone mount fuji',            'mountain',  35.36, 138.73, 'Japan'],
-  ['drone kilimanjaro',           'mountain',  -3.07, 37.35,  'Tanzania'],
-  ['drone milford sound nz',      'mountain',  -44.67, 167.93, 'New Zealand'],
-  ['drone scotland highlands 4K', 'mountain',  57.0, -4.0,    'Scotland'],
-  ['drone provence lavender',     'landscape', 43.96, 5.36,   'France'],
-  ['drone alaska glacier',        'mountain',  61.0, -149.0,  'USA'],
-  ['drone hawaii volcano kilauea','landscape', 19.42, -155.29,'USA'],
-  ['drone amalfi coast italy',    'ocean',     40.63, 14.61,  'Italy'],
-  ['drone giza pyramids',         'desert',    29.98, 31.13,  'Egypt'],
-  ['drone moscow kremlin',        'cityscape', 55.75, 37.62,  'Russia'],
-  ['drone shanghai bund',         'cityscape', 31.24, 121.49, 'China'],
-  ['drone sydney opera house',    'cityscape', -33.86, 151.21, 'Australia'],
-  ['drone rio de janeiro',        'cityscape', -22.97, -43.18, 'Brazil'],
-  ['drone san francisco bridge',  'cityscape', 37.77, -122.41, 'USA'],
-  ['drone london thames',         'cityscape', 51.51, -0.13,   'UK'],
-  ['drone paris eiffel',          'cityscape', 48.86, 2.34,    'France'],
-  ['drone barcelona sagrada',     'cityscape', 41.38, 2.17,    'Spain'],
-  ['drone dubai burj khalifa',    'cityscape', 25.20, 55.27,   'UAE'],
+  ['Iguazu Falls drone aerial 4K', 'waterfall', -25.694, -54.437, 'Argentina'],
+  ['Niagara Falls drone aerial 4K', 'waterfall', 43.096, -79.037, 'USA'],
+  ['Plitvice Lakes waterfalls drone Croatia', 'waterfall', 44.881, 15.62, 'Croatia'],
+  ['Gullfoss Iceland drone aerial 4K', 'waterfall', 64.327, -20.124, 'Iceland'],
+  ['Skogafoss waterfall drone Iceland', 'waterfall', 63.532, -19.512, 'Iceland'],
+  ['Angel Falls Venezuela drone aerial', 'waterfall', 5.967, -62.535, 'Venezuela'],
+  ['Yosemite waterfall drone aerial', 'waterfall', 37.756, -119.598, 'USA'],
+  ['Detian Falls drone Vietnam China', 'waterfall', 22.851, 106.722, 'China'],
+  ['northern lights Tromso drone Norway 4K', 'aurora', 69.649, 18.956, 'Norway'],
+  ['aurora borealis Lapland drone Finland', 'aurora', 67.366, 26.629, 'Finland'],
+  ['aurora Yellowknife Canada drone', 'aurora', 62.454, -114.371, 'Canada'],
+  ['Iceland aurora drone aerial 4K', 'aurora', 64.146, -21.94, 'Iceland'],
+  ['aurora Fairbanks Alaska drone', 'aurora', 64.838, -147.716, 'USA'],
+  ['Iceland volcano eruption drone Fagradalsfjall', 'volcano', 63.91, -22.3, 'Iceland'],
+  ['Stromboli volcano drone aerial Italy', 'volcano', 38.789, 15.213, 'Italy'],
+  ['Mount Etna volcano drone Sicily', 'volcano', 37.751, 14.993, 'Italy'],
+  ['Hawaii Kilauea volcano drone aerial', 'volcano', 19.421, -155.287, 'USA'],
+  ['Mount Bromo drone aerial Indonesia', 'volcano', -7.942, 112.953, 'Indonesia'],
+  ['Arenal volcano drone aerial Costa Rica', 'volcano', 10.463, -84.703, 'Costa Rica'],
+  ['Shenzhen drone light show 2024 aerial', 'aerial-sports', 22.543, 114.058, 'China'],
+  ['Skymagic 1000 drones light show', 'aerial-sports', 51.507, -0.128, 'UK'],
+  ['Korea drone light show Busan 2024', 'aerial-sports', 35.18, 129.075, 'South Korea'],
+  ['Sydney New Year fireworks drone aerial', 'phenomena', -33.857, 151.215, 'Australia'],
+  ['Tokyo Sumida fireworks drone aerial', 'phenomena', 35.711, 139.803, 'Japan'],
+  ['Golden Gate Bridge drone aerial sunrise', 'cityscape', 37.819, -122.479, 'USA'],
+  ['Akashi Kaikyo Bridge Japan drone aerial', 'cityscape', 34.617, 135.022, 'Japan'],
+  ['Millau Viaduct France drone aerial', 'cityscape', 44.077, 3.022, 'France'],
+  ['Tower Bridge London drone aerial 4K', 'cityscape', 51.505, -0.075, 'UK'],
+  ['Brooklyn Bridge drone aerial NYC', 'cityscape', 40.706, -73.997, 'USA'],
+  ['Tuscany vineyard drone aerial Italy 4K', 'landscape', 43.467, 11.046, 'Italy'],
+  ['Napa Valley vineyard drone aerial', 'landscape', 38.299, -122.286, 'USA'],
+  ['Bordeaux vineyard drone aerial France', 'landscape', 44.838, -0.578, 'France'],
+  ['Mendoza vineyard drone Argentina', 'landscape', -32.89, -68.844, 'Argentina'],
+  ['Banaue Rice Terraces drone Philippines', 'landscape', 16.928, 121.058, 'Philippines'],
+  ['Bali Tegalalang rice terrace drone', 'landscape', -8.43, 115.279, 'Indonesia'],
+  ['Longji rice terraces drone China aerial', 'landscape', 25.794, 110.103, 'China'],
+  ['Sapa rice terraces drone Vietnam', 'landscape', 22.336, 103.844, 'Vietnam'],
+  ['Provence lavender field drone France', 'landscape', 43.892, 5.483, 'France'],
+  ['Hokkaido flower field drone Japan', 'landscape', 43.461, 142.483, 'Japan'],
+  ['Keukenhof tulip field drone Netherlands', 'landscape', 52.272, 4.547, 'Netherlands'],
+  ['cherry blossom drone aerial Japan', 'landscape', 35.011, 135.768, 'Japan'],
+  ['offshore wind farm drone aerial North Sea', 'landscape', 54.158, 7.453, 'Germany'],
+  ['desert solar farm drone aerial Morocco Noor', 'landscape', 30.997, -6.864, 'Morocco'],
+  ['wind turbine drone aerial Texas', 'landscape', 32.736, -101.847, 'USA'],
+  ['Maldives atoll drone aerial 4K', 'ocean', 4.175, 73.509, 'Maldives'],
+  ['Cliffs of Moher drone aerial Ireland', 'ocean', 52.972, -9.426, 'Ireland'],
+  ['Faroe Islands cliffs drone aerial', 'ocean', 61.892, -6.911, 'Faroe Islands'],
+  ['Bora Bora drone aerial 4K', 'ocean', -16.5, -151.741, 'French Polynesia'],
+  ['Great Barrier Reef drone Australia', 'ocean', -18.286, 147.7, 'Australia'],
+  ['Perito Moreno glacier drone Argentina', 'mountain', -50.495, -73.149, 'Argentina'],
+  ['Greenland ice sheet drone aerial', 'mountain', 71.706, -42.604, 'Greenland'],
+  ['Vatnajokull glacier drone Iceland', 'mountain', 64.404, -16.789, 'Iceland'],
+  ['Angkor Wat drone aerial Cambodia 4K', 'ruins-heritage', 13.413, 103.867, 'Cambodia'],
+  ['Neuschwanstein castle drone Germany', 'ruins-heritage', 47.557, 10.749, 'Germany'],
+  ['Petra Jordan drone aerial 4K', 'ruins-heritage', 30.328, 35.444, 'Jordan'],
+  ['Bagan temples drone aerial Myanmar', 'ruins-heritage', 21.171, 94.86, 'Myanmar'],
+  ['Machu Picchu drone aerial Peru 4K', 'ruins-heritage', -13.163, -72.545, 'Peru'],
+  ['Acropolis Athens drone aerial Greece', 'ruins-heritage', 37.971, 23.726, 'Greece'],
+  ['Stonehenge drone aerial UK', 'ruins-heritage', 51.179, -1.826, 'UK'],
+  ['Borobudur temple drone Indonesia', 'ruins-heritage', -7.608, 110.204, 'Indonesia'],
+  ['Chichen Itza Mexico drone aerial', 'ruins-heritage', 20.683, -88.569, 'Mexico'],
+  ['Eiffel Tower drone aerial Paris 4K', 'cityscape', 48.858, 2.294, 'France'],
+  ['Burj Khalifa drone aerial Dubai', 'cityscape', 25.197, 55.274, 'UAE'],
+  ['Big Ben London drone aerial', 'cityscape', 51.501, -0.124, 'UK'],
+  ['Sydney Opera House drone aerial 4K', 'cityscape', -33.857, 151.215, 'Australia'],
+  ['Empire State Building drone NYC', 'cityscape', 40.748, -73.985, 'USA'],
+  ['whale shark drone aerial Mexico', 'wildlife', 21.347, -86.851, 'Mexico'],
+  ['whales drone aerial Hawaii Maui', 'wildlife', 20.798, -156.331, 'USA'],
+  ['Serengeti migration drone Tanzania', 'wildlife', -2.333, 34.834, 'Tanzania'],
+  ['Maasai Mara wildlife drone Kenya', 'wildlife', -1.493, 35.144, 'Kenya'],
+  ['polar bear drone aerial Arctic', 'wildlife', 79.0, -75.0, 'Canada'],
+  ['elephants drone aerial Botswana Okavango', 'wildlife', -19.286, 22.831, 'Botswana'],
+  ['Amazon rainforest drone aerial Brazil', 'forest', -3.47, -62.22, 'Brazil'],
+  ['Redwood forest California drone aerial', 'forest', 41.213, -124.005, 'USA'],
+  ['Black Forest Germany drone autumn', 'forest', 48.0, 8.2, 'Germany'],
+  ['Taiga forest drone Russia Siberia', 'forest', 60.0, 100.0, 'Russia'],
+  ['bamboo forest drone Kyoto Arashiyama', 'forest', 35.017, 135.671, 'Japan'],
+  ['supercell storm drone aerial Texas', 'storm-chasing', 33.578, -101.855, 'USA'],
+  ['tornado drone aerial Oklahoma', 'storm-chasing', 35.467, -97.516, 'USA'],
+  ['Niseko Japan ski drone aerial', 'skiing', 42.866, 140.696, 'Japan'],
+  ['Zermatt Matterhorn ski drone aerial', 'skiing', 46.02, 7.748, 'Switzerland'],
+  ['Whistler ski resort drone Canada', 'skiing', 50.115, -122.954, 'Canada'],
+  ['Aspen ski resort drone aerial', 'skiing', 39.191, -106.817, 'USA'],
+  ['Chamonix Mont Blanc drone ski', 'skiing', 45.923, 6.87, 'France'],
+  ['Sahara Erg Chebbi dunes drone Morocco', 'dunes', 31.15, -3.953, 'Morocco'],
+  ['Namibia Sossusvlei dunes drone', 'dunes', -24.73, 15.35, 'Namibia'],
+  ['White Sands New Mexico drone aerial', 'dunes', 32.781, -106.171, 'USA'],
+  ['Wahiba Sands Oman drone aerial', 'dunes', 21.5, 58.7, 'Oman'],
+  ['Lencois Maranhenses Brazil drone', 'dunes', -2.485, -43.123, 'Brazil'],
+  ['Tokyo Shibuya night drone aerial 4K', 'night-flight', 35.661, 139.704, 'Japan'],
+  ['Hong Kong skyline night drone aerial', 'night-flight', 22.281, 114.158, 'Hong Kong'],
+  ['Las Vegas strip night drone aerial', 'night-flight', 36.114, -115.173, 'USA'],
+  ['Shanghai Bund night drone aerial', 'night-flight', 31.245, 121.49, 'China'],
+  ['Singapore Marina Bay night drone', 'night-flight', 1.283, 103.86, 'Singapore'],
+  ['Dubai Marina night drone aerial', 'night-flight', 25.078, 55.137, 'UAE'],
+  ['Pipeline Hawaii surfing drone aerial', 'surfing', 21.665, -158.054, 'USA'],
+  ['Nazare giant wave surfing drone', 'surfing', 39.605, -9.075, 'Portugal'],
+  ['Mavericks California surfing drone', 'surfing', 37.494, -122.5, 'USA'],
+  ['Alps drone aerial Swiss 4K cinematic', 'mountain', 46.558, 8.561, 'Switzerland'],
+  ['Himalayas Annapurna drone Nepal', 'mountain', 28.596, 83.82, 'Nepal'],
+  ['Patagonia Fitz Roy drone aerial', 'mountain', -49.272, -73.043, 'Argentina'],
+  ['Manhattan New York drone aerial 4K', 'cityscape', 40.758, -73.985, 'USA'],
+  ['Tokyo skyline drone aerial 4K', 'cityscape', 35.689, 139.692, 'Japan'],
+  ['Shanghai Pudong drone aerial 4K', 'cityscape', 31.23, 121.499, 'China'],
+  ['Hong Kong harbor drone aerial 4K', 'cityscape', 22.297, 114.169, 'Hong Kong'],
+  ['Singapore drone aerial 4K skyline', 'cityscape', 1.29, 103.851, 'Singapore'],
+  ['Seoul Gangnam drone aerial 4K', 'cityscape', 37.498, 127.027, 'South Korea'],
+  ['Istanbul drone aerial Hagia Sophia', 'cityscape', 41.008, 28.978, 'Turkey'],
+  ['Prague drone aerial 4K Czech', 'cityscape', 50.087, 14.421, 'Czech'],
+  ['Cape Town drone aerial Table Mountain', 'cityscape', -33.957, 18.408, 'South Africa'],
 ];
 
 async function fetchYTResults(query) {
@@ -65,11 +129,10 @@ async function fetchYTResults(query) {
   });
   if (!r.ok) throw new Error('YT results: ' + r.status);
   const html = await r.text();
-  // Extract videoId AND adjacent title from ytInitialData. Cheap regex first.
   const ids = [];
   const re = /"videoId":"([A-Za-z0-9_-]{11})"[^{]*?"title":\{"runs":\[\{"text":"([^"]+)"/g;
   let m;
-  while ((m = re.exec(html)) && ids.length < 6) {
+  while ((m = re.exec(html)) && ids.length < 8) {
     ids.push({ id: m[1], title: m[2] });
   }
   return ids;
@@ -80,19 +143,21 @@ async function sb(path, { method = 'GET', body, prefer } = {}) {
   if (body !== undefined) headers['Content-Type'] = 'application/json';
   if (prefer) headers.Prefer = prefer;
   const res = await fetch(SUPA_URL + path, { method, headers, body: body !== undefined ? JSON.stringify(body) : undefined });
-  const t = await res.text();
-  if (!res.ok) throw new Error(`Supabase ${method} ${path} → ${res.status} ${t.slice(0, 200)}`);
-  return t ? JSON.parse(t) : null;
+  const text = await res.text();
+  if (!res.ok) throw new Error(`sb ${method} ${path} → ${res.status} ${text.slice(0,160)}`);
+  try { return text ? JSON.parse(text) : null; } catch (_) { return text; }
 }
 
 async function run() {
-  console.log('[html] starting; queries:', QUERIES.length);
-  // Wipe existing source='youtube' rows so we re-seed cleanly
-  await sb('/rest/v1/videos?source=eq.youtube', { method: 'DELETE', prefer: 'return=minimal' });
-  console.log('[html] wiped previous youtube rows');
+  console.log(`[html] starting append-only run, ${QUERIES.length} queries`);
+
+  // Pre-fetch all existing youtube_ids so we skip cheaply
+  const existing = await sb('/rest/v1/videos?select=youtube_id&source=eq.youtube&limit=10000');
+  const knownIds = new Set(existing.map(x => x.youtube_id).filter(Boolean));
+  console.log(`[html] ${knownIds.size} youtube_ids already in DB`);
 
   let total = 0;
-  const seen = new Set();
+  const seen = new Set(knownIds);
   for (const [q, cat, lat, lon, country] of QUERIES) {
     try {
       const items = await fetchYTResults(q);
@@ -100,6 +165,9 @@ async function run() {
       for (const it of items) {
         if (seen.has(it.id)) continue;
         seen.add(it.id);
+        const lowTitle = (it.title || '').toLowerCase();
+        // Skip if title doesn't look drone-related — cheap quality filter
+        if (!/drone|aerial|sky|cinematic|4k|8k|fpv|footage/.test(lowTitle)) continue;
         rows.push({
           youtube_id: it.id,
           title: (it.title || '').slice(0, 240),
@@ -112,8 +180,7 @@ async function run() {
           thumb_url: `https://i.ytimg.com/vi/${it.id}/hqdefault.jpg`,
           views: 0, likes: 0,
           resolution: 'HD', duration_s: 0,
-          ai_quality_score: 7,
-          license_tiers: null,
+          ai_quality_score: 6,
           price_usd: 0,
           inferred_location_raw: { source: 'html-scrape', query: q, country },
           published_at: new Date().toISOString(),
@@ -123,16 +190,18 @@ async function run() {
         await sb('/rest/v1/videos?on_conflict=youtube_id', {
           method: 'POST',
           body: rows,
-          prefer: 'return=minimal,resolution=merge-duplicates',
+          prefer: 'return=minimal,resolution=ignore-duplicates',
         });
         total += rows.length;
         console.log(`[q] ${q}: +${rows.length} (total ${total})`);
+      } else {
+        console.log(`[q] ${q}: 0 new (all dupes or non-drone)`);
       }
-      await new Promise(r => setTimeout(r, 600));
+      await new Promise(r => setTimeout(r, 800));
     } catch (e) {
       console.warn('[q error]', q, e.message);
     }
   }
-  console.log('[html] done — inserted', total);
+  console.log(`[html] done — inserted ${total} new videos`);
 }
 run().catch(e => { console.error('[fatal]', e); process.exit(1); });
