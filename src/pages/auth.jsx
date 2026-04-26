@@ -185,7 +185,7 @@ export function AuthPage({ onNav }) {
     try {
       if (mode === 'signin') {
         await auth.signIn({ email, password });
-        toast?.(txt('auth.toast.welcome', 'Welcome back'), txt('auth.toast.welcome_sub', 'Signed in to Drone Icarus'));
+        toast?.('Welcome back', 'Signed in to Drone Icarus');
         onNav('home');
       } else if (mode === 'signup') {
         if (step === 1) { setStep(2); }
