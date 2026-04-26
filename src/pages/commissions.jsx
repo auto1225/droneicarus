@@ -280,7 +280,6 @@ export function CommissionDetailPage({ id, onNav }) {
 
   const handleAccept = async (bidId) => {
     if (!isBuyer) return;
-    if (!window.confirm('Accept this bid? The other bids will be marked rejected and the request locked.')) return;
     setAccepting(true);
     try {
       await acceptBid(bidId, data.id);
