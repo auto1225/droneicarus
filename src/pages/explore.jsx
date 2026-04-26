@@ -108,10 +108,30 @@ export function ExplorePage({ onOpenVideo, onNav }) {
   const [query, setQuery] = useState('');
   // Default: groups collapsed — user expands what they want. Keeps sidebar within viewport without scrolling.
 
-  // count map: byFine[fine] = N
+  // count map: byFine[fine] = N — counts reflect the active license + query filters
+  // so the sidebar stays in sync with whatever the user has chosen on top.
+  // (Category selection is intentionally NOT applied — that's the dimension
+  // the sidebar is letting you pick from.)
   const counts = useMemo(() => {
+    const q = (query || '').trim().toLowerCase();
+    const matchesQuery = (v) => {
+      if (!q) return true;
+      return (v.title || '').toLowerCase().includes(q)
+        || (v.description || '').toLowerCase().includes(q)
+        || (v.creator?.name || '').toLowerCase().includes(q)
+        || (v.creator?.handle || '').toLowerCase().includes(q)
+        || (v.tags || []).some(t => String(t).toLowerCase().includes(q));
+    };
+    const matchesLicense = (v) => {
+      if (licenseFilter === 'all')   return true;
+      if (licenseFilter === 'free')  return Number(v.price || 0) === 0;
+      if (licenseFilter === 'paid')  return Number(v.price || 0) > 0;
+      if (licenseFilter === 'pilot') return v.source && v.source !== 'youtube';
+      return Array.isArray(v.licenseTiers) && v.licenseTiers.includes(licenseFilter);
+    };
+    const visible = videos.filter(v => matchesLicense(v) && matchesQuery(v));
     const byFine = {};
-    videos.forEach(v => {
+    visible.forEach(v => {
       const fine = v.tags?.[0];
       if (fine && fine !== 'drone') byFine[fine] = (byFine[fine] || 0) + 1;
     });
@@ -124,8 +144,8 @@ export function ExplorePage({ onOpenVideo, onNav }) {
       });
       groups[g.id] = s;
     });
-    return { byFine, groups, children, total: videos.length };
-  }, [videos, hierarchy]);
+    return { byFine, groups, children, total: visible.length };
+  }, [videos, hierarchy, licenseFilter, query]);
 
   const filtered = useMemo(() => {
     if (!selected) return videos;
