@@ -978,9 +978,39 @@ export function HomePage({ onOpenVideo, onNav }) {
   const hierarchyRaw = useContent('explore.hierarchy', null);
   const hierarchy = hUseMemo(() => homeParseHierarchy(hierarchyRaw), [hierarchyRaw]);
   const selectedFineSet = hUseMemo(() => selected?.fine ? new Set(selected.fine) : null, [selected]);
+  const [mapFilters, setMapFilters] = hUseState({ free: false, paid: false, pilot: false, commercial: false, extended: false, exclusive: false, uhd: false, recent: false, featured: false });
+  // Sidebar counts reflect active filters (license/search) but NOT category selection,
+  // because category is the dimension the sidebar lets users pick from.
   const totals = hUseMemo(() => {
+    const q = (searchQuery || '').trim().toLowerCase();
+    const matchesQuery = (v) => {
+      if (!q) return true;
+      return (v.title || '').toLowerCase().includes(q)
+        || (v.description || '').toLowerCase().includes(q)
+        || (v.creator?.name || '').toLowerCase().includes(q)
+        || (v.creator?.handle || '').toLowerCase().includes(q)
+        || (v.tags || []).some(t => String(t).toLowerCase().includes(q));
+    };
+    const matchesMapFilter = (v) => {
+      if (mapFilters.free && !(Number(v.price || 0) === 0)) return false;
+      if (mapFilters.paid && !(Number(v.price || 0) > 0)) return false;
+      if (mapFilters.pilot && !(v.source && v.source !== 'youtube')) return false;
+      if (mapFilters.commercial && !(Array.isArray(v.licenseTiers) && v.licenseTiers.includes('commercial'))) return false;
+      if (mapFilters.extended && !(Array.isArray(v.licenseTiers) && v.licenseTiers.includes('extended'))) return false;
+      if (mapFilters.exclusive && !(Array.isArray(v.licenseTiers) && v.licenseTiers.includes('exclusive'))) return false;
+      if (mapFilters.uhd && !(/4K|8K|UHD/i.test(String(v.resolution || '')))) return false;
+      if (mapFilters.recent) {
+        const ts = v.published_at || v.publishedAt;
+        if (!ts) return false;
+        const ageMs = Date.now() - new Date(ts).getTime();
+        if (ageMs > 30 * 24 * 60 * 60 * 1000) return false;
+      }
+      if (mapFilters.featured && !v.featured) return false;
+      return true;
+    };
+    const visible = (dbVideos || []).filter(v => matchesQuery(v) && matchesMapFilter(v));
     const byFine = {};
-    (dbVideos || []).forEach(v => {
+    visible.forEach(v => {
       const fine = v.tags?.[0];
       if (fine && fine !== 'drone') byFine[fine] = (byFine[fine] || 0) + 1;
     });
@@ -993,9 +1023,8 @@ export function HomePage({ onOpenVideo, onNav }) {
       });
       groups[g.id] = s;
     });
-    return { byFine, groups, children, total: dbVideos.length };
-  }, [dbVideos, hierarchy]);
-  const [mapFilters, setMapFilters] = hUseState({ free: false, paid: false, pilot: false, commercial: false, extended: false, exclusive: false, uhd: false, recent: false, featured: false });
+    return { byFine, groups, children, total: visible.length };
+  }, [dbVideos, hierarchy, mapFilters, searchQuery]);
   const sheetRef = hUseRef(null);
 
   const toggleFilter = (k) => setMapFilters(f => ({ ...f, [k]: !f[k] }));
