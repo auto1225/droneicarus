@@ -583,12 +583,21 @@ export function VideoCard({ video, onClick, size = 'md', showRank = false }) {
         {video.price > 0 && (
           <div style={{
             position: 'absolute', top: 10, right: 10,
-            display: 'flex', alignItems: 'center', gap: 4,
-            background: 'var(--thumb-overlay)',
-            border: '1px solid var(--sunset)',
-            padding: '4px 8px', borderRadius: 2,
-            fontSize: 14, fontFamily: 'var(--font-mono)', color: 'var(--sunset)',
-          }}><Ic.lock/> ${video.price}</div>
+            display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 4,
+          }}>
+            <div style={{
+              display: 'flex', alignItems: 'center', gap: 4,
+              background: 'var(--thumb-overlay)',
+              border: '1px solid var(--sunset)',
+              padding: '4px 8px', borderRadius: 2,
+              fontSize: 14, fontFamily: 'var(--font-mono)', color: 'var(--sunset)',
+            }}><Ic.lock/> ${video.price}</div>
+            <div style={{
+              fontSize: 10, fontFamily: 'var(--font-mono)', letterSpacing: '0.12em', fontWeight: 700,
+              background: 'var(--amber)', color: '#1a2820',
+              padding: '2px 6px', borderRadius: 2,
+            }}>DEMO</div>
+          </div>
         )}
         {video.price === 0 && (
           <div style={{
