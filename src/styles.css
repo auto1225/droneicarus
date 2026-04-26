@@ -1,4 +1,4 @@
-—/* ──────────────────────────────────────────────────────────
+/* ──────────────────────────────────────────────────────────
    Z-INDEX CANONICAL SCALE (injected 2026-04-21)
    0       document flow
    50      in-page sticky sub-navs (filter bars, section tabs)
@@ -10,7 +10,7 @@
    9998    toast stack container
    9999    tweaks panel / system notifications
    ────────────────────────────────────────────────────────── */
-/* Drone Icarus — Global Styles */
+/* Drone Icarus - Global Styles */
 
 :root {
   /* Light parchment tone — default */
