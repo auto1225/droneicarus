@@ -2422,3 +2422,38 @@ div[style*="forest-900"][style*="border"] {
     grid-template-columns: 60px 1fr 1fr !important;
   }
 }
+
+
+/* === Mobile follow-up patch (2026-04-26) — signin/watch/creators === */
+@media (max-width: 480px) {
+     /* Signin / auth split — 1.1fr 1fr collapse to single column */
+  [style*="grid-template-columns: 1.1fr 1fr"] {
+         grid-template-columns: 1fr !important;
+         min-height: auto !important;
+  }
+     /* Auth left dark panel: shrink to a compact banner so it doesn't overlap form */
+  [style*="grid-template-columns: 1.1fr 1fr"] > *:first-child {
+         min-height: 180px !important;
+         max-height: 220px !important;
+         overflow: hidden !important;
+  }
+
+  /* Watch / Player page — 240px 1fr 380px three-column layout: stack */
+  [style*="grid-template-columns: 240px 1fr 380px"] {
+         grid-template-columns: 1fr !important;
+         gap: 16px !important;
+         padding: 16px !important;
+  }
+     /* Hide the player page left category sidebar on mobile (kept in header filter icon) */
+  [style*="grid-template-columns: 240px 1fr 380px"] > *:first-child {
+         display: none !important;
+  }
+
+  /* Creators page: di-card 8px overflow — clamp width and reset side margins */
+  .di-card {
+         max-width: 100% !important;
+         box-sizing: border-box !important;
+         margin-left: 0 !important;
+         margin-right: 0 !important;
+  }
+}
