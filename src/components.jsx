@@ -738,7 +738,7 @@ export function Footer({ onNav }) {
           </p>
           <div style={{ marginTop: 16, display: 'flex', gap: 8 }}>
             <span className="mono" style={{ fontSize: 12, padding: '4px 8px', border: '1px solid var(--line)', borderRadius: 2, color: 'var(--parchment-dim)' }}>EST. 2026</span>
-            <span className="mono" style={{ fontSize: 12, padding: '4px 8px', border: '1px solid var(--line)', borderRadius: 2, color: 'var(--parchment-dim)' }}>{STATS.projected.countries} COUNTRIES</span>
+            <span className="mono" style={{ fontSize: 12, padding: '4px 8px', border: '1px solid var(--line)', borderRadius: 2, color: 'var(--parchment-dim)' }}>100+ COUNTRIES</span>
           </div>
         </div>
         {cols.map((col, idx) => (
