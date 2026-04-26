@@ -1,0 +1,95 @@
+name: Apply fee update 30->15 (one-shot)
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Apply fee changes
+        run: |
+          set -e
+          # index.html
+          sed -i 's|Pilots keep 70%|Pilots keep 85%|g; s|pilots keep 70%|pilots keep 85%|g; s|70% of every license sale and 70% of every Super Chat|85% of every license sale and 85% of every Super Chat|g; s|the platform takes a flat 30%|the platform takes a flat 15%|g; s|Pilots keep 70% of every sale|Pilots keep 85% of every sale|g; s|(70/30 split)|(85/15 split)|g; s|1,650+ clips|2,100+ clips|g; s|1,650+ 클립|2,100+ 클립|g; s|1,650개 이상의|2,100개 이상의|g; s|파일럿은 매 판매의 70%|파일럿은 매 판매의 85%|g' index.html
+
+          # PageInfo.jsx
+          python3 - <<'PYEOF'
+          import re
+          with open('src/PageInfo.jsx','r',encoding='utf-8') as f: c=f.read()
+          repl = [
+            ('수익의 70% 파일럿','수익의 85% 파일럿'),
+            ('70% 파일럿에게 송금','85% 파일럿에게 송금'),
+            ('수익 분배: 70% 파일럿 / 15% 플랫폼 / 15% 결제·세금','수익 분배: 85% 파일럿 / 15% 플랫폼'),
+            ('파일럿 수익 70%','파일럿 수익 85%'),
+            ('>70%</text>','>85%</text>'),
+            ('파일럿이 직접 영상을 올리고 70% 수익','파일럿이 직접 영상을 올리고 85% 수익'),
+            ('수익의 70%.','수익의 85%.'),
+            ('드론 라이브 방송 + 슈퍼챗 후원 (70% 파일럿)','드론 라이브 방송 + 슈퍼챗 후원 (85% 파일럿)'),
+            ('슈퍼챗 후원의 70%는 파일럿에게 송금','슈퍼챗 후원의 85%는 파일럿에게 송금'),
+            ('Stripe Connect 계정 연동 후 즉시 70% 송금','Stripe Connect 계정 연동 후 즉시 85% 송금'),
+            ('라이선스 가격대 가이드 (70/30 분배)','라이선스 가격대 가이드 (85/15 분배)'),
+            ('판매가의 70% 정산 (수수료 15% + 결제·세금 15%)','판매가의 85% 정산 (수수료 15%)'),
+            ('실시간 70% Stripe 즉시 송금','실시간 85% Stripe 즉시 송금'),
+            ('대형 매출은 70% → 80%까지 협상','대형 매출은 85% → 90%까지 협상'),
+            ('Upload에서 영상 등록 → 70% 수익','Upload에서 영상 등록 → 85% 수익'),
+          ]
+          for o,n in repl: c=c.replace(o,n)
+          with open('src/PageInfo.jsx','w',encoding='utf-8') as f: f.write(c)
+          PYEOF
+
+          # pricing.jsx
+          python3 - <<'PYEOF'
+          with open('src/pages/pricing.jsx','r',encoding='utf-8') as f: c=f.read()
+          repl = [
+            ("You keep <span style={{ color: 'var(--amber)' }}>70%</span>", "You keep <span style={{ color: 'var(--amber)' }}>85%</span>"),
+            ("'Sell clips. 70% per license.'", "'Sell clips. 85% per license.'"),
+            ("'70% of every sale, paid out monthly", "'85% of every sale, paid out monthly"),
+            ('Go live. Keep 70% of every Super Chat.','Go live. Keep 85% of every Super Chat.'),
+            ("red). 70% lands", "red). 85% lands"),
+            ("fontFamily: 'var(--font-display)' }}>70%</div>","fontFamily: 'var(--font-display)' }}>85%</div>"),
+            ("color: 'var(--bone)' }}>30%</div>","color: 'var(--bone)' }}>15%</div>"),
+            ("<strong style={{ color: 'var(--amber)' }}>85%</strong> · platform fee <strong>30%</strong>","<strong style={{ color: 'var(--amber)' }}>85%</strong> · platform fee <strong>15%</strong>"),
+            ('Payout transfer fees come out of our 30%','Payout transfer fees come out of our 15%'),
+            ('never the pilot’s 70%','never the pilot’s 85%'),
+            ('The pilot is not charged the 30%','The pilot is not charged the 15%'),
+            ('The 15% covers payment processing','The 15% covers payment processing'),
+          ]
+          for o,n in repl: c=c.replace(o,n)
+          with open('src/pages/pricing.jsx','w',encoding='utf-8') as f: f.write(c)
+          PYEOF
+
+          # static.jsx
+          sed -i 's|<strong>70%</strong> to the pilot, <strong>30%</strong>|<strong>85%</strong> to the pilot, <strong>15%</strong>|g; s|The 30% covers|The 15% covers|g; s|the 70% is what lands|the 85% is what lands|g' src/pages/static.jsx
+
+          # pilot-onboarding.jsx
+          sed -i "s|>70% of each sale</strong>|>85% of each sale</strong>|g" src/pages/pilot-onboarding.jsx
+
+          # checkout.jsx
+          sed -i 's|order.total \* 0.7).toFixed(2)|order.total * 0.85).toFixed(2)|g' src/pages/checkout.jsx
+
+          # upload.jsx
+          sed -i "s|price \* 0.7).toFixed(2)}</strong> per sale · platform keeps 30%|price * 0.85).toFixed(2)}</strong> per sale · platform keeps 15%|g; s|, 0.7\]|, 0.85]|g" src/pages/upload.jsx
+
+          # earnings.jsx
+          sed -i 's|v.price \* 47 \* 0.7|v.price * 47 * 0.85|g' src/pages/earnings.jsx
+
+          # 0012 SQL
+          sed -i 's|-- 4. super_chats — financial ledger with 7:3 split|-- 4. super_chats — financial ledger with 85:15 split|g; s|-- 70%|-- 85%|g; s|-- 30%|-- 15%|g' supabase/migrations/0012_home_sidebar.sql
+
+          # 0013 SQL
+          sed -i "s|'PayPal email for receiving Super Chat 70% share'|'PayPal email for receiving Super Chat 85% share'|g; s|70/30 split applies|85/15 split applies|g" supabase/migrations/0013_payout_monetization.sql
+
+          echo '=== Sample diff verification ==='
+          grep -nE '85%|15%|85/15|85:15' index.html | head -5
+
+      - name: Commit + push
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+          git add -A
+          git commit -m 'fix(fees): platform fee 30%->15%, pilot share 70%->85% (incl. Super Chat)' || echo 'no changes'
+          git push
