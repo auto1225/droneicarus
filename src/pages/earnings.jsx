@@ -13,10 +13,10 @@ export function EarningsPage({ onNav }) {
     fetchPayouts().then(rows => { if (rows && rows.length) setPayouts(rows); });
   }, []);
   const myVids = VIDEOS.filter(v => v.price > 0).slice(0, 6);
-  const lifetime = 48291.40;
-  const pending = 1284.20;
-  const thisMonth = 3284.00;
-  const avgPerClip = 186.40;
+  const lifetime = 0;
+  const pending = 0;
+  const thisMonth = 0;
+  const avgPerClip = 0;
 
   return (
     <div style={{ display: 'grid', gridTemplateColumns: '260px 1fr', minHeight: 'calc(100vh - 62px)' }}>
@@ -143,7 +143,7 @@ export function EarningsPage({ onNav }) {
 }
 
 export function SidebarPilot({ active, onNav }) {
-  const u = CURRENT_USER;
+  const { profile: _p } = useAuth(); const u = _p ? { id: _p.id, name: _p.display_name || _p.handle || 'Pilot', handle: _p.handle || '@you', initials: ((_p.display_name || _p.handle || 'P').split(/\s+/).map(s=>s[0]).join('').slice(0,2)).toUpperCase() } : { id: '', name: 'New pilot', handle: '@you', initials: 'NP' };
   return (
     <aside style={{ borderRight: '1px solid var(--line)', background: 'var(--forest-950)', padding: '30px 0' }}>
       <div style={{ padding: '0 24px', marginBottom: 30 }}>
@@ -152,7 +152,7 @@ export function SidebarPilot({ active, onNav }) {
           <div style={{ width: 40, height: 40, borderRadius: '50%', background: 'var(--moss)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 700, border: '1px solid var(--line-strong)' }}>{u.initials}</div>
           <div>
             <div style={{ fontSize: 14, fontWeight: 600, display: 'flex', alignItems: 'center', gap: 4 }}>{u.name} <span style={{ color: 'var(--amber)' }}><Ic.check/></span></div>
-            <div style={{ fontSize: 12, color: 'var(--parchment-dim)' }}>{u.handle} · Verified</div>
+            <div style={{ fontSize: 12, color: 'var(--parchment-dim)' }}>{u.handle}{u.id ? ' · Verified' : ''}</div>
           </div>
         </div>
       </div>
