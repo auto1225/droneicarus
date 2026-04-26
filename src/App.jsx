@@ -334,9 +334,9 @@ export default function App() {
         {route === 'watch' && <PlayerPage video={currentVideo} onNav={onNav} onOpenVideo={onOpenVideo} />}
         {route === 'explore' && <ExplorePage onOpenVideo={onOpenVideo} onNav={onNav} />}
         {route === 'rankings' && <RankingsPage onOpenVideo={onOpenVideo} />}
-        {route === 'creators' && <CreatorsPage onOpenVideo={onOpenVideo} />}
+        {route === 'creators' && <CreatorsPage onOpenVideo={onOpenVideo} onNav={onNav} />}
         {route === 'creator' && <RequireAuth onNav={onNav} message="Creator studio is for signed-in pilots."><CreatorDashboard onNav={onNav} /></RequireAuth>}
-        {route === 'search' && <SearchPage query={query} onOpenVideo={onOpenVideo} onNav={onNav} onSelectLoc={setPendingLoc} />}
+        {route === 'search' && <SearchPage query={routeParam ? decodeURIComponent(routeParam) : query} onOpenVideo={onOpenVideo} onNav={onNav} onSelectLoc={setPendingLoc} />}
         {route === 'upload' && <RequireAuth onNav={onNav} message="Sign in to upload clips."><UploadPage onNav={onNav} /></RequireAuth>}
         {route === 'mypage' && <RequireAuth onNav={onNav} message="Sign in to view your collections."><MyPage onOpenVideo={onOpenVideo} onNav={onNav} /></RequireAuth>}
         {route === 'signin' && <AuthPage onNav={onNav} />}
@@ -348,8 +348,8 @@ export default function App() {
         {route === 'settings' && <RequireAuth onNav={onNav}><SettingsPage onNav={onNav} /></RequireAuth>}
         {route === 'pilot-onboarding' && <RequireAuth onNav={onNav}><PilotOnboardingPage onNav={onNav} /></RequireAuth>}
         {route === 'profile' && <ProfilePage handle={routeParam} onOpenVideo={onOpenVideo} onNav={onNav} />}
-        {route === 'messages' && <MessagesPage onNav={onNav} />}
-        {route === 'notifications' && <NotificationsPage onNav={onNav} />}
+        {route === 'messages' && <RequireAuth onNav={onNav} message="Sign in to view your messages."><MessagesPage onNav={onNav} /></RequireAuth>}
+        {route === 'notifications' && <RequireAuth onNav={onNav} message="Sign in to view your notifications."><NotificationsPage onNav={onNav} /></RequireAuth>}
         {route === 'commissions' && <CommissionsPage onNav={onNav} />}
         {route === 'commission-new' && <CommissionNewPage onNav={onNav} />}
         {route === 'commission' && routeParam && <CommissionDetailPage id={routeParam} onNav={onNav} />}
