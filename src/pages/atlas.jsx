@@ -278,6 +278,11 @@ export function AtlasPage({ onNav }) {
 // ——— Modals ———
 
 function ModalShell({ title, children, onClose }) {
+  useEffect(() => {
+    const h = (e) => { if (e.key === 'Escape') onClose(); };
+    document.addEventListener('keydown', h);
+    return () => document.removeEventListener('keydown', h);
+  }, [onClose]);
   return (
     <div onClick={onClose} style={{
       position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.7)', display: 'flex',
