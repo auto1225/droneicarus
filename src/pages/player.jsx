@@ -363,7 +363,7 @@ export function PlayerPage({ video, onNav, onOpenVideo }) {
             <span className="mono" style={{ fontSize: 12, padding: '4px 10px', border: '1px solid var(--line-strong)', borderRadius: 999, letterSpacing: '0.1em' }}>{video.resolution}</span>
             <span className="mono" style={{ fontSize: 12, padding: '4px 10px', border: '1px solid var(--line-strong)', borderRadius: 999, letterSpacing: '0.1em' }}>24 FPS</span>
             <span className="mono" style={{ fontSize: 12, padding: '4px 10px', border: '1px solid var(--line-strong)', borderRadius: 999, letterSpacing: '0.1em' }}>D-LOG</span>
-            {video.price === 0 ? <span className="tag-free" style={{ padding: '4px 10px' }}>FREE · CC-BY</span> : <span className="tag-paid" style={{ padding: '4px 10px' }}>LICENSED · ${video.price}</span>}
+            {video.price === 0 ? <span className="tag-free" style={{ padding: '4px 10px' }}>FREE · CC-BY</span> : <><span className="tag-paid" style={{ padding: '4px 10px' }}>LICENSED · ${video.price}</span><span style={{ padding: '4px 10px', fontSize: 11, fontWeight: 700, letterSpacing: '0.1em', background: 'var(--amber)', color: '#1a2820', borderRadius: 999, fontFamily: 'var(--font-mono)' }}>DEMO</span></>}
           </div>
           <h1 style={{ fontSize: 32, marginBottom: 12, letterSpacing: '-0.02em' }}>{video.title}</h1>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 20, paddingBottom: 20, borderBottom: '1px solid var(--line)' }}>
