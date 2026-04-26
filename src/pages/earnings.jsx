@@ -27,7 +27,7 @@ export function EarningsPage({ onNav }) {
           <div>
             <div className="eyebrow" style={{ marginBottom: 6 }}>EARNINGS</div>
             <h1 style={{ fontSize: 32, letterSpacing: '-0.02em' }}>You've earned ${lifetime.toLocaleString()} flying.</h1>
-            <p style={{ fontSize: 14, color: 'var(--parchment-dim)', marginTop: 6 }}>Payouts run on the 28th. Next deposit in 11 days · routing to <span className="mono" style={{ color: 'var(--bone)' }}>KEB Hana •• 4821</span></p>
+            <p style={{ fontSize: 14, color: 'var(--parchment-dim)', marginTop: 6 }}>Payouts run on the 28th. Add a payout method in Settings to start earning.</p>
           </div>
           <div style={{ display: 'flex', gap: 6 }}>
             {['7d', '30d', '90d', '1y', 'all'].map(p => (
