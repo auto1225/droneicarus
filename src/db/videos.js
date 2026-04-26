@@ -7,22 +7,39 @@ const SUPA_KEY = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
 
 async function restGet(path) {
   if (!SUPA_URL || !SUPA_KEY) return [];
-  const res = await fetch(SUPA_URL + path, {
-    headers: {
-      apikey: SUPA_KEY,
-      Authorization: 'Bearer ' + SUPA_KEY,
-      // Request a very large range so Supabase returns all matching rows
-      // instead of the default 1000-row cap. Server-side PG still caps this
-      // to whatever max_rows is configured.
-      'Range-Unit': 'items',
-      Range: '0-49999',
-    },
-  });
-  if (!res.ok) {
-    console.warn('[db]', path, res.status, (await res.text()).slice(0, 120));
-    return [];
+  // Supabase enforces a server-side max_rows cap (1000 by default), regardless
+  // of the Range header we send. Loop with offset/limit pages until we get a
+  // short page (< pageSize), which means the result set is exhausted.
+  const pageSize = 1000;
+  const all = [];
+  let offset = 0;
+  // Skip pagination if the caller already specified an explicit limit small enough
+  const limitMatch = path.match(/[?&]limit=(\d+)/);
+  const explicitLimit = limitMatch ? Number(limitMatch[1]) : null;
+  while (true) {
+    const sep = path.includes('?') ? '&' : '?';
+    const url = SUPA_URL + path + sep + 'offset=' + offset + '&limit=' + pageSize;
+    const res = await fetch(url, {
+      headers: {
+        apikey: SUPA_KEY,
+        Authorization: 'Bearer ' + SUPA_KEY,
+      },
+    });
+    if (!res.ok) {
+      console.warn('[db]', path, res.status, (await res.text()).slice(0, 120));
+      return all;
+    }
+    const chunk = await res.json();
+    if (!Array.isArray(chunk)) return chunk;
+    all.push(...chunk);
+    if (chunk.length < pageSize) break;
+    offset += pageSize;
+    // Stop if caller asked for a specific limit and we've reached it
+    if (explicitLimit && all.length >= explicitLimit) break;
+    // Safety: stop at 100,000 rows to avoid runaway loops
+    if (all.length >= 100_000) break;
   }
-  return await res.json();
+  return all;
 }
 
 export async function fetchLocations() {
