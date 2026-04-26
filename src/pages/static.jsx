@@ -119,3 +119,62 @@ export function LegalPage({ onNav }) {
   );
 }
 
+
+export function PrivacyPage({ onNav }) {
+  return (
+    <div style={{ maxWidth: 820, margin: '0 auto', padding: '60px 28px 80px' }}>
+      <button onClick={() => onNav('home')} style={{ fontSize: 14, color: 'var(--parchment-dim)', marginBottom: 18 }}>← Back</button>
+      <div className="eyebrow" style={{ marginBottom: 10 }}>PRIVACY · LAST UPDATED APR 26, 2026</div>
+      <h1 style={{ fontSize: 40, marginBottom: 18 }}>개인정보처리방침 · Privacy Policy</h1>
+      <p style={{ fontSize: 14, color: 'var(--parchment)', lineHeight: 1.7, marginBottom: 22 }}>
+        DroneIcarus(이하 "회사")는 이용자의 개인정보를 중요시하며, 「개인정보 보호법」을 준수하기 위하여 노력하고 있습니다. 본 방침은 droneicarus.com(이하 "서비스") 이용 시 수집·처리되는 개인정보에 관해 설명합니다.
+      </p>
+
+      <h2 style={{ fontSize: 20, color: 'var(--bone)', marginTop: 28, marginBottom: 10 }}>1. 수집하는 개인정보 항목 · Information we collect</h2>
+      <ul style={{ fontSize: 14, color: 'var(--parchment)', lineHeight: 1.8, paddingLeft: 20, marginBottom: 18 }}>
+        <li>계정 정보: 이메일 주소, 비밀번호(암호화 저장), 표시 이름, 프로필 사진(선택)</li>
+        <li>업로드 콘텐츠: 영상 파일/메타데이터(GPS, 촬영일, 장비), 썸네일, 제목·설명</li>
+        <li>이용 기록: 페이지 방문, 검색어, 클릭 로그, 디바이스 정보, IP 주소, 브라우저 정보</li>
+        <li>결제 정보(추후 활성화 시): 결제 수단의 마지막 4자리, 결제 통화·금액 (전체 카드번호는 Stripe·PayPal이 직접 처리하며 회사는 보관하지 않습니다)</li>
+      </ul>
+
+      <h2 style={{ fontSize: 20, color: 'var(--bone)', marginTop: 28, marginBottom: 10 }}>2. 개인정보의 처리 목적 · Purpose</h2>
+      <ul style={{ fontSize: 14, color: 'var(--parchment)', lineHeight: 1.8, paddingLeft: 20, marginBottom: 18 }}>
+        <li>회원 가입·인증·계정 관리</li>
+        <li>영상 업로드/시청/라이선스 거래 서비스 제공</li>
+        <li>크리에이터 정산 및 환불 처리</li>
+        <li>부정 이용·DMCA 침해 신고 대응</li>
+        <li>서비스 품질 개선 및 통계 분석</li>
+      </ul>
+
+      <h2 style={{ fontSize: 20, color: 'var(--bone)', marginTop: 28, marginBottom: 10 }}>3. 보관 위치 및 기간 · Storage</h2>
+      <p style={{ fontSize: 14, color: 'var(--parchment)', lineHeight: 1.7, marginBottom: 18 }}>
+        개인정보는 Supabase(미국·EU 리전, GDPR 준수)에 암호화 저장됩니다. 회원 탈퇴 시 즉시 파기하나, 관련 법령에 따라 보관이 필요한 정보(결제 기록 등)는 해당 법정 기간 동안 분리 보관 후 파기합니다.
+      </p>
+
+      <h2 style={{ fontSize: 20, color: 'var(--bone)', marginTop: 28, marginBottom: 10 }}>4. 제3자 제공 및 처리위탁 · Third parties</h2>
+      <ul style={{ fontSize: 14, color: 'var(--parchment)', lineHeight: 1.8, paddingLeft: 20, marginBottom: 18 }}>
+        <li>Supabase Inc. — 데이터베이스·인증·스토리지 호스팅</li>
+        <li>Stripe / PayPal — 결제 처리(추후 활성화 시 한정)</li>
+        <li>YouTube (Google LLC) — 라이브 스트리밍 영상 임베드</li>
+        <li>GitHub Pages (Microsoft) — 정적 사이트 호스팅</li>
+      </ul>
+
+      <h2 style={{ fontSize: 20, color: 'var(--bone)', marginTop: 28, marginBottom: 10 }}>5. 이용자의 권리 · Your rights</h2>
+      <p style={{ fontSize: 14, color: 'var(--parchment)', lineHeight: 1.7, marginBottom: 18 }}>
+        이용자는 언제든지 본인의 개인정보 열람·수정·삭제 및 회원 탈퇴(계정 삭제)를 요청할 수 있습니다. 설정(Settings) 페이지에서 직접 변경하시거나, 아래 연락처로 요청하시면 7일 이내 처리해 드립니다.
+      </p>
+
+      <h2 style={{ fontSize: 20, color: 'var(--bone)', marginTop: 28, marginBottom: 10 }}>6. 쿠키 · Cookies</h2>
+      <p style={{ fontSize: 14, color: 'var(--parchment)', lineHeight: 1.7, marginBottom: 18 }}>
+        로그인 세션 유지와 사용자 환경 설정(테마, 언어)을 위해 필수 쿠키를 사용합니다. 분석용 트래킹 쿠키는 사용하지 않습니다.
+      </p>
+
+      <h2 style={{ fontSize: 20, color: 'var(--bone)', marginTop: 28, marginBottom: 10 }}>7. 개인정보 보호책임자 · Contact</h2>
+      <p style={{ fontSize: 14, color: 'var(--parchment)', lineHeight: 1.7, marginBottom: 18 }}>
+        문의: <a href="mailto:auto0104@gmail.com" style={{ color: 'var(--amber)' }}>auto0104@gmail.com</a><br/>
+        본 방침은 2026년 4월 26일부터 시행됩니다.
+      </p>
+    </div>
+  );
+}

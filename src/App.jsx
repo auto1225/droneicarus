@@ -40,6 +40,7 @@ const CommissionDetailPage= lazy(() => import('./pages/commissions').then(m => (
 const CommissionNewPage   = lazy(() => import('./pages/commissions').then(m => ({ default: m.CommissionNewPage })));
 const GuidelinesPage      = lazy(() => import('./pages/static').then(m => ({ default: m.GuidelinesPage })));
 const LegalPage           = lazy(() => import('./pages/static').then(m => ({ default: m.LegalPage })));
+const PrivacyPage         = lazy(() => import('./pages/static').then(m => ({ default: m.PrivacyPage })));
 const FlightLogPage       = lazy(() => import('./pages/flightlog').then(m => ({ default: m.FlightLogPage })));
 const AtlasPage           = lazy(() => import('./pages/atlas').then(m => ({ default: m.AtlasPage })));
 const LivePage            = lazy(() => import('./pages/live').then(m => ({ default: m.LivePage })));
@@ -355,6 +356,7 @@ export default function App() {
         {route === 'commission' && !routeParam && <CommissionPage onNav={onNav} />}
         {route === 'guidelines' && <GuidelinesPage onNav={onNav} />}
         {route === 'legal' && <LegalPage onNav={onNav} />}
+        {route === 'privacy' && <PrivacyPage onNav={onNav} />}
         {route === 'flightlog' && <FlightLogPage videoId={routeParam} onNav={onNav} />}
         {route === 'atlas' && <AtlasPage onNav={onNav} />}
         {route === 'live' && <LivePage onNav={onNav} streamId={routeParam} />}
@@ -373,7 +375,7 @@ export default function App() {
         {route === 'lab' && routeParam && <LabSubsectionPage subsection={routeParam} onNav={onNav} />}
         {route === 'lab-item' && <LabItemPage itemId={routeParam} onNav={onNav} />}
         {route === 'admin' && <RequireAdminM onNav={onNav}><AdminShell section={routeParam || 'dashboard'} onNav={onNav} /></RequireAdminM>}
-        {!['home', 'watch', 'explore', 'rankings', 'creators', 'creator', 'search', 'upload', 'mypage', 'signin', 'checkout', 'success', 'orders', 'license', 'earnings', 'settings', 'pilot-onboarding', 'profile', 'messages', 'notifications', 'guide', 'commission', 'commissions', 'commission-new', 'guidelines', 'legal', 'flightlog', 'atlas', 'live', 'collection', 'location', 'pricing', 'shotlibrary', 'advanced', 'admin', 'lab', 'lab-item', 'livehelp', 'mystreams', 'shots', 'gear', 'gear-item'].includes(route) && <NotFoundPage onNav={onNav} />}
+        {!['home', 'watch', 'explore', 'rankings', 'creators', 'creator', 'search', 'upload', 'mypage', 'signin', 'checkout', 'success', 'orders', 'license', 'earnings', 'settings', 'pilot-onboarding', 'profile', 'messages', 'notifications', 'guide', 'commission', 'commissions', 'commission-new', 'guidelines', 'legal', 'flightlog', 'atlas', 'live', 'collection', 'location', 'pricing', 'shotlibrary', 'advanced', 'admin', 'lab', 'lab-item', 'livehelp', 'mystreams', 'shots', 'gear', 'gear-item', 'privacy'].includes(route) && <NotFoundPage onNav={onNav} />}
       </Suspense></ChunkErrorBoundary>
       {!['creator','pilot-onboarding','signin','messages','live','admin'].includes(route) && <Footer onNav={onNav} />}
 

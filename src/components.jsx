@@ -696,7 +696,7 @@ const FOOTER_LINK_ROUTES = {
   'Careers': 'legal',
   'Contact': 'legal',
   'Terms': 'legal',
-  'Privacy': 'legal',
+  'Privacy': 'privacy',
   'DMCA': 'legal',
   'Airspace': 'legal',
 };
