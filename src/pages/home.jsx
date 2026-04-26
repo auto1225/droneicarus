@@ -284,7 +284,7 @@ function MapHero({ selectedLoc, onSelectLoc, selectedFineSet, mapFilters, search
               return `<div class="pin-tip-thumb" style="${styleStr}">
                 ${v.source === 'youtube' ? `<span class="pin-tip-yt">▶ YT</span>` : ''}
                 ${i === 0 ? `<span class="pin-tip-play"></span>` : ''}
-                ${v.price > 0 ? `<span class="pin-tip-paid">$${v.price}</span>` : ''}
+                ${v.price > 0 ? `<span class="pin-tip-paid">$${v.price} · DEMO</span>` : ''}
               </div>`;
             }).join('') || '<div class="pin-tip-thumb empty"></div>'}
           </div>
