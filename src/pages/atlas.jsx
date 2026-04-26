@@ -331,13 +331,14 @@ function SuggestPlaceModal({ onClose, onSubmit }) {
         finally { setBusy(false); }
       }}>
         <label style={labelStyle}>Place name</label>
-        <input style={inputStyle} value={form.place} onChange={e => setForm({ ...form, place: e.target.value })} placeholder="e.g. Plitvice Lakes — winter freeze" required />
+        <input maxLength={120} style={inputStyle} value={form.place} onChange={e => setForm({ ...form, place: e.target.value })} placeholder="e.g. Plitvice Lakes — winter freeze" required />
 
         <label style={labelStyle}>Country</label>
         <input style={inputStyle} value={form.country} onChange={e => setForm({ ...form, country: e.target.value })} placeholder="e.g. Croatia" required />
 
         <label style={labelStyle}>Brief — what makes this shot worth a bounty?</label>
-        <textarea style={{ ...inputStyle, minHeight: 80, fontFamily: 'inherit' }} value={form.brief} onChange={e => setForm({ ...form, brief: e.target.value })} placeholder="What needs to be filmed, what conditions, any permits?" required />
+        <textarea maxLength={500} style={{ ...inputStyle, minHeight: 80, fontFamily: 'inherit', marginBottom: 4 }} value={form.brief} onChange={e => setForm({ ...form, brief: e.target.value })} placeholder="What needs to be filmed, what conditions, any permits?" required />
+        <div style={{ fontSize: 11, color: 'var(--parchment-dim)', textAlign: 'right', marginBottom: 14 }}>{form.brief.length}/500</div>
 
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
           <div>
