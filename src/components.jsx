@@ -745,7 +745,7 @@ export function Footer({ onNav }) {
           <div key={idx}>
             <div className="eyebrow" style={{ marginBottom: 14 }}>{col.heading}</div>
             {(Array.isArray(col.links) ? col.links : []).map((l, i) => (
-              <button key={i} onClick={() => onNav?.(l.route || 'home')} style={{ display: 'block', background: 'none', border: 'none', padding: 0, fontSize: 14, color: 'var(--parchment)', marginBottom: 8, cursor: 'pointer', textAlign: 'left', fontFamily: 'inherit' }}>{l.label}</button>
+              <button key={i} onClick={() => onNav?.(footerRoute(l.label) || l.route || 'home')} style={{ display: 'block', background: 'none', border: 'none', padding: 0, fontSize: 14, color: 'var(--parchment)', marginBottom: 8, cursor: 'pointer', textAlign: 'left', fontFamily: 'inherit' }}>{l.label}</button>
             ))}
           </div>
         ))}
