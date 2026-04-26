@@ -2273,7 +2273,7 @@ div[style*="forest-900"][style*="border"] {
 /* --- Mobile QA fixes (<=480px) added 2026-04-26 --- */
 @media (max-width: 480px) {
   html, body { overflow-x: hidden; max-width: 100vw; }
-  body { word-break: keep-all; overflow-wrap: anywhere; }
+  p, span:not([class*=logo]), li, dd, dt { overflow-wrap: anywhere; }
   .home-grid .home-stats, [class*="stat-bar"], .home-stats-bar {
     display: grid !important; grid-template-columns: repeat(4, 1fr) !important;
     gap: 4px !important; padding: 8px 6px !important; font-size: 10px !important;
