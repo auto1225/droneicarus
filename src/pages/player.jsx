@@ -395,9 +395,11 @@ export function PlayerPage({ video, onNav, onOpenVideo }) {
             const vLat = Number.isFinite(video.lat) ? video.lat : (Number.isFinite(loc?.lat) ? loc.lat : null);
             const vLon = Number.isFinite(video.lon) ? video.lon : (Number.isFinite(loc?.lon) ? loc.lon : null);
             const placeName = loc?.name || video.inferredLocationRaw?.name || video.inferredLocationRaw?.value || video.country || null;
-            const uploaded = (video.uploadedDaysAgo === 0 || video.uploadedDaysAgo == null) ? 'Today' : formatDays(video.uploadedDaysAgo);
+            const _uploadedAt = video.published_at || video.created_at || null;
+            const _daysAgo = (video.uploadedDaysAgo != null) ? video.uploadedDaysAgo : (_uploadedAt ? Math.max(0, Math.round((Date.now() - new Date(_uploadedAt))/86400000)) : null);
+            const uploaded = (_daysAgo == null) ? '\u2014' : (_daysAgo === 0 ? 'Today' : formatDays(_daysAgo));
             const cells = [
-              ['Views', video.views != null ? formatViews(video.views) : null],
+              ['Views', video.views != null ? formatViews(video.views) : '\u2014'],
               ['Uploaded', uploaded],
               ['Duration', video.duration || null],
               ['Location', placeName],
