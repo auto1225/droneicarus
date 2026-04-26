@@ -3,52 +3,64 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="keywords" content="drone footage, aerial video, drone marketplace, license drone clip, drone live stream, super chat, 4K drone, cinematic aerial, 드론 영상, 항공 촬영"/>
+  <meta name="keywords" content="drone footage, aerial video, drone marketplace, license drone clip, stock drone footage, royalty free drone, 4K drone, 8K drone, cinematic aerial, FPV drone, drone show, drone live stream, drone commission, reverse auction drone, super chat, 드론 영상, 항공 촬영, 드론 영상 판매, 드론 영상 구매, 항공 촬영 영상, 드론 라이센스, 드론 의뢰, 드론 마켓플레이스"/>
   <meta name="author" content="Drone Icarus"/>
-  <meta name="description" content="Map-first marketplace for drone footage — browse aerial clips by location and license them from verified pilots. Drone Icarus takes a flat 30% on every sale, pilots keep 70%."/>
+  <meta name="description" content="Drone Icarus — license aerial drone footage from a world map. 1,650+ clips covering Nature, Cities, Heritage, Action & Sports, Wildlife, AI Aerial. Custom commissions via reverse auction. Pilots keep 70%, no subscriptions, royalty-free."/>
   <meta name="theme-color" content="#0d1410"/>
   <link rel="canonical" href="https://droneicarus.com/"/>
+  <link rel="alternate" hreflang="en" href="https://droneicarus.com/"/>
+  <link rel="alternate" hreflang="ko" href="https://droneicarus.com/?lang=ko"/>
+  <link rel="alternate" hreflang="x-default" href="https://droneicarus.com/"/>
+
   <meta property="og:type" content="website"/>
   <meta property="og:site_name" content="Drone Icarus"/>
-  <meta property="og:title" content="Drone Icarus — Aerial footage, mapped."/>
-  <meta property="og:description" content="Browse the world from above. Pilots set prices, keep 70%."/>
+  <meta property="og:title" content="Drone Icarus — Aerial drone footage marketplace"/>
+  <meta property="og:description" content="License 4K/8K aerial drone clips from a world map. 1,650+ clips, custom commissions via reverse auction, pilots keep 70%."/>
   <meta property="og:url" content="https://droneicarus.com/"/>
   <meta property="og:image" content="https://droneicarus.com/og-cover.jpg"/>
-  <meta name="twitter:card" content="summary_large_image"/>
-  <meta name="twitter:title" content="Drone Icarus — Aerial footage, mapped."/>
-  <meta name="twitter:description" content="Browse the world from above. Pilots set prices, keep 70%."/>
-  <meta name="robots" content="index, follow"/>
+  <meta property="og:image:width" content="1200"/>
+  <meta property="og:image:height" content="630"/>
+  <meta property="og:locale" content="en_US"/>
+  <meta property="og:locale:alternate" content="ko_KR"/>
 
-  <title>Drone Icarus — Aerial footage, mapped.</title>
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:title" content="Drone Icarus — Aerial drone footage marketplace"/>
+  <meta name="twitter:description" content="License 4K/8K drone clips from a world map. Pilots keep 70%."/>
+  <meta name="twitter:image" content="https://droneicarus.com/og-cover.jpg"/>
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"/>
+  <meta name="googlebot" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"/>
+
+  <title>Drone Icarus — Aerial drone footage marketplace · 드론 영상 마켓플레이스</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://i.ytimg.com" crossorigin />
+  <link rel="preconnect" href="https://eotsbncgkgewgbemaarp.supabase.co" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700&family=Inter+Tight:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
 
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
-  <script src="https://unpkg.com/three@0.149.0/build/three.min.js"></script>
-  <script src="https://unpkg.com/globe.gl@2.32.0/dist/globe.gl.min.js"></script>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin="" defer></script>
+  <script src="https://unpkg.com/three@0.149.0/build/three.min.js" defer></script>
+  <script src="https://unpkg.com/globe.gl@2.32.0/dist/globe.gl.min.js" defer></script>
 
-  <!-- Google Search Console verification — replace with your code when registered -->
   <meta name="google-site-verification" content="440YjXml-_o0iDaQFH64HP-YO_xE-dHP5K-daN6xJMY"/>
-  <!-- Naver Webmaster verification — replace with your code when registered -->
   <meta name="naver-site-verification" content="6fb497443b61ebaa6d2f2517ec62a7222f5045cd"/>
-  <!-- Structured data: Organization + WebSite -->
+
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "Organization",
     "name": "Drone Icarus",
-    "alternateName": "droneicarus",
+    "alternateName": ["droneicarus", "드론 이카루스"],
     "url": "https://droneicarus.com",
     "logo": "https://droneicarus.com/og-cover.jpg",
-    "description": "Map-first marketplace for aerial drone footage. Licensed clips from verified pilots worldwide, plus live drone broadcasts with Super Chat tipping.",
+    "description": "Map-first marketplace for aerial drone footage with custom commissions via reverse auction.",
     "sameAs": ["https://github.com/auto1225/droneicarus"],
     "contactPoint": {
       "@type": "ContactPoint",
       "email": "droneicarusadmin@gmail.com",
-      "contactType": "customer support"
+      "contactType": "customer support",
+      "availableLanguage": ["en", "ko"]
     }
   }
   </script>
@@ -57,7 +69,9 @@
     "@context": "https://schema.org",
     "@type": "WebSite",
     "name": "Drone Icarus",
+    "alternateName": "드론 이카루스",
     "url": "https://droneicarus.com",
+    "inLanguage": ["en", "ko"],
     "potentialAction": {
       "@type": "SearchAction",
       "target": "https://droneicarus.com/#search/{search_term_string}",
@@ -65,9 +79,119 @@
     }
   }
   </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Drone Icarus",
+    "url": "https://droneicarus.com",
+    "applicationCategory": "MultimediaApplication",
+    "operatingSystem": "Any",
+    "browserRequirements": "Requires JavaScript",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD",
+      "description": "Free to browse. Per-clip licensing from $49 (Personal) up to $399+ (Editorial)."
+    }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "serviceType": "Aerial drone footage licensing & commissions",
+    "provider": { "@type": "Organization", "name": "Drone Icarus" },
+    "areaServed": "Worldwide",
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "name": "License tiers",
+      "itemListElement": [
+        { "@type": "Offer", "name": "Personal", "description": "Personal projects, social media, education", "priceCurrency": "USD" },
+        { "@type": "Offer", "name": "Commercial", "description": "Advertising, product promotion, marketing", "priceCurrency": "USD" },
+        { "@type": "Offer", "name": "Editorial", "description": "Broadcast, documentary, news (attribution required)", "priceCurrency": "USD" }
+      ]
+    }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "name": "Drone Icarus — top sections",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Map",         "url": "https://droneicarus.com/#home" },
+      { "@type": "ListItem", "position": 2, "name": "Explore",     "url": "https://droneicarus.com/#explore" },
+      { "@type": "ListItem", "position": 3, "name": "Commissions", "url": "https://droneicarus.com/#commissions" },
+      { "@type": "ListItem", "position": 4, "name": "Rankings",    "url": "https://droneicarus.com/#rankings" },
+      { "@type": "ListItem", "position": 5, "name": "Atlas",       "url": "https://droneicarus.com/#atlas" },
+      { "@type": "ListItem", "position": 6, "name": "Creators",    "url": "https://droneicarus.com/#creators" },
+      { "@type": "ListItem", "position": 7, "name": "Lab",         "url": "https://droneicarus.com/#lab" },
+      { "@type": "ListItem", "position": 8, "name": "Gear",        "url": "https://droneicarus.com/#gear" },
+      { "@type": "ListItem", "position": 9, "name": "Live",        "url": "https://droneicarus.com/#live" },
+      { "@type": "ListItem", "position": 10, "name": "Shots",      "url": "https://droneicarus.com/#shots" },
+      { "@type": "ListItem", "position": 11, "name": "Pricing",    "url": "https://droneicarus.com/#pricing" },
+      { "@type": "ListItem", "position": 12, "name": "Guide",      "url": "https://droneicarus.com/#guide" }
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What licenses are available for drone footage on Drone Icarus?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Three tiers per clip: Personal (social media, education), Commercial (advertising, marketing), Editorial (broadcast, documentary, attribution required). Each is a one-time payment with perpetual usage rights inside that tier." }
+      },
+      {
+        "@type": "Question",
+        "name": "How much does Drone Icarus pay pilots?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Pilots keep 70% of every license sale and 70% of every Super Chat tip during live broadcasts. No subscription required." }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I commission custom drone footage?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Yes. Post a brief on the Commissions page (location, budget, deadline) and verified pilots bid in a reverse auction. Funds are escrowed until you accept delivery." }
+      },
+      {
+        "@type": "Question",
+        "name": "Are the drone clips royalty-free?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Yes. Once you license a clip in a tier, you can use it indefinitely within that tier's scope without paying again. Re-licensing for a different tier costs the difference." }
+      }
+    ]
+  }
+  </script>
 </head>
 <body>
   <div id="root"></div>
+
+  <noscript>
+    <div style="max-width:800px;margin:40px auto;padding:24px;font-family:-apple-system,system-ui,sans-serif;line-height:1.6;color:#1f2b22;">
+      <h1>Drone Icarus — Aerial drone footage marketplace</h1>
+      <p>Drone Icarus is a map-first marketplace for licensed aerial drone footage. Browse 1,650+ cinematic clips from verified pilots worldwide, sorted by location and category: <strong>Nature</strong> (mountain, ocean, forest, desert, dunes, glacier, waterfall, volcano, aurora), <strong>Cities</strong> (cityscape, bridges, architecture), <strong>Heritage</strong> (ancient ruins, temples, castles), <strong>Action &amp; Sports</strong> (FPV racing, surfing, skiing), <strong>Wildlife</strong>, <strong>Industry &amp; Energy</strong> (wind farms, solar farms), <strong>Warfare &amp; Defense</strong>, and <strong>AI Generated</strong>.</p>
+      <p>Each clip ships in three license tiers — Personal, Commercial, Editorial — with one-time payment and perpetual usage rights. Pilots keep 70% of every sale; the platform takes a flat 30% with no subscription.</p>
+      <p>Need a custom shot? Post on the <a href="https://droneicarus.com/#commissions">Commissions</a> page and pilots bid in a reverse auction with escrowed payment. Watch live broadcasts and tip pilots via Super Chat on the <a href="https://droneicarus.com/#live">Live</a> page.</p>
+      <h2>Top sections</h2>
+      <ul>
+        <li><a href="https://droneicarus.com/#home">Map</a> — browse aerial drone footage on an interactive world map</li>
+        <li><a href="https://droneicarus.com/#explore">Explore</a> — search and filter clips by category, license, resolution</li>
+        <li><a href="https://droneicarus.com/#commissions">Commissions</a> — post a brief, get bids from verified pilots</li>
+        <li><a href="https://droneicarus.com/#rankings">Rankings</a> — top clips and pilots this week / month / year</li>
+        <li><a href="https://droneicarus.com/#atlas">Atlas</a> — editor's curated landmarks and travel destinations</li>
+        <li><a href="https://droneicarus.com/#creators">Creators</a> — directory of every verified drone pilot</li>
+        <li><a href="https://droneicarus.com/#lab">Lab</a> — drone research, patents, tutorials, equipment reviews</li>
+        <li><a href="https://droneicarus.com/#gear">Gear</a> — 300+ drone product catalog with comparison</li>
+        <li><a href="https://droneicarus.com/#shots">Shots</a> — bulk B2B licensing for agencies and broadcasters</li>
+        <li><a href="https://droneicarus.com/#pricing">Pricing</a> — transparent fee structure (70/30 split)</li>
+        <li><a href="https://droneicarus.com/#guide">Guide</a> — step-by-step Korean user manual</li>
+      </ul>
+      <p><strong>한국어:</strong> 드론 이카루스는 전세계 항공 촬영 영상을 지도 위에서 둘러보고 라이선스로 구매하는 마켓플레이스입니다. 1,650개 이상의 4K/8K 시네마틱 클립, 검증된 파일럿의 직접 업로드, 커스텀 촬영 의뢰(역경매), 라이브 방송과 슈퍼챗 후원까지 한 곳에서 처리됩니다. 파일럿은 매 판매의 70%를 가져갑니다.</p>
+      <p>JavaScript is required to use the full Drone Icarus app. Please enable JavaScript or visit one of the section links above.</p>
+    </div>
+  </noscript>
+
   <script type="module" src="/src/main.jsx"></script>
 </body>
 </html>
