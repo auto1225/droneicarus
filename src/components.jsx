@@ -261,7 +261,7 @@ export function Header({ route, onNav, query, setQuery }) {
     initials: (profile.display_name || profile.handle || '?').split(/\s+/).map(s => s[0]).join('').slice(0,2).toUpperCase(),
     pilotVerified: profile.pilot_verified,
     avatarUrl: profile.avatar_url,
-  } : CURRENT_USER;
+  } : { id: '', name: 'Guest', handle: '@guest', initials: '', email: '', pilotVerified: false, avatarUrl: null };
   const isGuest = !user;
   return (
     <header style={{
@@ -407,13 +407,13 @@ export function Header({ route, onNav, query, setQuery }) {
         </button>
 
         <div ref={menuRef} style={{ position: 'relative' }}>
-          <button onClick={() => setMenuOpen(v => !v)} style={{
+          <button onClick={() => isGuest ? onNav('signin') : setMenuOpen(v => !v)} style={{
             width: 34, height: 34, borderRadius: '50%',
             background: 'var(--sunset)',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
             fontSize: 14, fontWeight: 700, color: '#faf6ec',
             border: '1px solid var(--line-strong)',
-          }}>{u.initials}</button>
+          }}>{isGuest ? 'In' : u.initials}</button>
           {menuOpen && (
             <div style={{
               position: 'absolute', top: 44, right: 0, zIndex: 1100,
