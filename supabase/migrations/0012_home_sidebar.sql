@@ -60,15 +60,15 @@ CREATE TABLE IF NOT EXISTS public.live_chat_messages (
 
 CREATE INDEX IF NOT EXISTS idx_chat_stream_time ON public.live_chat_messages(stream_id, created_at DESC);
 
--- 4. super_chats — financial ledger with 7:3 split
+-- 4. super_chats — financial ledger with 85:15 split
 CREATE TABLE IF NOT EXISTS public.super_chats (
   id              uuid primary key default gen_random_uuid(),
   message_id      uuid references public.live_chat_messages(id) on delete set null,
   stream_id       uuid not null references public.live_streams(id) on delete cascade,
   user_id         uuid references auth.users(id) on delete set null,
   amount_usd      numeric(10,2) not null check (amount_usd > 0),
-  pilot_share_usd numeric(10,2) not null,        -- 70%
-  platform_fee_usd numeric(10,2) not null,       -- 30%
+  pilot_share_usd numeric(10,2) not null,        -- 85%
+  platform_fee_usd numeric(10,2) not null,       -- 15%
   paypal_order_id text,
   status          text default 'paid' check (status in ('pending','paid','refunded','failed')),
   created_at      timestamptz default now()

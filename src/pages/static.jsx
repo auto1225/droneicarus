@@ -108,8 +108,8 @@ export function LegalPage({ onNav }) {
           </div>
 
           <h2 style={{ fontSize: 22, color: 'var(--bone)', marginBottom: 10, marginTop: 28 }}>Revenue split</h2>
-          <p style={{ marginBottom: 8 }}>Every sale is split the same way: <strong>70%</strong> to the pilot, <strong>30%</strong> to Drone Icarus. No tiered rates, no exclusivity surcharges, no volume discounts.</p>
-          <p style={{ marginBottom: 18 }}>The 30% covers payment processing, hosting &amp; CDN bandwidth, DMCA and permit verification, fraud screening, customer support, and ongoing platform development. We absorb payout transfer fees — the 70% is what lands in the pilot's account.</p>
+          <p style={{ marginBottom: 8 }}>Every sale is split the same way: <strong>85%</strong> to the pilot, <strong>15%</strong> to Drone Icarus. No tiered rates, no exclusivity surcharges, no volume discounts.</p>
+          <p style={{ marginBottom: 18 }}>The 15% covers payment processing, hosting &amp; CDN bandwidth, DMCA and permit verification, fraud screening, customer support, and ongoing platform development. We absorb payout transfer fees — the 85% is what lands in the pilot's account.</p>
 
           <h2 style={{ fontSize: 22, color: 'var(--bone)', marginBottom: 10, marginTop: 28 }}>Takedowns</h2>
           <p style={{ marginBottom: 18 }}>If you find your likeness, property, or intellectual property in a clip and did not consent, file a takedown request. We honor valid requests within 24 hours. Repeat offenders are permanently banned.</p>

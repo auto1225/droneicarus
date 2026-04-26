@@ -41,7 +41,7 @@ export function PricingPage({ onNav }) {
       <section style={{ padding: '80px 28px 50px', textAlign: 'center', borderBottom: '1px solid var(--line)' }}>
         <div className="eyebrow" style={{ marginBottom: 14 }}>{cms?.eyebrow || "PRICING · TWO REVENUE STREAMS · ONE SPLIT"}</div>
         <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 76, letterSpacing: '-0.035em', fontWeight: 500, lineHeight: 1, marginBottom: 18 }}>
-          You set the price.<br/>You keep <span style={{ color: 'var(--amber)' }}>70%</span>.
+          You set the price.<br/>You keep <span style={{ color: 'var(--amber)' }}>85%</span>.
         </h1>
         <p style={{ fontSize: 17, color: 'var(--parchment)', maxWidth: 720, margin: '0 auto 32px', lineHeight: 1.6 }}>
           {cms?.sub || "No subscriptions. No credits. Two ways to earn — sell your aerial clips one license at a time, or stream live and accept Super Chat tips. The same flat 70 / 30 pilot/platform split applies to everything. That's the whole pricing."}
@@ -69,21 +69,21 @@ export function PricingPage({ onNav }) {
             },
             {
               eyebrow: 'FOR PILOTS · MARKETPLACE', accent: 'var(--amber)',
-              title: 'Sell clips. 70% per license.',
+              title: 'Sell clips. 85% per license.',
               steps: [
                 ['Upload', 'Drag in your master file or paste an external host link. Auto-extract resolution, codec, location, EXIF.'],
                 ['Set price', 'You decide what each license tier costs. Free CC-BY is fine too — visibility booster.'],
-                ['Earn', '70% of every sale, paid out monthly via Wise / PayPal once you cross $20.'],
+                ['Earn', '85% of every sale, paid out monthly via Wise / PayPal once you cross $20.'],
               ],
               cta: { label: 'Become a pilot →', action: () => onNav('pilot-onboarding') },
             },
             {
               eyebrow: 'FOR PILOTS · LIVE', accent: 'var(--sunset)',
-              title: 'Go live. Keep 70% of every Super Chat.',
+              title: 'Go live. Keep 85% of every Super Chat.',
               steps: [
                 ['Stream on YouTube', 'Use OBS / mobile / Studio — anything that broadcasts to YouTube. We mirror it.'],
                 ['Click Go Live', 'Paste your YouTube URL into droneicarus. Toggle Super Chat tipping if your payout is set up.'],
-                ['Chat & earn', 'Viewers tip $1–$100 in tier colors (blue → red). 70% lands in your monthly payout.'],
+                ['Chat & earn', 'Viewers tip $1–$100 in tier colors (blue → red). 85% lands in your monthly payout.'],
               ],
               cta: { label: 'Live guide →', action: () => onNav('livehelp') },
             },
@@ -123,11 +123,11 @@ export function PricingPage({ onNav }) {
         <div style={{ display: 'flex', borderRadius: 6, overflow: 'hidden', border: '1px solid var(--line-strong)', height: 96, marginBottom: 14 }}>
           <div style={{ flex: 70, background: 'var(--amber)', color: '#1a2820', padding: '20px 26px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
             <div className="mono" style={{ fontSize: 12, letterSpacing: '0.14em', opacity: 0.8 }}>PILOT EARNS</div>
-            <div style={{ fontSize: 30, fontWeight: 700, fontFamily: 'var(--font-display)' }}>70%</div>
+            <div style={{ fontSize: 30, fontWeight: 700, fontFamily: 'var(--font-display)' }}>85%</div>
           </div>
           <div style={{ flex: 30, background: 'var(--forest-700)', padding: '20px 26px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
             <div className="mono" style={{ fontSize: 12, letterSpacing: '0.14em', color: 'var(--parchment-dim)' }}>PLATFORM FEE</div>
-            <div style={{ fontSize: 30, fontWeight: 700, fontFamily: 'var(--font-display)', color: 'var(--bone)' }}>30%</div>
+            <div style={{ fontSize: 30, fontWeight: 700, fontFamily: 'var(--font-display)', color: 'var(--bone)' }}>15%</div>
           </div>
         </div>
         <p style={{ fontSize: 14, color: 'var(--parchment-dim)', textAlign: 'center', maxWidth: 760, margin: '0 auto' }}>
@@ -281,7 +281,7 @@ export function PricingPage({ onNav }) {
               ['When', 'Monthly', 'Marketplace: 1st of every month. Live Super Chat: 28th of every month.'],
               ['Threshold', '$20 · $50', 'Marketplace clears at $20, Super Chat at $50. Below threshold rolls forward.'],
               ['Methods', 'Wise · PayPal', 'Stripe Connect for US/EU, Wise multi-currency, PayPal worldwide. Live tips → PayPal email on file.'],
-              ['Fees we absorb', '0%', 'Payout transfer fees come out of our 30% — never the pilot\u2019s 70%.'],
+              ['Fees we absorb', '0%', 'Payout transfer fees come out of our 15% — never the pilot\u2019s 70%.'],
             ].map(([k, big, sub]) => (
               <div key={k} className="di-card" style={{ padding: 20 }}>
                 <div className="mono" style={{ fontSize: 12, letterSpacing: '0.14em', color: 'var(--parchment-dim)', marginBottom: 6 }}>{k.toUpperCase()}</div>
@@ -317,7 +317,7 @@ export function PricingPage({ onNav }) {
             ['Are Super Chat tips refundable?',
              'Yes — viewers can request a refund within 24 hours via PayPal. Refunded tips are deducted from your pending balance.'],
             ['What if a clip is taken down after sale?',
-             'Buyer is fully refunded. The pilot is not charged the 30% — only paid out on completed sales. Chain-of-custody metadata makes this rare; repeat takedown offenders are removed from the platform.'],
+             'Buyer is fully refunded. The pilot is not charged the 15% — only paid out on completed sales. Chain-of-custody metadata makes this rare; repeat takedown offenders are removed from the platform.'],
             ['Can I combine marketplace clips and live broadcasting?',
              'Absolutely — same account, same payout profile. Many pilots do live exploratory flights to find shots, then sell the master cuts as licensed clips.'],
             ['What about taxes?',

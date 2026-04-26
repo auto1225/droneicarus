@@ -32,7 +32,7 @@ export function PilotOnboardingPage({ onNav }) {
             <span style={{ fontStyle: 'italic', fontWeight: 400, color: 'var(--parchment)' }}>Get paid directly.</span>
           </h1>
           <p style={{ fontSize: 14, lineHeight: 1.6, color: 'var(--parchment)' }}>
-            Every pilot keeps <strong style={{ color: 'var(--amber)' }}>70% of each sale</strong>. Verified pilots additionally appear in the Rankings, get priority placement on the global map, and can accept paid commission requests.
+            Every pilot keeps <strong style={{ color: 'var(--amber)' }}>85% of each sale</strong>. Verified pilots additionally appear in the Rankings, get priority placement on the global map, and can accept paid commission requests.
           </p>
         </div>
 

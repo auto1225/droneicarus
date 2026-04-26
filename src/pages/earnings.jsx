@@ -102,7 +102,7 @@ export function EarningsPage({ onNav }) {
                   <div style={{ fontSize: 12, color: 'var(--parchment-dim)' }}>{(v.views / 1000 | 0)} views · {Math.floor(v.likes / v.price * 0.3)} licenses</div>
                 </div>
                 <div style={{ textAlign: 'right' }}>
-                  <div className="mono" style={{ fontSize: 14, fontWeight: 600, color: 'var(--amber)' }}>${(v.price * 47 * 0.7).toFixed(0)}</div>
+                  <div className="mono" style={{ fontSize: 14, fontWeight: 600, color: 'var(--amber)' }}>${(v.price * 47 * 0.85).toFixed(0)}</div>
                   <div style={{ fontSize: 12, color: 'var(--parchment-dim)' }}>take-home</div>
                 </div>
                 <div style={{ width: 80, height: 24 }}>

@@ -10,7 +10,7 @@ ALTER TABLE public.profiles
   ADD COLUMN IF NOT EXISTS payout_country    text,
   ADD COLUMN IF NOT EXISTS payout_terms_at   timestamptz;
 
-COMMENT ON COLUMN public.profiles.paypal_email IS 'PayPal email for receiving Super Chat 70% share';
+COMMENT ON COLUMN public.profiles.paypal_email IS 'PayPal email for receiving Super Chat 85% share';
 COMMENT ON COLUMN public.profiles.payee_name IS 'Legal name for tax/payout records';
 COMMENT ON COLUMN public.profiles.payout_country IS 'ISO-2 country code for tax reporting';
 COMMENT ON COLUMN public.profiles.payout_terms_at IS 'When pilot accepted the payout/monetization terms';
@@ -32,7 +32,7 @@ $$;
 ALTER TABLE public.live_streams
   ADD COLUMN IF NOT EXISTS monetization_enabled boolean NOT NULL DEFAULT false;
 
-COMMENT ON COLUMN public.live_streams.monetization_enabled IS 'When true, Super Chat is offered to viewers and 70/30 split applies. Requires pilot payout setup.';
+COMMENT ON COLUMN public.live_streams.monetization_enabled IS 'When true, Super Chat is offered to viewers and 85/15 split applies. Requires pilot payout setup.';
 
 -- 3) Server-side guard: prevent monetization on streams whose pilot has no payout info
 CREATE OR REPLACE FUNCTION public.live_streams_check_monetization()

@@ -197,7 +197,7 @@ const UploadModesMockup = () => (
     <text x="120" y="76" fontSize="10" fontFamily="Inter" fill="#4a6741" textAnchor="middle">↑ MP4 파일 드래그 앤 드롭</text>
     <text x="120" y="115" fontSize="9" fontFamily="Inter" fill="#666" textAnchor="middle">CDN 호스팅 · 다운로드 가능</text>
     <text x="120" y="130" fontSize="9" fontFamily="Inter" fill="#666" textAnchor="middle">라이선스 판매 가능</text>
-    <text x="120" y="148" fontSize="9" fontFamily="Inter" fill="#1a2820" fontWeight="700" textAnchor="middle">수익의 70% 파일럿</text>
+    <text x="120" y="148" fontSize="9" fontFamily="Inter" fill="#1a2820" fontWeight="700" textAnchor="middle">수익의 85% 파일럿</text>
     <rect x="260" y="20" width="200" height="140" rx="8" fill="#fff" stroke="#c68820" strokeWidth="2"/>
     <text x="360" y="40" fontSize="13" fontWeight="700" fontFamily="Bricolage Grotesque" fill="#c68820" textAnchor="middle">External</text>
     <rect x="272" y="50" width="176" height="34" rx="4" fill="#fff" stroke="rgba(26,40,32,0.18)"/>
@@ -380,7 +380,7 @@ const LiveStreamMockup = () => (
       );
     })}
     <rect x="20" y="160" width="440" height="32" rx="4" fill="#fff" stroke="rgba(26,40,32,0.12)"/>
-    <text x="34" y="180" fontSize="10" fontFamily="Inter" fill="#1f2b22">💬 채팅 + 슈퍼챗 후원 (70% 파일럿에게 송금)</text>
+    <text x="34" y="180" fontSize="10" fontFamily="Inter" fill="#1f2b22">💬 채팅 + 슈퍼챗 후원 (85% 파일럿에게 송금)</text>
   </svg>
 );
 
@@ -412,16 +412,16 @@ const ShotsB2BMockup = () => (
 const PricingSplitMockup = () => (
   <svg viewBox="0 0 480 200" style={{ width: '100%', display: 'block', borderRadius: 6, border: '1px solid var(--line-strong)' }}>
     <rect width="480" height="200" fill="#faf6ec"/>
-    <text x="240" y="20" fontSize="11" fontFamily="Inter" fill="#1f2b22" fontWeight="700" textAnchor="middle">수익 분배: 70% 파일럿 / 15% 플랫폼 / 15% 결제·세금</text>
+    <text x="240" y="20" fontSize="11" fontFamily="Inter" fill="#1f2b22" fontWeight="700" textAnchor="middle">수익 분배: 85% 파일럿 / 15% 플랫폼</text>
     <circle cx="120" cy="110" r="60" fill="none" stroke="#1f2b22" strokeWidth="0.5"/>
     <path d="M 120 50 A 60 60 0 1 1 90.21 161.96 L 120 110 Z" fill="#4a6741"/>
     <path d="M 90.21 161.96 A 60 60 0 0 1 64.76 132.69 L 120 110 Z" fill="#c68820"/>
     <path d="M 64.76 132.69 A 60 60 0 0 1 120 50 L 120 110 Z" fill="#c85a2e"/>
     <text x="120" y="106" fontSize="14" fontWeight="700" fontFamily="Bricolage Grotesque" fill="#fff" textAnchor="middle">파일럿</text>
-    <text x="120" y="122" fontSize="14" fontWeight="700" fontFamily="Bricolage Grotesque" fill="#fff" textAnchor="middle">70%</text>
+    <text x="120" y="122" fontSize="14" fontWeight="700" fontFamily="Bricolage Grotesque" fill="#fff" textAnchor="middle">85%</text>
     <rect x="220" y="42" width="240" height="22" rx="4" fill="rgba(74,103,65,0.1)"/>
     <rect x="220" y="42" width="14" height="22" rx="4" fill="#4a6741"/>
-    <text x="240" y="56" fontSize="10" fontWeight="600" fontFamily="Inter" fill="#1f2b22">파일럿 수익 70%</text>
+    <text x="240" y="56" fontSize="10" fontWeight="600" fontFamily="Inter" fill="#1f2b22">파일럿 수익 85%</text>
     <text x="450" y="56" fontSize="10" fontFamily="Inter" fill="#666" textAnchor="end">$99 → $69.30</text>
     <rect x="220" y="74" width="240" height="22" rx="4" fill="rgba(198,136,32,0.1)"/>
     <rect x="220" y="74" width="14" height="22" rx="4" fill="#c68820"/>
@@ -616,13 +616,13 @@ const INFO = {
 
   upload: {
     label: 'Upload · 영상 등록',
-    tagline: '파일럿이 직접 영상을 올리고 70% 수익',
+    tagline: '파일럿이 직접 영상을 올리고 85% 수익',
     sections: [
       { kind: 'overview', text: '직접 촬영한 드론 영상을 누구나 등록할 수 있어요. 항공 파일럿 면허는 필요 없습니다 — 일반 취미 촬영자, 여행 크리에이터, DJI Mini 사용자도 환영. 자국 드론 등록(예: 한국 250g 이상 신고제, 미국 FAA Part 107 등)만 준수하면 OK. Direct는 우리 CDN에 마스터 파일 업로드, External은 YouTube/Vimeo 링크 임베드. 둘 다 같은 카탈로그에 노출.' },
       { kind: 'visual', component: <UploadModesMockup /> },
       { kind: 'caption', text: 'Direct (CDN 업로드, 라이선스 판매 가능) vs External (외부 링크 임베드, 노출/홍보용)' },
       { kind: 'glossary', title: '두 가지 업로드 방식 비교', items: [
-        { term: 'Direct', color: '#4a6741', desc: 'MP4 파일 직접 업로드 → 우리 CDN 호스팅 → 다운로드 가능. 라이선스 판매 가능, 가격 자유 설정. 수익의 70%.' },
+        { term: 'Direct', color: '#4a6741', desc: 'MP4 파일 직접 업로드 → 우리 CDN 호스팅 → 다운로드 가능. 라이선스 판매 가능, 가격 자유 설정. 수익의 85%.' },
         { term: 'External', color: '#c68820', desc: 'YouTube/Vimeo 링크 붙여넣기 → 임베드만 → 호스팅비 무료. 라이선스 판매 안 됨, 노출/홍보·트래픽 유입 목적.' },
       ]},
       { kind: 'glossary', title: '필수 입력 필드', items: [
@@ -884,7 +884,7 @@ const INFO = {
 
   live: {
     label: 'Live · 실시간 방송',
-    tagline: '드론 라이브 방송 + 슈퍼챗 후원 (70% 파일럿)',
+    tagline: '드론 라이브 방송 + 슈퍼챗 후원 (85% 파일럿)',
     sections: [
       { kind: 'overview', text: '파일럿이 비행하면서 실시간 방송하는 영상을 보고, 채팅·슈퍼챗으로 후원할 수 있어요. 좋은 장면이 나오는 순간을 함께 보고 응원하는 채널. 송출은 YouTube/Twitch와 동시 송신 가능.' },
       { kind: 'visual', component: <LiveStreamMockup /> },
@@ -904,14 +904,14 @@ const INFO = {
       { kind: 'tips', items: [
         '진행 중인 라이브 방송 그리드 (실시간 시청자 수 표시).',
         '예약된 방송 (D-day 카운트다운) — 사전 알림 신청 가능.',
-        '슈퍼챗 후원의 70%는 파일럿에게 송금 (Stripe 직접).',
+        '슈퍼챗 후원의 85%는 파일럿에게 송금 (Stripe 직접).',
         '내가 방송하려면 [Live help · Go live guide] 참고 (장비·OBS 설정·송출).',
         'YouTube/Twitch 동시 송출 가능 (RTMP 멀티 인코딩).',
         '방송 종료 후 자동 VOD 저장 (My streams에서 재시청).',
       ]},
       { kind: 'faq', items: [
         { q: '드론으로 어떻게 실시간 송출하나요?', a: 'DJI Goggles + 노트북 연결 → OBS → RTMP 송출. [Live help] 페이지에 단계별 가이드 있습니다.' },
-        { q: '슈퍼챗은 어떻게 받나요?', a: 'Stripe Connect 계정 연동 후 즉시 70% 송금. 매월 1일 일괄 정산도 가능.' },
+        { q: '슈퍼챗은 어떻게 받나요?', a: 'Stripe Connect 계정 연동 후 즉시 85% 송금. 매월 1일 일괄 정산도 가능.' },
         { q: '예약된 방송에 알림 받으려면?', a: '방송 카드 우상단 🔔 클릭 → 시작 5분 전 이메일/푸시.' },
       ]},
     ],
@@ -981,26 +981,26 @@ const INFO = {
 
   pricing: {
     label: 'Pricing · 요금제',
-    tagline: '플랫폼 수수료 + 라이선스 가격대 가이드 (70/30 분배)',
+    tagline: '플랫폼 수수료 + 라이선스 가격대 가이드 (85/15 분배)',
     sections: [
       { kind: 'overview', text: '구매자/판매자/의뢰자 입장별 요금 구조를 한 페이지에 정리합니다. 70/30 분배 원칙은 모든 거래에 동일하게 적용돼요. 결제 수수료·세금이 정확히 어디로 가는지도 투명하게 표시.' },
       { kind: 'visual', component: <PricingSplitMockup /> },
       { kind: 'caption', text: '$99 매출의 분배: 파일럿 $69.30 / 플랫폼 $14.85 / 결제·세금 $14.85' },
       { kind: 'glossary', title: '입장별 요금', items: [
         { term: '구매자', color: '#4a6741', desc: '라이선스 가격 그대로 (Personal $49~99, Commercial $99~199, Editorial $149~299).' },
-        { term: '크리에이터', color: '#c68820', desc: '드론 촬영자 누구나 등록·판매 가능 (취미·여행 크리에이터·전문가 모두). 판매가의 70% 정산 (수수료 15% + 결제·세금 15%). 매월 1일 자동 송금.' },
+        { term: '크리에이터', color: '#c68820', desc: '드론 촬영자 누구나 등록·판매 가능 (취미·여행 크리에이터·전문가 모두). 판매가의 85% 정산 (수수료 15%). 매월 1일 자동 송금.' },
         { term: '의뢰자', color: '#9b4020', desc: '입찰 가격 + 에스크로 수수료 5%.' },
         { term: '엔터프라이즈', color: '#c85a2e', desc: '맞춤 견적 (대량 패키지·월간 구독). 분배율 협의 가능.' },
       ]},
       { kind: 'glossary', title: '정산 일정', items: [
         { term: '판매 → 정산', desc: '판매 완료 D+30일 (구매자 환불 가능 기간). 그 이후 매월 1일 송금.' },
-        { term: '슈퍼챗', desc: '실시간 70% Stripe 즉시 송금 (수수료 차감 후).' },
+        { term: '슈퍼챗', desc: '실시간 85% Stripe 즉시 송금 (수수료 차감 후).' },
         { term: '의뢰', desc: 'Accept 즉시 에스크로에서 송금 (1~2영업일).' },
         { term: '환불', desc: '구매자 환불은 24h + 다운로드 전만 가능. 환불 시 판매자 정산도 회수.' },
       ]},
       { kind: 'tips', items: [
         '판매 누적 $100 미만은 다음 달 이월 (Stripe 송금 최소액).',
-        '엔터프라이즈는 맞춤 분배율 협의 (대형 매출은 70% → 80%까지 협상).',
+        '엔터프라이즈는 맞춤 분배율 협의 (대형 매출은 85% → 90%까지 협상).',
         '세금: 미국·EU·한국 거래는 자동 부가세 계산.',
         '결제 수수료(Stripe 2.9% + $0.30)는 플랫폼이 부담 (수수료 15%에 포함).',
       ]},
@@ -1047,7 +1047,7 @@ const FALLBACK = {
     { kind: 'overview', text: '드론 이카루스는 전 세계 드론 영상의 거래·의뢰·발견을 한 곳에서 처리하는 플랫폼입니다.' },
     { kind: 'tips', items: [
       '구매: Map 또는 Explore에서 영상 찾기 → 라이선스 구매',
-      '판매: Upload에서 영상 등록 → 70% 수익',
+      '판매: Upload에서 영상 등록 → 85% 수익',
       '의뢰: Commissions에서 원하는 영상 의뢰 → 파일럿 입찰',
       '학습: Lab에서 기술·튜토리얼·장비 리뷰',
       '도전: Atlas에서 현상금 의뢰 클레임',

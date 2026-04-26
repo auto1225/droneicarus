@@ -647,15 +647,15 @@ export function UploadPage({ onNav }) {
                 <Field label="Base price (USD)">
                   <input type="number" min="0" step="0.01" value={price} onChange={e => setPrice(parseFloat(e.target.value) || 0)} style={fieldStyle}/>
                   <div style={{ marginTop: 6, fontSize: 14, color: 'var(--parchment-dim)' }}>
-                    You earn <strong style={{ color: 'var(--amber)' }}>${(price * 0.7).toFixed(2)}</strong> per sale · platform keeps 30%.
+                    You earn <strong style={{ color: 'var(--amber)' }}>${(price * 0.85).toFixed(2)}</strong> per sale · platform keeps 15%.
                   </div>
                 </Field>
                 <div style={{ border: '1px solid var(--line)', borderRadius: 4, padding: 14 }}>
                   <div className="eyebrow" style={{ marginBottom: 10 }}>TIER PREVIEW</div>
                   {[
-                    ['Personal', price, 0.7],
-                    ['Commercial', Math.round(price * 1.8 * 100) / 100, 0.7],
-                    ['Extended', Math.round(price * 3.5 * 100) / 100, 0.7],
+                    ['Personal', price, 0.85],
+                    ['Commercial', Math.round(price * 1.8 * 100) / 100, 0.85],
+                    ['Extended', Math.round(price * 3.5 * 100) / 100, 0.85],
                   ].map(([t, p, share]) => (
                     <div key={t} style={{ display: 'flex', justifyContent: 'space-between', fontSize: 14, padding: '6px 0', borderBottom: '1px solid var(--line)' }}>
                       <span>{t}</span>
