@@ -132,7 +132,7 @@ export function ExplorePage({ onOpenVideo, onNav }) {
     const visible = videos.filter(v => matchesLicense(v) && matchesQuery(v));
     const byFine = {};
     visible.forEach(v => {
-      const fine = v.tags?.[0];
+      const fine = v.category;
       if (fine && fine !== 'drone') byFine[fine] = (byFine[fine] || 0) + 1;
     });
     const groups = {}, children = {};
@@ -153,11 +153,11 @@ export function ExplorePage({ onOpenVideo, onNav }) {
       const g = hierarchy.groups.find(x => x.id === selected.id);
       if (!g) return [];
       const set = new Set(g.children.flatMap(c => c.fine || []));
-      return videos.filter(v => v.tags?.[0] && set.has(v.tags[0]));
+      return videos.filter(v => v.category && set.has(v.category));
     }
     if (selected.type === 'child') {
       const set = new Set(selected.fine || []);
-      return videos.filter(v => v.tags?.[0] && set.has(v.tags[0]));
+      return videos.filter(v => v.category && set.has(v.category));
     }
     return videos;
   }, [videos, selected, hierarchy]);
