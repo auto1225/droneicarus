@@ -1,0 +1,39 @@
+name: cms-wire-once
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  wire:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: patch
+        run: |
+          set -e
+          F=src/pages/pricing.jsx
+          sed -i 's|>Same split for clips and live tips.</h2>|>{x.split.title}</h2>|g' $F
+          sed -i 's|>What could you earn from streaming?</h2>|>{x.calc.live.title}</h2>|g' $F
+          sed -i 's|>Every clip, five ways to license.</h2>|>{x.tiers.title}</h2>|g' $F
+          sed -i 's|>Predictable. Monthly. Combined.</h2>|>{x.payouts.title}</h2>|g' $F
+          # restore proper useContent calls (sed inplace 2nd pass)
+          sed -i 's|x.split.title|useContent("pricing.split.title", "Same split for clips and live tips.")|g' $F
+          sed -i 's|x.calc.live.title|useContent("pricing.calc.live.title", "What could you earn from streaming?")|g' $F
+          sed -i 's|x.tiers.title|useContent("pricing.tiers.title", "Every clip, five ways to license.")|g' $F
+          sed -i 's|x.payouts.title|useContent("pricing.payouts.title", "Predictable. Monthly. Combined.")|g' $F
+          U=src/pages/upload.jsx
+          sed -i 's|>Upload your aerial footage</h1>|>{Y.upload.hero}</h1>|g' $U
+          sed -i 's|Y.upload.hero|useContent("upload.hero.title", "Upload your aerial footage")|g' $U
+          C=src/pages/checkout.jsx
+          sed -i 's|>Checkout</h1>|>{Z.checkout.title}</h1>|g' $C
+          sed -i 's|Z.checkout.title|useContent("checkout.title", "Checkout")|g' $C
+          sed -i 's|>License issued.</h1>|>{Z.checkout.success}</h1>|g' $C
+          sed -i 's|Z.checkout.success|useContent("checkout.success.title", "License issued.")|g' $C
+          echo done
+      - name: commit
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+          git add -A
+          git diff --cached --quiet && echo nothing || git commit -m 'feat(cms): batch wire pricing/upload/checkout'
+          git push
