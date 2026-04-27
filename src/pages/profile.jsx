@@ -1,4 +1,5 @@
 // pages/profile.jsx — public creator profile (replaces old /creators single-page)
+import { useContent } from '../content/ContentContext';
 import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react';
 import { VIDEOS, CREATORS, thumbGradient } from '../data';
 import { Ic, VideoCard, FollowButton } from '../components';

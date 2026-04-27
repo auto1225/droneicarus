@@ -1,4 +1,5 @@
 // src/pages/gear.jsx — Drone product catalog with multi-axis faceted filters
+import { useContent } from '../content/ContentContext';
 import React, { useState, useEffect, useMemo } from 'react';
 import { fetchDroneProducts, fetchDroneProduct, fetchGearAds, fetchDroneComments, postDroneComment, fetchDroneRatingStats, fetchMyRating, submitDroneRating, deleteMyRating } from '../db/gear';
 import { Ic, Pagination, usePagination } from '../components';
