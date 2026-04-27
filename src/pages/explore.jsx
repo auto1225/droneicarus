@@ -294,7 +294,7 @@ export function ExplorePage({ onOpenVideo, onNav }) {
           </div>
         </header>
         {loading ? <div className="explore-loading">Loading…</div>
-          : sorted.length === 0 ? <div className="explore-empty">No clips in this category yet.</div>
+          : sorted.length === 0 ? <div className="explore-empty">{useContent('explore.empty', 'No clips in this category yet.')}</div>
           : <>
               <div className="video-grid" id="explore-grid-top">
                 {pagedSlice.map(v => <VideoCard key={v.id} video={v} onClick={onOpenVideo} />)}
