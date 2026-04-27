@@ -47,7 +47,7 @@ export function PricingPage({ onNav }) {
           {cms?.sub || "No subscriptions. No credits. Two ways to earn — sell your aerial clips one license at a time, or stream live and accept Super Chat tips. The same flat 70 / 30 pilot/platform split applies to everything. That's the whole pricing."}
         </p>
         <div style={{ display: 'inline-flex', gap: 10, flexWrap: 'wrap', justifyContent: 'center' }}>
-          <button onClick={() => onNav('home')} className="btn">Browse the map</button>
+          <button onClick={() => onNav('home')} className="btn">{useContent('pricing.btn.browse_map', 'Browse the map')}</button>
           <button onClick={() => onNav('pilot-onboarding')} className="btn secondary">Become a pilot</button>
           <button onClick={() => onNav('livehelp')} className="btn secondary">Live broadcasting →</button>
         </div>
