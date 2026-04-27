@@ -1078,7 +1078,7 @@ export function HomePage({ onOpenVideo, onNav }) {
           {/* Featured landmarks strip */}
           <section style={{ padding: '40px 28px', maxWidth: 1760, margin: '0 auto' }}>
             <div className="eyebrow" style={{ marginBottom: 6 }}>EDITOR'S ATLAS</div>
-            <h2 style={{ fontSize: 30, letterSpacing: '-0.02em', marginBottom: 18 }}>Landmarks worth the flight</h2>
+            <h2 style={{ fontSize: 30, letterSpacing: '-0.02em', marginBottom: 18 }}>{useContent('home.atlas.title', 'Landmarks worth the flight')}</h2>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 16 }}>
               {(dbLocations.length ? dbLocations : _MOCK_LOCATIONS).filter(l => l.featured).concat((dbLocations.length ? dbLocations : _MOCK_LOCATIONS).filter(l => !l.featured).slice(0, 9)).slice(0, 12).map(loc => {
                 // Resolve the underlying video — prefer loc.video (set by dbLocations) then search dbVideos
