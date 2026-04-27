@@ -5,7 +5,7 @@ import { Ic } from '../components';
 import { useAuth } from '../auth/AuthContext';
 import { createOrder, fetchOrder } from '../db/commerce';
 import { fetchVideo } from '../db/videos';
-import { toast } from '../toast';
+import { toast } from '../toast'; import { useContent } from '../content/ContentContext';
 
 async function downloadSigned(path, suggestedName) {
   try {
