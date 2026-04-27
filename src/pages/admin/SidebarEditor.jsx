@@ -135,7 +135,7 @@ export function StreamsEditor() {
 
 export function SuperChatsViewer() {
   const [rows, setRows] = useState([]);
-  useEffect(() => { adminListSuperChats().then(setRows); }, []);
+  useEffect(() => { adminListSuperChats().then(r => setRows(Array.isArray(r) ? r : [])).catch(() => setRows([])); }, []);
   const total = rows.reduce((s, r) => s + Number(r.amount_usd || 0), 0);
   const pilot = rows.reduce((s, r) => s + Number(r.pilot_share_usd || 0), 0);
   const platform = rows.reduce((s, r) => s + Number(r.platform_fee_usd || 0), 0);
