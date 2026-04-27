@@ -10,7 +10,7 @@ import { Ic } from '../components';
 import { useAuth } from '../auth/AuthContext';
 import { supabase } from '../supabase';
 import { uploadVideo, uploadThumb } from '../db/storage';
-import { toast } from '../toast';
+import { toast } from '../toast'; import { useContent } from '../content/ContentContext';
 
 const MAX_UPLOAD_BYTES = 50 * 1024 * 1024 * 1024; // 50 GB
 const ACCEPTED_EXT = ['mp4', 'mov', 'mkv', 'webm', 'm4v'];
