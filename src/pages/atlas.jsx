@@ -2,6 +2,7 @@
 // Real DB-backed bounty system. Replaces the prior PREVIEW page.
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { useAuth } from '../auth/AuthContext';
+import { useContent } from '../content/ContentContext';
 import {
   fetchBounties,
   fetchAtlasStats,
