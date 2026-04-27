@@ -200,7 +200,7 @@ export function ExplorePage({ onOpenVideo, onNav }) {
   // Pagination — 24 clips per page; resets on filter/search/sort change
   const { page, setPage, pageCount, slice: pagedSlice } = usePagination(sorted, 24);
 
-  const headerText = !selected ? 'All Clips'
+  const headerText = !selected ? useContent('explore.header.all_clips', 'All Clips')
     : selected.type === 'group'
       ? hierarchy.groups.find(g => g.id === selected.id)?.label
       : hierarchy.groups.find(g => g.id === selected.groupId)?.children.find(c => c.id === selected.id)?.label;
