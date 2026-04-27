@@ -48,7 +48,7 @@ export function PricingPage({ onNav }) {
         </p>
         <div style={{ display: 'inline-flex', gap: 10, flexWrap: 'wrap', justifyContent: 'center' }}>
           <button onClick={() => onNav('home')} className="btn">{useContent('pricing.btn.browse_map', 'Browse the map')}</button>
-          <button onClick={() => onNav('pilot-onboarding')} className="btn secondary">Become a pilot</button>
+          <button onClick={() => onNav('pilot-onboarding')} className="btn secondary">{useContent('pricing.btn.become_pilot', 'Become a pilot')}</button>
           <button onClick={() => onNav('livehelp')} className="btn secondary">Live broadcasting →</button>
         </div>
       </section>
