@@ -4,7 +4,7 @@ import { useContent } from '../content/ContentContext';
 import { fetchSidebarSlots } from '../db/picks';
 import { CATEGORIES, CAT_ICONS, LOCATIONS as _MOCK_LOCATIONS, VIDEOS as _MOCK_VIDEOS, TRENDING, thumbGradient, STATS } from '../data';
 import { fetchVideos } from '../db/videos';
-import { Ic, CategoryChips, VideoCard } from '../components';
+import { Ic, CategoryChips, VideoCard } from '../components'; import { HeroVideoPopup } from '../HeroVideoPopup';
 import { useSiteSetting } from '../db/useSettings';
 const hUseState = useState;
 const hUseEffect = useEffect;
@@ -1059,7 +1059,7 @@ export function HomePage({ onOpenVideo, onNav }) {
         </div>
       </div>
 
-      {selected?.id === 'ai' && <AIClipsRow onOpenVideo={onOpenVideo} />}
+      <HeroVideoPopup onOpenVideo={onOpenVideo} />{selected?.id === 'ai' && <AIClipsRow onOpenVideo={onOpenVideo} />}
 
       <div ref={sheetRef}>
         {selectedLoc && <LocationSheet loc={selectedLoc} onOpenVideo={onOpenVideo} onClose={() => setSelectedLoc(null)} />}
