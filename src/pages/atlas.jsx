@@ -125,8 +125,8 @@ export function AtlasPage({ onNav }) {
               가본 적 없는 장소를 발굴하기 위한 크라우드소싱 현상금 보드. 사용자가 장소 제안 → 투표 → 현상금 후원 → 첫 통과 영상에게 전액 지급.
             </p>
             <div style={{ display: 'flex', gap: 10 }}>
-              <button className="btn" onClick={requireAuth(() => setModal({ kind: 'suggest' }))}>Suggest a place</button>
-              <button className="btn secondary" onClick={() => onNav?.('bounties-howto')}>How bounties work</button>
+              <button className="btn" onClick={requireAuth(() => setModal({ kind: 'suggest' }))}>{useContent("atlas.btn.suggest", "Suggest a place")}</button>
+              <button className="btn secondary" onClick={() => onNav?.('bounties-howto')}>{useContent("atlas.btn.howto", "How bounties work")}</button>
             </div>
           </div>
           <div style={{ padding: 24, border: '1px solid var(--line)', borderRadius: 4, background: 'var(--forest-900)' }}>
