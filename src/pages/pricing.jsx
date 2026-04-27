@@ -1,7 +1,7 @@
 // pages/pricing.jsx — comprehensive pricing: marketplace clip licensing + Live Super Chat
 import React, { useState, useMemo } from 'react';
 import { Ic } from '../components';
-import { useSiteSetting } from '../db/useSettings';
+import { useSiteSetting } from '../db/useSettings'; import { useContent } from '../content/ContentContext';
 
 const PLATFORM_CUT = 0.15;
 const PILOT_SHARE = 1 - PLATFORM_CUT;
