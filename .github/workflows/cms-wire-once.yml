@@ -29,7 +29,7 @@ jobs:
           sed -i 's|Z.checkout.title|useContent("checkout.title", "Checkout")|g' $C
           sed -i 's|>License issued.</h1>|>{Z.checkout.success}</h1>|g' $C
           sed -i 's|Z.checkout.success|useContent("checkout.success.title", "License issued.")|g' $C
-          echo done
+          A=src/pages/atlas.jsx; sed -i 's|>Suggest a place</button>|>{XX1}</button>|g' $A; sed -i 's|XX1|useContent("atlas.btn.suggest", "Suggest a place")|g' $A; sed -i 's|>How bounties work</button>|>{XX2}</button>|g' $A; sed -i 's|XX2|useContent("atlas.btn.howto", "How bounties work")|g' $A; sed -i 's|>Cancel</button>|>{XX3}</button>|g' $C; sed -i 's|XX3|useContent("checkout.btn.cancel", "Cancel")|g' $C; echo done
       - name: commit
         run: |
           git config user.name 'github-actions[bot]'
