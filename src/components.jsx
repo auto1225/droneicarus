@@ -309,9 +309,9 @@ export function Header({ route, onNav, query, setQuery }) {
             {moreOpen && (
               <div style={{
                 position: 'absolute', top: 'calc(100% + 6px)', left: 0, zIndex: 1100,
-                minWidth: 180, background: 'var(--ink)',
-                border: '1px solid var(--line-strong)',
-                borderRadius: 6, boxShadow: 'var(--shadow-lg)',
+                minWidth: 180, background: '#ffffff',
+                border: '1px solid rgba(15,23,42,0.12)',
+                borderRadius: 6, boxShadow: '0 12px 40px rgba(15,23,42,0.18), 0 2px 6px rgba(15,23,42,0.08)',
                 overflow: 'hidden', padding: '4px 0',
               }}>
                 {moreLinks.map(l => (
