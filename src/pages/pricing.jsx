@@ -119,7 +119,7 @@ export function PricingPage({ onNav }) {
       {/* ───────────── Revenue split visual ───────────── */}
       <section style={{ maxWidth: 1100, margin: '0 auto', padding: '60px 28px' }}>
         <div className="eyebrow" style={{ marginBottom: 10, textAlign: 'center' }}>HOW EVERY DOLLAR IS SPLIT</div>
-        <h2 style={{ fontSize: 30, textAlign: 'center', marginBottom: 30 }}>Same split for clips and live tips.</h2>
+        <h2 style={{ fontSize: 30, textAlign: 'center', marginBottom: 30 }}>{useContent("pricing.split.title", "Same split for clips and live tips.")}</h2>
         <div style={{ display: 'flex', borderRadius: 6, overflow: 'hidden', border: '1px solid var(--line-strong)', height: 96, marginBottom: 14 }}>
           <div style={{ flex: 70, background: 'var(--amber)', color: '#1a2820', padding: '20px 26px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
             <div className="mono" style={{ fontSize: 12, letterSpacing: '0.14em', opacity: 0.8 }}>PILOT EARNS</div>
@@ -209,7 +209,7 @@ export function PricingPage({ onNav }) {
       <section style={{ background: 'var(--forest-900)', borderTop: '1px solid var(--line)', borderBottom: '1px solid var(--line)' }}>
         <div style={{ maxWidth: 1100, margin: '0 auto', padding: '60px 28px' }}>
           <div className="eyebrow" style={{ marginBottom: 10, color: 'var(--sunset)' }}>LIVE CALCULATOR</div>
-          <h2 style={{ fontSize: 30, marginBottom: 24 }}>What could you earn from streaming?</h2>
+          <h2 style={{ fontSize: 30, marginBottom: 24 }}>{useContent("pricing.calc.live.title", "What could you earn from streaming?")}</h2>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 30, alignItems: 'start' }}>
             <div>
               <Range label="Average Super Chat amount" value={scAvg} suffix=" USD" min={1} max={100} onChange={setScAvg}/>
@@ -237,7 +237,7 @@ export function PricingPage({ onNav }) {
       {/* ───────────── License tiers ───────────── */}
       <section style={{ maxWidth: 1200, margin: '0 auto', padding: '60px 28px' }}>
         <div className="eyebrow" style={{ marginBottom: 10 }}>LICENSE TIERS · PER CLIP</div>
-        <h2 style={{ fontSize: 30, marginBottom: 8 }}>Every clip, five ways to license.</h2>
+        <h2 style={{ fontSize: 30, marginBottom: 8 }}>{useContent("pricing.tiers.title", "Every clip, five ways to license.")}</h2>
         <p style={{ fontSize: 14, color: 'var(--parchment-dim)', marginBottom: 24, maxWidth: 720 }}>
           Pilots toggle which tiers their clip is sold under, and set a price for each. Buyers pick the tier that matches their use case. The 70 / 30 split applies to every tier — no preferential rates, no exclusivity surcharges.
         </p>
@@ -275,7 +275,7 @@ export function PricingPage({ onNav }) {
       <section style={{ background: 'var(--forest-900)', borderTop: '1px solid var(--line)', borderBottom: '1px solid var(--line)' }}>
         <div style={{ maxWidth: 1100, margin: '0 auto', padding: '50px 28px' }}>
           <div className="eyebrow" style={{ marginBottom: 10, color: 'var(--amber)' }}>PAYOUTS</div>
-          <h2 style={{ fontSize: 28, marginBottom: 24 }}>Predictable. Monthly. Combined.</h2>
+          <h2 style={{ fontSize: 28, marginBottom: 24 }}>{useContent("pricing.payouts.title", "Predictable. Monthly. Combined.")}</h2>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 16 }}>
             {[
               ['When', 'Monthly', 'Marketplace: 1st of every month. Live Super Chat: 28th of every month.'],

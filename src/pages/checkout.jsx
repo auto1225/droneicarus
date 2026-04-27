@@ -402,7 +402,7 @@ export function SuccessPage({ onNav }) {
           <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><path d="M4 12l6 6L20 6"/></svg>
         </div>
         <div className="mono" style={{ fontSize: 12, letterSpacing: '0.24em', color: 'var(--parchment-dim)', marginBottom: 8 }}>PAYMENT CONFIRMED · {new Date().toISOString().slice(0,10).replace(/-/g,'.')}</div>
-        <h1 style={{ fontSize: 36, marginBottom: 8 }}>License issued.</h1>
+        <h1 style={{ fontSize: 36, marginBottom: 8 }}>{useContent("checkout.success.title", "License issued.")}</h1>
         <p style={{ fontSize: 14, color: 'var(--parchment-dim)' }}>
           Order <span className="mono" style={{ color: 'var(--bone)' }}>{order.id}</span> · Paid with {order.method} · Emailed to hyunwoo@icarus.fly
         </p>
