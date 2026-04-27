@@ -767,7 +767,7 @@ export function HomeSidebar({ selected, onSelect, mapFilters, onToggleMapFilter,
             color: 'var(--bone)', borderRadius: 999, outline: 'none',
           }}/>
       </div>
-      <div className="mono" style={{ fontSize: 12, letterSpacing: '0.18em', color: 'var(--parchment-dim)', padding: '6px 10px 8px' }}>BROWSE BY THEME</div>
+      <div className="mono" style={{ fontSize: 12, letterSpacing: '0.18em', color: 'var(--parchment-dim)', padding: '6px 10px 8px' }}>{useContent('home.sidebar.theme_header', 'BROWSE BY THEME')}</div>
 
       <button
         onClick={() => onSelect(null)}
