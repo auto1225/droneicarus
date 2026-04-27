@@ -295,7 +295,7 @@ export function PricingPage({ onNav }) {
 
       {/* ───────────── FAQ ───────────── */}
       <section style={{ maxWidth: 1100, margin: '0 auto', padding: '60px 28px 100px' }}>
-        <h2 style={{ fontSize: 28, marginBottom: 22 }}>Common questions</h2>
+        <h2 style={{ fontSize: 28, marginBottom: 22 }}>{useContent('pricing.faq.title', 'Common questions')}</h2>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 30 }}>
           {[
             ['Is there a subscription or monthly fee?',
