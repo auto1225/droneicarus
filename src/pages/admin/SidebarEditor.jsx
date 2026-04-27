@@ -12,7 +12,7 @@ const KIND_LABEL = { hot: 'Hot pick', live: 'Live ref', ad: 'Ad ref' };
 export function SidebarEditor() {
   const [picks, setPicks] = useState([]);
   const [draft, setDraft] = useState(null);
-  const reload = () => adminListPicks().then(setPicks);
+  const reload = () => adminListPicks().then(r => setPicks(Array.isArray(r) ? r : [])).catch(() => setPicks([]));
   useEffect(() => { reload(); }, []);
   const save = async () => {
     if (!draft.kind) return alert('Choose kind');
@@ -173,7 +173,7 @@ export function SuperChatsViewer() {
 function CrudTable({ title, listFn, upsertFn, deleteFn, columns, fields }) {
   const [rows, setRows] = useState([]);
   const [draft, setDraft] = useState(null);
-  const reload = () => listFn().then(setRows);
+  const reload = () => listFn().then(r => setRows(Array.isArray(r) ? r : [])).catch(() => setRows([]));
   useEffect(() => { reload(); }, []);
   const save = async () => { await upsertFn(draft); setDraft(null); reload(); };
   const del = async (id) => { if (confirm('Delete this row?')) { await deleteFn(id); reload(); } };
