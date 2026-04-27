@@ -878,7 +878,7 @@ export function HomeSidebar({ selected, onSelect, mapFilters, onToggleMapFilter,
               padding: '6px 10px', fontSize: 12, color: 'var(--sunset)',
               background: 'transparent', border: 'none', cursor: 'pointer',
               textAlign: 'left', letterSpacing: '0.08em', fontFamily: 'var(--font-mono)',
-            }}>CLEAR FILTERS</button>
+            }}>{useContent('home.btn.clear_filters', 'CLEAR FILTERS')}</button>
           )}
         </div>
       </div>
