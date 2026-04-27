@@ -1059,7 +1059,7 @@ export function HomePage({ onOpenVideo, onNav }) {
         </div>
       </div>
 
-      <HeroVideoPopup onOpenVideo={onOpenVideo} />{selected?.id === 'ai' && <AIClipsRow onOpenVideo={onOpenVideo} />}
+      {selected?.id === 'ai' && <AIClipsRow onOpenVideo={onOpenVideo} />}
 
       <div ref={sheetRef}>
         {selectedLoc && <LocationSheet loc={selectedLoc} onOpenVideo={onOpenVideo} onClose={() => setSelectedLoc(null)} />}
