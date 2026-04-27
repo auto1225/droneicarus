@@ -291,7 +291,7 @@ export function CreatorsPage({ onOpenVideo, onNav }) {
       </div>
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(360px, 1fr))', gap: 20 }}>
         {CREATORS.map(c => {
-          const vids = (dbVids.length ? dbVids : _MV).filter(v => v.creator?.handle === c.handle).slice(0, 3);
+          const dbMatches = dbVids.filter(v => v.creator?.handle === c.handle).slice(0, 3); const mockMatches = _MV.filter(v => v.creator?.handle === c.handle).slice(0, 3); const vids = dbMatches.length > 0 ? dbMatches : mockMatches;
           return (
             <div key={c.handle} className="di-card" onClick={() => onNav?.('profile', (c.handle||'').replace(/^@/, ''))} style={{ padding: 24, cursor: 'pointer' }}>
               <div style={{ display: 'flex', gap: 16, marginBottom: 18 }}>
