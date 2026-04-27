@@ -19,7 +19,7 @@ import {
 } from '../../db/admin';
 
 
-// ───────── Shared list helpers: pagination + client-side filter ─────────
+// ───────── Shared list helpers: pagination + client-side filter ─────────h
 const DEFAULT_PAGE_SIZE = 20;
 
 function clientFilter(rows, q, keys) {
@@ -258,7 +258,7 @@ function Dashboard() {
     ['총 업로드 영상',   stats.videosTotal.toLocaleString(),             'var(--lichen)'],
     ['총 주문',         stats.ordersTotal.toLocaleString(),             'var(--bone)'],
     ['총 매출',         '$' + stats.revenueTotal.toLocaleString(undefined, {maximumFractionDigits: 2}), 'var(--amber)'],
-    ['플랫폼 수수료 30%', '$' + stats.platformFeeTotal.toLocaleString(undefined, {maximumFractionDigits: 2}), 'var(--sunset)'],
+    ['플랫폼 수수료 15%', '$' + stats.platformFeeTotal.toLocaleString(undefined, {maximumFractionDigits: 2}), 'var(--sunset)'],
     ['지급 대기',        stats.payoutsScheduled.toLocaleString(),        'var(--parchment-dim)'],
   ];
   const maxRev = Math.max(1, ...monthly.map(m => m.total));
