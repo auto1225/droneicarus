@@ -139,7 +139,7 @@ export function PricingPage({ onNav }) {
       <section style={{ background: 'var(--forest-900)', borderTop: '1px solid var(--line)', borderBottom: '1px solid var(--line)' }}>
         <div style={{ maxWidth: 1100, margin: '0 auto', padding: '60px 28px' }}>
           <div className="eyebrow" style={{ marginBottom: 10, color: 'var(--amber)' }}>MARKETPLACE CALCULATOR</div>
-          <h2 style={{ fontSize: 30, marginBottom: 24 }}>What could you earn from clip licensing?</h2>
+          <h2 style={{ fontSize: 30, marginBottom: 24 }}>{useContent('pricing.calc.market.title', 'What could you earn from clip licensing?')}</h2>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 30, alignItems: 'start' }}>
             <div>
               <div style={{ marginBottom: 28 }}>
