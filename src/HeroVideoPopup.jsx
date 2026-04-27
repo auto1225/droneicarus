@@ -6,13 +6,13 @@ import { useContent } from './content/ContentContext';
 // Falls back to top 5 K-pop concert videos by views if list is empty.
 // User can dismiss for session (X) or for 24 hours (button).
 export function HeroVideoPopup({ onOpenVideo }) {
-  const cmsList = useContent('home.featured.videos', null);
+  const cmsList = useContent('home.featured.videos', null); const popupEnabled = useContent('home.featured.popup_enabled', 'true');
   const [videos, setVideos] = useState([]);
   const [idx, setIdx] = useState(0);
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    if (sessionStorage.getItem('heroPopupDismissed') === '1') return;
+    if (popupEnabled === 'false' || popupEnabled === false || popupEnabled === '0') return; if (sessionStorage.getItem('heroPopupDismissed') === '1') return;
     const until = Number(localStorage.getItem('heroPopupDismissedUntil') || 0);
     if (until > Date.now()) return;
     setOpen(true);
