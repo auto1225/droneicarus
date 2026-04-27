@@ -274,7 +274,7 @@ export function ExplorePage({ onOpenVideo, onNav }) {
             <input
               value={query}
               onChange={e => setQuery(e.target.value)}
-              placeholder="Search clips…"
+              placeholder={useContent('explore.search.placeholder', 'Search clips…')}
               style={{
                 padding: '6px 12px', fontSize: 14,
                 background: 'var(--forest-900)', border: '1px solid var(--line-strong)',
