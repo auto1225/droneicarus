@@ -136,7 +136,7 @@ const SIDEBAR = [
 ];
 
 export function AdminShell({ section = 'dashboard', onNav }) {
-  const { profile, signOut } = useAuth();
+  const { profile, signOut } = useAuth(); useEffect(() => { document.body.classList.add('admin-scope-root'); return () => document.body.classList.remove('admin-scope-root'); }, []);
 
   return (
     <div style={{
