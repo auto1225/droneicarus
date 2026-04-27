@@ -846,7 +846,7 @@ export function HomeSidebar({ selected, onSelect, mapFilters, onToggleMapFilter,
 
       {/* Map filters section */}
       <div style={{ marginTop: 24, paddingTop: 14, borderTop: '1px solid var(--line)' }}>
-        <div className="mono" style={{ fontSize: 12, letterSpacing: '0.18em', color: 'var(--parchment-dim)', padding: '0 10px 8px' }}>MAP FILTERS</div>
+        <div className="mono" style={{ fontSize: 12, letterSpacing: '0.18em', color: 'var(--parchment-dim)', padding: '0 10px 8px' }}>{useContent('home.sidebar.filters_header', 'MAP FILTERS')}</div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 4, padding: '0 6px' }}>
           {[
             ['free',      'Free only'],
