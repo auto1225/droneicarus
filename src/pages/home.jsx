@@ -606,7 +606,7 @@ export function LocationSheet({ loc, onOpenVideo, onClose }) {
             </div>
           </div>
           <div style={{ display: 'flex', gap: 10 }}>
-            <button className="btn secondary" style={{ fontSize: 14 }} data-placeholder="true">Follow this landmark</button>
+            <button className="btn secondary" style={{ fontSize: 14 }} data-placeholder="true">{useContent('home.btn.follow_landmark', 'Follow this landmark')}</button>
             <button onClick={onClose} className="btn secondary" style={{ padding: '10px', width: 40, height: 40, justifyContent: 'center' }}>
               <Ic.close/>
             </button>
