@@ -3,115 +3,115 @@
         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://droneicarus.com/</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://droneicarus.com/#explore</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://droneicarus.com/#shots</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://droneicarus.com/#rankings</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://droneicarus.com/#creators</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://droneicarus.com/#atlas</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://droneicarus.com/#lab</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://droneicarus.com/#lab/research</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://droneicarus.com/#lab/patents</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://droneicarus.com/#lab/projects</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://droneicarus.com/#lab/hardware</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://droneicarus.com/#lab/learn</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://droneicarus.com/#lab/pulse</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://droneicarus.com/#live</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>hourly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://droneicarus.com/#livehelp</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://droneicarus.com/#pricing</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://droneicarus.com/#legal</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.3</priority>
   </url>
   <url>
     <loc>https://droneicarus.com/#guidelines</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.3</priority>
   </url>
   <url>
     <loc>https://droneicarus.com/#mystreams</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.3</priority>
   </url>
@@ -1806,6 +1806,16 @@
     </image:image>
   </url>
   <url>
+    <loc>https://droneicarus.com/#watch/891478a8-8458-42a5-b821-377aa40f6b10</loc>
+    <lastmod>2026-05-05</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://i.ytimg.com/vi/RAfZnfELOxk/maxresdefault.jpg</image:loc>
+      <image:title>New Year&apos;s 2026: UAE kicks off New Year with drones, fireworks over Ras Al-Khaimah</image:title>
+    </image:image>
+  </url>
+  <url>
     <loc>https://droneicarus.com/#watch/a92c1daa-639a-4b95-926b-c1ec1e8d4b3e</loc>
     <lastmod>2026-04-27</lastmod>
     <changefreq>weekly</changefreq>
@@ -2623,6 +2633,16 @@
     <image:image>
       <image:loc>https://i.ytimg.com/vi/ly_gROMhkN8/maxresdefault.jpg</image:loc>
       <image:title>Drone Flying through Fireworks! 4th of July!</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://droneicarus.com/#watch/f5da9a69-0f20-47e5-93cf-d1dbd35a7a69</loc>
+    <lastmod>2026-05-05</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://i.ytimg.com/vi/wuu3H-HSeM8/maxresdefault.jpg</image:loc>
+      <image:title>Karina(aespa) - &apos;Menagerie&apos; (&apos;SYNK HYPER LINE&apos; 2023 Tokyo Dome JAPAN)</image:title>
     </image:image>
   </url>
   <url>
@@ -5096,6 +5116,16 @@
     </image:image>
   </url>
   <url>
+    <loc>https://droneicarus.com/#watch/46c87fc9-7d86-4c5a-a8aa-179be5d2039b</loc>
+    <lastmod>2026-05-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://i.ytimg.com/vi/QQsZd5R9kqM/maxresdefault.jpg</image:loc>
+      <image:title>LE SSERAFIM - EASY, Swan Song, Blue Flame (&quot;EASY CRAZY HOT&quot; ENCORE IN TOKYO DOME)</image:title>
+    </image:image>
+  </url>
+  <url>
     <loc>https://droneicarus.com/#watch/93abe963-bcfd-4b8d-8816-6ade3529ac5c</loc>
     <lastmod>2026-04-27</lastmod>
     <changefreq>weekly</changefreq>
@@ -5913,6 +5943,16 @@
     <image:image>
       <image:loc>https://i.ytimg.com/vi/vrthZQz3kRg/maxresdefault.jpg</image:loc>
       <image:title>Our Adventure In The Jungle Of Costa Rica - Corcovado National Park</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://droneicarus.com/#watch/05586a1e-09c8-4a20-a893-f0631f2f4511</loc>
+    <lastmod>2026-05-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://i.ytimg.com/vi/apAyvucxNbg/maxresdefault.jpg</image:loc>
+      <image:title>LE SSERAFIM in 4K  - KAWAII/CRAZY (ENCORE EDM REMIX🪄) - N2 TOKYO DOME ENCORE ECH TOUR - NOV 19 2025</image:title>
     </image:image>
   </url>
   <url>
@@ -7556,6 +7596,16 @@
     </image:image>
   </url>
   <url>
+    <loc>https://droneicarus.com/#watch/ab91ff02-dd21-489d-bbcd-0146ea1d2e94</loc>
+    <lastmod>2026-05-05</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://i.ytimg.com/vi/BOfE-gbXOJ8/maxresdefault.jpg</image:loc>
+      <image:title>South Korea in 8K UHD Video | Explore the Beauty of Seoul South Korea in 8K Video</image:title>
+    </image:image>
+  </url>
+  <url>
     <loc>https://droneicarus.com/#watch/32a4be32-e7e8-4587-9aab-47798de4a534</loc>
     <lastmod>2026-04-25</lastmod>
     <changefreq>weekly</changefreq>
@@ -7813,6 +7863,16 @@
     <image:image>
       <image:loc>https://i.ytimg.com/vi/J_4ybJhI5Ww/maxresdefault.jpg</image:loc>
       <image:title>12/16/2019 Laurel, MS Drone footage of Laurel and Jones County, MS tornado damage  2.7K @60fps</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://droneicarus.com/#watch/af9307f5-675c-4dbc-a5f6-eb75c98ee1ae</loc>
+    <lastmod>2026-05-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://i.ytimg.com/vi/dcw9PNWeYkc/maxresdefault.jpg</image:loc>
+      <image:title>LE SSERAFIM - UNFORGIVEN + ANTIFRAGILE (&quot;EASY CRAZY HOT&quot; ENCORE IN TOKYO DOME)</image:title>
     </image:image>
   </url>
   <url>
@@ -9856,6 +9916,16 @@
     </image:image>
   </url>
   <url>
+    <loc>https://droneicarus.com/#watch/233643df-bdc5-4c4a-b4c1-f58a30803a5a</loc>
+    <lastmod>2026-05-05</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://i.ytimg.com/vi/r9iykzrfyKc/maxresdefault.jpg</image:loc>
+      <image:title>Underworld Gang wars Drone Show By Mayhem Studios</image:title>
+    </image:image>
+  </url>
+  <url>
     <loc>https://droneicarus.com/#watch/ede3dd34-ebeb-432c-b1c4-a24b4d7718f1</loc>
     <lastmod>2026-04-26</lastmod>
     <changefreq>weekly</changefreq>
@@ -10046,76 +10116,6 @@
     </image:image>
   </url>
   <url>
-    <loc>https://droneicarus.com/#watch/b66a6b3f-6f04-41ea-8cdb-9cc45b923419</loc>
-    <lastmod>2026-04-26</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-    <image:image>
-      <image:loc>https://i.ytimg.com/vi/RPr0e0K_BkI/maxresdefault.jpg</image:loc>
-      <image:title>THE CONGO BASIN RAINFOREST: At the center of Congo (Djolu in the Tsuapa)</image:title>
-    </image:image>
-  </url>
-  <url>
-    <loc>https://droneicarus.com/#watch/8cce9ca5-207d-4951-be58-956630896b21</loc>
-    <lastmod>2026-04-27</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-    <image:image>
-      <image:loc>https://i.ytimg.com/vi/O5xFkQtQceQ/maxresdefault.jpg</image:loc>
-      <image:title>TWICE Vancouver Day 2 - 1-10-2026 - Mars + I GOT YOU - THIS IS FOR Tour</image:title>
-    </image:image>
-  </url>
-  <url>
-    <loc>https://droneicarus.com/#watch/0cfe9281-8c5b-4d0f-85b1-3296c2bcf261</loc>
-    <lastmod>2026-04-26</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-    <image:image>
-      <image:loc>https://i.ytimg.com/vi/iSLMdYhotUE/maxresdefault.jpg</image:loc>
-      <image:title>Tasmania–a stunning wilderness</image:title>
-    </image:image>
-  </url>
-  <url>
-    <loc>https://droneicarus.com/#watch/4d87ddac-4089-4ab8-91cd-f8b31126c5bd</loc>
-    <lastmod>2026-04-25</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-    <image:image>
-      <image:loc>https://i.ytimg.com/vi/ME8JD7wZuAw/maxresdefault.jpg</image:loc>
-      <image:title>Orcas Island to Jones Island Kayaking in 4K UHD with Drone Aerials</image:title>
-    </image:image>
-  </url>
-  <url>
-    <loc>https://droneicarus.com/#watch/f392926d-5c78-4332-a647-3aba1a564622</loc>
-    <lastmod>2026-04-26</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-    <image:image>
-      <image:loc>https://i.ytimg.com/vi/7ytmPllIYVA/maxresdefault.jpg</image:loc>
-      <image:title>Polarbear Drone Footage</image:title>
-    </image:image>
-  </url>
-  <url>
-    <loc>https://droneicarus.com/#watch/4b7489a1-621b-4031-af83-5b4126df7aa1</loc>
-    <lastmod>2026-04-26</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-    <image:image>
-      <image:loc>https://i.ytimg.com/vi/6PGzSSc7Haw/maxresdefault.jpg</image:loc>
-      <image:title>Darvaza , Turkménistan</image:title>
-    </image:image>
-  </url>
-  <url>
-    <loc>https://droneicarus.com/#watch/dfb5ee31-806d-4e5a-b8f9-1940379ed22a</loc>
-    <lastmod>2026-04-28</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-    <image:image>
-      <image:loc>https://i.ytimg.com/vi/WsGiNnhzH08/maxresdefault.jpg</image:loc>
-      <image:title>Full Super Bowl LVI Drone Show - Downtown Los Angeles</image:title>
-    </image:image>
-  </url>
-  <url>
     <loc>https://droneicarus.com/#lab-item/e0bca914-a40f-41b6-b03f-53cbbaa9386e</loc>
     <lastmod>2025-04-30</lastmod>
     <changefreq>monthly</changefreq>
@@ -10127,7 +10127,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/5bb285a2-5bf6-4507-a10a-570f1a2faceb</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -10147,7 +10147,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/65e82339-ecbc-48ab-8032-04712aa7830c</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -10197,7 +10197,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/005e8fb4-a46e-445c-b7d5-e212fd619bcc</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -10287,7 +10287,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/55ae8c5c-576c-4fb5-bc94-a7e4a9d815a4</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -10367,7 +10367,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/b78798cf-a871-414a-b908-e41e477a4040</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -10377,7 +10377,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/54768fdd-93e5-477e-b3b7-5ce5aeab8390</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -10387,7 +10387,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/a0b5d5ab-6731-460e-a017-fc2fdb8265f5</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -10627,7 +10627,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/bee9203e-963c-4298-ba62-9590d4d849b8</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -10637,7 +10637,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/5fced448-f90d-4f75-976c-5853eb96eca6</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -10677,7 +10677,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/c3a2224c-d02f-4815-9623-924142ae2892</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -10726,6 +10726,16 @@
     </image:image>
   </url>
   <url>
+    <loc>https://droneicarus.com/#lab-item/e3851f5f-df9a-48ec-9ce9-fc887b63525b</loc>
+    <lastmod>2025-12-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>https://opengraph.githubassets.com/1/watta0/crsf</image:loc>
+      <image:title>watta0/crsf — tbs crsf protocol library.</image:title>
+    </image:image>
+  </url>
+  <url>
     <loc>https://droneicarus.com/#lab-item/0515f7a4-98a1-4974-8e09-8664a07fc760</loc>
     <lastmod>2026-02-11</lastmod>
     <changefreq>monthly</changefreq>
@@ -10733,6 +10743,26 @@
     <image:image>
       <image:loc>https://arxiv.org/static/browse/0.3.4/images/arxiv-logo-fb.png</image:loc>
       <image:title>Queues with Rechargeable Servers</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://droneicarus.com/#lab-item/00110f69-7c9a-4c77-bdc9-c11f9d34669d</loc>
+    <lastmod>2026-05-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>https://i.ytimg.com/vi/Cxnq5yMOYHo/hqdefault.jpg</image:loc>
+      <image:title>Creating EPIC Drone Travel Edits in Minutes 📱 | 2 Min Cinematic Drone Edit Tutorial</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://droneicarus.com/#lab-item/fc296aba-cfd5-4184-b740-16f5f24750f9</loc>
+    <lastmod>2026-05-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>https://i.ytimg.com/vi/7bm58gape8c/hqdefault.jpg</image:loc>
+      <image:title>Drone Moves 41/100Welcome to Drone Tutorials! 🚁</image:title>
     </image:image>
   </url>
   <url>
@@ -10753,6 +10783,26 @@
     <image:image>
       <image:loc>https://arxiv.org/static/browse/0.3.4/images/arxiv-logo-fb.png</image:loc>
       <image:title>Vision-only UAV State Estimation for Fast Flights Without External Localization Systems: A2RL Drone Racing Finalist Approach</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://droneicarus.com/#lab-item/0d7d51f5-9957-46ed-94a9-3d1154aa0e25</loc>
+    <lastmod>2026-05-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>https://i.ytimg.com/vi/dP1lW3Ad02s/hqdefault.jpg</image:loc>
+      <image:title>drone kaise banaen 🤔 🤔 #bholekatechnical #shorts #dronesikho #dronapsc</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://droneicarus.com/#lab-item/0a9606b5-5c26-49ca-a88d-1f65d90bcb12</loc>
+    <lastmod>2026-05-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>https://i.ytimg.com/vi/_XE5Bg_wt4Q/hqdefault.jpg</image:loc>
+      <image:title>How to Use Auto Boomerang | DJI Mini 3 Boomerang Shot Tutorial | Cinematic Drone Movement | #drone</image:title>
     </image:image>
   </url>
   <url>
@@ -10836,6 +10886,26 @@
     </image:image>
   </url>
   <url>
+    <loc>https://droneicarus.com/#lab-item/86f25003-6e20-40df-978f-6f501926c748</loc>
+    <lastmod>2026-05-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>https://i.ytimg.com/vi/Ay9yAWEn76s/hqdefault.jpg</image:loc>
+      <image:title>#mini drone making#short video #diyini video short video😃😃😃🙏🙏</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://droneicarus.com/#lab-item/e129226f-29c6-4fc5-a601-430470d9a02b</loc>
+    <lastmod>2026-05-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>https://i.ytimg.com/vi/6gtqCThPklo/hqdefault.jpg</image:loc>
+      <image:title>#fpv #drone #fpvdrone #quadcopter #diy #build #geprc #caddx</image:title>
+    </image:image>
+  </url>
+  <url>
     <loc>https://droneicarus.com/#lab-item/caf0f2af-1c4f-4b0f-b674-04d1c1bf68d2</loc>
     <lastmod>2026-01-11</lastmod>
     <changefreq>monthly</changefreq>
@@ -10853,6 +10923,16 @@
     <image:image>
       <image:loc>https://arxiv.org/static/browse/0.3.4/images/arxiv-logo-fb.png</image:loc>
       <image:title>Feature-Level Robustness of Physics-Guided Micro-Doppler Descriptors for classification of Drones and Birds</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://droneicarus.com/#lab-item/ba0dd5c4-1c44-4475-985c-99da4cbaa4d0</loc>
+    <lastmod>2026-05-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>https://i.ytimg.com/vi/VsxwCCByH9g/hqdefault.jpg</image:loc>
+      <image:title>Fpv Freestyle Practise</image:title>
     </image:image>
   </url>
   <url>
@@ -10877,12 +10957,32 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/be051168-99bb-4a97-9d03-88e5c06f762e</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
       <image:loc>https://arxiv.org/static/browse/0.3.4/images/arxiv-logo-fb.png</image:loc>
       <image:title>The External Calibrator for Hydrogen Observatories</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://droneicarus.com/#lab-item/318a0e63-2b59-4bb9-97ac-8403ab99770e</loc>
+    <lastmod>2026-05-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>https://i.ytimg.com/vi/f6074n2neSA/hqdefault.jpg</image:loc>
+      <image:title>BUILD YOUR FIRST FPV 🚁</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://droneicarus.com/#lab-item/aa6bd721-2e01-4552-8f61-cd2bfd42179f</loc>
+    <lastmod>2026-05-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>https://i.ytimg.com/vi/qUB5_vyGs3g/hqdefault.jpg</image:loc>
+      <image:title>SUPAFLY JUICEMODE BUILD TEST RIP 🤘#diy #drone #speed #fpv #awesome</image:title>
     </image:image>
   </url>
   <url>
@@ -10913,6 +11013,16 @@
     <image:image>
       <image:loc>https://arxiv.org/static/browse/0.3.4/images/arxiv-logo-fb.png</image:loc>
       <image:title>A unified solution framework for truck-and-drone routing problems</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://droneicarus.com/#lab-item/675c7153-841f-456b-b532-2f1335640ff8</loc>
+    <lastmod>2026-05-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>https://i.ytimg.com/vi/J5sSHikrN2M/hqdefault.jpg</image:loc>
+      <image:title>ArduPilot Setup Ka Sabse Aasan Tarika: Zero se Flight tak ka Complete Step-by-Step Guide!</image:title>
     </image:image>
   </url>
   <url>
@@ -10966,6 +11076,16 @@
     </image:image>
   </url>
   <url>
+    <loc>https://droneicarus.com/#lab-item/2094b709-f627-467b-8cf3-13e8268f4677</loc>
+    <lastmod>2026-04-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>https://i.ytimg.com/vi/Ba-QqDJkaMc/hqdefault.jpg</image:loc>
+      <image:title>Mission Planner for Beginners | SITL Simulation + Log Review</image:title>
+    </image:image>
+  </url>
+  <url>
     <loc>https://droneicarus.com/#lab-item/54705eb6-f1ca-4f88-a467-dd4f7e95357e</loc>
     <lastmod>2026-03-29</lastmod>
     <changefreq>monthly</changefreq>
@@ -10973,6 +11093,16 @@
     <image:image>
       <image:loc>https://arxiv.org/static/browse/0.3.4/images/arxiv-logo-fb.png</image:loc>
       <image:title>LLM-Enabled Low-Altitude UAV Natural Language Navigation via Signal Temporal Logic Specification Translation and Repair</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://droneicarus.com/#lab-item/2864ffcf-2fc4-4a35-9a05-86037ae562f9</loc>
+    <lastmod>2026-05-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>https://i.ytimg.com/vi/nEbP0Y0PcTg/hqdefault.jpg</image:loc>
+      <image:title>Take Control of Your Drones with ADOS Mission Control</image:title>
     </image:image>
   </url>
   <url>
@@ -11046,6 +11176,16 @@
     </image:image>
   </url>
   <url>
+    <loc>https://droneicarus.com/#lab-item/4d9a6dc7-cdef-4e81-9c9d-4f51fd00476e</loc>
+    <lastmod>2026-04-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>https://i.ytimg.com/vi/omrKCs8LtU4/hqdefault.jpg</image:loc>
+      <image:title>Drone PID - Motor Propeller Rotation Test - Visualize Roll Pitch Yaw and Z Axis. Made in India</image:title>
+    </image:image>
+  </url>
+  <url>
     <loc>https://droneicarus.com/#lab-item/79768cbc-2dce-4043-92bd-bc4b956cc54d</loc>
     <lastmod>2020-06-22</lastmod>
     <changefreq>monthly</changefreq>
@@ -11057,7 +11197,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/26aaff56-37a6-458a-89de-997e8c4a7cfd</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -11067,7 +11207,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/fa368070-0ea4-4b02-b7cb-3b1d29682a0c</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -11107,12 +11247,32 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/b214c8ae-cdca-4304-83eb-07ea1e7aff90</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
       <image:loc>https://opengraph.githubassets.com/1/IBMStreams/samples</image:loc>
       <image:title>IBMStreams/samples — This repository contains open-source sample applications for IBM Streams.</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://droneicarus.com/#lab-item/29eb6126-01ca-4f94-8169-feb0cfe690bf</loc>
+    <lastmod>2026-05-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>https://i.ytimg.com/vi/T9PFZ8KJabY/hqdefault.jpg</image:loc>
+      <image:title>NEW! IFLIGHT CHIMERA FPV LONG RANGE CINEMATIC DRONE #UPGRADE  #SOLDERING LED LIGHTS #DIGITAL HGLRC</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://droneicarus.com/#lab-item/cd40031a-0df3-48fd-a8f7-1a9ce3f7d072</loc>
+    <lastmod>2026-05-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>https://i.ytimg.com/vi/ZTWn9hRCJYI/hqdefault.jpg</image:loc>
+      <image:title>L900 Pro Max Drone Review &amp;amp; Full Setup! Camera Test &amp;amp; How To Fly L900 Pro Drone</image:title>
     </image:image>
   </url>
   <url>
@@ -11127,7 +11287,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/c56c0bba-3a62-4dc0-bafc-2a9339ea9842</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -11166,6 +11326,56 @@
     </image:image>
   </url>
   <url>
+    <loc>https://droneicarus.com/#lab-item/1bcf9019-d633-4641-ad66-28335e075376</loc>
+    <lastmod>2026-05-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>https://i.ytimg.com/vi/FHtfF_HOjJ4/hqdefault.jpg</image:loc>
+      <image:title>“Vivo Flying Camera Phone Unboxing 🔥 First Look”</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://droneicarus.com/#lab-item/f6e0fb50-449f-44c1-a429-066642bbb443</loc>
+    <lastmod>2026-05-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>https://i.ytimg.com/vi/mc6WAax_L68/hqdefault.jpg</image:loc>
+      <image:title>dji drone camera #shorts #drone #djidrone #dronevideo #dronecamera #djimini4k #newvideo #foryou</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://droneicarus.com/#lab-item/fb50c311-c385-469c-858d-816c8b540148</loc>
+    <lastmod>2026-05-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>https://i.ytimg.com/vi/bNIPd3podmA/hqdefault.jpg</image:loc>
+      <image:title>How to Fly DJI Mini 3 Drone | Easy Setup || DJI Mini 3 #djidrone #shorts #dji #drone #djimini3</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://droneicarus.com/#lab-item/da79d33b-ab06-4555-b29e-a0149ddbfb2e</loc>
+    <lastmod>2026-05-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>https://i.ytimg.com/vi/8B82WC6dwP4/hqdefault.jpg</image:loc>
+      <image:title>Panduan Binding ELRS dengan Binding Phrase: Setting Remote &amp;amp; Receiver</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://droneicarus.com/#lab-item/65e08633-c0a5-4184-8a85-9708e289411f</loc>
+    <lastmod>2025-02-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>https://i.ytimg.com/vi/QqOhoOKOOeg/hqdefault.jpg</image:loc>
+      <image:title>5 DRONE MOVES YOU NEED TO KNOW! - DJI Mini 4 Pro</image:title>
+    </image:image>
+  </url>
+  <url>
     <loc>https://droneicarus.com/#lab-item/11a9c80e-f33c-4523-a088-c4a1e1e551cd</loc>
     <lastmod>2025-02-26</lastmod>
     <changefreq>monthly</changefreq>
@@ -11177,7 +11387,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/e5b3a30b-3bc6-4b6e-8813-549950bac09b</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -11247,7 +11457,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/91dd81c9-58e9-4768-9418-31b575edc350</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -11267,7 +11477,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/dfdb7265-1379-4fe3-a8f6-7368a894dbec</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -11337,7 +11547,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/4ac04559-4b89-41f9-93b0-4ae6b0864685</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -11417,7 +11627,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/53b0f2bd-8044-47e7-b46d-7d4590750822</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -11486,8 +11696,28 @@
     </image:image>
   </url>
   <url>
-    <loc>https://droneicarus.com/#lab-item/da35ea93-a0dd-493b-ad39-41224132f3be</loc>
+    <loc>https://droneicarus.com/#lab-item/2466dc70-8c87-4a04-b6c0-12156530da62</loc>
     <lastmod>2026-05-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>https://i.ytimg.com/vi/3AAvTEFkVq4/hqdefault.jpg</image:loc>
+      <image:title>Surveyaan V1 Terrain Following (Online) | Step-by-Step Drone Survey Guide</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://droneicarus.com/#lab-item/787ec4c4-d26b-435f-846c-8b9c0a1c96d3</loc>
+    <lastmod>2026-04-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>https://i.ytimg.com/vi/MJNBhzreKG8/hqdefault.jpg</image:loc>
+      <image:title>Rescue Drone Search</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://droneicarus.com/#lab-item/da35ea93-a0dd-493b-ad39-41224132f3be</loc>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -11497,7 +11727,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/9ae0cb4b-054c-42b2-9903-1cac5cef9d12</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -11566,8 +11796,28 @@
     </image:image>
   </url>
   <url>
-    <loc>https://droneicarus.com/#lab-item/9f11ab0d-a375-49e1-9866-880de34b6558</loc>
+    <loc>https://droneicarus.com/#lab-item/1ba65862-8192-4ce1-b38b-fa37381aa036</loc>
+    <lastmod>2026-04-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>https://i.ytimg.com/vi/SWKE2jDQLlY/hqdefault.jpg</image:loc>
+      <image:title>Drone Mapping Corridor Route in Seconds! #corridormission #ugcs #dronemapping</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://droneicarus.com/#lab-item/66bf209b-c520-4a7a-8e95-ef8dd9725d40</loc>
     <lastmod>2026-05-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>https://i.ytimg.com/vi/kvku4GpoOQk/hqdefault.jpg</image:loc>
+      <image:title>[농업용 드론] 헬셀 방제드론 파낙스 35T 납품 현장! 기체 설명부터 테스트 비행까지</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://droneicarus.com/#lab-item/9f11ab0d-a375-49e1-9866-880de34b6558</loc>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -11626,8 +11876,18 @@
     </image:image>
   </url>
   <url>
+    <loc>https://droneicarus.com/#lab-item/ff927332-2b88-452c-9886-90505e755e85</loc>
+    <lastmod>2026-05-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>https://i.ytimg.com/vi/FhI-LOXnww8/hqdefault.jpg</image:loc>
+      <image:title>spreading manure with new setup #farming</image:title>
+    </image:image>
+  </url>
+  <url>
     <loc>https://droneicarus.com/#lab-item/e04aedd6-fd4c-433e-b00c-f6d1893aa888</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -11637,7 +11897,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/405d01af-9be3-42b2-b24c-5a87920f084a</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -11677,7 +11937,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/e5cfb41d-4157-4541-b401-876645a3eac9</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -11707,7 +11967,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/4975f9b3-43b1-48b5-89b7-5d4858d62d90</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -11807,7 +12067,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/35b2d1a8-39df-4080-b7ed-5303cab73a42</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -11827,7 +12087,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/1af79228-4be2-4765-bd33-495c6d2c7d2e</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -11837,7 +12097,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/08cadc92-da3d-4962-a4ca-aadc5ceb6344</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -11857,7 +12117,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/50cedc8c-eb5c-49dd-a4a6-4561bc7d087c</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -11897,7 +12157,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/7cf0ad59-9b92-4dcb-b98b-b9508ef64dcd</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -11907,7 +12167,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/b1a245a1-2787-4f58-9ac2-ef3d8e37de16</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -11926,8 +12186,18 @@
     </image:image>
   </url>
   <url>
+    <loc>https://droneicarus.com/#lab-item/baaf4fbb-2d0c-4347-bc14-a581c36d9f64</loc>
+    <lastmod>2026-04-28</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>https://i.ytimg.com/vi/7bzdSFxt9qs/hqdefault.jpg</image:loc>
+      <image:title>This Backyard Chicken Setup Costs More Than Most Houses #satisfying #homestead #farming</image:title>
+    </image:image>
+  </url>
+  <url>
     <loc>https://droneicarus.com/#lab-item/7e8998b6-4b76-4a62-b076-1248b04d4663</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -11937,7 +12207,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/ea2ef376-d335-486b-a030-b080f3b4d079</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -11947,7 +12217,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/21903c75-8758-490c-9234-f00c95258054</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -11957,7 +12227,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/b24acae1-2ae6-4fe0-999f-3ea316612a1a</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -11977,7 +12247,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/74363d7b-5fc6-4658-a851-bd56307e7001</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -11987,7 +12257,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/afc6c366-f3cf-412c-ab18-72c96a862502</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -11997,7 +12267,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/0adee267-38d4-4aa5-8ed1-ab86a773fe51</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -12017,7 +12287,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/6368f2b4-641f-4697-b4ec-10769e515843</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -12037,7 +12307,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/e4cb1a47-2f21-4bac-bd86-3f82cbe0f91d</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -12046,8 +12316,18 @@
     </image:image>
   </url>
   <url>
+    <loc>https://droneicarus.com/#lab-item/9274e86a-270c-498c-a29f-13bc2fc4d615</loc>
+    <lastmod>2026-04-28</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>https://i.ytimg.com/vi/bBB5gVPLZJs/hqdefault.jpg</image:loc>
+      <image:title>Agri Spray Demo Day: New Drones + Auto Refill Station</image:title>
+    </image:image>
+  </url>
+  <url>
     <loc>https://droneicarus.com/#lab-item/914137c0-deaa-48e1-9cd1-c06f4e507113</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -12067,7 +12347,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/72c0466f-a90f-42d0-98d7-800fb7b1d2e8</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -12077,7 +12357,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/0164d129-4f9a-4fae-9483-030d85dfc27a</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -12117,7 +12397,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/8662077d-c528-4c77-9d85-63798bdbaa25</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -12147,7 +12427,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/3e85e1a8-8179-41e9-97b2-b67f7d47a669</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -12177,7 +12457,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/af39f320-04ab-4536-95ea-c7c229c1c289</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -12187,7 +12467,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/ff4df236-44a0-460d-88af-0a5f1cdb7e77</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -12206,8 +12486,48 @@
     </image:image>
   </url>
   <url>
-    <loc>https://droneicarus.com/#lab-item/464f1080-f714-4210-82cf-625938e859d9</loc>
+    <loc>https://droneicarus.com/#lab-item/17069b25-d110-4823-8024-58568ca48d69</loc>
+    <lastmod>2026-05-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>https://i.ytimg.com/vi/NadR7Q4jv4c/hqdefault.jpg</image:loc>
+      <image:title>Duo Wave Defense Strategy Guide: Repair Drones, Venari Ral &amp;amp; Loot Math Explained! | #stfc</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://droneicarus.com/#lab-item/e9f22aaf-9d83-4aa6-ba81-c163ae519b2b</loc>
+    <lastmod>2026-01-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>https://i.ytimg.com/vi/Fsk1l25P27I/hqdefault.jpg</image:loc>
+      <image:title>STOP Dying in PvP! Infinite Defender Drone Build Guide | Division 2</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://droneicarus.com/#lab-item/ec1675c5-5659-40c0-8fcd-aec4d61515cc</loc>
+    <lastmod>2026-05-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>https://i.ytimg.com/vi/U307GNXVYPM/hqdefault.jpg</image:loc>
+      <image:title>UKRAINIAN AIR CARRIER 🛸</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://droneicarus.com/#lab-item/bf1de26b-fbbe-4450-b9cd-0b568e2900b1</loc>
     <lastmod>2026-05-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NDAgMzYwIiB3aWR0aD0iNjQwIiBoZWlnaHQ9IjM2MCI+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJnIiB4MT0iMCIgeTE9IjAiIHgyPSIxIiB5Mj0iMSI+PHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzFmMmEzYSIvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iIzBhMGYxNCIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjxyZWN0IHdpZHRoPSI2NDAiIGhlaWdodD0iMzYwIiBmaWxsPSJ1cmwoI2cpIi8+PHJlY3QgeD0iNDAiIHk9IjQ2IiB3aWR0aD0iNCIgaGVpZ2h0PSIyNCIgZmlsbD0iIzVmYThkMyIvPjx0ZXh0IHg9IjU2IiB5PSI2NCIgZmlsbD0iIzVmYThkMyIgZm9udC1mYW1pbHk9IidKZXRCcmFpbnMgTW9ubycsIG1vbm9zcGFjZSIgZm9udC1zaXplPSIxMyIgZm9udC13ZWlnaHQ9IjYwMCIgbGV0dGVyLXNwYWNpbmc9IjIiPlBVTFNFPC90ZXh0Pjx0ZXh0IHg9IjQwIiB5PSIxNjAiIGZpbGw9IiNmNWVkZTAiIGZvbnQtZmFtaWx5PSJJbnRlciBUaWdodCwgSW50ZXIsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjYiIGZvbnQtd2VpZ2h0PSI3MDAiPlRoaXMgc3lzdGVtIGFpbXMgdG8gZml4PC90ZXh0Pjx0ZXh0IHg9IjQwIiB5PSIyMDQiIGZpbGw9IiNmNWVkZTAiIGZvbnQtZmFtaWx5PSJJbnRlciBUaWdodCwgSW50ZXIsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjYiIGZvbnQtd2VpZ2h0PSI3MDAiPmRyb25lIGxhbmRpbmdzIGluIHJvdWdoIHNlYXM8L3RleHQ+PHRleHQgeD0iNDAiIHk9IjI3NiIgZmlsbD0iI2QxYzhiNSIgZm9udC1mYW1pbHk9IkludGVyIFRpZ2h0LCBJbnRlciwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgb3BhY2l0eT0iMC44NSI+RHJvbmVESjwvdGV4dD48dGV4dCB4PSI0MCIgeT0iMzQwIiBmaWxsPSIjZDFjOGI1IiBmb250LWZhbWlseT0iJ0pldEJyYWlucyBNb25vJywgbW9ub3NwYWNlIiBmb250LXNpemU9IjEwIiBvcGFjaXR5PSIwLjUiIGxldHRlci1zcGFjaW5nPSIxLjUiPkRST05FSUNBUlVTIMK3IExBQiDCtyBQVUxTRTwvdGV4dD48L3N2Zz4=</image:loc>
+      <image:title>This system aims to fix drone landings in rough seas</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://droneicarus.com/#lab-item/464f1080-f714-4210-82cf-625938e859d9</loc>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -12267,7 +12587,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/df00f80c-5883-4cac-bb97-f5b7eeb301ff</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -12317,7 +12637,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/c81daf68-f3fb-4c84-92d1-596e0efd633e</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -12377,7 +12697,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/41717d38-cd46-41a4-b28c-aae71e6af55d</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -12447,7 +12767,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/670ea086-0557-4912-a698-1bcdf53a804f</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -12597,7 +12917,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/c6b81b92-efec-4bc4-b30a-ca299eaac558</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -12607,7 +12927,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/7e4483f7-de36-474c-ab77-169055f3bbe3</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -12667,7 +12987,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/f8b64e2d-673f-4e2e-befc-d135743ee941</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -12677,7 +12997,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/f21d4ce4-506c-4871-9d7d-7186e8e78f2a</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -12737,12 +13057,22 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/1f07acfd-ff71-4ad1-b1d9-78a496b142ab</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
       <image:loc>https://opengraph.githubassets.com/1/Rubi-Tomeu/Path-Flyer</image:loc>
       <image:title>Rubi-Tomeu/Path-Flyer — A Benchmark of Quadrotor Path Following Algorithms.</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://droneicarus.com/#lab-item/3bf54a9a-18ed-4a37-97db-a0ef4c8935ae</loc>
+    <lastmod>2026-05-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NDAgMzYwIiB3aWR0aD0iNjQwIiBoZWlnaHQ9IjM2MCI+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJnIiB4MT0iMCIgeTE9IjAiIHgyPSIxIiB5Mj0iMSI+PHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzFmMmEzYSIvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iIzBhMGYxNCIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjxyZWN0IHdpZHRoPSI2NDAiIGhlaWdodD0iMzYwIiBmaWxsPSJ1cmwoI2cpIi8+PHJlY3QgeD0iNDAiIHk9IjQ2IiB3aWR0aD0iNCIgaGVpZ2h0PSIyNCIgZmlsbD0iIzVmYThkMyIvPjx0ZXh0IHg9IjU2IiB5PSI2NCIgZmlsbD0iIzVmYThkMyIgZm9udC1mYW1pbHk9IidKZXRCcmFpbnMgTW9ubycsIG1vbm9zcGFjZSIgZm9udC1zaXplPSIxMyIgZm9udC13ZWlnaHQ9IjYwMCIgbGV0dGVyLXNwYWNpbmc9IjIiPlBVTFNFPC90ZXh0Pjx0ZXh0IHg9IjQwIiB5PSIxNjAiIGZpbGw9IiNmNWVkZTAiIGZvbnQtZmFtaWx5PSJJbnRlciBUaWdodCwgSW50ZXIsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjYiIGZvbnQtd2VpZ2h0PSI3MDAiPldhaVYgUm9ib3RpY3MgRGVidXRzPC90ZXh0Pjx0ZXh0IHg9IjQwIiB5PSIyMDQiIGZpbGw9IiNmNWVkZTAiIGZvbnQtZmFtaWx5PSJJbnRlciBUaWdodCwgSW50ZXIsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjYiIGZvbnQtd2VpZ2h0PSI3MDAiPk1hcml0aW1lIFZUT0wgTGFuZGluZyBQYWQ8L3RleHQ+PHRleHQgeD0iNDAiIHk9IjI0OCIgZmlsbD0iI2Y1ZWRlMCIgZm9udC1mYW1pbHk9IkludGVyIFRpZ2h0LCBJbnRlciwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyNiIgZm9udC13ZWlnaHQ9IjcwMCI+d2l0aCAkNy41TSBTZWVkIFJvdW5kPC90ZXh0Pjx0ZXh0IHg9IjQwIiB5PSIzMjAiIGZpbGw9IiNkMWM4YjUiIGZvbnQtZmFtaWx5PSJJbnRlciBUaWdodCwgSW50ZXIsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTQiIG9wYWNpdHk9IjAuODUiPkRyb25lTGlmZTwvdGV4dD48dGV4dCB4PSI0MCIgeT0iMzQwIiBmaWxsPSIjZDFjOGI1IiBmb250LWZhbWlseT0iJ0pldEJyYWlucyBNb25vJywgbW9ub3NwYWNlIiBmb250LXNpemU9IjEwIiBvcGFjaXR5PSIwLjUiIGxldHRlci1zcGFjaW5nPSIxLjUiPkRST05FSUNBUlVTIMK3IExBQiDCtyBQVUxTRTwvdGV4dD48L3N2Zz4=</image:loc>
+      <image:title>WaiV Robotics Debuts Maritime VTOL Landing Pad with $7.5M Seed Round</image:title>
     </image:image>
   </url>
   <url>
@@ -12757,7 +13087,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/4c4132bd-bc54-42da-934f-441d58b562aa</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -12813,6 +13143,16 @@
     <image:image>
       <image:loc>https://arxiv.org/static/browse/0.3.4/images/arxiv-logo-fb.png</image:loc>
       <image:title>Collaborative Planning with Concurrent Synchronization for Operationally Constrained UAV-UGV Teams</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://droneicarus.com/#lab-item/57db64c5-631e-496a-86fa-987b964da065</loc>
+    <lastmod>2026-05-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NDAgMzYwIiB3aWR0aD0iNjQwIiBoZWlnaHQ9IjM2MCI+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJnIiB4MT0iMCIgeTE9IjAiIHgyPSIxIiB5Mj0iMSI+PHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzFlM2E1ZiIvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iIzBmMWYzZiIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjxyZWN0IHdpZHRoPSI2NDAiIGhlaWdodD0iMzYwIiBmaWxsPSJ1cmwoI2cpIi8+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNDIwLDYwKSBzY2FsZSg2KSIgY29sb3I9IiNjNjg4MjAiPjxwYXRoIGQ9Ik0xMiAydjIwTTIgMTJoMjBNNyA3bDEwIDEwTTE3IDdMNyAxNyIgc3Ryb2tlPSJjdXJyZW50Q29sb3IiIHN0cm9rZS13aWR0aD0iMC44IiBmaWxsPSJub25lIiBvcGFjaXR5PSIwLjIiLz48L2c+PHJlY3QgeD0iNDAiIHk9IjQ2IiB3aWR0aD0iNCIgaGVpZ2h0PSIyNCIgZmlsbD0iI2M2ODgyMCIvPjx0ZXh0IHg9IjU2IiB5PSI2NCIgZmlsbD0iI2M2ODgyMCIgZm9udC1mYW1pbHk9IidKZXRCcmFpbnMgTW9ubycsIG1vbm9zcGFjZSIgZm9udC1zaXplPSIxMyIgZm9udC13ZWlnaHQ9IjYwMCIgbGV0dGVyLXNwYWNpbmc9IjIiPlJFU0VBUkNIPC90ZXh0Pjx0ZXh0IHg9IjQwIiB5PSIxNjAiIGZpbGw9IiNmNWVkZTAiIGZvbnQtZmFtaWx5PSJJbnRlciBUaWdodCwgSW50ZXIsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjgiIGZvbnQtd2VpZ2h0PSI3MDAiPlNheSB0aGUgTWlzc2lvbiwgRXhlY3V0ZSB0aGU8L3RleHQ+PHRleHQgeD0iNDAiIHk9IjIwNiIgZmlsbD0iI2Y1ZWRlMCIgZm9udC1mYW1pbHk9IkludGVyIFRpZ2h0LCBJbnRlciwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyOCIgZm9udC13ZWlnaHQ9IjcwMCI+U3dhcm06IEFnZW50LUVuaGFuY2VkIExMTTwvdGV4dD48dGV4dCB4PSI0MCIgeT0iMjUyIiBmaWxsPSIjZjVlZGUwIiBmb250LWZhbWlseT0iSW50ZXIgVGlnaHQsIEludGVyLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjI4IiBmb250LXdlaWdodD0iNzAwIj5SZWFzb25pbmcgaW4gdGhlIFdlYi1vZi1Ecm9uZXM8L3RleHQ+PHRleHQgeD0iNDAiIHk9IjMyOCIgZmlsbD0iI2QxYzhiNSIgZm9udC1mYW1pbHk9IkludGVyIFRpZ2h0LCBJbnRlciwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgb3BhY2l0eT0iMC44Ij48L3RleHQ+PHRleHQgeD0iNDAiIHk9IjM0MCIgZmlsbD0iI2QxYzhiNSIgZm9udC1mYW1pbHk9IidKZXRCcmFpbnMgTW9ubycsIG1vbm9zcGFjZSIgZm9udC1zaXplPSIxMCIgb3BhY2l0eT0iMC41IiBsZXR0ZXItc3BhY2luZz0iMS41Ij5EUk9ORUlDQVJVUyDCtyBMQUI8L3RleHQ+PC9zdmc+</image:loc>
+      <image:title>Say the Mission, Execute the Swarm: Agent-Enhanced LLM Reasoning in the Web-of-Drones</image:title>
     </image:image>
   </url>
   <url>
@@ -12877,7 +13217,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/293138b8-7731-4c79-b600-bf6c9e36f22b</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -12887,7 +13227,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/588582dd-5257-4e90-9776-ab5c58113a6a</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -12957,7 +13297,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/7a55390c-18e1-4582-919d-973f6910fc8c</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -13007,7 +13347,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/967ec397-0421-4a2d-8884-0592b40bbac5</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -13047,7 +13387,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/573aacf4-1394-447a-bbc7-762f0dea67cc</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -13057,7 +13397,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/1e5a86e1-e02b-4037-9cea-28cb4b617ae2</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -13097,7 +13437,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/5bf13c8b-8cb5-47e2-aa73-213a334f4a1e</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -13107,7 +13447,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/3a7925b9-d4cb-4dd5-9624-e96880db3f80</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -13137,7 +13477,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/5ffb3270-d63a-4987-824e-b644bf92a584</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -13147,7 +13487,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/97c58157-11f7-4263-ba78-980721919b70</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -13157,7 +13497,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/644c61ab-5e29-472f-b8c3-72b59470a643</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -13206,8 +13546,18 @@
     </image:image>
   </url>
   <url>
-    <loc>https://droneicarus.com/#lab-item/d2fde9af-741d-4695-923d-0daa17da5ae8</loc>
+    <loc>https://droneicarus.com/#lab-item/1758840b-ae26-44e4-a41c-78d78dbebe0c</loc>
     <lastmod>2026-05-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NDAgMzYwIiB3aWR0aD0iNjQwIiBoZWlnaHQ9IjM2MCI+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJnIiB4MT0iMCIgeTE9IjAiIHgyPSIxIiB5Mj0iMSI+PHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzFlM2E1ZiIvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iIzBmMWYzZiIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjxyZWN0IHdpZHRoPSI2NDAiIGhlaWdodD0iMzYwIiBmaWxsPSJ1cmwoI2cpIi8+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNDIwLDYwKSBzY2FsZSg2KSIgY29sb3I9IiNjNjg4MjAiPjxwYXRoIGQ9Ik0xMiAydjIwTTIgMTJoMjBNNyA3bDEwIDEwTTE3IDdMNyAxNyIgc3Ryb2tlPSJjdXJyZW50Q29sb3IiIHN0cm9rZS13aWR0aD0iMC44IiBmaWxsPSJub25lIiBvcGFjaXR5PSIwLjIiLz48L2c+PHJlY3QgeD0iNDAiIHk9IjQ2IiB3aWR0aD0iNCIgaGVpZ2h0PSIyNCIgZmlsbD0iI2M2ODgyMCIvPjx0ZXh0IHg9IjU2IiB5PSI2NCIgZmlsbD0iI2M2ODgyMCIgZm9udC1mYW1pbHk9IidKZXRCcmFpbnMgTW9ubycsIG1vbm9zcGFjZSIgZm9udC1zaXplPSIxMyIgZm9udC13ZWlnaHQ9IjYwMCIgbGV0dGVyLXNwYWNpbmc9IjIiPlJFU0VBUkNIPC90ZXh0Pjx0ZXh0IHg9IjQwIiB5PSIxNjAiIGZpbGw9IiNmNWVkZTAiIGZvbnQtZmFtaWx5PSJJbnRlciBUaWdodCwgSW50ZXIsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjgiIGZvbnQtd2VpZ2h0PSI3MDAiPlJvYnVzdCBWaXN1YWwgU0xBTSBmb3IgVUFWPC90ZXh0Pjx0ZXh0IHg9IjQwIiB5PSIyMDYiIGZpbGw9IiNmNWVkZTAiIGZvbnQtZmFtaWx5PSJJbnRlciBUaWdodCwgSW50ZXIsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjgiIGZvbnQtd2VpZ2h0PSI3MDAiPk5hdmlnYXRpb24gaW4gR1BTLURlbmllZCBhbmQ8L3RleHQ+PHRleHQgeD0iNDAiIHk9IjI1MiIgZmlsbD0iI2Y1ZWRlMCIgZm9udC1mYW1pbHk9IkludGVyIFRpZ2h0LCBJbnRlciwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyOCIgZm9udC13ZWlnaHQ9IjcwMCI+RGVncmFkZWQgRW52aXJvbm1lbnRzOiBBPC90ZXh0Pjx0ZXh0IHg9IjQwIiB5PSIyOTgiIGZpbGw9IiNmNWVkZTAiIGZvbnQtZmFtaWx5PSJJbnRlciBUaWdodCwgSW50ZXIsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjgiIGZvbnQtd2VpZ2h0PSI3MDAiPk11bHRpLVBhcmFkaWdtIEV2YWw8L3RleHQ+PHRleHQgeD0iNDAiIHk9IjM3NCIgZmlsbD0iI2QxYzhiNSIgZm9udC1mYW1pbHk9IkludGVyIFRpZ2h0LCBJbnRlciwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgb3BhY2l0eT0iMC44Ij48L3RleHQ+PHRleHQgeD0iNDAiIHk9IjM0MCIgZmlsbD0iI2QxYzhiNSIgZm9udC1mYW1pbHk9IidKZXRCcmFpbnMgTW9ubycsIG1vbm9zcGFjZSIgZm9udC1zaXplPSIxMCIgb3BhY2l0eT0iMC41IiBsZXR0ZXItc3BhY2luZz0iMS41Ij5EUk9ORUlDQVJVUyDCtyBMQUI8L3RleHQ+PC9zdmc+</image:loc>
+      <image:title>Robust Visual SLAM for UAV Navigation in GPS-Denied and Degraded Environments: A Multi-Paradigm Evaluation and Deployment Study</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://droneicarus.com/#lab-item/d2fde9af-741d-4695-923d-0daa17da5ae8</loc>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -13277,7 +13627,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/f1ddef4a-15de-44d1-b0eb-28fe01a2c5e4</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -13307,7 +13657,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/40157f12-f8b1-434b-8a07-c1f1fb26eae6</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -13317,7 +13667,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/16805ea1-f615-47bc-a1af-3a99efff749a</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -13387,7 +13737,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/c8c60432-438b-49ac-8cec-8d9b07ce95e2</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -13447,7 +13797,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/11f513ea-ebb1-4604-9793-7aeb3ed339bf</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -13457,7 +13807,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/20f7d4f3-a943-476f-abb1-46efa2597f07</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -13467,7 +13817,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/f55078c8-634a-493c-a872-fffa5085fc7a</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -13497,7 +13847,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/06dc20d3-6e59-44e9-b1c9-1b0824d416f6</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -13507,7 +13857,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/69586ecc-7a8b-44e3-8ea7-149fceba547d</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -13517,7 +13867,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/5436fdcf-e5ad-4ad9-9235-b06fd1ef0ac8</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -13547,7 +13897,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/25e682a4-5958-46af-a646-ff3454951b60</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -13557,7 +13907,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/5d6cd9d8-1ac9-40d6-822e-b4d916d6934a</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -13567,7 +13917,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/f17d2cb6-e6a8-4608-9c34-754fa6510e77</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -13607,7 +13957,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/8e0b7b0a-2fd0-4396-8e2e-2744bde93cf8</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -13627,7 +13977,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/398dab67-4548-4e5f-bfff-909c12b7272a</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -13647,7 +13997,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/7fbc838d-e525-4459-86eb-defe03676f84</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -13657,7 +14007,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/2502b319-193c-4c48-8771-dbc77e8476cc</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -13667,7 +14017,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/92da3185-9347-4efb-bb7d-6f65fc94e75e</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -13677,7 +14027,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/14a4eb74-a960-4fbe-8589-2024659cb2c1</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -13696,8 +14046,18 @@
     </image:image>
   </url>
   <url>
-    <loc>https://droneicarus.com/#lab-item/d6646abd-c7e8-4702-870c-d9bb808b09b4</loc>
+    <loc>https://droneicarus.com/#lab-item/273e8b6b-7170-44ca-97bd-bdfd87c8c35d</loc>
     <lastmod>2026-05-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NDAgMzYwIiB3aWR0aD0iNjQwIiBoZWlnaHQ9IjM2MCI+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJnIiB4MT0iMCIgeTE9IjAiIHgyPSIxIiB5Mj0iMSI+PHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzFlM2E1ZiIvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iIzBmMWYzZiIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjxyZWN0IHdpZHRoPSI2NDAiIGhlaWdodD0iMzYwIiBmaWxsPSJ1cmwoI2cpIi8+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNDIwLDYwKSBzY2FsZSg2KSIgY29sb3I9IiNjNjg4MjAiPjxwYXRoIGQ9Ik0xMiAydjIwTTIgMTJoMjBNNyA3bDEwIDEwTTE3IDdMNyAxNyIgc3Ryb2tlPSJjdXJyZW50Q29sb3IiIHN0cm9rZS13aWR0aD0iMC44IiBmaWxsPSJub25lIiBvcGFjaXR5PSIwLjIiLz48L2c+PHJlY3QgeD0iNDAiIHk9IjQ2IiB3aWR0aD0iNCIgaGVpZ2h0PSIyNCIgZmlsbD0iI2M2ODgyMCIvPjx0ZXh0IHg9IjU2IiB5PSI2NCIgZmlsbD0iI2M2ODgyMCIgZm9udC1mYW1pbHk9IidKZXRCcmFpbnMgTW9ubycsIG1vbm9zcGFjZSIgZm9udC1zaXplPSIxMyIgZm9udC13ZWlnaHQ9IjYwMCIgbGV0dGVyLXNwYWNpbmc9IjIiPlJFU0VBUkNIPC90ZXh0Pjx0ZXh0IHg9IjQwIiB5PSIxNjAiIGZpbGw9IiNmNWVkZTAiIGZvbnQtZmFtaWx5PSJJbnRlciBUaWdodCwgSW50ZXIsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjgiIGZvbnQtd2VpZ2h0PSI3MDAiPlNlbnNvcmxlc3MgU3RhdGUgRXN0aW1hdGlvbjwvdGV4dD48dGV4dCB4PSI0MCIgeT0iMjA2IiBmaWxsPSIjZjVlZGUwIiBmb250LWZhbWlseT0iSW50ZXIgVGlnaHQsIEludGVyLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjI4IiBmb250LXdlaWdodD0iNzAwIj5hbmQgQ29udHJvbCBmb3IgQWdpbGU8L3RleHQ+PHRleHQgeD0iNDAiIHk9IjI1MiIgZmlsbD0iI2Y1ZWRlMCIgZm9udC1mYW1pbHk9IkludGVyIFRpZ2h0LCBJbnRlciwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyOCIgZm9udC13ZWlnaHQ9IjcwMCI+Q2FibGUtU3VzcGVuZGVkIFBheWxvYWQ8L3RleHQ+PHRleHQgeD0iNDAiIHk9IjI5OCIgZmlsbD0iI2Y1ZWRlMCIgZm9udC1mYW1pbHk9IkludGVyIFRpZ2h0LCBJbnRlciwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyOCIgZm9udC13ZWlnaHQ9IjcwMCI+VHJhbnNwb3J0IGJ5IFF1YWRyb3RvcnM8L3RleHQ+PHRleHQgeD0iNDAiIHk9IjM3NCIgZmlsbD0iI2QxYzhiNSIgZm9udC1mYW1pbHk9IkludGVyIFRpZ2h0LCBJbnRlciwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgb3BhY2l0eT0iMC44Ij48L3RleHQ+PHRleHQgeD0iNDAiIHk9IjM0MCIgZmlsbD0iI2QxYzhiNSIgZm9udC1mYW1pbHk9IidKZXRCcmFpbnMgTW9ubycsIG1vbm9zcGFjZSIgZm9udC1zaXplPSIxMCIgb3BhY2l0eT0iMC41IiBsZXR0ZXItc3BhY2luZz0iMS41Ij5EUk9ORUlDQVJVUyDCtyBMQUI8L3RleHQ+PC9zdmc+</image:loc>
+      <image:title>Sensorless State Estimation and Control for Agile Cable-Suspended Payload Transport by Quadrotors</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://droneicarus.com/#lab-item/d6646abd-c7e8-4702-870c-d9bb808b09b4</loc>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -13717,7 +14077,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/80ffd834-8b7d-452c-828a-0eacb06d70fe</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -13757,7 +14117,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/15ca4aed-c303-4aa0-b6db-98f44c37d09a</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -13777,7 +14137,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/82d2ab5d-0b2a-459e-a4e6-2a74ffbdf251</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -13786,8 +14146,18 @@
     </image:image>
   </url>
   <url>
-    <loc>https://droneicarus.com/#lab-item/06dd1c2c-35d6-4f81-bfd4-2cecb69161b7</loc>
+    <loc>https://droneicarus.com/#lab-item/b74f17db-2923-48c1-8678-52a075bc709f</loc>
     <lastmod>2026-05-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NDAgMzYwIiB3aWR0aD0iNjQwIiBoZWlnaHQ9IjM2MCI+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJnIiB4MT0iMCIgeTE9IjAiIHgyPSIxIiB5Mj0iMSI+PHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzFlM2E1ZiIvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iIzBmMWYzZiIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjxyZWN0IHdpZHRoPSI2NDAiIGhlaWdodD0iMzYwIiBmaWxsPSJ1cmwoI2cpIi8+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNDIwLDYwKSBzY2FsZSg2KSIgY29sb3I9IiNjNjg4MjAiPjxwYXRoIGQ9Ik0xMiAydjIwTTIgMTJoMjBNNyA3bDEwIDEwTTE3IDdMNyAxNyIgc3Ryb2tlPSJjdXJyZW50Q29sb3IiIHN0cm9rZS13aWR0aD0iMC44IiBmaWxsPSJub25lIiBvcGFjaXR5PSIwLjIiLz48L2c+PHJlY3QgeD0iNDAiIHk9IjQ2IiB3aWR0aD0iNCIgaGVpZ2h0PSIyNCIgZmlsbD0iI2M2ODgyMCIvPjx0ZXh0IHg9IjU2IiB5PSI2NCIgZmlsbD0iI2M2ODgyMCIgZm9udC1mYW1pbHk9IidKZXRCcmFpbnMgTW9ubycsIG1vbm9zcGFjZSIgZm9udC1zaXplPSIxMyIgZm9udC13ZWlnaHQ9IjYwMCIgbGV0dGVyLXNwYWNpbmc9IjIiPlJFU0VBUkNIPC90ZXh0Pjx0ZXh0IHg9IjQwIiB5PSIxNjAiIGZpbGw9IiNmNWVkZTAiIGZvbnQtZmFtaWx5PSJJbnRlciBUaWdodCwgSW50ZXIsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjgiIGZvbnQtd2VpZ2h0PSI3MDAiPkxhYmVsLUVmZmljaWVudCBTY2hvb2w8L3RleHQ+PHRleHQgeD0iNDAiIHk9IjIwNiIgZmlsbD0iI2Y1ZWRlMCIgZm9udC1mYW1pbHk9IkludGVyIFRpZ2h0LCBJbnRlciwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyOCIgZm9udC13ZWlnaHQ9IjcwMCI+RGV0ZWN0aW9uIGZyb20gQWVyaWFsIEltYWdlcnk8L3RleHQ+PHRleHQgeD0iNDAiIHk9IjI1MiIgZmlsbD0iI2Y1ZWRlMCIgZm9udC1mYW1pbHk9IkludGVyIFRpZ2h0LCBJbnRlciwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyOCIgZm9udC13ZWlnaHQ9IjcwMCI+dmlhIFdlYWtseSBTdXBlcnZpc2VkPC90ZXh0Pjx0ZXh0IHg9IjQwIiB5PSIyOTgiIGZpbGw9IiNmNWVkZTAiIGZvbnQtZmFtaWx5PSJJbnRlciBUaWdodCwgSW50ZXIsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjgiIGZvbnQtd2VpZ2h0PSI3MDAiPlByZXRyYWluaW5nIGFuZCBGaW5lLVR1bmk8L3RleHQ+PHRleHQgeD0iNDAiIHk9IjM3NCIgZmlsbD0iI2QxYzhiNSIgZm9udC1mYW1pbHk9IkludGVyIFRpZ2h0LCBJbnRlciwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgb3BhY2l0eT0iMC44Ij48L3RleHQ+PHRleHQgeD0iNDAiIHk9IjM0MCIgZmlsbD0iI2QxYzhiNSIgZm9udC1mYW1pbHk9IidKZXRCcmFpbnMgTW9ubycsIG1vbm9zcGFjZSIgZm9udC1zaXplPSIxMCIgb3BhY2l0eT0iMC41IiBsZXR0ZXItc3BhY2luZz0iMS41Ij5EUk9ORUlDQVJVUyDCtyBMQUI8L3RleHQ+PC9zdmc+</image:loc>
+      <image:title>Label-Efficient School Detection from Aerial Imagery via Weakly Supervised Pretraining and Fine-Tuning</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://droneicarus.com/#lab-item/06dd1c2c-35d6-4f81-bfd4-2cecb69161b7</loc>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -13827,12 +14197,22 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/3fd71072-2919-4683-9d7f-9db8cd8327c2</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
       <image:loc>https://opengraph.githubassets.com/1/mirkix/BBBMINI</image:loc>
       <image:title>mirkix/BBBMINI — BeagleBone ArduPilot DIY Cape</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://droneicarus.com/#lab-item/a74c9d06-972b-441d-b9f5-bca558696fe0</loc>
+    <lastmod>2026-05-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NDAgMzYwIiB3aWR0aD0iNjQwIiBoZWlnaHQ9IjM2MCI+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJnIiB4MT0iMCIgeTE9IjAiIHgyPSIxIiB5Mj0iMSI+PHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzFlM2E1ZiIvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iIzBmMWYzZiIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjxyZWN0IHdpZHRoPSI2NDAiIGhlaWdodD0iMzYwIiBmaWxsPSJ1cmwoI2cpIi8+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNDIwLDYwKSBzY2FsZSg2KSIgY29sb3I9IiNjNjg4MjAiPjxwYXRoIGQ9Ik0xMiAydjIwTTIgMTJoMjBNNyA3bDEwIDEwTTE3IDdMNyAxNyIgc3Ryb2tlPSJjdXJyZW50Q29sb3IiIHN0cm9rZS13aWR0aD0iMC44IiBmaWxsPSJub25lIiBvcGFjaXR5PSIwLjIiLz48L2c+PHJlY3QgeD0iNDAiIHk9IjQ2IiB3aWR0aD0iNCIgaGVpZ2h0PSIyNCIgZmlsbD0iI2M2ODgyMCIvPjx0ZXh0IHg9IjU2IiB5PSI2NCIgZmlsbD0iI2M2ODgyMCIgZm9udC1mYW1pbHk9IidKZXRCcmFpbnMgTW9ubycsIG1vbm9zcGFjZSIgZm9udC1zaXplPSIxMyIgZm9udC13ZWlnaHQ9IjYwMCIgbGV0dGVyLXNwYWNpbmc9IjIiPlJFU0VBUkNIPC90ZXh0Pjx0ZXh0IHg9IjQwIiB5PSIxNjAiIGZpbGw9IiNmNWVkZTAiIGZvbnQtZmFtaWx5PSJJbnRlciBUaWdodCwgSW50ZXIsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjgiIGZvbnQtd2VpZ2h0PSI3MDAiPmRlU0VPOiBQaHlzaWNzLUF3YXJlIERhdGFzZXQ8L3RleHQ+PHRleHQgeD0iNDAiIHk9IjIwNiIgZmlsbD0iI2Y1ZWRlMCIgZm9udC1mYW1pbHk9IkludGVyIFRpZ2h0LCBJbnRlciwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyOCIgZm9udC13ZWlnaHQ9IjcwMCI+Q3JlYXRpb24gZm9yIEhpZ2gtUmVzb2x1dGlvbjwvdGV4dD48dGV4dCB4PSI0MCIgeT0iMjUyIiBmaWxsPSIjZjVlZGUwIiBmb250LWZhbWlseT0iSW50ZXIgVGlnaHQsIEludGVyLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjI4IiBmb250LXdlaWdodD0iNzAwIj5TYXRlbGxpdGUgSW1hZ2UgU2hhZG93IFJlbW92YWw8L3RleHQ+PHRleHQgeD0iNDAiIHk9IjMyOCIgZmlsbD0iI2QxYzhiNSIgZm9udC1mYW1pbHk9IkludGVyIFRpZ2h0LCBJbnRlciwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgb3BhY2l0eT0iMC44Ij48L3RleHQ+PHRleHQgeD0iNDAiIHk9IjM0MCIgZmlsbD0iI2QxYzhiNSIgZm9udC1mYW1pbHk9IidKZXRCcmFpbnMgTW9ubycsIG1vbm9zcGFjZSIgZm9udC1zaXplPSIxMCIgb3BhY2l0eT0iMC41IiBsZXR0ZXItc3BhY2luZz0iMS41Ij5EUk9ORUlDQVJVUyDCtyBMQUI8L3RleHQ+PC9zdmc+</image:loc>
+      <image:title>deSEO: Physics-Aware Dataset Creation for High-Resolution Satellite Image Shadow Removal</image:title>
     </image:image>
   </url>
   <url>
@@ -13847,7 +14227,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/d7d1ac54-5761-4b91-b4db-8f01d19ec069</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -13857,7 +14237,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/8864be87-5902-4837-8892-e2bd439d4da6</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -13867,7 +14247,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/864af276-d274-40f1-adcf-b21871f5e56f</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -13887,7 +14267,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/edc1fb89-e912-47b0-87d2-46821ce1db2c</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -13897,7 +14277,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/a040a70f-2b86-4cb8-b146-4c9133b24612</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -13907,7 +14287,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/b6e38479-3aa6-47b1-8520-7cc3b2767ee3</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -13917,12 +14297,22 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/93bd40bb-9e17-43b0-865a-e0534d772cd3</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
       <image:loc>https://opengraph.githubassets.com/1/betaflight/betaflight</image:loc>
       <image:title>betaflight/betaflight — Open Source Flight Controller Firmware</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://droneicarus.com/#lab-item/1a0e5fee-bab5-4f7e-b594-2f86d7f3b885</loc>
+    <lastmod>2026-05-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NDAgMzYwIiB3aWR0aD0iNjQwIiBoZWlnaHQ9IjM2MCI+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJnIiB4MT0iMCIgeTE9IjAiIHgyPSIxIiB5Mj0iMSI+PHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzFmMmEzYSIvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iIzBhMGYxNCIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjxyZWN0IHdpZHRoPSI2NDAiIGhlaWdodD0iMzYwIiBmaWxsPSJ1cmwoI2cpIi8+PHJlY3QgeD0iNDAiIHk9IjQ2IiB3aWR0aD0iNCIgaGVpZ2h0PSIyNCIgZmlsbD0iIzVmYThkMyIvPjx0ZXh0IHg9IjU2IiB5PSI2NCIgZmlsbD0iIzVmYThkMyIgZm9udC1mYW1pbHk9IidKZXRCcmFpbnMgTW9ubycsIG1vbm9zcGFjZSIgZm9udC1zaXplPSIxMyIgZm9udC13ZWlnaHQ9IjYwMCIgbGV0dGVyLXNwYWNpbmc9IjIiPlBVTFNFPC90ZXh0Pjx0ZXh0IHg9IjQwIiB5PSIxNjAiIGZpbGw9IiNmNWVkZTAiIGZvbnQtZmFtaWx5PSJJbnRlciBUaWdodCwgSW50ZXIsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjYiIGZvbnQtd2VpZ2h0PSI3MDAiPlB1YmxpYyBDb21tZW50IFdpbmRvdzwvdGV4dD48dGV4dCB4PSI0MCIgeT0iMjA0IiBmaWxsPSIjZjVlZGUwIiBmb250LWZhbWlseT0iSW50ZXIgVGlnaHQsIEludGVyLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjI2IiBmb250LXdlaWdodD0iNzAwIj5DbG9zaW5nOiBGQ0MgV2VpZ2hzIERKSTwvdGV4dD48dGV4dCB4PSI0MCIgeT0iMjQ4IiBmaWxsPSIjZjVlZGUwIiBmb250LWZhbWlseT0iSW50ZXIgVGlnaHQsIEludGVyLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjI2IiBmb250LXdlaWdodD0iNzAwIj5DaGFsbGVuZ2UgdG8gQ292ZXJlZCBMaXN0PC90ZXh0Pjx0ZXh0IHg9IjQwIiB5PSIyOTIiIGZpbGw9IiNmNWVkZTAiIGZvbnQtZmFtaWx5PSJJbnRlciBUaWdodCwgSW50ZXIsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjYiIGZvbnQtd2VpZ2h0PSI3MDAiPlJ1bGluZzwvdGV4dD48dGV4dCB4PSI0MCIgeT0iMzY0IiBmaWxsPSIjZDFjOGI1IiBmb250LWZhbWlseT0iSW50ZXIgVGlnaHQsIEludGVyLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBvcGFjaXR5PSIwLjg1Ij5Ecm9uZUxpZmU8L3RleHQ+PHRleHQgeD0iNDAiIHk9IjM0MCIgZmlsbD0iI2QxYzhiNSIgZm9udC1mYW1pbHk9IidKZXRCcmFpbnMgTW9ubycsIG1vbm9zcGFjZSIgZm9udC1zaXplPSIxMCIgb3BhY2l0eT0iMC41IiBsZXR0ZXItc3BhY2luZz0iMS41Ij5EUk9ORUlDQVJVUyDCtyBMQUIgwrcgUFVMU0U8L3RleHQ+PC9zdmc+</image:loc>
+      <image:title>Public Comment Window Closing: FCC Weighs DJI Challenge to Covered List Ruling</image:title>
     </image:image>
   </url>
   <url>
@@ -14037,7 +14427,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/54223e63-16dd-45d5-841b-d2bc70701cb5</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -14047,7 +14437,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/3c6d8f6f-206f-4316-b356-f933e24d5404</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -14087,7 +14477,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/f5010df0-c409-47ad-84ef-39245d75c2db</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -14097,7 +14487,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/1a27f581-f11b-4c26-8ff8-3e70e9974435</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -14107,7 +14497,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/18a9e275-ed24-4e54-8ced-5a8608bb7a06</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -14117,7 +14507,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/5feb0d0e-d0aa-42a3-9a40-6d1e1cb166a7</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -14157,7 +14547,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/c91e1b70-210a-40c2-8585-5b37bca575e2</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -14187,7 +14577,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/3b9af2f8-d218-46dc-9a09-f55a943d72e3</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -14227,7 +14617,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/d5eacbbd-cad7-4bb5-b3e0-3fef04b29ae8</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -14237,7 +14627,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/b0fd3084-ce2a-4414-b25e-3c2acd434f23</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -14247,7 +14637,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/776e64dc-34c2-4514-956b-f6cc445fa68a</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -14257,7 +14647,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/b188b1a2-7dc2-4e0d-bcec-03055256003c</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -14297,7 +14687,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/d06e4307-df39-4c63-891a-b7162ac59baf</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -14307,7 +14697,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/ec6e5bbc-e223-4d8b-b110-8fb7dce24d51</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -14317,7 +14707,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/7bc3b5fe-8186-4585-9eda-beb63d78274d</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -14327,7 +14717,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/f92bea0b-360e-4135-bd94-f8e7549652e4</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -14357,7 +14747,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/6a8a7b45-3cbb-4b32-8e93-084f88d522fb</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -14407,7 +14797,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/0ebf55d5-99c2-48c8-96b8-88224d586f02</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -14417,7 +14807,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/253b83af-65f6-4c11-b516-3b7bf5f72219</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -14497,7 +14887,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/baab068f-2db6-4b4f-be16-ad8859ace023</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -14507,7 +14897,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/7c25273e-4966-4b07-a6c3-7157f4770fdb</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -14587,7 +14977,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/12ea39b1-de36-49dd-8229-25b1852e73f1</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -14627,7 +15017,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/ecdce854-a001-4ad4-9e4d-9931be5240fc</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -14647,7 +15037,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/d3bb1aa5-76b8-4e43-9451-f37fe955b308</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -14697,7 +15087,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/4c333234-a52c-4a53-a16b-0120d45e56aa</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -14707,7 +15097,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/4884bc1e-18f1-4fec-a374-9656400cf0b2</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -14717,7 +15107,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/462ff6ab-2841-4e95-9ab9-74e83b7665cd</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -14727,7 +15117,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/3888c8fd-0860-459d-88c0-1ada2189ecff</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -14747,7 +15137,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/b20f0d4e-b572-44fa-bf79-49c737614ea1</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -14757,7 +15147,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/bf992681-44bd-4e65-b664-2a2eb42db685</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -14777,7 +15167,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/98793b17-7c8b-4d55-a6e3-ab5a31ee2739</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -14787,7 +15177,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/a76f38b3-b98d-44f3-8177-188981f62f6d</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -14807,7 +15197,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/8c57ead6-af8e-4cfc-b204-d3eb03834e49</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -14817,7 +15207,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/9aedc9c6-e9de-4131-80a9-6dace4d28d44</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -14917,7 +15307,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/b6f4b5c3-b67a-457a-9f58-59518ffce558</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -14937,7 +15327,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/59a07698-9761-4fb0-941e-4efd81f2c613</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -14947,7 +15337,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/4503d76c-b4d5-4b99-930f-3e97ec64ba99</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -14977,7 +15367,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/48468855-f9ae-4a9a-b070-012a01e91497</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -14987,7 +15377,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/3ad18f81-f841-40fd-ae27-63bf94590ad7</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -15027,7 +15417,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/7cfdef53-e5e5-4b34-bd57-951b48e45bfb</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -15047,7 +15437,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/71e13f88-c2cc-44f5-8e94-ad8b75debd35</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -15057,7 +15447,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/72cb4d1b-b816-4f29-b8e5-b875dca43de6</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -15067,7 +15457,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/deceeec2-904e-4efe-9675-d155e809aedf</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -15087,7 +15477,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/29a056d2-b7d6-445b-b72b-eca0627afd35</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -15097,7 +15487,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/aa41495b-6c3e-461f-963e-dbdf9961ea73</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -15117,7 +15507,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/cf81ca86-65d4-4a40-8f2c-42dec990433a</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -15177,7 +15567,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/ddd00f93-64bd-403f-9b51-dd70a7c91f0a</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -15247,7 +15637,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/876dfbae-010c-42a0-bd24-88684101e89e</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -15267,7 +15657,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/e256b200-f3f9-46e4-a4d0-aeb153d6c886</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -15277,7 +15667,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/0835cbae-fdeb-4f7d-b551-f01b92e309de</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -15307,7 +15697,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/ce1bd88c-38eb-45b3-93bc-7eb9ee162042</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -15317,7 +15707,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/8609d154-325e-4d8a-8d19-9b31e23daf1d</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -15347,7 +15737,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/bafa0b7c-15da-4fbe-8c1a-af654b86fbde</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -15357,7 +15747,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/acc2d0d9-3aa2-4f11-8e87-51728e284cc3</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -15367,7 +15757,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/b79e27b5-6089-4afc-92fe-424aead8e454</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -15387,7 +15777,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/59131225-48ed-42b1-97b3-f62b73f4f192</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -15397,7 +15787,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/70f09393-500a-4f01-a63e-e818e62ad2b0</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -15457,7 +15847,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/4351c407-8254-4825-a4aa-ca7edbd2830b</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -15467,7 +15857,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/40b3b26b-f0d7-4ae9-8327-fd65f56e512a</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -15477,7 +15867,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/dac322dd-a17f-4911-8e82-b3e7ad268c6e</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -15537,7 +15927,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/6dd90cdf-e448-42fb-a02c-760925226d0b</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -15577,7 +15967,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/55e210bf-f3d4-426d-a12d-0880bf445114</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -15597,7 +15987,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/104e8c28-493b-489a-ae3d-b0566cf7080c</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -15607,7 +15997,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/1aa3ba3a-6734-4997-af29-7d27137aca91</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -15677,7 +16067,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/04e74a1b-8cf4-424d-bb6a-de9133be1b9e</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -15687,7 +16077,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/1ad6fe4d-cff0-4f31-92d4-e2d504dacaf4</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -15747,7 +16137,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/2b694343-809d-4b62-800b-e854117ee0e2</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -15787,7 +16177,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/a5e01616-232e-4804-8930-c51ee3f7208c</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -15797,7 +16187,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/c6f0e38d-da07-4991-ba0c-52b61d7bbb33</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -15847,7 +16237,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/bfaad551-dd9e-4c6a-9c6a-98cd271e20d5</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -15867,7 +16257,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/f4055fac-d289-43d0-8e92-147dd9f960a9</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -15877,7 +16267,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/171da655-f559-4081-a420-bd339d93dc19</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -15887,7 +16277,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/4fb41ea1-c270-49b9-9b57-43099a95339e</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -15927,7 +16317,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/b498591a-69e7-47ac-b1ca-1e279d2bf722</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -15947,7 +16337,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/efef9c2c-4736-4a8d-b03c-e9ef225f8cb9</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -15997,7 +16387,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/eb4b93ea-fea0-429f-82c9-9791626b3c6a</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -16007,7 +16397,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/5edaaaef-d02d-48af-ae0e-354334bd9a52</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -16017,7 +16407,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/8217832f-979c-430f-ad5a-f2c5b6a73dda</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -16037,7 +16427,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/6c5243b0-f49c-466b-ad91-c50f34d448a7</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -16107,7 +16497,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/722fc3e3-2ad2-48fe-aa3b-414ff42c1a1d</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -16117,7 +16507,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/0a7c4580-20dd-4056-9eed-683a83a2d7f9</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -16147,7 +16537,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/ac4f8fb0-57d1-43f1-a5b7-34d78f7a9347</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -16207,7 +16597,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/372d732c-f069-4c39-b57f-a0a4bc1a677c</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -16257,7 +16647,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/19078579-f416-438c-b74e-92e2114168ce</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -16267,7 +16657,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/e9c21a5a-5f6b-45d4-8bb4-39d52129cf8e</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -16327,7 +16717,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/5a4037f1-2833-42d0-8d80-4248d04e9bd4</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -16427,7 +16817,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/92efde13-f7ea-4edf-9317-8f35d05157dc</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -16477,7 +16867,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/b84e62be-3f62-4f21-936f-ba02d5f34e17</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -16507,7 +16897,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/1b96d090-3f42-4a6e-9162-c53e51ab441c</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -16527,7 +16917,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/b8de11cd-301b-49b3-a807-890bb42fa604</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -16537,7 +16927,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/a7739b1c-253d-44e1-b44c-994610cde18c</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -16547,7 +16937,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/17756d68-a5a4-4072-96d1-a730f30837dd</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -16557,7 +16947,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/db6579b5-89eb-4637-b08c-4fc1ce8a3858</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -16607,7 +16997,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/959e9474-0e9d-488e-864d-0296ec1f436e</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -16637,7 +17027,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/9cc10fae-cc62-476c-9724-4e1eda735446</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -16657,7 +17047,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/5efcbaaf-dcc0-48bb-88eb-f1ca17eb122c</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -16667,7 +17057,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/4c4b37b5-17de-459c-a43e-0e91fd48436a</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -16677,7 +17067,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/93b8f927-8a14-4b6d-a8d9-c3872201c408</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -16697,7 +17087,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/42ee8a2c-8481-4010-8564-2531d84802c3</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -16717,7 +17107,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/4295713a-aa58-4fec-a472-72c30b40b3a4</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -16727,7 +17117,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/f01405be-c0a7-497e-8677-f440387be092</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -16757,7 +17147,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/7f3eafdf-5acc-456e-a96a-0989c83a2677</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -16767,7 +17157,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/562b5392-21cd-484e-8138-7ded56aaf849</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -16777,7 +17167,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/7952733e-5c95-4d28-b8dc-090f21c2bdd0</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -16827,7 +17217,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/6cc695d6-3c01-49df-8397-4471f133a735</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -16857,7 +17247,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/bfd42226-b080-4ed6-88cc-dcf9bb894ae0</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -16887,7 +17277,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/8298198b-3c70-4e0e-b4f7-b04735720e6c</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -16907,7 +17297,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/bc2c1f40-dd45-4ce1-aa51-24d95496d0d4</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -16927,7 +17317,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/126ab022-3b8d-4d80-a6da-6e246416e0d3</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -16947,7 +17337,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/aa85486a-633c-46fa-a7a5-255a48643a06</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -16957,7 +17347,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/4df3e856-780f-4739-a09a-f3c0e0041332</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -16987,7 +17377,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/510acc1a-76cd-41aa-8798-4decdc61cc95</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -17027,7 +17417,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/6df2bd67-9dd6-47d4-9ee5-0a5a31ed047b</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -17057,7 +17447,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/3e9e56e9-7ca4-459e-93de-467750ee599b</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -17067,7 +17457,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/38b2b764-a564-406b-992e-a11a735ffbe5</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -17077,7 +17467,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/1764bf2c-a2db-44dc-8d77-cb0e714015c8</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -17097,7 +17487,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/10956715-7e3e-4e6d-a9f4-27418a66ecf3</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -17137,7 +17527,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/a48a64a4-eeb3-4bff-89b0-1006d06a8c64</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -17157,7 +17547,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/1395efd7-22d4-4494-9c7c-fbbe7e26c935</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -17207,7 +17597,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/e39dfed5-037c-4715-a002-a1d6c45bd9dc</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -17237,7 +17627,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/6922de11-898b-4ff2-9db3-352872a3a91c</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -17297,7 +17687,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/08c2dc27-d311-4884-bdc3-a72c4b7d3959</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -17337,7 +17727,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/684b4797-299d-47c1-acc3-fc32a6ec6bbe</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -17347,7 +17737,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/65bf4340-5b8c-4f16-a06d-f0015876225d</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -17377,7 +17767,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/13a2a17c-462d-4a65-a980-fa9ffec2196a</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -17437,7 +17827,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/5dfc42bb-515d-4ecc-9006-6aa9f97600e8</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -17447,7 +17837,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/6c1b8310-948b-4d1b-a65b-6eff94dda99a</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -17457,7 +17847,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/3e98459d-111f-4bb9-a9dd-2e01558a4014</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -17477,7 +17867,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/c4df5865-f666-496c-bdbe-55cc5d877d09</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -17557,7 +17947,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/1f76f28c-67ef-4fab-b4f3-b3294aa60079</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -17567,7 +17957,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/dd88c088-7632-4364-b896-92264d9f8fc6</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -17577,7 +17967,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/ca7756ab-60a4-4669-b9b3-313ad2ebc625</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -17587,7 +17977,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/57fdd555-fef4-4330-b33a-9bfca11a05be</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -17597,7 +17987,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/ca00697d-5708-4573-9caa-6c5e1e7e45a8</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -17607,7 +17997,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/cc7b9db1-b5a6-43b0-98e0-a5d8485b1da9</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -17647,7 +18037,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/1a69835c-436c-480c-a6df-8363a1455722</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -17657,7 +18047,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/f69f1f46-9373-4b5f-8244-746d216ea0dc</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -17677,7 +18067,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/9148de54-ad34-406d-a934-61c1a3059d59</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -17727,7 +18117,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/c7c8b93a-e7d7-4d08-aa7d-2baed8c185d8</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -17737,7 +18127,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/3cc49833-ab15-4081-ad2f-e139459ea601</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -17747,7 +18137,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/5b2e9de1-18b8-4396-ba7a-9f2ec57f3cec</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -17757,7 +18147,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/ef232e04-0393-40e0-8dfb-f1b25f841548</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -17777,7 +18167,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/ae26e347-bb17-4b21-abfe-f446a5540033</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -17787,7 +18177,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/60f97904-24c0-4952-8771-518f29f97933</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -17797,7 +18187,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/ed66efff-43ce-4823-9c57-174dbebf0179</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -17807,7 +18197,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/8d206cd4-d4c4-41bf-9367-e985f3d7501c</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -17887,7 +18277,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/ced00085-9b99-4e32-8d4d-71904e5b0bd7</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -17907,7 +18297,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/dd9133b4-b897-4117-8f1a-19be9d52223d</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -17927,7 +18317,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/1f5a9a5d-213f-4fb5-a4e4-2cee0c343c6f</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -17987,7 +18377,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/598a4ccc-7c73-4911-a01a-6f5f5819a6bf</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -17997,7 +18387,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/62193307-77ba-4a88-9b3f-cf1a22be9de2</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -18007,7 +18397,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/34803d6f-df83-4713-8903-721c39e76303</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -18017,7 +18407,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/206e85dd-f25a-41e3-8d46-29c0696fc1a2</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -18057,7 +18447,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/a8aab4d6-18aa-45c4-b6fc-73a314eb6afb</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -18067,7 +18457,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/c72b8920-7aff-4533-932d-bd14c071bd45</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -18087,7 +18477,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/fb8a6ba2-d48b-4b70-bfef-b1c9fed591b9</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -18137,7 +18527,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/bd1683c9-4227-4644-9b09-0f1fb4cf9c07</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -18167,7 +18557,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/d1402615-6ad0-434b-b25b-665a68d2498a</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -18177,7 +18567,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/d4cab86b-9b7b-4427-9dae-b9721298fb18</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -18217,7 +18607,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/06664547-f55e-48d6-beab-da7dc15ac3e9</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -18327,7 +18717,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/63880cbb-3412-4d60-93f3-cd853648cea4</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -18357,7 +18747,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/6d79b19e-9e90-4b3f-9163-568817b3d26e</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -18447,7 +18837,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/e33f8f99-82e2-47f4-b798-9ad986f2a1c4</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -18537,7 +18927,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/0a4d4dc8-0896-4c60-a946-81798c5124a1</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -18667,7 +19057,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/df5389c5-6aed-471a-b144-64f8bb6fc575</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -18677,7 +19067,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/32c4fb37-6f93-469b-91f0-8b5a2a2b67a8</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -18787,7 +19177,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/557acf61-9fa3-4fff-837d-10a8872505e9</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -18797,7 +19187,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/3e33ab3f-ec66-475b-b0ba-e7d65e3e6073</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -18807,7 +19197,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/18462fc7-4847-4268-9545-e64304e2dfa7</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -18817,7 +19207,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/aff36591-9e2b-4767-9185-16ab82ce2f4e</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -18827,7 +19217,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/69155c6d-c549-410c-8b91-25907250a126</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -18837,7 +19227,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/943690fa-0d0c-4864-a59f-0511b13ec327</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -18867,7 +19257,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/28e96657-1418-4ab9-ad6c-7b99de591a8e</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -18877,7 +19267,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/1740d815-2bf0-442d-8e6e-bdb45e478735</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -18937,7 +19327,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/e0e5308a-62ab-4a5a-8b15-ba8081cd1a77</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -18967,7 +19357,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/5f51d113-540d-4e3e-be28-c0a186f583e5</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -18997,7 +19387,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/d3bdad47-c3a1-495b-ba34-94c7235b3e5f</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -19047,7 +19437,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/859fba43-7e5e-4da3-bc4b-3f5ddb0103b5</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -19087,7 +19477,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/2a7f868d-9572-4b5f-a76a-c8a19de27f1a</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -19107,7 +19497,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/47e16c5e-da02-4189-a019-b1fae155c6e4</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -19117,7 +19507,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/078a80bc-0407-48d7-8de7-2e315f83d933</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -19307,7 +19697,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/e44bff17-a560-42e7-a1bb-f873c459029a</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -19347,7 +19737,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/99013f5e-fb3e-42fd-84b0-bbec001b0f12</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -19367,7 +19757,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/8f802a92-543b-45c9-913c-937f8e212e1c</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -19487,7 +19877,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/30660b45-7915-40c5-9742-0a2298517a01</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -19517,7 +19907,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/72041f73-ca78-4bde-8e92-49e2c9de063c</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -19587,7 +19977,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/eb4fa869-aa79-4f91-9653-51290ee9d9e5</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -19607,7 +19997,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/db45baf4-78f9-41a3-a9f5-6693736741a7</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -19677,7 +20067,7 @@
   </url>
   <url>
     <loc>https://droneicarus.com/#lab-item/2251eeeb-5ac6-4c77-a2b0-9dcb2a255d1c</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image>
@@ -19726,560 +20116,170 @@
     </image:image>
   </url>
   <url>
-    <loc>https://droneicarus.com/#lab-item/69ab0c33-878a-481e-a8dd-15dd52207866</loc>
-    <lastmod>2021-02-18</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-    <image:image>
-      <image:loc>https://opengraph.githubassets.com/1/Matthias84/awesome-tello</image:loc>
-      <image:title>Matthias84/awesome-tello — A list of Free Software to interact with Ryzen / DJI Tello drones</image:title>
-    </image:image>
-  </url>
-  <url>
-    <loc>https://droneicarus.com/#lab-item/80ab8167-3266-41e2-b57b-efd37f08445c</loc>
-    <lastmod>2022-12-31</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-    <image:image>
-      <image:loc>https://opengraph.githubassets.com/1/kirek007/ws-osd-py</image:loc>
-      <image:title>kirek007/ws-osd-py — Generate OSD for Walksnail DVR! If you like it you can get me a coffe here https://www.buymeacoffee.</image:title>
-    </image:image>
-  </url>
-  <url>
-    <loc>https://droneicarus.com/#lab-item/e1c3ddf6-1e66-4a95-864a-ea661444003b</loc>
-    <lastmod>2025-12-16</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-    <image:image>
-      <image:loc>https://opengraph.githubassets.com/1/Pertifiatus/Bob-der-Baupanzer</image:loc>
-      <image:title>Pertifiatus/Bob-der-Baupanzer — Eine Panzerraupe, mit einem Greifarm auf dem Deck. Ferngesteuert mit ELRS und Analog Video Übertragu</image:title>
-    </image:image>
-  </url>
-  <url>
-    <loc>https://droneicarus.com/#lab-item/b99d3a24-5897-449d-9175-33f39524d0e7</loc>
-    <lastmod>2025-10-02</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-    <image:image>
-      <image:loc>https://opengraph.githubassets.com/1/mariusrazvan/omnicarROS</image:loc>
-      <image:title>mariusrazvan/omnicarROS — Educational project for ROS2 and mecanum wheels</image:title>
-    </image:image>
-  </url>
-  <url>
-    <loc>https://droneicarus.com/#lab-item/5a70218b-921f-475b-834a-cfc64fe643ec</loc>
-    <lastmod>2026-03-09</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-    <image:image>
-      <image:loc>https://opengraph.githubassets.com/1/chr0nzz/traefik-manager</image:loc>
-      <image:title>chr0nzz/traefik-manager — A clean, self-hosted web UI for managing your Traefik reverse proxy.</image:title>
-    </image:image>
-  </url>
-  <url>
-    <loc>https://droneicarus.com/#lab-item/e9f48c47-508f-4c29-8654-acd0c6e310ea</loc>
-    <lastmod>2023-01-07</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-    <image:image>
-      <image:loc>https://opengraph.githubassets.com/1/LOIC-only-one/WebSecurityEmpire</image:loc>
-      <image:title>LOIC-only-one/WebSecurityEmpire — Concernant le projet WebSecurityEmpire : Il s&apos;agit de scripts pour tester la sécurité de site intern</image:title>
-    </image:image>
-  </url>
-  <url>
-    <loc>https://droneicarus.com/#lab-item/46d56ab4-bd35-4fa6-a4fa-c24d310aa819</loc>
-    <lastmod>2020-03-22</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-    <image:image>
-      <image:loc>https://opengraph.githubassets.com/1/OpenIPC/camerasrnd</image:loc>
-      <image:title>OpenIPC/camerasrnd — Experiments with cheap Linux cameras</image:title>
-    </image:image>
-  </url>
-  <url>
-    <loc>https://droneicarus.com/#lab-item/3373d0f1-f410-473a-9e61-082ad516a3c6</loc>
-    <lastmod>2022-12-03</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-    <image:image>
-      <image:loc>https://opengraph.githubassets.com/1/OpenIPC/research</image:loc>
-      <image:title>OpenIPC/research — Simple FPV research</image:title>
-    </image:image>
-  </url>
-  <url>
-    <loc>https://droneicarus.com/#lab-item/e3886bde-573e-4e6f-b149-aa18401485e2</loc>
-    <lastmod>2024-11-04</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-    <image:image>
-      <image:loc>https://opengraph.githubassets.com/1/OpenIPC/companion</image:loc>
-      <image:title>OpenIPC/companion — An official multi-platform configuration tool for OpenIPC cameras, built using Avalonia UI.</image:title>
-    </image:image>
-  </url>
-  <url>
-    <loc>https://droneicarus.com/#lab-item/b45e4984-1cb6-43b1-a128-6b45eacdfd41</loc>
-    <lastmod>2026-05-05</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-    <image:image>
-      <image:loc>https://opengraph.githubassets.com/1/microsoft/AirSim-NeurIPS2019-Drone-Racing</image:loc>
-      <image:title>microsoft/AirSim-NeurIPS2019-Drone-Racing — Drone Racing @ NeurIPS 2019, built on Microsoft AirSim</image:title>
-    </image:image>
-  </url>
-  <url>
-    <loc>https://droneicarus.com/#lab-item/1d897794-7f6b-4fe3-8827-8fc4ee722892</loc>
-    <lastmod>2025-05-11</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-    <image:image>
-      <image:loc>https://opengraph.githubassets.com/1/Lauqz/Drone-Swarm-RL-airsim-sb3</image:loc>
-      <image:title>Lauqz/Drone-Swarm-RL-airsim-sb3 — Training of Drone Swarms using StableBaselines3, PettingZoo, AirSim and UE4</image:title>
-    </image:image>
-  </url>
-  <url>
-    <loc>https://droneicarus.com/#lab-item/b2625bf2-e9cb-4040-859a-df7d588a70f8</loc>
-    <lastmod>2026-05-05</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-    <image:image>
-      <image:loc>https://opengraph.githubassets.com/1/brunapearson/mtrl-auto-uav</image:loc>
-      <image:title>brunapearson/mtrl-auto-uav — Multi-Task Regression-based Learning for Autonomous Unmanned Aerial Vehicle Flight Control within Un</image:title>
-    </image:image>
-  </url>
-  <url>
-    <loc>https://droneicarus.com/#lab-item/adffa4a6-22b7-47d0-95fd-80a08fce24a3</loc>
-    <lastmod>2025-12-07</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-    <image:image>
-      <image:loc>https://opengraph.githubassets.com/1/xlrs-dev/xlrs</image:loc>
-      <image:title>xlrs-dev/xlrs — A Crossfire over BLE/LoRA project for drones. An alternative to ELRS !</image:title>
-    </image:image>
-  </url>
-  <url>
-    <loc>https://droneicarus.com/#lab-item/71682673-bbf1-4a65-94b3-a7c876496a54</loc>
-    <lastmod>2024-02-18</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-    <image:image>
-      <image:loc>https://opengraph.githubassets.com/1/AndreyTulyakov/ros2_crsf_receiver</image:loc>
-      <image:title>AndreyTulyakov/ros2_crsf_receiver — ROS2: Packet for RC receiver with crossfire protocol (rc-channels and link statistics packets).</image:title>
-    </image:image>
-  </url>
-  <url>
-    <loc>https://droneicarus.com/#lab-item/84b5340b-d947-47b5-bbc5-b7766ec689ae</loc>
-    <lastmod>2020-11-05</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-    <image:image>
-      <image:loc>https://opengraph.githubassets.com/1/alexandr-smnv/nodejs-express-app</image:loc>
-      <image:title>alexandr-smnv/nodejs-express-app — Тестовый интернет магазин. Подробности в README.md</image:title>
-    </image:image>
-  </url>
-  <url>
-    <loc>https://droneicarus.com/#lab-item/fa7eec25-6431-4d48-9f89-9b0054f1a18b</loc>
-    <lastmod>2023-03-01</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-    <image:image>
-      <image:loc>https://opengraph.githubassets.com/1/OpenIPC/device-mjsxj03hl</image:loc>
-      <image:title>OpenIPC/device-mjsxj03hl — OpenIPC for Xiaomi MJSXJ03HL</image:title>
-    </image:image>
-  </url>
-  <url>
-    <loc>https://droneicarus.com/#lab-item/cf4ca4bb-eec7-4b97-b429-a97c70acd66a</loc>
-    <lastmod>2024-08-07</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-    <image:image>
-      <image:loc>https://opengraph.githubassets.com/1/OpenIPC/msposd</image:loc>
-      <image:title>OpenIPC/msposd — OpenIPC implementation of MSP Displayport OSD for INAV/Betaflight/ArduPilot</image:title>
-    </image:image>
-  </url>
-  <url>
-    <loc>https://droneicarus.com/#lab-item/6d38f253-e24f-40cc-badd-1624132bc434</loc>
-    <lastmod>2026-05-05</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-    <image:image>
-      <image:loc>https://opengraph.githubassets.com/1/lgsvl/simulator</image:loc>
-      <image:title>lgsvl/simulator — A ROS/ROS2 Multi-robot Simulator for Autonomous Vehicles</image:title>
-    </image:image>
-  </url>
-  <url>
-    <loc>https://droneicarus.com/#lab-item/2fed53c9-6f13-4a4e-9eae-a0ba9f26f0aa</loc>
-    <lastmod>2021-08-03</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-    <image:image>
-      <image:loc>https://arxiv.org/static/browse/0.3.4/images/arxiv-logo-fb.png</image:loc>
-      <image:title>SwarmPlay: Interactive Tic-tac-toe Board Game with Swarm of Nano-UAVs driven by Reinforcement Learning</image:title>
-    </image:image>
-  </url>
-  <url>
-    <loc>https://droneicarus.com/#lab-item/f567b116-7fdf-4446-a212-7da1901cd927</loc>
-    <lastmod>2024-05-12</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-    <image:image>
-      <image:loc>https://opengraph.githubassets.com/1/BashMocha/Prompting-LLMs-for-Aerial-Navigation</image:loc>
-      <image:title>BashMocha/Prompting-LLMs-for-Aerial-Navigation — Prompts and source code for applying LLMs to UAV-based navigation tasks with various model integrati</image:title>
-    </image:image>
-  </url>
-  <url>
-    <loc>https://droneicarus.com/#lab-item/0d4c2357-0e90-4f61-afa5-898d8b43d1de</loc>
-    <lastmod>2026-05-05</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-    <image:image>
-      <image:loc>https://opengraph.githubassets.com/1/jesimar/UAV-Toolkit</image:loc>
-      <image:title>jesimar/UAV-Toolkit — Tool kit for automation of UAV flights.</image:title>
-    </image:image>
-  </url>
-  <url>
-    <loc>https://droneicarus.com/#lab-item/1d97b04c-941e-4f15-b49c-8efb37bbc042</loc>
-    <lastmod>2021-04-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-    <image:image>
-      <image:loc>https://opengraph.githubassets.com/1/annurdien/MPILOT</image:loc>
-      <image:title>annurdien/MPILOT — MPilot is an intuitive and powerful ground control station (GCS) for UAVs.</image:title>
-    </image:image>
-  </url>
-  <url>
-    <loc>https://droneicarus.com/#lab-item/6c0ca2bb-cfff-41ed-9a60-6c867dd46b67</loc>
-    <lastmod>2026-05-05</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-    <image:image>
-      <image:loc>https://opengraph.githubassets.com/1/strawdiving/Calibration</image:loc>
-      <image:title>strawdiving/Calibration — Calibration base module of ground control station(GCS) for PX4 FMUv2/ Pixhawk flight controller.</image:title>
-    </image:image>
-  </url>
-  <url>
-    <loc>https://droneicarus.com/#lab-item/668d7ea4-8d91-4498-8423-8a7ac221c0e0</loc>
-    <lastmod>2026-03-01</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-    <image:image>
-      <image:loc>https://arxiv.org/static/browse/0.3.4/images/arxiv-logo-fb.png</image:loc>
-      <image:title>Information-Theoretic Framework for Self-Adapting Model Predictive Controllers</image:title>
-    </image:image>
-  </url>
-  <url>
-    <loc>https://droneicarus.com/#lab-item/13d56c3c-1e2f-4805-9fa3-eaeaaf75bd4d</loc>
-    <lastmod>2021-06-19</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-    <image:image>
-      <image:loc>https://opengraph.githubassets.com/1/OpenIPC/coupler</image:loc>
-      <image:title>OpenIPC/coupler — Seamless transition between video cameras firmware</image:title>
-    </image:image>
-  </url>
-  <url>
-    <loc>https://droneicarus.com/#lab-item/47361c2a-2155-43e7-abbb-7456c71af1c1</loc>
-    <lastmod>2021-04-29</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-    <image:image>
-      <image:loc>https://opengraph.githubassets.com/1/OpenIPC/majestic</image:loc>
-      <image:title>OpenIPC/majestic — Majestic Community edition integration kit</image:title>
-    </image:image>
-  </url>
-  <url>
-    <loc>https://droneicarus.com/#lab-item/37472680-e992-4f0b-8214-a8164e609623</loc>
-    <lastmod>2021-03-07</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-    <image:image>
-      <image:loc>https://opengraph.githubassets.com/1/OpenIPC/openipc.github.io</image:loc>
-      <image:title>OpenIPC/openipc.github.io — Alternative IP Camera firmware from an open community</image:title>
-    </image:image>
-  </url>
-  <url>
-    <loc>https://droneicarus.com/#lab-item/3ff73512-89e4-4f7a-9cf5-c4fcbc1123cf</loc>
-    <lastmod>2026-05-05</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-    <image:image>
-      <image:loc>https://opengraph.githubassets.com/1/sunghoonhong/AirsimDRL</image:loc>
-      <image:title>sunghoonhong/AirsimDRL — Autonomous UAV Navigation without Collision using Visual Information in Airsim</image:title>
-    </image:image>
-  </url>
-  <url>
-    <loc>https://droneicarus.com/#lab-item/38f28882-05eb-48c6-a94a-c5417581ac81</loc>
-    <lastmod>2022-03-14</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-    <image:image>
-      <image:loc>https://arxiv.org/static/browse/0.3.4/images/arxiv-logo-fb.png</image:loc>
-      <image:title>FRL-FI: Transient Fault Analysis for Federated Reinforcement Learning-Based Navigation Systems</image:title>
-    </image:image>
-  </url>
-  <url>
-    <loc>https://droneicarus.com/#lab-item/c0e32f80-7ee2-489e-ac6b-295efd9de6c4</loc>
-    <lastmod>2026-05-05</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-    <image:image>
-      <image:loc>https://opengraph.githubassets.com/1/flytbase/flytdocs</image:loc>
-      <image:title>flytbase/flytdocs — Documentation for Flyt Platform</image:title>
-    </image:image>
-  </url>
-  <url>
-    <loc>https://droneicarus.com/#lab-item/37fa4d8a-d343-465a-8df1-8b585fd34b24</loc>
-    <lastmod>2026-05-05</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-    <image:image>
-      <image:loc>https://opengraph.githubassets.com/1/mpaperno/qgroundcontrol_aq</image:loc>
-      <image:title>mpaperno/qgroundcontrol_aq — AutoQuad ground control and setup application for Windows, OSX and Linux.</image:title>
-    </image:image>
-  </url>
-  <url>
-    <loc>https://droneicarus.com/#lab-item/95993956-45d8-4c9c-9323-0bc35d82dc37</loc>
-    <lastmod>2024-02-15</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-    <image:image>
-      <image:loc>https://opengraph.githubassets.com/1/NeoStellar/AvaSys-GCS</image:loc>
-      <image:title>NeoStellar/AvaSys-GCS — AvaSYS, AvaSYS Ground Control Station is a Ground Control Station application for unmanned armed veh</image:title>
-    </image:image>
-  </url>
-  <url>
-    <loc>https://droneicarus.com/#lab-item/6ba48f1c-fb25-41bc-a3ae-fad0e3f1fb49</loc>
-    <lastmod>2024-09-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-    <image:image>
-      <image:loc>https://opengraph.githubassets.com/1/mmert11/quadra</image:loc>
-      <image:title>mmert11/quadra — Ground Control Software powered by MAVSDK and Qt6.</image:title>
-    </image:image>
-  </url>
-  <url>
-    <loc>https://droneicarus.com/#lab-item/bcc242ba-3f9c-4edb-9a72-3e3f854278d4</loc>
-    <lastmod>2025-03-24</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-    <image:image>
-      <image:loc>https://opengraph.githubassets.com/1/TiffanyKousiman/drone-programming</image:loc>
-      <image:title>TiffanyKousiman/drone-programming — A flight script to fly drone in octahedron pattern with spatiotemporal precision</image:title>
-    </image:image>
-  </url>
-  <url>
-    <loc>https://droneicarus.com/#lab-item/7f5d9ea5-5951-4797-b374-db8a5b25929b</loc>
-    <lastmod>2026-05-05</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-    <image:image>
-      <image:loc>https://opengraph.githubassets.com/1/dunkelstern/klein_glotzi</image:loc>
-      <image:title>dunkelstern/klein_glotzi — Klein Glotzi Microsoft Webcam gimbal</image:title>
-    </image:image>
-  </url>
-  <url>
-    <loc>https://droneicarus.com/#lab-item/841e662c-2704-486f-811a-9140b808d5b8</loc>
-    <lastmod>2023-09-25</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-    <image:image>
-      <image:loc>https://opengraph.githubassets.com/1/John-Wendell/DDPG-AirSim-Drone-Obstacle-Avoidance</image:loc>
-      <image:title>John-Wendell/DDPG-AirSim-Drone-Obstacle-Avoidance — Using DDPG and ConvLSTM to control a drone to avoid obstacle in AirSim</image:title>
-    </image:image>
-  </url>
-  <url>
-    <loc>https://droneicarus.com/#lab-item/a36de264-e38d-4054-b869-39eb41986b50</loc>
-    <lastmod>2025-12-08</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-    <image:image>
-      <image:loc>https://opengraph.githubassets.com/1/karakayahuseyin/mavlink2grpc</image:loc>
-      <image:title>karakayahuseyin/mavlink2grpc — Native gRPC bridge and Protobuf generator for MAVLink</image:title>
-    </image:image>
-  </url>
-  <url>
-    <loc>https://droneicarus.com/#lab-item/c73424fe-636b-4bc7-9557-57ac65d555fc</loc>
-    <lastmod>2020-05-13</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-    <image:image>
-      <image:loc>https://opengraph.githubassets.com/1/sbesada/online.nasa.satellite.tracker.3d</image:loc>
-      <image:title>sbesada/online.nasa.satellite.tracker.3d — Online 3d web to track nasa satellites &amp; astros. 3D alternative for J-Track 3D from NASA</image:title>
-    </image:image>
-  </url>
-  <url>
-    <loc>https://droneicarus.com/#lab-item/eaee814d-efc5-40ec-9cb5-961b233d1c57</loc>
-    <lastmod>2026-05-05</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-    <image:image>
-      <image:loc>https://opengraph.githubassets.com/1/soragui/MobileGCS</image:loc>
-      <image:title>soragui/MobileGCS — Mobile Drone Ground Control Station Based On MAVLink Protocol</image:title>
-    </image:image>
-  </url>
-  <url>
     <loc>https://droneicarus.com/#location/pyramids</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://droneicarus.com/#location/namsan</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://droneicarus.com/#location/everest</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://droneicarus.com/#location/halong</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://droneicarus.com/#location/grandcanyon</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://droneicarus.com/#location/fuji</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://droneicarus.com/#location/sahara</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://droneicarus.com/#location/amazon</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://droneicarus.com/#location/santorini</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://droneicarus.com/#location/iceland</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://droneicarus.com/#location/banff</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://droneicarus.com/#location/dubai</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://droneicarus.com/#location/taj</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://droneicarus.com/#location/machu</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://droneicarus.com/#location/sydney</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://droneicarus.com/#location/victoria</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://droneicarus.com/#location/kilimanjaro</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://droneicarus.com/#location/great-wall</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://droneicarus.com/#location/matterhorn</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://droneicarus.com/#location/bagan</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://droneicarus.com/#location/maldives</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://droneicarus.com/#location/patagonia</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://droneicarus.com/#location/yosemite</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://droneicarus.com/#location/norway-fjord</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://droneicarus.com/#location/kyiv</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://droneicarus.com/#location/baja</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://droneicarus.com/#location/alps-ski</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://droneicarus.com/#location/bali</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
